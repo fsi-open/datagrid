@@ -1,0 +1,21 @@
+{
+    "hash": "c458f35933e7d7592a38bd85cf027d9a",
+    "packages": [
+        {
+            "package": "fsi/reflection",
+            "version": "0.9.2"
+        },
+        {
+            "package": "symfony/event-dispatcher",
+            "version": "v2.0.16"
+        }
+    ],
+    "packages-dev": null,
+    "aliases": [
+
+    ],
+    "minimum-stability": "stable",
+    "stability-flags": [
+
+    ]
+}

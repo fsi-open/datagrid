@@ -1,0 +1,23 @@
+{
+    "repositories": [ { "type": "composer", "url": "http://git.fsi.pl/" } ],
+    "name": "fsi/table",
+    "type": "library",
+    "description": "FSi Table Component",
+    "keywords": ["fsi", "component", "table"],
+    "authors": [
+        {
+            "name": "Norbert Orechowicz",
+            "email": "norbert@fsi.pl"
+        }
+    ],
+    "require": {
+        "php": ">=5.3.0",
+        "symfony/event-dispatcher" : "2.0.*",
+        "fsi/reflection" : "0.9.*"
+    },
+    "autoload": {
+        "psr-0": {
+            "FSi\\Component\\Table": "lib/"
+        }
+    }
+}
