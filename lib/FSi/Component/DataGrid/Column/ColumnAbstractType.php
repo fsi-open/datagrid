@@ -20,16 +20,28 @@ use FSi\Component\DataGrid\DataMapper\DataMapperInterface;
 use FSi\Component\DataGrid\Exception\UnexpectedTypeException;
 use FSi\Component\DataGrid\Exception\UnknownOptionException;
 
-abstract class ColumnAbstractType implements ColumnTypeInterface 
+abstract class ColumnAbstractType implements ColumnTypeInterface
 {
     protected $extensions = array();
 
+    /**
+     * @var array
+     */
     protected $options;
 
+    /**
+     * @var string
+     */
     protected $name;
 
+    /**
+     * @var DataMapper
+     */
     protected $dataMapper;
 
+    /**
+     * @var DataGrid
+     */
     protected $dataGrid;
 
     public function getName()
@@ -60,12 +72,20 @@ abstract class ColumnAbstractType implements ColumnTypeInterface
      */
     public function getDataGrid()
     {
-        return $this->dataGrid;        
+        return $this->dataGrid;
+    }
+
+    public function setDataMapper(DataMapperInterface $dataMapper)
+    {
+        $this->dataMapper = $dataMapper;
     }
 
     public function getDataMapper()
     {
-        return $this->dataGrid->getDataMapper();
+        if (!isset($this->dataMapper)) {
+            $this->setDataMapper($this->dataGrid->getDataMapper());
+        }
+        return $this->dataMapper;
     }
 
     public function setOption($name, $value)
@@ -114,6 +134,12 @@ abstract class ColumnAbstractType implements ColumnTypeInterface
     public function getValue($object)
     {
         $values = array();
+        if (!$this->hasOption('mapping_fields')) {
+            throw new DataGridColumnException(
+            	sprintf('"mapping_fields" option is missing in column "%s"', $this->getName())
+        	);
+        }
+
         foreach ($this->options['mapping_fields'] as $field) {
             $values[$field] = $this->getDataMapper()->getData($field, $object);
         }
@@ -185,8 +211,8 @@ abstract class ColumnAbstractType implements ColumnTypeInterface
 
     /**
      * Method returns array of required by column type options names.
-     * Required means not null option value. 
-     *  
+     * Required means not null option value.
+     *
      */
     protected function getRequiredOptions()
     {
@@ -202,9 +228,9 @@ abstract class ColumnAbstractType implements ColumnTypeInterface
     }
 
     /**
-     * Method return default options values for column type. 
-     * Method should return array where key is option name and value 
-     * is option value. 
+     * Method return default options values for column type.
+     * Method should return array where key is option name and value
+     * is option value.
      * Option must available in column to set default value.
      */
     protected function getDefaultOptionsValues()
@@ -236,7 +262,7 @@ abstract class ColumnAbstractType implements ColumnTypeInterface
         $defaultValues = $this->getDefaultOptionsValues();
         // Load options default values from colum type extensions
         foreach ($this->extensions as $extension) {
-            $defaultValues = (array_merge($defaultValues, $extension->getDefaultOptionsValues($this))); 
+            $defaultValues = (array_merge($defaultValues, $extension->getDefaultOptionsValues($this)));
         }
 
         if (!is_array($defaultValues)) {
@@ -251,7 +277,7 @@ abstract class ColumnAbstractType implements ColumnTypeInterface
 
     /**
      * Check if required options values exists.
-     * 
+     *
      */
     private function validateOptions()
     {

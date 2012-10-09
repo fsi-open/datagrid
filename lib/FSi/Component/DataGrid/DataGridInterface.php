@@ -11,32 +11,32 @@
 
 namespace FSi\Component\DataGrid;
 
-interface DataGridInterface 
+interface DataGridInterface
 {
     /**
-     * Get DataGrid name. Name must be unique inside of factory. 
+     * Get DataGrid name. Name must be unique inside of factory.
      * @return string
      */
     public function getName();
 
     /**
      * Return data mapper.
-     * 
+     *
      * @return DataMapper
      */
     public function getDataMapper();
 
     /**
      * Return Indexing Strategy
-     * 
+     *
      * @return IndexingStrategy
-     */    
+     */
     public function getIndexingStrategy();
-    
+
     /**
-     * Add new column to DataGrid. Remeber that column type must be registred in 
+     * Add new column to DataGrid. Remeber that column type must be registred in
      * DataGridFactory that was used to create current DataGrid.
-     * 
+     *
      * @param string $name
      * @param string $type
      * @param array $otpions
@@ -46,7 +46,7 @@ interface DataGridInterface
 
     /**
      * Remove column from DataGrdid.
-     * 
+     *
      * @param string $name
      * @throws InvalidArgumentException when column with $name not exists in grid.
      */
@@ -54,7 +54,7 @@ interface DataGridInterface
 
     /**
      * Return column with $name
-     * 
+     *
      * @throws InvalidArgumentException when column with $name not exists in grid.
      * @return ColumnTypeInterface
      */
@@ -62,14 +62,14 @@ interface DataGridInterface
 
     /**
      * Return all registred columns in grid.
-     * 
+     *
      * @return array
      */
     public function getColumns();
 
     /**
      * Checks if column was added to grid.
-     * 
+     *
      * @param string $name
      * @return boolean
      */
@@ -81,16 +81,16 @@ interface DataGridInterface
     public function createView();
 
     /**
-     * Set data collection. This method is different from bind data and 
-     * should not be used to update date. 
-     * Data should be passed as array or object that implements 
+     * Set data collection. This method is different from bind data and
+     * should not be used to update date.
+     * Data should be passed as array or object that implements
      * \ArrayAccess, \Countable and \IteratorAggregate interfaces.
      * @param array $data
      */
     public function setData($data);
 
     /**
-     * This method should be used only to update already set data. 
+     * This method should be used only to update already set data.
      * @param mixed $data
      */
     public function bindData($data);

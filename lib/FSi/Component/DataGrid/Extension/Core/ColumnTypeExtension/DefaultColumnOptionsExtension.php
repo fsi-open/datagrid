@@ -16,8 +16,26 @@ use FSi\Component\DataGrid\Column\ColumnViewInterface;
 use FSi\Component\DataGrid\Column\ColumnAbstractTypeExtension;
 use FSi\Component\DataGrid\Exception\DataGridColumnException;
 
-class DefaultColumnOptionsExtension extends ColumnAbstractTypeExtension 
+class DefaultColumnOptionsExtension extends ColumnAbstractTypeExtension
 {
+    public function buildView(ColumnTypeInterface $column, ColumnViewInterface $view)
+    {
+        switch ($column->getId()) {
+            case 'action':
+                return;
+                break;
+        }
+
+        $glue = $column->getOption('glue');
+        $value = $view->getValue();
+
+        if (is_array($value)) {
+            $value = implode($glue, $value);
+        }
+
+        $view->setValue($value);
+    }
+
     public function getExtendedColumnTypes()
     {
         return array(
@@ -25,9 +43,9 @@ class DefaultColumnOptionsExtension extends ColumnAbstractTypeExtension
             'datetime',
             'number',
             'action',
-            'grid',
             'money',
-            'gedmo.tree'
+            'gedmo.tree',
+            'entity'
         );
     }
 

@@ -20,22 +20,22 @@ class EntityIndexingStrategy implements IndexingStrategyInterface
 
     public function __construct(EntityManager $em)
     {
-        $this->em = $em;        
+        $this->em = $em;
     }
-    
+
     public function getIndex($object)
     {
         if (!is_object($object)){
             return null;
         }
-            
+
         $class = get_class($object);
         $metadataFactory = $this->em->getMetadataFactory();
-        
+
         if (!$metadataFactory->hasMetadataFor($class)) {
             return null;
         }
-        
+
         $metadata = $metadataFactory->getMetadataFor($class);
         return $metadata->getIdentifierColumnNames();
     }

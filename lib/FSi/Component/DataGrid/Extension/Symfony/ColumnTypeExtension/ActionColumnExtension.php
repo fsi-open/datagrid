@@ -13,21 +13,20 @@ namespace FSi\Component\DataGrid\Extension\Symfony\ColumnTypeExtension;
 
 use FSi\Component\DataGrid\Column\ColumnTypeInterface;
 use FSi\Component\DataGrid\Column\ColumnAbstractTypeExtension;
-use FSi\Component\DataGrid\Exception\UnexpectedTypeException;
-use Symfony\Component\Routing\Router;
+use Symfony\Component\Routing\RouterInterface;
 
-class ActionColumnExtension extends ColumnAbstractTypeExtension 
+class ActionColumnExtension extends ColumnAbstractTypeExtension
 {
     /**
      * Symfony Router to generate urls.
-     * 
+     *
      * @var Symfony\Component\Routing\Router;
      */
-    protected $router; 
+    protected $router;
 
     /**
      * Default values for action options if not passed in column configuration.
-     * 
+     *
      * @var array
      */
     protected $actionOptionsDefault = array(
@@ -36,7 +35,7 @@ class ActionColumnExtension extends ColumnAbstractTypeExtension
 
     /**
      * Available action options
-     * 
+     *
      * @var unknown_type
      */
     protected $actionOptionsAvailable = array(
@@ -49,7 +48,7 @@ class ActionColumnExtension extends ColumnAbstractTypeExtension
 
     /**
      * Options required in action.
-     * 
+     *
      * @var unknown_type
      */
     protected $actionOptionsRequired = array(
@@ -60,7 +59,7 @@ class ActionColumnExtension extends ColumnAbstractTypeExtension
     /**
      * @param Router $router
      */
-    public function __construct(Router $router)
+    public function __construct(RouterInterface $router)
     {
         $this->router = $router;
     }
@@ -91,12 +90,12 @@ class ActionColumnExtension extends ColumnAbstractTypeExtension
                 }
             }
 
-            $url = $this->router->generate($options['route_name'], $parameters, $options['absolute']); 
+            $url = $this->router->generate($options['route_name'], $parameters, $options['absolute']);
 
             $return[$name]['url'] = $url;
         }
 
-        return $return;    
+        return $return;
     }
 
     public function getExtendedColumnTypes()
@@ -112,18 +111,22 @@ class ActionColumnExtension extends ColumnAbstractTypeExtension
     public function getAvailableOptions(ColumnTypeInterface $column)
     {
         return array('actions');
-    } 
+    }
 
     private function validateOptions(ColumnTypeInterface $column)
     {
         $actions = $column->getOption('actions');
         if (!is_array($actions)) {
-            throw new UnexpectedTypeException('Option "actions" must be an array.');
+            throw new \InvalidArgumentException('Option "actions" must be an array.');
+        }
+
+        if (!count($actions)) {
+            throw new \InvalidArgumentException('Option actions can\'t be empty.');
         }
 
         foreach ($actions as $actionName => &$options) {
             if (!is_array($options)) {
-                throw new UnexpectedTypeException(sprinf('Options for action "%s" must be an array.', $actionName));    
+                throw new \InvalidArgumentException(sprinf('Options for action "%s" must be an array.', $actionName));
             }
 
             foreach ($options as $optionName => $value) {
@@ -148,7 +151,7 @@ class ActionColumnExtension extends ColumnAbstractTypeExtension
                 if (!is_array($options['parameters_values'])) {
                     throw new \InvalidArgumentException(sprintf('Action "%s" require option "parameters_values" as array.', $actionName, $optionName));
                 }
-            }   
+            }
 
             if (isset($options['parameters'])) {
                 if (!is_array($options['parameters'])) {

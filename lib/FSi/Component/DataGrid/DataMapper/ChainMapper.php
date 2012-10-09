@@ -14,20 +14,24 @@ namespace FSi\Component\DataGrid\DataMapper;
 use FSi\Component\DataGrid\Exception\DataMappingExteption;
 use FSi\Component\DataGrid\DataMapper\DataMapperInterface;
 
-class ChainMapper implements DataMapperInterface 
+class ChainMapper implements DataMapperInterface
 {
     protected $mappers = array();
-    
+
     public function __construct(array $mappers)
     {
+        if (!count($mappers)) {
+            throw new \InvalidArgumentException('There must be at least one mapper in chain.');
+        }
+
         foreach ($mappers as $mapper) {
-            if (!($mapper instanceof DataMapperInterface))
-                throw new UnexpectedTypeException($mapper, 'FSi\Component\DataGrid\DataMapper\DataMapperInterface');
-            
+            if (!($mapper instanceof DataMapperInterface)) {
+                throw new \InvalidArgumentException('Mapper needs to implement FSi\Component\DataGrid\DataMapper\DataMapperInterface');
+            }
             $this->mappers[] = $mapper;
         }
     }
-    
+
     /**
      * {@inheritdoc}
      */
@@ -64,7 +68,7 @@ class ChainMapper implements DataMapperInterface
         $data = null;
         $dataChanged = false;
         $lastMsg = null;
-        
+
         foreach ($this->mappers as $mapper) {
             try {
                 $mapper->setData($field, $object, $value);
@@ -76,12 +80,12 @@ class ChainMapper implements DataMapperInterface
             $dataChanged = true;
             break;
         }
-        
+
         if (!$dataChanged) {
             if (!isset($lastMsg)) {
                 $lastMsg = sprintf('Cant find any data that fit "%s" field.', $field);
             }
-            
+
             throw new DataMappingExteption($lastMsg);
         }
 

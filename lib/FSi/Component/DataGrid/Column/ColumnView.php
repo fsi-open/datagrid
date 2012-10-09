@@ -14,23 +14,23 @@ namespace FSi\Component\DataGrid\Column;
 class ColumnView implements ColumnViewInterface
 {
     protected $source;
-    
+
     protected $value;
-    
+
     protected $attributes = array();
 
-    protected $name; 
+    protected $name;
     /**
      * Column type
      * @var string
      */
-    protected $type; 
-    
+    protected $type;
+
     public function __construct($type)
     {
         $this->type = $type;
     }
-    
+
     public function setValue($value)
     {
         $this->value = $value;
@@ -56,21 +56,21 @@ class ColumnView implements ColumnViewInterface
         $this->attributes[$name] = $value;
         return $this;
     }
-    
+
     public function getAttribute($name)
     {
         if (isset($this->attributes[$name])) {
             return $this->attributes[$name];
         }
-        
+
         return null;
     }
-    
+
     public function getAttributes()
     {
         return $this->attributes;
     }
-    
+
     public function hasAttribute($name)
     {
         return array_key_exists($name, $this->attributes);
@@ -81,14 +81,14 @@ class ColumnView implements ColumnViewInterface
         $this->source = $source;
         return $this;
     }
-    
+
     public function getSource()
     {
         return $this->source;
     }
-    
+
     public function getType()
     {
         return $this->type;
     }
-} 
+}

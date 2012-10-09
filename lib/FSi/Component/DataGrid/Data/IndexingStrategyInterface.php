@@ -15,7 +15,7 @@ interface IndexingStrategyInterface
 {
     /**
      * Method should return unique index for passed object.
-     * 
+     *
      * @param mixed $object
      * @return array|null - if method can't return index for object it returns null value
      * in other case it should return array of keys that should be used as indexes

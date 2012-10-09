@@ -18,7 +18,7 @@ class DataRowset implements DataRowsetInterface
 {
     protected $indexesSeparator = ':';
 
-    protected $strategy; 
+    protected $strategy;
 
     protected $dataMapper;
 
@@ -28,7 +28,7 @@ class DataRowset implements DataRowsetInterface
 
     protected $position = 0;
 
-    protected $data = array(); 
+    protected $data = array();
 
     protected $indexes = array();
 
@@ -42,9 +42,15 @@ class DataRowset implements DataRowsetInterface
 
     public function setData($data)
     {
+        if (!is_array($data)) {
+            if (!($data instanceof \IteratorAggregate) || !($data instanceof \Countable) || !($data instanceof \ArrayAccess)) {
+                throw new \InvalidArgumentException('array or IteratorAggregate is expected as data.');
+            }
+        }
+
         $this->source = $data;
         $this->count  = count($data);
-        
+
         foreach ($data as $object) {
             $index = $this->getIndex($object);
             $this->indexes[] = $index;
@@ -67,11 +73,11 @@ class DataRowset implements DataRowsetInterface
     {
         return isset($this->indexedData[$index]);
     }
-    
+
     public function getObjectByIndex($index)
     {
         if (!isset($this->indexedData[$index])) {
-            throw new \OutOfBoundsException(sprintf('Illegal index "%d%"', $position));
+            throw new \OutOfBoundsException(sprintf('Illegal index "%d"', $index));
         }
         return $this->indexedData[$index];
     }
@@ -83,8 +89,8 @@ class DataRowset implements DataRowsetInterface
     }
 
     /**
-     * Return rowsets count. 
-     * Required by interface Countable. 
+     * Return rowsets count.
+     * Required by interface Countable.
      *
      * @return DataGridView
      */
@@ -148,7 +154,7 @@ class DataRowset implements DataRowsetInterface
     {
         $this->position++;
     }
-    
+
     /**
      * Rewind the Iterator to the first element.
      * Similar to the reset() function for arrays in PHP.
@@ -173,7 +179,7 @@ class DataRowset implements DataRowsetInterface
     {
         return $this->position >= 0 && $this->position < $this->count;
     }
-    
+
     /**
      * Check if an offset exists
      * Required by the ArrayAccess implementation
@@ -222,7 +228,7 @@ class DataRowset implements DataRowsetInterface
     public function offsetUnset($offset)
     {
     }
-    
+
     protected function getIndex($object)
     {
         $identifires = $this->strategy->getIndex($object);

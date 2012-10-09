@@ -13,13 +13,55 @@ namespace FSi\Component\DataGrid\Column;
 
 interface ColumnViewInterface
 {
+    /**
+     * Set view attribute
+     *
+     * @param string $name
+     * @param mixed $value
+     */
     public function setAttribute($name, $value);
-    
+
+    /**
+     * Get view attribute
+     *
+     * @param string $name
+     * @return mixed
+     */
     public function getAttribute($name);
-    
+
+    /**
+     * Check if view attribute exists.
+     *
+     * @param string $name
+     * @return boolean
+     */
     public function hasAttribute($name);
-    
+
+    /**
+     * Set the source object.
+     *
+     * @param mixed $source
+     */
     public function setSource($source);
-    
+
+    /**
+     * Get the source object.
+     *
+     * @return mixed
+     */
     public function getSource();
-} 
+
+    /**
+     * Get view value. In most cases it should be simple string.
+     *
+     * @return mixed
+     */
+    public function getValue();
+
+    /**
+     * Set view value.
+     *
+     * @param mixed $value
+     */
+    public function setValue($value);
+}

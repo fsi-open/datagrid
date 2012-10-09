@@ -14,7 +14,7 @@ namespace FSi\Component\DataGrid;
 use FSi\Component\DataGrid\DataGridInterface;
 use FSi\Component\DataGrid\DataGridViewInterface;
 
-interface DataGridExtensionInterface 
+interface DataGridExtensionInterface
 {
     /**
      * Register event subscribers
@@ -41,17 +41,17 @@ interface DataGridExtensionInterface
     public function hasColumnTypeExtensions($type);
 
     /**
-     * Return extensions for column type provided by this data grid extension. 
-     * 
+     * Return extensions for column type provided by this data grid extension.
+     *
      * @param string $type
      */
     public function getColumnTypeExtensions($type);
 
     /**
-     * Build data grid view by adding new types. 
-     * 
+     * Build data grid view by adding new types.
+     *
      * @param DataGridViewInterface $view
      */
     public function buildView(DataGridViewInterface $view, DataGridInterface $dataGridFactory);
-    
+
 }

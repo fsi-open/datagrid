@@ -16,8 +16,8 @@ use Doctrine\Common\Collections\ArrayCollection;
 use FSi\Component\DataGrid\Column\ColumnViewInterface;
 use FSi\Component\DataGrid\Column\ColumnAbstractType;
 
-class Entity extends ColumnAbstractType 
-{ 
+class Entity extends ColumnAbstractType
+{
     public function getId()
     {
         return 'entity';
@@ -42,7 +42,6 @@ class Entity extends ColumnAbstractType
         $glueMultiple = $this->getOption('glue_multiple');
 
         if (is_array($value)) {
-            
             foreach ($value as $object) {
                 $objectValues = array();
                 foreach ($mappingFields as $field) {
@@ -57,20 +56,8 @@ class Entity extends ColumnAbstractType
                 }
             }
         }
-        
+
         return $values;
-    }
-
-    public function buildView(ColumnViewInterface $view)
-    {
-        $glue = $this->getOption('glue');
-        $value = $view->getValue();
-
-        if (is_array($value)) {
-            $value = implode($glue, $value);
-        }
-
-        $view->setValue($value);
     }
 
     public function getDefaultOptionsValues()

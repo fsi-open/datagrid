@@ -15,10 +15,10 @@ use FSi\Component\DataGrid\DataGridInterface;
 use FSi\Component\DataGrid\Column\ColumnTypeInterface;
 use FSi\Component\DataGrid\Column\ColumnViewInterface;
 
-interface ColumnTypeExtensionInterface 
+interface ColumnTypeExtensionInterface
 {
     public function setDataGrid(DataGridInterface $dataGrid);
-    
+
 	public function bindData(ColumnTypeInterface $column, $data, $object, $index);
 
     public function buildView(ColumnTypeInterface $column, ColumnViewInterface $view);
@@ -41,14 +41,14 @@ interface ColumnTypeExtensionInterface
     public function getDefaultOptionsValues(ColumnTypeInterface $column);
 
     /**
-     * Return array with extended column types. 
-     * Example return: 
-     * 
+     * Return array with extended column types.
+     * Example return:
+     *
      * return array(
      *     'text',
      *     'date_time'
      * );
-     * 
+     *
      * Extensions will be loaded into columns text and date_time.
      */
     public function getExtendedColumnTypes();

@@ -97,7 +97,7 @@ class DataGridAbstractView implements DataGridViewInterface
         $this->rowset->next();
         $this->position++;
     }
-    
+
     /**
      * Rewind the Iterator to the first element.
      * Similar to the reset() function for arrays in PHP.

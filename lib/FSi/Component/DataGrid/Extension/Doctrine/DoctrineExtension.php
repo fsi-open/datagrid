@@ -9,7 +9,7 @@
  * file that was distributed with this source code.
  */
 
-namespace FSi\Component\DataGrid\Extension\Symfony;
+namespace FSi\Component\DataGrid\Extension\Doctrine;
 
 use FSi\Component\DataGrid\DataGridAbstractExtension;
 use FSi\Component\DataGrid\Extension\Doctrine\ColumnType;

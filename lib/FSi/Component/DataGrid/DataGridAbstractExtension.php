@@ -76,7 +76,7 @@ abstract class DataGridAbstractExtension implements DataGridExtensionInterface
         if (!isset($this->columnTypesExtensions)) {
             $this->initColumnTypesExtensions();
         }
-        
+
         return isset($this->columnTypesExtensions[$type]);
     }
 
@@ -122,9 +122,9 @@ abstract class DataGridAbstractExtension implements DataGridExtensionInterface
 
     /**
      * If extension needs to provide new column types this function
-     * should be owerloaded in child class and return array of DataGridColumnTypeInterface 
-     * instances 
-     * 
+     * should be owerloaded in child class and return array of DataGridColumnTypeInterface
+     * instances
+     *
      * @return array
      */
     protected function loadColumnTypes()
@@ -143,9 +143,9 @@ abstract class DataGridAbstractExtension implements DataGridExtensionInterface
 
     /**
      * If extension needs to provide new column types this function
-     * should be owerloaded in child class and return array of DataGridColumnTypeInterface 
-     * instances 
-     * 
+     * should be owerloaded in child class and return array of DataGridColumnTypeInterface
+     * instances
+     *
      * @return array
      */
     protected function loadColumnTypesExtensions()

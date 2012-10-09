@@ -1,4 +1,4 @@
-<?php 
+<?php
 
 namespace FSi\Component\DataGrid\Extension\Symfony\ColumnTypeExtension;
 
@@ -25,5 +25,4 @@ class RowType extends AbstractType
     {
         return 'row';
     }
-
 }

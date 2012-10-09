@@ -15,7 +15,7 @@ use FSi\Component\DataGrid\Column\ColumnViewInterface;
 use FSi\Component\DataGrid\Column\ColumnAbstractType;
 use FSi\Component\DataGrid\Exception\DataGridColumnException;
 
-class Money extends ColumnAbstractType 
+class Money extends ColumnAbstractType
 {
     const ROUND_HALF_UP     = PHP_ROUND_HALF_UP;
     const ROUND_HALF_DOWN   = PHP_ROUND_HALF_DOWN;
@@ -41,17 +41,18 @@ class Money extends ColumnAbstractType
 
         if (!isset($currencyField) && !isset($currencyValue)) {
             throw new DataGridColumnException(
-            	sprintf('At least one option from "currency" and "currency_field" must be defined in %s field.', $this->getName())
+            	sprintf('At least one option from "currency" and "currency_field" must be defined in "%s" field.', $this->getName())
             );
         }
-        
+
         $currency = $currencyValue;
         if (isset($currencyField)) {
             if (!in_array($currencyField, $mappingFields)) {
                 throw new DataGridColumnException(
-                    sprintf('There is not field field "%s".', $currencyField)
+                    sprintf('There is no field with name "%s".', $currencyField)
                 );
             }
+
             $currency = $value[$currencyField];
             unset($value[$currencyField]);
         }
@@ -64,18 +65,6 @@ class Money extends ColumnAbstractType
         }
 
         return $value;
-    }
-
-    public function buildView(ColumnViewInterface $view)
-    {
-        $glue = $this->getOption('glue');
-        $value = $view->getValue();
-
-        if (is_array($value)) {
-            $value = implode($glue, $value);
-        }
-
-        $view->setValue($value);
     }
 
     public function getDefaultOptionsValues()
@@ -93,10 +82,11 @@ class Money extends ColumnAbstractType
     public function getAvailableOptions()
     {
         return array(
-        	'round_mode', 
-        	'precision', 
-        	'decimals', 
-        	'dec_point', 
+            'mapping_fields',
+        	'round_mode',
+        	'precision',
+        	'decimals',
+        	'dec_point',
         	'thousands_sep',
             'value_currency_separator',
             'currency_field',

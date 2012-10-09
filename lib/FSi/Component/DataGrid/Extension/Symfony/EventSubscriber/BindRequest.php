@@ -11,7 +11,7 @@
 
 namespace FSi\Component\DataGrid\Extension\Symfony\EventSubscriber;
 
-use FSi\Component\DataGrid\DataGridEvent;
+use FSi\Component\DataGrid\DataGridEventInterface;
 use FSi\Component\DataGrid\DataGridEvents;
 use FSi\Component\DataGrid\Exception\DataGridException;
 use Symfony\Component\HttpFoundation\Request;
@@ -24,7 +24,7 @@ class BindRequest implements EventSubscriberInterface
         return array(DataGridEvents::PRE_BIND_DATA => array('preBindData', 128));
     }
 
-    public function preBindData(DataGridEvent $event)
+    public function preBindData(DataGridEventInterface $event)
     {
         $dataGrid    = $event->getDataGrid();
         $request  = $event->getData();
@@ -34,6 +34,7 @@ class BindRequest implements EventSubscriberInterface
         }
 
         $name = $dataGrid->getName();
+
         $default = array();
 
         switch ($request->getMethod()) {
@@ -41,12 +42,8 @@ class BindRequest implements EventSubscriberInterface
             case 'PUT':
             case 'DELETE':
             case 'PATCH':
-                $data = $request->request->get($name, $default);
-                break;
             case 'GET':
-                $data = '' === $name
-                    ? $request->query->all()
-                    : $request->query->get($name, $default);
+                $data = $request->get($name, $default);
                 break;
             default:
                 throw new DataGridException(sprintf(

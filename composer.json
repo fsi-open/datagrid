@@ -1,9 +1,8 @@
 {
-    "repositories": [ { "type": "composer", "url": "http://git.fsi.pl/" } ],
-    "name": "fsi/table",
+    "name": "fsi/datagrid",
     "type": "library",
-    "description": "FSi Table Component",
-    "keywords": ["fsi", "component", "table"],
+    "description": "FSi DataGrid Component",
+    "keywords": ["fsi", "component", "datagrid"],
     "authors": [
         {
             "name": "Norbert Orechowicz",
@@ -12,12 +11,20 @@
     ],
     "require": {
         "php": ">=5.3.0",
-        "symfony/event-dispatcher" : "2.0.*",
+        "symfony/event-dispatcher" : "2.1.*",
         "fsi/reflection" : "0.9.*"
+    },
+    "require-dev": {
+        "doctrine/orm": ">=2.2.3,<2.4-dev",
+        "doctrine/common": ">=2.2.3,<2.4-dev",
+        "gedmo/doctrine-extensions": "dev-master",
+        "symfony/form" : "2.1.*",
+        "symfony/routing" : "2.1.*",
+        "symfony/http-foundation": "2.1.*"
     },
     "autoload": {
         "psr-0": {
             "FSi\\Component\\DataGrid": "lib/"
         }
-    }
+    } 
 }

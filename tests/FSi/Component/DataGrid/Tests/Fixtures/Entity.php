@@ -13,7 +13,7 @@ namespace FSi\Component\DataGrid\Tests\Fixtures;
 class Entity
 {
     private $name;
-    
+
     public function __construct($name)
     {
         $this->name = $name;

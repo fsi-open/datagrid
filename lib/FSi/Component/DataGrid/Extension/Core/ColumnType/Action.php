@@ -14,7 +14,7 @@ namespace FSi\Component\DataGrid\Extension\Core\ColumnType;
 use FSi\Component\DataGrid\Column\ColumnAbstractType;
 use FSi\Component\DataGrid\Exception\UnexpectedTypeException;
 
-class Action extends ColumnAbstractType 
+class Action extends ColumnAbstractType
 {
     public function getId()
     {

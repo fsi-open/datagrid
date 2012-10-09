@@ -16,7 +16,7 @@ use FSi\Component\DataGrid\Column\ColumnTypeInterface;
 use FSi\Component\DataGrid\Column\ColumnViewInterface;
 use FSi\Component\DataGrid\Column\ColumnTypeExtensionInterface;
 
-abstract class ColumnAbstractTypeExtension implements ColumnTypeExtensionInterface 
+abstract class ColumnAbstractTypeExtension implements ColumnTypeExtensionInterface
 {
     public function setDataGrid(DataGridInterface $dataGrid)
     {}

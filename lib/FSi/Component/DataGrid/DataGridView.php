@@ -23,7 +23,7 @@ class DataGridView extends DataGridAbstractView
      * @var string
      */
     protected $name;
-    
+
     /**
      * @var DataRowsetInterface
      */
@@ -43,8 +43,8 @@ class DataGridView extends DataGridAbstractView
     }
 
     /**
-     * Returns datagrid name. 
-     * 
+     * Returns datagrid name.
+     *
      * @return string
      */
     public function getName()
@@ -54,18 +54,18 @@ class DataGridView extends DataGridAbstractView
 
     /**
      * Check if column is registred in view.
-     * 
+     *
      * @param string $name
      * @return boolean
      */
     public function hasColumn($name)
     {
-        return array_key_exists($name, $this->columns);    
+        return array_key_exists($name, $this->columns);
     }
 
     /**
      * Removes column from view.
-     * 
+     *
      * @param string $name
      */
     public function removeColumn($name)
@@ -76,23 +76,23 @@ class DataGridView extends DataGridAbstractView
         }
         return false;
     }
-    
+
     /**
-     * Get column. 
-     * 
+     * Get column.
+     *
      * @param string $name
      */
     public function getColumn($name)
     {
         if ($this->hasColumn($name))
             return $this->columns[$name];
-            
+
         throw new \InvalidArgumentException(sprintf('Column "%s" does not exist in data grid.', $offset));
     }
 
     /**
      * Add new column to view.
-     * 
+     *
      * @param ColumnTypeInterface $column
      */
     public function addColumn(ColumnTypeInterface $column)
@@ -103,7 +103,7 @@ class DataGridView extends DataGridAbstractView
 
     /**
      * Return all columns registred in view.
-     * 
+     *
      * @return array
      */
     public function getColumns()

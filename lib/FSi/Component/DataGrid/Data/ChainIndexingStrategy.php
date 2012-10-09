@@ -16,14 +16,19 @@ use FSi\Component\DataGrid\Data\IndexingStrategyInterface;
 class ChainIndexingStrategy implements IndexingStrategyInterface
 {
     protected $strategies;
-    
+
     public function __construct(array $strategies)
     {
-        foreach ($strategies as $strategy) {
-            if (!($strategy instanceof IndexingStrategyInterface))
-                throw new UnexpectedTypeException($mapper, 'FSi\Component\DataGrid\Data\IndexingStrategyInterface');
+        if (!count($strategies)) {
+            throw new \InvalidArgumentException('There must be at least one indexing strategy.');
         }
-        
+
+        foreach ($strategies as $strategy) {
+            if (!($strategy instanceof IndexingStrategyInterface)) {
+                throw new \InvalidArgumentException('Strategies must implement FSi\Component\DataGrid\Data\IndexingStrategyInterface');
+            }
+        }
+
         $this->strategies = $strategies;
     }
 
@@ -31,10 +36,11 @@ class ChainIndexingStrategy implements IndexingStrategyInterface
     {
         foreach ($this->strategies as $strategy) {
             $index = $strategy->getIndex($object);
-            if (!is_null($index))
+            if (!is_null($index)) {
                 return $index;
+            }
         }
-        
+
         return null;
     }
 }

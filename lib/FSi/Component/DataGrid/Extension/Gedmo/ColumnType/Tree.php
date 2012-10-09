@@ -11,16 +11,16 @@
 
 namespace FSi\Component\DataGrid\Extension\Gedmo\ColumnType;
 
+use Gedmo\Tree\TreeListener;
 use Gedmo\Tree\Strategy;
-use Gedmo\Tool\Wrapper\AbstractWrapper;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use FSi\Component\Reflection\ReflectionClass;
 use FSi\Component\DataGrid\Exception\DataGridColumnException;
 use FSi\Component\DataGrid\Column\ColumnViewInterface;
 use FSi\Component\DataGrid\Column\ColumnAbstractType;
 
-class Tree extends ColumnAbstractType 
-{ 
+class Tree extends ColumnAbstractType
+{
     /**
      * @var ManagerRegistry
      */
@@ -35,7 +35,7 @@ class Tree extends ColumnAbstractType
         'nested'
     );
 
-    protected $viewAttributes;
+    protected $viewAttributes = array();
 
     public function __construct(ManagerRegistry $registry)
     {
@@ -50,17 +50,18 @@ class Tree extends ColumnAbstractType
     public function getValue($object)
     {
         if (!is_object($object)) {
-            throw new DataGridColumnException('Column "gedmo.tree" must read value from object.');
+            throw new \InvalidArgumentException('Column "gedmo.tree" must read value from object.');
         }
 
         $value = parent::getValue($object);
         $em = $this->registry->getManager($this->getOption('em'));
-        
+
         // Check if tree listener is registred.
         $treeListener = null;
+
         foreach ($em->getEventManager()->getListeners() as $listeners) {
             foreach ($listeners as $listener) {
-                if ($listener instanceof \Gedmo\Tree\TreeListener) {
+                if ($listener instanceof TreeListener) {
                     $treeListener = $listener;
                     break;
                 }
@@ -88,12 +89,13 @@ class Tree extends ColumnAbstractType
                 sprintf('Strategy "%s" is not supported by "%s" column.', $this->strategy->getName(), $this->getId())
             );
         }
-        
+
         $config = $treeListener->getConfiguration($em, get_class($object));
         $reflection = ReflectionClass::factory(get_class($object));
 
-        $wrappedObject = AbstractWrapper::wrap($object, $em);
-        $id = $wrappedObject->getIdentifier();
+        $indexingStrategy = $this->getDataGrid()->getIndexingStrategy();
+
+        $id = implode('-', $indexingStrategy->getIndex($object));
         $left = $reflection->getProperty($config['left'])->getValue($object);
         $right = $reflection->getProperty($config['right'])->getValue($object);
         $root = isset($config['root']) ? $reflection->getProperty($config['root'])->getValue($object) : null;
@@ -101,10 +103,9 @@ class Tree extends ColumnAbstractType
         $parent = $reflection->getProperty($config['parent'])->getValue($object);
         $parentId = null;
         if (isset($parent)) {
-            $wrappedParent = AbstractWrapper::wrap($parent, $em);
-            $parentId = $wrappedParent->getIdentifier();
+            $parentId = implode('-', $indexingStrategy->getIndex($parent));
         }
-        
+
         $this->viewAttributes = array(
             'id' => $id,
             'root' => $root,
@@ -129,19 +130,14 @@ class Tree extends ColumnAbstractType
 
     public function buildView(ColumnViewInterface $view)
     {
-        $glue = $this->getOption('glue');
-        $value = $view->getValue();
-
-        if (is_array($value)) {
-            $glue = $this->getOption('glue');
-            $value = implode($glue, $value);
-        }
-
-        $view->setValue((string)$value);
-        
-        foreach ($this->viewAttributes as $attrName => $attrValue) {
+        foreach ($this->getViewAttributes() as $attrName => $attrValue) {
             $view->setAttribute($attrName, $attrValue);
         }
+    }
+
+    public function getViewAttributes()
+    {
+        return $this->viewAttributes;
     }
 
     public function getDefaultOptionsValues()
@@ -153,6 +149,6 @@ class Tree extends ColumnAbstractType
 
     public function getAvailableOptions()
     {
-        return array('em');
+        return array('em', 'mapping_fields');
     }
 }

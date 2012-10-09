@@ -16,9 +16,9 @@ use FSi\Component\DataGrid\Column\ColumnTypeInterface;
 use FSi\Component\DataGrid\Column\ColumnViewInterface;
 use FSi\Component\DataGrid\Column\ColumnAbstractTypeExtension;
 use FSi\Component\DataGrid\Exception\DataGridColumnException;
-use Symfony\Component\Form\FormFactory;
+use Symfony\Component\Form\FormFactoryInterface;
 
-class FormExtension extends ColumnAbstractTypeExtension 
+class FormExtension extends ColumnAbstractTypeExtension
 {
     /**
      * @var string
@@ -31,12 +31,12 @@ class FormExtension extends ColumnAbstractTypeExtension
     protected $formFactory;
 
     /**
-     * Form Objects instances created by method CreateForm. 
+     * Form Objects instances created by method CreateForm.
      * @var array
      */
     protected $forms = array();
 
-    public function __construct(FormFactory $formFactory)
+    public function __construct(FormFactoryInterface $formFactory)
     {
         $this->formFactory = $formFactory;
     }
@@ -60,7 +60,7 @@ class FormExtension extends ColumnAbstractTypeExtension
         }
 
         // Sometimes mapping_fields dont match the data indexes, like in entity
-        // column so we need to do special check. 
+        // column so we need to do special check.
         switch ($column->getId()) {
             case 'entity':
                 $relationField = $column->getOption('relation_field');
@@ -71,7 +71,7 @@ class FormExtension extends ColumnAbstractTypeExtension
             default:
                 $mapping_fields = $column->getOption('mapping_fields');
                 if (count(array_diff($mapping_fields, array_keys($data)))) {
-                     return;   
+                     return;
                 }
             break;
         }
@@ -143,8 +143,8 @@ class FormExtension extends ColumnAbstractTypeExtension
     }
 
     /**
-     * Create Form Objects for column and rowset index. 
-     * 
+     * Create Form Objects for column and rowset index.
+     *
      * @param ColumnTypeInterface $column
      * @param mixed $index
      * @param mixed $data
@@ -157,16 +157,16 @@ class FormExtension extends ColumnAbstractTypeExtension
         }
 
         // Create fields array. There are column types like entity where mapping_fields
-        // should not be used to build field array. 
+        // should not be used to build field array.
         $fields = array();
-        switch ($column->getId()) { 
+        switch ($column->getId()) {
             case 'entity':
                     $field = array(
                         'name' => $column->getOption('relation_field'),
                         'type' => 'entity',
                         'options' => array()
                     );
-                    
+
                     $fields[$column->getOption('relation_field')] = $field;
                 break;
             default:
@@ -234,8 +234,8 @@ class FormExtension extends ColumnAbstractTypeExtension
 
         // Create form builder
         $formBuilder = $this->formFactory->createNamedBuilder(
-            $this->formName, 
-            'collection', 
+            $this->formName,
+            'collection',
             array(
                 $index => $dataArray
             ),

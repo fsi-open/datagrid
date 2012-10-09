@@ -12,27 +12,26 @@
 namespace FSi\Component\DataGrid;
 
 use FSi\Component\DataGrid\DataGridInterface;
+use FSi\Component\DataGrid\DataGridEventInterface;
 use Symfony\Component\EventDispatcher\Event;
 
-class DataGridEvent extends Event
+class DataGridEvent extends Event implements DataGridEventInterface
 {
     /**
      * @var DataGridInterface
      */
     protected $dataGrid;
-    
+
     protected $data;
-    
+
     public function __construct(DataGridInterface $dataGrid, $data)
     {
         $this->dataGrid = $dataGrid;
         $this->data = $data;
     }
-    
+
     /**
-     * Returns the form at the source of the event.
-     *
-     * @return DataGridInterface
+     * {@inheritdoc}
      */
     public function getDataGrid()
     {
@@ -40,19 +39,15 @@ class DataGridEvent extends Event
     }
 
     /**
-     * Returns the data associated with this event.
-     *
-     * @return mixed
+     * {@inheritdoc}
      */
     public function getData()
     {
         return $this->data;
     }
-    
+
     /**
-     * Allows updating data for example if you need to filter values
-     *
-     * @param mixed $data
+     * {@inheritdoc}
      */
     public function setData($data)
     {

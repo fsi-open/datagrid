@@ -30,7 +30,7 @@ class DataGridTest extends \PHPUnit_Framework_TestCase
     /**
      * @var DataMapper
      */
-    private $dataMapper; 
+    private $dataMapper;
 
     /**
      * @var DataGrid
@@ -65,7 +65,7 @@ class DataGridTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue(
                 array('name')
             ));
-            
+
         $this->factory = $this->getMock('FSi\Component\DataGrid\DataGridFactoryInterface');
         $this->factory->expects($this->any())
             ->method('getExtensions')
@@ -78,7 +78,7 @@ class DataGridTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue(
                 new FooType()
             ));
-            
+
         $this->datagrid = new DataGrid('grid', $this->factory, $this->dataMapper, $this->indexingStrategy);
     }
 
@@ -106,7 +106,7 @@ class DataGridTest extends \PHPUnit_Framework_TestCase
     public function testGetDataMapper()
     {
         $this->assertInstanceOf('FSi\Component\DataGrid\DataMapper\DataMapperInterface', $this->datagrid->getDataMapper());
-    }  
+    }
 
     public function testGetIndexingStrategy()
     {
@@ -123,14 +123,14 @@ class DataGridTest extends \PHPUnit_Framework_TestCase
         $this->datagrid->setData($gridData);
 
         $gridBrokenData = false;
-        $this->setExpectedException('FSi\Component\DataGrid\Exception\UnexpectedTypeException');
+        $this->setExpectedException('InvalidArgumentException');
         $this->datagrid->setData($gridBrokenData);
     }
 
     public function testBindData()
     {
         $gridBrokenData = false;
-        $this->setExpectedException('FSi\Component\DataGrid\Exception\UnexpectedTypeException');
+        $this->setExpectedException('InvalidArgumentException');
         $this->datagrid->bindData($gridBrokenData);
     }
 

@@ -15,7 +15,7 @@ use FSi\Component\DataGrid\Column\ColumnTypeInterface;
 use FSi\Component\DataGrid\Column\ColumnAbstractTypeExtension;
 use FSi\Component\DataGrid\Exception\UnexpectedTypeException;
 
-class ActionColumnExtension extends ColumnAbstractTypeExtension 
+class ActionColumnExtension extends ColumnAbstractTypeExtension
 {
     protected $actionOptionsDefault = array(
         'protocole' => 'http://'
@@ -46,7 +46,7 @@ class ActionColumnExtension extends ColumnAbstractTypeExtension
                 'anchor' => $options['anchor'],
             );
 
-            $url = (isset($options['protocole'], $options['domain'])) ? $options['protocole'] . $options['domain'] : ''; 
+            $url = (isset($options['protocole'], $options['domain'])) ? $options['protocole'] . $options['domain'] : '';
             $url .= vsprintf ($options['uri_scheme'], $value);
 
             $return[$name]['url'] = $url;
@@ -69,18 +69,21 @@ class ActionColumnExtension extends ColumnAbstractTypeExtension
     {
         return array('actions');
     }
-    
+
     private function validateOptions(ColumnTypeInterface $column)
     {
         $actions = $column->getOption('actions');
         if (!is_array($actions)) {
-            throw new UnexpectedTypeException('Option actions must be an array.');
+            throw new \InvalidArgumentException('Option actions must be an array.');
+        }
+
+        if (!count($actions)) {
+            throw new \InvalidArgumentException('Option actions can\'t be empty.');
         }
 
         foreach ($actions as $actionName => &$options) {
-            
             if (!is_array($options)) {
-                throw new UnexpectedTypeException(sprinf('Options for action "%s" must be an array.', $actionName));    
+                throw new \InvalidArgumentException(sprinf('Options for action "%s" must be an array.', $actionName));
             }
 
             foreach ($options as $optionName => $value) {
@@ -101,7 +104,7 @@ class ActionColumnExtension extends ColumnAbstractTypeExtension
                 }
             }
         }
-        
+
         $column->setOption('actions', $actions);
 
     }

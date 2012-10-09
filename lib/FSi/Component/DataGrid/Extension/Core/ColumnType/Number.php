@@ -14,25 +14,24 @@ namespace FSi\Component\DataGrid\Extension\Core\ColumnType;
 use FSi\Component\DataGrid\Column\ColumnViewInterface;
 use FSi\Component\DataGrid\Column\ColumnAbstractType;
 
-class Number extends ColumnAbstractType 
-{ 
+class Number extends ColumnAbstractType
+{
     const ROUND_HALF_UP     = PHP_ROUND_HALF_UP;
     const ROUND_HALF_DOWN   = PHP_ROUND_HALF_DOWN;
     const ROUND_HALF_EVEN   = PHP_ROUND_HALF_EVEN;
     const ROUND_HALF_ODD    = PHP_ROUND_HALF_ODD;
-    
+
     public function getId()
     {
         return 'number';
     }
-    
+
     public function filterValue($value)
     {
-        $precision = $this->getOption('precision');
+        $precision = (int)$this->getOption('precision');
         $roundmode = $this->getOption('round_mode');
 
         if (isset($roundmode)) {
-            $precision = isset($precision) ? $precision : 0;
             foreach ($value as &$val) {
                 $val = round($val, $precision, $roundmode);
             }
@@ -41,16 +40,11 @@ class Number extends ColumnAbstractType
         return $value;
     }
 
-    public function buildView(ColumnViewInterface $view)
+    public function getDefaultOptionsValues()
     {
-        $glue = $this->getOption('glue');
-        $value = $view->getValue();
-
-        if (is_array($value)) {
-            $value = implode($glue, $value);
-        }
-
-        $view->setValue($value);
+        return array(
+            'precision' => 2
+        );
     }
 
     public function getAvailableOptions()
@@ -58,5 +52,5 @@ class Number extends ColumnAbstractType
         return array('round_mode', 'precision');
     }
 
-    
+
 }

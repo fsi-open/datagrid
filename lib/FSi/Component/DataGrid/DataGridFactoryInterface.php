@@ -16,14 +16,14 @@ interface DataGridFactoryInterface
     /**
      * Check if column is registred in factory. Column types can be registred
      * only by extensions.
-     * 
+     *
      * @param boolean $type
      */
     public function hasColumnType($type);
 
     /**
-     * 
-     * 
+     *
+     *
      * @throws UnexpectedTypeException if column is not registred in factory.
      * @param unknown_type $type
      */
@@ -31,7 +31,7 @@ interface DataGridFactoryInterface
 
     /**
      * Return all registred in factory DataGrid extensions as array.
-     * 
+     *
      * @return array
      */
     public function getExtensions();

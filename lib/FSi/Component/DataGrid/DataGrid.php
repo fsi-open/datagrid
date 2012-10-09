@@ -33,10 +33,10 @@ class DataGrid implements DataGridInterface
     protected $name;
 
     /**
-     * DataCollection used to render view. 
+     * DataCollection used to render view.
      * @var FSi\Component\DataGrid\Data\RowsetData
      */
-    protected $rowset; 
+    protected $rowset;
 
     /**
      * DataMapper used by all columns to retrive data from rowset objects.
@@ -57,8 +57,8 @@ class DataGrid implements DataGridInterface
     protected $columns = array();
 
     /**
-     * Symfony EventDispatcher mechanism that allow users to register 
-     * listeners and subsribers. 
+     * Symfony EventDispatcher mechanism that allow users to register
+     * listeners and subsribers.
      * @var EventDispatcher
      */
     protected $eventDispatcher;
@@ -162,7 +162,7 @@ class DataGrid implements DataGridInterface
     {
         return $this->strategy;
     }
-    
+
     /**
      * {@inheritdoc}
      */
@@ -174,7 +174,7 @@ class DataGrid implements DataGridInterface
 
         if (!is_array($data)) {
             if (!($data instanceof \IteratorAggregate) || !($data instanceof \Countable) || !($data instanceof \ArrayAccess)) {
-                throw new UnexpectedTypeException('array or IteratorAggregate expects');
+                throw new \InvalidArgumentException('array or IteratorAggregate is expected as data.');
             }
         }
 
@@ -198,7 +198,7 @@ class DataGrid implements DataGridInterface
 
         if (!is_array($data)) {
             if (!($data instanceof \IteratorAggregate) || !($data instanceof \Countable) || !($data instanceof \ArrayAccess))
-                throw new UnexpectedTypeException('Excpects data as array or IteratorAggregate instance.');
+                throw new \InvalidArgumentException('Excpects data as array or IteratorAggregate instance.');
         }
 
         foreach ($data as $index => $values) {
@@ -259,8 +259,8 @@ class DataGrid implements DataGridInterface
 
 
     /**
-     * Returns data grid rowset that contains source data. 
-     * 
+     * Returns data grid rowset that contains source data.
+     *
      * @throws DataGridException thrown when getRowset is called before setData
      * @return DataRowset
      */

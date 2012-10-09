@@ -13,11 +13,11 @@ namespace FSi\Component\DataGrid\DataMapper;
 
 use FSi\Component\DataGrid\Column\ColumnTypeInterface;
 
-interface DataMapperInterface 
+interface DataMapperInterface
 {
     /**
-     * Get data from object for specified column type. 
-     * 
+     * Get data from object for specified column type.
+     *
      * @param string $field
      * @param mixed $object
      * @throws DataMappingExteption - thrown when mapper cant fit any object data into column
@@ -26,8 +26,8 @@ interface DataMapperInterface
     public function getData($field, $object);
 
     /**
-     * Sets data to object for specified column type. 
-     * 
+     * Sets data to object for specified column type.
+     *
      * @param string $field
      * @param mixed $object
      * @param mixed $value

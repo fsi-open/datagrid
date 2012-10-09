@@ -16,13 +16,12 @@ use FSi\Component\DataGrid\Exception\UnexpectedTypeException;
 
 class DataGridRowView implements DataGridRowViewInterface
 {
-    
     /**
-     * Cells views. 
-     * @var unknown_type
+     * Cells views.
+     * @var array
      */
     protected $columnViews = array();
-    
+
     /**
      * Columns objects used to create each cell view
      * @var array
@@ -44,11 +43,11 @@ class DataGridRowView implements DataGridRowViewInterface
      * @var integer
      */
     protected $position;
-    
+
     protected $index;
-    
+
     public function __construct(array $columns, $source, $index)
-    {    
+    {
         $this->count = count($columns);
         $this->source = $source;
         $this->index = $index;
@@ -158,7 +157,7 @@ class DataGridRowView implements DataGridRowViewInterface
 
         return true;
     }
-    
+
     /**
      * Required by the ArrayAccess implementation
      * @param string $offset
@@ -167,7 +166,7 @@ class DataGridRowView implements DataGridRowViewInterface
     {
         return isset($this->columnViews[$offset]);
     }
-    
+
     /**
      * Required by the ArrayAccess implementation
      * @param string $offset
@@ -177,10 +176,10 @@ class DataGridRowView implements DataGridRowViewInterface
     {
         if ($this->offsetExists($offset))
             return $this->columnViews[$offset];
-            
+
         throw new \InvalidArgumentException(sprintf('Column "%s" does not exist in row.', $offset));
     }
-    
+
     /**
      * Does nothing
      * Required by the ArrayAccess implementation

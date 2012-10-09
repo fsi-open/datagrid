@@ -30,19 +30,19 @@ class DataGridFactory implements DataGridFactoryInterface
 
     /**
      * Instance of Data Mapper. This object allows you mapping data from collection
-     * into selected column. 
-     * 
+     * into selected column.
+     *
      * @var DataMapperInterface
      */
-    protected $dataMapper; 
+    protected $dataMapper;
 
     /**
      * The DataGridExtensionInterface instances
-     * 
+     *
      * @var array
      */
     protected $extensions = array();
-    
+
     protected $strategy;
 
     public function __construct(array $extensions, DataMapperInterface $dataMapper, IndexingStrategyInterface $strategy)
@@ -59,7 +59,7 @@ class DataGridFactory implements DataGridFactoryInterface
     }
 
     /**
-     * Create data grid with unique name. 
+     * Create data grid with unique name.
      * @throws DataGridColumnException
      * @param string $name
      */
@@ -67,10 +67,10 @@ class DataGridFactory implements DataGridFactoryInterface
     {
         if (array_key_exists($name, $this->dataGrids))
             throw new DataGridColumnException(sprintf('Data grid name "%s" is not uniqe, it was used before to create form', $name));
-            
+
         $this->dataGrids[$name] = true;
-        
-        return new DataGrid($name, $this, $this->dataMapper, $this->strategy);        
+
+        return new DataGrid($name, $this, $this->dataMapper, $this->strategy);
     }
 
     /**
@@ -103,8 +103,8 @@ class DataGridFactory implements DataGridFactoryInterface
         $this->loadColumnType($type);
 
         return clone $this->columnTypes[$type];
-    }    
-    
+    }
+
     /**
      * {@inheritDoc}
      */
@@ -148,7 +148,7 @@ class DataGridFactory implements DataGridFactoryInterface
                 }
             }
         }
-        
+
         $this->columnTypes[$type] = $typeInstance;
     }
 

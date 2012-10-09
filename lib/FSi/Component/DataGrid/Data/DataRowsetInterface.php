@@ -11,6 +11,6 @@
 
 namespace FSi\Component\DataGrid\Data;
 
-interface DataRowsetInterface extends \SeekableIterator, \Countable, \ArrayAccess 
+interface DataRowsetInterface extends \SeekableIterator, \Countable, \ArrayAccess
 {
 }
