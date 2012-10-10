@@ -44,7 +44,8 @@ class DefaultColumnOptionsExtension extends ColumnAbstractTypeExtension
             'number',
             'money',
             'gedmo.tree',
-            'entity'
+            'entity',
+            'action'
         );
     }
 
