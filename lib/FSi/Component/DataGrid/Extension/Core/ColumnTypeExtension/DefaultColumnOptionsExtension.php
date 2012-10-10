@@ -42,7 +42,6 @@ class DefaultColumnOptionsExtension extends ColumnAbstractTypeExtension
             'text',
             'datetime',
             'number',
-            'action',
             'money',
             'gedmo.tree',
             'entity'
