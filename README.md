@@ -239,3 +239,12 @@ Here is a simple view implementation:
         <?php endforeach; ?>
     </table>
     
+# Built-in Column Types #
+
+- [text](https://github.com/fsi-open/datagrid/blob/master/doc/en/columns/text.md)
+- [number] (https://github.com/fsi-open/datagrid/blob/master/doc/en/columns/number.md)
+- money
+- datatime
+- action
+- entity
+- tree
