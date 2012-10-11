@@ -3,6 +3,7 @@
     "type": "library",
     "description": "FSi DataGrid Component",
     "keywords": ["fsi", "component", "datagrid"],
+    "license": "MIT",
     "authors": [
         {
             "name": "Norbert Orechowicz",

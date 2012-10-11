@@ -9,7 +9,7 @@ FSi DataGrid Component allows you to create one action that handle
 disply all kind of lists in your application without duplicating code. 
 It can be very useful in all kind of admin panel generators.
 
-# Basic Usage #
+## Basic Usage ##
 
 The sample code shows more than a thousand words so lets start!
 
@@ -77,7 +77,7 @@ class News
     /**
      * @var integer
      */
-    protevted $id;
+    protected $id;
     
     /**
      * @var string
@@ -217,7 +217,7 @@ Here is a simple view implementation:
     <table>
         <tr>
         <?php foreach ($view->getColumns() as $column):?>
-            <td><?php echo $column->getOption('label'); ?>/td>
+            <td><?php echo $column->getOption('label'); ?></td>
         <?php endforeach; ?>
         </tr>
         <tr>
@@ -230,16 +230,28 @@ Here is a simple view implementation:
                         <a href="<?php echo $link['url']; ?>"><?php echo $link['anchor']; ?></a>
                     <?php endforeach; ?>
                 <?php else: ?>
-                    <?php echo column.getValue(); ?>
+                    <?php echo $column->getValue(); ?>
                 <?php endif;?>
             </td>
             <?php endforeach; ?>
-            <td></td>
         </tr>
         <?php endforeach; ?>
     </table>
     
-# Built-in Column Types #
+## Installation ##
+
+This section will describe how to add datagrid into your project. 
+First thing is to get DataGrid sources, we recomend you to use [composer](https://github.com/composer/composer#composer---package-management-for-php)
+After that you need to do a couple of things to create ``DataGridFactory`` that 
+finally alows you to create ``DataGrid`` objects.
+
+Here are sample scenarios of component usage:
+    
+- [standalone](https://github.com/norzechowicz/datagrid-standalone)
+- [symfony](https://github.com/fsi-open/datagrid/blob/master/doc/en/installation/symfony.md)
+    
+    
+## Built-in Column Types ##
 
 - [text](https://github.com/fsi-open/datagrid/blob/master/doc/en/columns/text.md)
 - [number] (https://github.com/fsi-open/datagrid/blob/master/doc/en/columns/number.md)
