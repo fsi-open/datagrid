@@ -238,7 +238,7 @@ Here is a simple view implementation:
         <?php endforeach; ?>
     </table>
     
-## Installation ##
+##Installation##
 
 This section will describe how to add datagrid into your project. 
 First thing is to get DataGrid sources, we recomend you to use [composer](https://github.com/composer/composer#composer---package-management-for-php)
@@ -250,11 +250,35 @@ Here are sample scenarios of component usage:
 - [standalone](https://github.com/norzechowicz/datagrid-standalone)
 - [symfony](https://github.com/fsi-open/datagrid/blob/master/doc/en/installation/symfony.md)
     
-    
+## Extensions ##
+
+Extensions are something that makes DataGrid component extremely flexible, they 
+are highly inspired by SymfonyForm extensions. 
+
+There are two kinds of extensions. 
+
+**DataGrid Extension**<br>
+**DataGrid Column Extensions**
+
+DataGrid Extension are used to provide new column types, event subscribers even 
+additional options for existsing column types.<br>
+DataGrid Column Extensions purpose is to add new functionality to existing column
+types.<br>
+Each DataGrid Column Extension must be loaded by DataGrid Extension. Loading extension
+into DataGrid is nothing more than registring it in DataGridFactory. 
+ 
+## Built-in Extension Types ##
+
+- [Core](https://github.com/fsi-open/datagrid/blob/master/doc/en/extensions/core.md)
+- [SymfonyForm](https://github.com/fsi-open/datagrid/blob/master/doc/en/extensions/symfonyform.md)
+- SymfonyDependencyInjection
+- Docrtine
+- Gedmo
+
 ## Built-in Column Types ##
 
 - [text](https://github.com/fsi-open/datagrid/blob/master/doc/en/columns/text.md)
-- [number] (https://github.com/fsi-open/datagrid/blob/master/doc/en/columns/number.md)
+- [number](https://github.com/fsi-open/datagrid/blob/master/doc/en/columns/number.md)
 - money
 - datatime
 - action
