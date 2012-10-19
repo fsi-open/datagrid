@@ -1,6 +1,6 @@
-# Text Column Type #
+# Entity Column Type #
 
-Provided by ``DataGrid\Extension\Core\CoreExtension``
+Provided by ``DataGrid\Extension\Symfony\ColumnTypeExtension\ActionColumnExtension``
 
 ## Available Options ##
 
@@ -24,13 +24,30 @@ Provided by ``DataGrid\Extension\Core\CoreExtension``
     </tr>
     <tr>
         <td>
-            <code>trim</code>
+            <code>relation_field</code>
         </td>
         <td>
-            Boolean
+            String
         </td>
         <td>
-            <code>false</code>
+            -
+        </td>
+        <td>
+            yes
+        </td>
+        <td>
+            -
+        </td>
+    </tr>
+    <tr>
+        <td>
+            <code>glue_multiple</code>
+        </td>
+        <td>
+            String
+        </td>
+        <td>
+            <code>" "</code> <i>(space character)</i>
         </td>
         <td>
             no
@@ -111,7 +128,9 @@ Provided by ``DataGrid\Extension\Core\CoreExtension``
 
 ## Options Description ##
 
-**trim** By default option is disabled. If enabled value from every single mapping_filed is trimmed before ``buildView`` method will pass it into view object. 
+**relation_field** Field that relates to other entity (entities).
+
+**glue_multiple** Glue between many entities. (Similar to 'glue' option, but 'glue' is between many different fields in one colum.)
 
 **mapping_fields** Fields that should be used when data is retrieved from the source. By default there is only one mapping 
 field and its taken from name under what column was registred in grid. 
@@ -121,45 +140,17 @@ Option is useful when you need to implode few fields from object in one column.
 
 **glue** Useful only when you need to implode data from few source object fields into one column. By default its single space character " ". 
 
-**editable** If enabled SymfonyForm object is automatically created and passed into view as attribute and you can easly use it to display quick edit. 
+**editable** If enabled SymfonyForm object is automatically created and passed into view as attribute and you can easly use it to display quick edit.
 
 ## Example Usage ##
 
 ``` php
-//Input Data: Object ('name' => 'Norbert', 'surname' => 'Orzechowicz')
-$grid->addColumn('name_surname', 'text', array(
-    'mapping_fields' => array(
-        'name',
-        'surname'
-    )
-));
-//Output: "Norbert Orzechowicz"
 
-//Input Data: Object ('name' => 'Norbert', 'surname' => 'Orzechowicz')
-$grid->addColumn('name_surname', 'text', array(
-    'mapping_fields' => array(
-        'name',
-        'surname'
-    ),
-    'glue' => '-'
+$dataGrid->addColumn('category', 'entity', array(
+    'label' => 'Product category',
+    'relation_field' => 'category',
+    'mapping_fields' => array('id', 'name'),
+    'editable' => true,
 ));
-//Output: "Norbert-Orzechowicz"
 
-//Input Data: Object ('name' => ' Norbert ')
-$grid->addColumn('name', 'text', array('trim' => true));
-//Output: "Norbert"
-
-//Input Data: Object ('name' => 'Norbert')
-$grid->addColumn('name_column', 'text', array(
-    'mapping_fields' => array(
-        'name'
-    )
-));
-//Output: "Norbert"
-
-//Input Data: Object ('name' => 'Norbert')
-$grid->addColumn('name', 'text', array(
-    'editable' => true
-));
-// $form = $column->getAttribute('form') - Symfony Form Object
 ```

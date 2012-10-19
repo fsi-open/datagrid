@@ -1,4 +1,4 @@
-# Text Column Type #
+# Number Column Type #
 
 Provided by ``DataGrid\Extension\Core\CoreExtension``
 
@@ -140,7 +140,7 @@ Option is useful when you need to implode few fields from object in one column.
 
 **glue** Useful only when you need to implode data from few source object fields into one column. By default its single space character " ". 
 
-**editable** If eneabled SymfonyForm object is automatically created and passed into view as attribute and you can easly use it to display quick edit. 
+**editable** If enabled SymfonyForm object is automatically created and passed into view as attribute and you can easly use it to display quick edit. 
 ## Example Usage ##
 
 ``` php

@@ -255,8 +255,8 @@ Here are sample scenarios of component usage:
 
 - [text](https://github.com/fsi-open/datagrid/blob/master/doc/en/columns/text.md)
 - [number] (https://github.com/fsi-open/datagrid/blob/master/doc/en/columns/number.md)
-- money
-- datatime
-- action
-- entity
-- tree
+- [money] (https://github.com/fsi-open/datagrid/blob/master/doc/en/columns/money.md)
+- [datetime] (https://github.com/fsi-open/datagrid/blob/master/doc/en/columns/datetime.md)
+- [action] (https://github.com/fsi-open/datagrid/blob/master/doc/en/columns/action.md)
+- [entity] (https://github.com/fsi-open/datagrid/blob/master/doc/en/columns/entity.md)
+- [tree] (https://github.com/fsi-open/datagrid/blob/master/doc/en/columns/tree.md)
