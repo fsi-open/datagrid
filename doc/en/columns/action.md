@@ -1,4 +1,4 @@
-# Text Column Type #
+# Action Column Type #
 
 Provided by ``DataGrid\Extension\Core\CoreExtension``
 
@@ -24,16 +24,16 @@ Provided by ``DataGrid\Extension\Core\CoreExtension``
     </tr>
     <tr>
         <td>
-            <code>trim</code>
+            <code>actions</code>
         </td>
         <td>
-            Boolean
+            Array
         </td>
         <td>
-            <code>false</code>
+            -
         </td>
         <td>
-            no
+            yes
         </td>
         <td>
             -
@@ -111,7 +111,14 @@ Provided by ``DataGrid\Extension\Core\CoreExtension``
 
 ## Options Description ##
 
-**trim** By default option is disabled. If enabled value from every single mapping_filed is trimmed before ``buildView`` method will pass it into view object. 
+**actions** Array of actions. Each key of this array is name of action, which is array with keys:
+- **uri_scheme** Scheme of an uri.
+- **anchor** Name of anchor.
+- **protocole** Protocol for anchor.
+- **domain** Domain for anchor.
+- **name** Name for anchor.
+- **route_name** Name of route, that anchor will point to.
+- **parameters** Parameters for route.
 
 **mapping_fields** Fields that should be used when data is retrieved from the source. By default there is only one mapping 
 field and its taken from name under what column was registred in grid. 
@@ -121,45 +128,28 @@ Option is useful when you need to implode few fields from object in one column.
 
 **glue** Useful only when you need to implode data from few source object fields into one column. By default its single space character " ". 
 
-**editable** If enabled SymfonyForm object is automatically created and passed into view as attribute and you can easly use it to display quick edit. 
+**editable** If enabled SymfonyForm object is automatically created and passed into view as attribute and you can easly use it to display quick edit.
 
 ## Example Usage ##
 
 ``` php
-//Input Data: Object ('name' => 'Norbert', 'surname' => 'Orzechowicz')
-$grid->addColumn('name_surname', 'text', array(
-    'mapping_fields' => array(
-        'name',
-        'surname'
+
+//Shows column with date in 'Y-m-d H:i:s' format.
+$datagrid->addColumn('actions', 'action', array(
+    'label' => 'Actions',
+    'mapping_fields' => array('id'),
+    'actions' => array(
+        'edit' => array(
+            'anchor' => 'Edit',
+            'route_name' => '_edit_news',
+            'parameters' => array('id' => 'id'),
+        ),
+        'delete' => array(
+            'anchor' => 'Delete',
+            'route_name' => '_delete_news',
+            'parameters' => array('id' => 'id'),
+        )
     )
 ));
-//Output: "Norbert Orzechowicz"
 
-//Input Data: Object ('name' => 'Norbert', 'surname' => 'Orzechowicz')
-$grid->addColumn('name_surname', 'text', array(
-    'mapping_fields' => array(
-        'name',
-        'surname'
-    ),
-    'glue' => '-'
-));
-//Output: "Norbert-Orzechowicz"
-
-//Input Data: Object ('name' => ' Norbert ')
-$grid->addColumn('name', 'text', array('trim' => true));
-//Output: "Norbert"
-
-//Input Data: Object ('name' => 'Norbert')
-$grid->addColumn('name_column', 'text', array(
-    'mapping_fields' => array(
-        'name'
-    )
-));
-//Output: "Norbert"
-
-//Input Data: Object ('name' => 'Norbert')
-$grid->addColumn('name', 'text', array(
-    'editable' => true
-));
-// $form = $column->getAttribute('form') - Symfony Form Object
 ```
