@@ -92,6 +92,18 @@ class DataGrid implements DataGridInterface
      */
     public function addColumn($name, $type = 'text', $otpions = array())
     {
+        if ($name instanceof ColumnTypeInterface) {
+            $type = $name->getId();
+
+            if (!$this->dataGridFactory->hasColumnType($type)) {
+                throw new UnexpectedTypeException(sprintf('There is no column with type "%s" registred in factory.', $type));
+            }
+
+            $name->setDataGrid($this);
+            $this->columns[$name->getName()] = $name;
+            return $this;
+        }
+
         $column = $this->dataGridFactory->getColumnType($type);
         $column->setName($name)
                ->setDataGrid($this);
@@ -144,6 +156,15 @@ class DataGrid implements DataGridInterface
 
         unset($this->columns[$name]);
 
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function clearColumns()
+    {
+        $this->columns = array();
         return $this;
     }
 

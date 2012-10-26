@@ -78,6 +78,10 @@ class DataGridTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue(
                 new FooType()
             ));
+        $this->factory->expects($this->any())
+            ->method('hasColumnType')
+            ->with($this->equalTo('foo'))
+            ->will($this->returnValue(true));
 
         $this->datagrid = new DataGrid('grid', $this->factory, $this->dataMapper, $this->indexingStrategy);
     }
@@ -87,7 +91,7 @@ class DataGridTest extends \PHPUnit_Framework_TestCase
         $this->assertSame('grid', $this->datagrid->getName());
     }
 
-    public function testHasAddGetRemoveColumn()
+    public function testHasAddGetRemoveClearColumn()
     {
         $this->assertFalse($this->datagrid->hasColumn('foo1'));
         $this->datagrid->addColumn('foo1', 'foo');
@@ -95,12 +99,22 @@ class DataGridTest extends \PHPUnit_Framework_TestCase
 
         $this->assertInstanceOf('FSi\Component\DataGrid\Tests\Fixtures\ColumnType\FooType', $this->datagrid->getColumn('foo1'));
 
-        $this->setExpectedException('InvalidArgumentException');
-        $this->datagrid->getColumn('bar');
-
         $this->assertTrue($this->datagrid->hasColumn('foo1'));
+        $column = $this->datagrid->getColumn('foo1');
+
         $this->datagrid->removeColumn('foo1');
         $this->assertFalse($this->datagrid->hasColumn('foo1'));
+
+        $this->datagrid->addColumn($column);
+        $this->assertEquals($column, $this->datagrid->getColumn('foo1'));
+
+        $this->assertEquals(1, count($this->datagrid->getColumns()));
+
+        $this->datagrid->clearColumns();
+        $this->assertEquals(0, count($this->datagrid->getColumns()));
+
+        $this->setExpectedException('InvalidArgumentException');
+        $this->datagrid->getColumn('bar');
     }
 
     public function testGetDataMapper()

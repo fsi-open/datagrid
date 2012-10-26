@@ -37,7 +37,7 @@ interface DataGridInterface
      * Add new column to DataGrid. Remeber that column type must be registred in
      * DataGridFactory that was used to create current DataGrid.
      *
-     * @param string $name
+     * @param string|ColumnTypeInterface $name
      * @param string $type
      * @param array $otpions
      * @return DataGridInterface
@@ -51,6 +51,12 @@ interface DataGridInterface
      * @throws InvalidArgumentException when column with $name not exists in grid.
      */
     public function removeColumn($name);
+
+    /**
+     * Remove all columns from DataGrid
+     *
+     */
+    public function clearColumns();
 
     /**
      * Return column with $name
