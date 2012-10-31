@@ -43,13 +43,12 @@ class DataRowset implements DataRowsetInterface
     public function setData($data)
     {
         if (!is_array($data)) {
-            if (!($data instanceof \IteratorAggregate) || !($data instanceof \Countable) || !($data instanceof \ArrayAccess)) {
-                throw new \InvalidArgumentException('array or IteratorAggregate is expected as data.');
+            if (!($data instanceof \Traversable)) {
+                throw new \InvalidArgumentException('array or Iterator is expected as data.');
             }
         }
 
         $this->source = $data;
-        $this->count  = count($data);
 
         foreach ($data as $object) {
             $index = $this->getIndex($object);
@@ -57,6 +56,8 @@ class DataRowset implements DataRowsetInterface
             $this->data[] = $object;
             $this->indexedData[$index] = $object;
         }
+
+        $this->count  = count($this->data);
 
         return $this;
     }
@@ -82,6 +83,16 @@ class DataRowset implements DataRowsetInterface
         return $this->indexedData[$index];
     }
 
+    /**
+     * Sets indexes separator. This variable is used only when
+     * object is indexed by many values. For example if we have object user
+     * with indexes on fields email and username indexesSeparator will be used
+     * to create one index for datagrid.
+     *
+     * $index = 'email' . $this->indexesSeparator . 'username';
+     *
+     * @param string $separator
+     */
     public function setIndexesSeparator($separator)
     {
         $this->indexesSeparator = (string)$separator;

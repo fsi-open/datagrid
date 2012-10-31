@@ -194,8 +194,8 @@ class DataGrid implements DataGridInterface
         $data = $event->getData();
 
         if (!is_array($data)) {
-            if (!($data instanceof \IteratorAggregate) || !($data instanceof \Countable) || !($data instanceof \ArrayAccess)) {
-                throw new \InvalidArgumentException('array or IteratorAggregate is expected as data.');
+            if (!($data instanceof \Traversable)) {
+                throw new \InvalidArgumentException('array or Traversable object is expected as data in setData method.');
             }
         }
 
@@ -218,8 +218,9 @@ class DataGrid implements DataGridInterface
         $data = $event->getData();
 
         if (!is_array($data)) {
-            if (!($data instanceof \IteratorAggregate) || !($data instanceof \Countable) || !($data instanceof \ArrayAccess))
-                throw new \InvalidArgumentException('Excpects data as array or IteratorAggregate instance.');
+            if (!($data instanceof \ArrayIterator)) {
+                throw new \InvalidArgumentException('array or Traversable object is expected as data in bindData method.');
+            }
         }
 
         foreach ($data as $index => $values) {
