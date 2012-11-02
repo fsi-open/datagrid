@@ -11,13 +11,19 @@
 
 namespace FSi\Component\DataGrid\Extension\Core;
 
+use FSi\Component\DataGrid\DataGridViewInterface;
+use FSi\Component\DataGrid\DataGridInterface;
 use FSi\Component\DataGrid\DataGridAbstractExtension;
 use FSi\Component\DataGrid\Extension\Core\ColumnType;
 use FSi\Component\DataGrid\Extension\Core\EventListener;
 use FSi\Component\DataGrid\Extension\Core\ColumnTypeExtension;
 
+
 class CoreExtension extends DataGridAbstractExtension
 {
+    /**
+     * {@inheritdoc}
+     */
     protected function loadColumnTypes()
     {
         return array(
@@ -29,11 +35,32 @@ class CoreExtension extends DataGridAbstractExtension
         );
     }
 
+    /**
+     * {@inheritdoc}
+     */
     protected function loadColumnTypesExtensions()
     {
         return array(
             new ColumnTypeExtension\DefaultColumnOptionsExtension(),
-            new ColumnTypeExtension\ActionColumnExtension()
         );
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function buildView(DataGridViewInterface $view, DataGridInterface $dataGridFactory)
+    {
+        if (count($view->columns)) {
+            uasort($view->columns, function($a, $b) {
+                $ordera = $a->hasOption('order') ? (float) $a->getOption('order') : 0;
+                $orderb = $b->hasOption('order') ? (float) $b->getOption('order') : 0;
+
+                if ($ordera == $orderb) {
+                    return true;
+                }
+
+                return ($ordera < $orderb) ? -1 : 1;
+            });
+        }
     }
 }

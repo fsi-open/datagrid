@@ -54,7 +54,8 @@ class DefaultColumnOptionsExtension extends ColumnAbstractTypeExtension
         return array(
             'label' => $column->getName(),
             'mapping_fields' => array($column->getName()),
-            'glue' => ' '
+            'glue' => ' ',
+            'order' => 0
         );
     }
 
@@ -65,6 +66,6 @@ class DefaultColumnOptionsExtension extends ColumnAbstractTypeExtension
 
     public function getAvailableOptions(ColumnTypeInterface $column)
     {
-        return array('label', 'mapping_fields', 'glue');
+        return array('label', 'mapping_fields', 'glue', 'order');
     }
 }
