@@ -32,7 +32,7 @@ class DataGridView extends DataGridAbstractView
     /**
      * @var array
      */
-    protected $columns = array();
+    public $columns = array();
 
     public function __construct($name, DataRowsetInterface $rowset)
     {
