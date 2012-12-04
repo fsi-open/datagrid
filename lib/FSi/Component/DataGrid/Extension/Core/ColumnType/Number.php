@@ -16,10 +16,10 @@ use FSi\Component\DataGrid\Column\ColumnAbstractType;
 
 class Number extends ColumnAbstractType
 {
-    const ROUND_HALF_UP     = PHP_ROUND_HALF_UP;
-    const ROUND_HALF_DOWN   = PHP_ROUND_HALF_DOWN;
-    const ROUND_HALF_EVEN   = PHP_ROUND_HALF_EVEN;
-    const ROUND_HALF_ODD    = PHP_ROUND_HALF_ODD;
+    const ROUND_HALF_UP = PHP_ROUND_HALF_UP;
+    const ROUND_HALF_DOWN = PHP_ROUND_HALF_DOWN;
+    const ROUND_HALF_EVEN = PHP_ROUND_HALF_EVEN;
+    const ROUND_HALF_ODD = PHP_ROUND_HALF_ODD;
 
     public function getId()
     {

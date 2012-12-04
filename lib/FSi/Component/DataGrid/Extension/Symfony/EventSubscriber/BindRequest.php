@@ -26,8 +26,8 @@ class BindRequest implements EventSubscriberInterface
 
     public function preBindData(DataGridEventInterface $event)
     {
-        $dataGrid    = $event->getDataGrid();
-        $request  = $event->getData();
+        $dataGrid = $event->getDataGrid();
+        $request = $event->getData();
 
         if (!($request instanceof Request)) {
             return;

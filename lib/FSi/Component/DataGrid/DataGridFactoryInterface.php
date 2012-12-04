@@ -22,8 +22,6 @@ interface DataGridFactoryInterface
     public function hasColumnType($type);
 
     /**
-     *
-     *
      * @throws UnexpectedTypeException if column is not registred in factory.
      * @param unknown_type $type
      */

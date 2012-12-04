@@ -19,7 +19,7 @@ class DefaultColumnOptionsExtensionTest extends \PHPUnit_Framework_TestCase
         $extension = new DefaultColumnOptionsExtension();
 
         $column = $this->getMock('FSi\Component\DataGrid\Column\ColumnTypeInterface');
-        $view   = $this->getMock('FSi\Component\DataGrid\Column\ColumnViewInterface');
+        $view = $this->getMock('FSi\Component\DataGrid\Column\ColumnViewInterface');
 
         $column->expects($this->at(0))
             ->method('getId')
@@ -36,7 +36,7 @@ class DefaultColumnOptionsExtensionTest extends \PHPUnit_Framework_TestCase
         $extension = new DefaultColumnOptionsExtension();
 
         $column = $this->getMock('FSi\Component\DataGrid\Column\ColumnTypeInterface');
-        $view   = $this->getMock('FSi\Component\DataGrid\Column\ColumnViewInterface');
+        $view = $this->getMock('FSi\Component\DataGrid\Column\ColumnViewInterface');
 
         $column->expects($this->at(0))
             ->method('getId')
@@ -56,6 +56,5 @@ class DefaultColumnOptionsExtensionTest extends \PHPUnit_Framework_TestCase
             ->with('foo-bar');
 
         $extension->buildView($column, $view);
-
     }
 }

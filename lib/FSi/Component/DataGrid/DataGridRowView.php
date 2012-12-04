@@ -58,8 +58,9 @@ class DataGridRowView implements DataGridRowViewInterface
             }
 
             $this->columnViews[$name] = $column->createView($this->source, $index);
-            if (!isset($this->position))
+            if (!isset($this->position)) {
                 $this->position = $name;
+            }
         }
     }
 
@@ -174,8 +175,9 @@ class DataGridRowView implements DataGridRowViewInterface
      */
     public function offsetGet($offset)
     {
-        if ($this->offsetExists($offset))
+        if ($this->offsetExists($offset)) {
             return $this->columnViews[$offset];
+        }
 
         throw new \InvalidArgumentException(sprintf('Column "%s" does not exist in row.', $offset));
     }

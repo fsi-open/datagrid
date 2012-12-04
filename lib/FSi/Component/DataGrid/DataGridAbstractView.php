@@ -85,6 +85,7 @@ class DataGridAbstractView implements DataGridViewInterface
     {
         return $this->rowset->getRowIndex($this->position);;
     }
+
     /**
      * Move forward to next element.
      * Similar to the next() function for arrays in PHP.
@@ -173,4 +174,3 @@ class DataGridAbstractView implements DataGridViewInterface
     {
     }
 }
-

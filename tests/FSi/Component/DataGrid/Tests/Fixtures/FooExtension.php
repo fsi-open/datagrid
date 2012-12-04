@@ -22,5 +22,4 @@ class FooExtension extends DataGridAbstractExtension
             new ColumnType\FooType(),
         );
     }
-
 }

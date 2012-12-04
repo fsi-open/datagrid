@@ -84,8 +84,9 @@ class DataGridView extends DataGridAbstractView
      */
     public function getColumn($name)
     {
-        if ($this->hasColumn($name))
+        if ($this->hasColumn($name)) {
             return $this->columns[$name];
+        }
 
         throw new \InvalidArgumentException(sprintf('Column "%s" does not exist in data grid.', $offset));
     }

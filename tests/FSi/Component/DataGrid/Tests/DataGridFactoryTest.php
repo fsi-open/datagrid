@@ -47,18 +47,18 @@ class DataGridFactoryTest extends \PHPUnit_Framework_TestCase
     public function testGetColumntype()
     {
         $this->assertInstanceOf('FSi\Component\DataGrid\Tests\Fixtures\ColumnType\FooType', $this->factory->getColumnType('foo'));
-        
+
         $this->setExpectedException('FSi\Component\DataGrid\Exception\UnexpectedTypeException');
         $this->factory->getColumnType('bar');
-    }   
+    }
 
     public function testGetDataMapper()
     {
         $this->assertInstanceOf('FSi\Component\DataGrid\DataMapper\DataMapperInterface', $this->factory->getDataMapper());
-    }  
+    }
 
     public function testGetIndexingStrategy()
     {
         $this->assertInstanceOf('FSi\Component\DataGrid\Data\IndexingStrategyInterface', $this->factory->getIndexingStrategy());
-    }   
+    }
 }

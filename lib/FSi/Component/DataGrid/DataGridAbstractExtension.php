@@ -102,8 +102,9 @@ abstract class DataGridAbstractExtension implements DataGridExtensionInterface
     public function registerSubscribers(DataGridInterface $dataGrid)
     {
         $subscribers = $this->loadSubscribers();
-        if (!is_array($subscribers))
+        if (!is_array($subscribers)) {
             throw new UnexpectedTypeException('Listeners needs to be stored in array.');
+        }
 
         foreach ($subscribers as $subscriber) {
             if (!($subscriber instanceof EventSubscriberInterface)) {

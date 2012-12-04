@@ -53,5 +53,4 @@ interface DataGridExtensionInterface
      * @param DataGridViewInterface $view
      */
     public function buildView(DataGridViewInterface $view, DataGridInterface $dataGridFactory);
-
 }

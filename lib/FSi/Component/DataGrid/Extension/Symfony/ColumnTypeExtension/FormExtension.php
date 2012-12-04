@@ -97,7 +97,7 @@ class FormExtension extends ColumnAbstractTypeExtension
             return;
         }
 
-        $data  = $view->getSource();
+        $data = $view->getSource();
         $index = $view->getAttribute('row');
         $form = $this->createForm($column, $index, $data);
 

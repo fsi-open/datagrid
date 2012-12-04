@@ -31,7 +31,7 @@ class ReflectionMapper implements DataMapperInterface
         $objectReflection = ReflectionClass::factory($object);
         $camelField = $this->camelize($field);
         $getter = 'get' . $camelField;
-        $isser  = 'is' . $camelField;
+        $isser = 'is' . $camelField;
         $hasser = 'has' . $camelField;
 
         if ($objectReflection->hasMethod($getter)) {
@@ -78,7 +78,7 @@ class ReflectionMapper implements DataMapperInterface
         $objectReflection = ReflectionClass::factory($object);
         $camelField = $this->camelize($field);
         $setter = 'set' . $camelField;
-        $adder  = 'add' . $camelField;
+        $adder = 'add' . $camelField;
 
         if ($objectReflection->hasMethod($setter)) {
             if (!$objectReflection->getMethod($setter)->isPublic()) {

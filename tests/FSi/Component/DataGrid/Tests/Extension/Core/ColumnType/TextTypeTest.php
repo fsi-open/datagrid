@@ -18,15 +18,14 @@ class TextTypeTest extends \PHPUnit_Framework_TestCase
     {
         $column = new Text();
         $column->setOption('trim', true);
-        
+
         $value = array(
             ' VALUE '
         );
-        
+
         $this->assertSame(
             array('VALUE'),
             $column->filterValue($value)
         );
     }
 }
-
