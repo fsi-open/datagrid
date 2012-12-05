@@ -46,8 +46,9 @@ abstract class ColumnAbstractType implements ColumnTypeInterface
 
     public function getName()
     {
-        if (!isset($this->name))
+        if (!isset($this->name)) {
             throw new DataGridColumnException('Use setName method to define column name in data grid');
+        }
 
         return $this->name;
     }
@@ -127,7 +128,7 @@ abstract class ColumnAbstractType implements ColumnTypeInterface
     public function bindData($data, $object, $index)
     {
         foreach ($this->extensions as $extension) {
-        	$values = $extension->bindData($this, $data, $object, $index);
+            $values = $extension->bindData($this, $data, $object, $index);
         }
     }
 
@@ -136,8 +137,8 @@ abstract class ColumnAbstractType implements ColumnTypeInterface
         $values = array();
         if (!$this->hasOption('mapping_fields')) {
             throw new DataGridColumnException(
-            	sprintf('"mapping_fields" option is missing in column "%s"', $this->getName())
-        	);
+                sprintf('"mapping_fields" option is missing in column "%s"', $this->getName())
+            );
         }
 
         foreach ($this->options['mapping_fields'] as $field) {
@@ -212,7 +213,6 @@ abstract class ColumnAbstractType implements ColumnTypeInterface
     /**
      * Method returns array of required by column type options names.
      * Required means not null option value.
-     *
      */
     protected function getRequiredOptions()
     {
@@ -277,7 +277,6 @@ abstract class ColumnAbstractType implements ColumnTypeInterface
 
     /**
      * Check if required options values exists.
-     *
      */
     private function validateOptions()
     {

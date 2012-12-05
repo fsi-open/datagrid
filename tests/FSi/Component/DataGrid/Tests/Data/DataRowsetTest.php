@@ -66,6 +66,5 @@ class DataRowsetTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($entity1, $rowset->current());
         $rowset->next();
         $this->assertSame($entity2, $rowset->current());
-
     }
 }

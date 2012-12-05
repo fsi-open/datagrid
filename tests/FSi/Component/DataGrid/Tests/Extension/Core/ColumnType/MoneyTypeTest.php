@@ -26,7 +26,7 @@ class MoneyTypeTest extends \PHPUnit_Framework_TestCase
         $this->assertSame(
             $column->filterValue($value),
             array(
-            	'value' => '10.00 PLN'
+                'value' => '10.00 PLN'
             )
         );
 
@@ -48,7 +48,7 @@ class MoneyTypeTest extends \PHPUnit_Framework_TestCase
         $this->assertSame(
             $column->filterValue($value),
             array(
-            	'value' => '10.00$ PLN'
+                'value' => '10.00$ PLN'
             )
         );
     }
@@ -66,7 +66,7 @@ class MoneyTypeTest extends \PHPUnit_Framework_TestCase
         $this->assertSame(
             $column->filterValue($value),
             array(
-            	'value' => '10-00 PLN'
+                'value' => '10-00 PLN'
             )
         );
     }
@@ -84,7 +84,7 @@ class MoneyTypeTest extends \PHPUnit_Framework_TestCase
         $this->assertSame(
             $column->filterValue($value),
             array(
-            	'value' => '10 PLN'
+                'value' => '10 PLN'
             )
         );
 
@@ -95,7 +95,7 @@ class MoneyTypeTest extends \PHPUnit_Framework_TestCase
         $this->assertSame(
             $column->filterValue($value),
             array(
-            	'value' => '10.00000 PLN'
+                'value' => '10.00000 PLN'
             )
         );
     }
@@ -113,7 +113,7 @@ class MoneyTypeTest extends \PHPUnit_Framework_TestCase
         $this->assertSame(
             $column->filterValue($value),
             array(
-            	'value' => '10.33 PLN'
+                'value' => '10.33 PLN'
             )
         );
 
@@ -123,7 +123,7 @@ class MoneyTypeTest extends \PHPUnit_Framework_TestCase
         $this->assertSame(
             $column->filterValue($value),
             array(
-            	'value' => '10.32 PLN'
+                'value' => '10.32 PLN'
             )
         );
     }
@@ -141,9 +141,8 @@ class MoneyTypeTest extends \PHPUnit_Framework_TestCase
         $this->assertSame(
             $column->filterValue($value),
             array(
-            	'value' => '10.000.00 PLN'
+                'value' => '10.000.00 PLN'
             )
         );
     }
 }
-

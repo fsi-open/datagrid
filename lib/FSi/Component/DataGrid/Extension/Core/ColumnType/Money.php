@@ -17,10 +17,10 @@ use FSi\Component\DataGrid\Exception\DataGridColumnException;
 
 class Money extends ColumnAbstractType
 {
-    const ROUND_HALF_UP     = PHP_ROUND_HALF_UP;
-    const ROUND_HALF_DOWN   = PHP_ROUND_HALF_DOWN;
-    const ROUND_HALF_EVEN   = PHP_ROUND_HALF_EVEN;
-    const ROUND_HALF_ODD    = PHP_ROUND_HALF_ODD;
+    const ROUND_HALF_UP = PHP_ROUND_HALF_UP;
+    const ROUND_HALF_DOWN = PHP_ROUND_HALF_DOWN;
+    const ROUND_HALF_EVEN = PHP_ROUND_HALF_EVEN;
+    const ROUND_HALF_ODD = PHP_ROUND_HALF_ODD;
 
     public function getId()
     {
@@ -31,8 +31,8 @@ class Money extends ColumnAbstractType
     {
         $precision = $this->getOption('precision');
         $roundmode = $this->getOption('round_mode');
-        $decimals  = $this->getOption('decimals');
-        $decPoint  = $this->getOption('dec_point');
+        $decimals = $this->getOption('decimals');
+        $decPoint = $this->getOption('dec_point');
         $thousands = $this->getOption('thousands_sep');
         $currencyField = $this->getOption('currency_field');
         $currencyValue = $this->getOption('currency');
@@ -41,7 +41,7 @@ class Money extends ColumnAbstractType
 
         if (!isset($currencyField) && !isset($currencyValue)) {
             throw new DataGridColumnException(
-            	sprintf('At least one option from "currency" and "currency_field" must be defined in "%s" field.', $this->getName())
+                sprintf('At least one option from "currency" and "currency_field" must be defined in "%s" field.', $this->getName())
             );
         }
 
@@ -83,11 +83,11 @@ class Money extends ColumnAbstractType
     {
         return array(
             'mapping_fields',
-        	'round_mode',
-        	'precision',
-        	'decimals',
-        	'dec_point',
-        	'thousands_sep',
+            'round_mode',
+            'precision',
+            'decimals',
+            'dec_point',
+            'thousands_sep',
             'value_currency_separator',
             'currency_field',
             'currency'

@@ -21,7 +21,7 @@ class EntityTypeTest extends \PHPUnit_Framework_TestCase
         $column->setName('foo');
         $object = new Fixture('object');
 
-        $dataGrid   = $this->getMock('FSi\Component\DataGrid\DataGridInterface');
+        $dataGrid = $this->getMock('FSi\Component\DataGrid\DataGridInterface');
         $dataMapper = $dataMapper = $this->getMock('FSi\Component\DataGrid\DataMapper\DataMapperInterface');
 
         $dataMapper->expects($this->once())
@@ -44,7 +44,7 @@ class EntityTypeTest extends \PHPUnit_Framework_TestCase
         $column->setOption('mapping_fields', array('name'));
         $object = new Fixture('object');
 
-        $dataGrid   = $this->getMock('FSi\Component\DataGrid\DataGridInterface');
+        $dataGrid = $this->getMock('FSi\Component\DataGrid\DataGridInterface');
         $dataMapper = $dataMapper = $this->getMock('FSi\Component\DataGrid\DataMapper\DataMapperInterface');
 
         $dataMapper->expects($this->once())
@@ -61,7 +61,7 @@ class EntityTypeTest extends \PHPUnit_Framework_TestCase
         $this->assertSame(
             array(
                 0 => array(
-            		'name' => 'bar'
+                    'name' => 'bar'
                 )
             ),
             $column->filterValue($value)

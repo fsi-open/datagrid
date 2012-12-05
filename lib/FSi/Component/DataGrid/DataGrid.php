@@ -90,7 +90,7 @@ class DataGrid implements DataGridInterface
     /**
      * {@inheritdoc}
      */
-    public function addColumn($name, $type = 'text', $otpions = array())
+    public function addColumn($name, $type = 'text', $options = array())
     {
         if ($name instanceof ColumnTypeInterface) {
             $type = $name->getId();
@@ -108,7 +108,7 @@ class DataGrid implements DataGridInterface
         $column->setName($name)
                ->setDataGrid($this);
 
-        foreach ($otpions as $key => $value) {
+        foreach ($options as $key => $value) {
             $column->setOption($key, $value);
         }
 
@@ -228,10 +228,10 @@ class DataGrid implements DataGridInterface
                 continue;
             }
 
-            $objcet = $this->rowset->getObjectByIndex($index);
+            $object = $this->rowset->getObjectByIndex($index);
 
             foreach ($this->getColumns() as $column) {
-                $column->bindData($values, $objcet, $index);
+                $column->bindData($values, $object, $index);
             }
         }
 
@@ -279,7 +279,6 @@ class DataGrid implements DataGridInterface
         return $view;
     }
 
-
     /**
      * Returns data grid rowset that contains source data.
      *
@@ -290,7 +289,7 @@ class DataGrid implements DataGridInterface
     {
         if (!isset($this->rowset)) {
             throw new DataGridException(
-            	'Before you will be able to crete view from DataGrid you need to call method setData'
+                'Before you will be able to crete view from DataGrid you need to call method setData'
             );
         }
 

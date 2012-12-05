@@ -27,7 +27,7 @@ class NumberTypeTest extends \PHPUnit_Framework_TestCase
         $this->assertSame(
             $column->filterValue($value),
             array(
-            	'number' => 10.12
+                'number' => 10.12
             )
         );
     }
@@ -41,7 +41,7 @@ class NumberTypeTest extends \PHPUnit_Framework_TestCase
                 'number' => 10.123
             )),
             array(
-            	'number' => 10.12
+                'number' => 10.12
             )
         );
 
@@ -50,7 +50,7 @@ class NumberTypeTest extends \PHPUnit_Framework_TestCase
                 'number' => 10.126
             )),
             array(
-            	'number' => 10.13
+                'number' => 10.13
             )
         );
     }

@@ -65,8 +65,9 @@ class DataGridFactory implements DataGridFactoryInterface
      */
     public function createDataGrid($name = 'grid')
     {
-        if (array_key_exists($name, $this->dataGrids))
+        if (array_key_exists($name, $this->dataGrids)) {
             throw new DataGridColumnException(sprintf('Data grid name "%s" is not uniqe, it was used before to create form', $name));
+        }
 
         $this->dataGrids[$name] = true;
 
@@ -137,8 +138,9 @@ class DataGridFactory implements DataGridFactoryInterface
             }
         }
 
-        if (!isset($typeInstance))
+        if (!isset($typeInstance)) {
             throw new UnexpectedTypeException(sprintf('There is no column with type "%s" registred in factory.', $type));
+        }
 
         foreach ($this->extensions as $extension) {
             if ($extension->hasColumnTypeExtensions($type)) {
@@ -151,5 +153,4 @@ class DataGridFactory implements DataGridFactoryInterface
 
         $this->columnTypes[$type] = $typeInstance;
     }
-
 }

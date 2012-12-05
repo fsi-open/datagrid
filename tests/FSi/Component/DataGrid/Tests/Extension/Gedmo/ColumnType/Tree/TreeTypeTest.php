@@ -38,14 +38,14 @@ class TreeTypeTest extends \PHPUnit_Framework_TestCase
             $this->markTestSkipped('Doctrine\Common\Persistence\ManagerRegistry is required for testGetValue in gedmo.tree column type');
         }
 
-        $dataGrid   = $this->getMock('FSi\Component\DataGrid\DataGridInterface');
+        $dataGrid = $this->getMock('FSi\Component\DataGrid\DataGridInterface');
         $registry = $this->getMock('Doctrine\Common\Persistence\ManagerRegistry');
         $indexingStrategy = $this->getMock('FSi\Component\DataGrid\Data\IndexingStrategyInterface');
 
         $treeListener = $this->getMock('Gedmo\Tree\TreeListener');
         $strategy = $this->getMock('Gedmo\Tree\Strategy');
         $evm = new EventManagerMock(array($treeListener));
-        $em  = new EntityManagerMock();
+        $em = new EntityManagerMock();
         $em->_setEventManager($evm);
 
         $dataMapper = $this->getMock('FSi\Component\DataGrid\DataMapper\DataMapperInterface');
@@ -62,7 +62,7 @@ class TreeTypeTest extends \PHPUnit_Framework_TestCase
                       ->method('getConfiguration')
                       ->will($this->returnValue(
                         array(
-                        	'left' => 'left',
+                            'left' => 'left',
                             'right' => 'right',
                             'root' => 'root',
                             'level' => 'level',
@@ -107,6 +107,5 @@ class TreeTypeTest extends \PHPUnit_Framework_TestCase
             ),
             $column->getViewAttributes()
         );
-
     }
 }

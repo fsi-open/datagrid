@@ -57,7 +57,7 @@ class DataRowset implements DataRowsetInterface
             $this->indexedData[$index] = $object;
         }
 
-        $this->count  = count($this->data);
+        $this->count = count($this->data);
 
         return $this;
     }

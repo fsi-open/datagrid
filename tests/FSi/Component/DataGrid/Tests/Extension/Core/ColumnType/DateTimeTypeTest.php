@@ -224,4 +224,3 @@ class DateTimeTypeTest extends \PHPUnit_Framework_TestCase
         );
     }
 }
-

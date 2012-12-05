@@ -42,7 +42,7 @@ class ActionColumnExtension extends ColumnAbstractTypeExtension
         $actions = $column->getOption('actions');
         foreach ($actions as $name => $options) {
             $return[$name] = array(
-            	'name' => $name,
+                'name' => $name,
                 'anchor' => $options['anchor'],
             );
 

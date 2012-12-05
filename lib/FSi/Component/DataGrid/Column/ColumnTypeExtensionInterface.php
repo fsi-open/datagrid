@@ -19,7 +19,7 @@ interface ColumnTypeExtensionInterface
 {
     public function setDataGrid(DataGridInterface $dataGrid);
 
-	public function bindData(ColumnTypeInterface $column, $data, $object, $index);
+    public function bindData(ColumnTypeInterface $column, $data, $object, $index);
 
     public function buildView(ColumnTypeInterface $column, ColumnViewInterface $view);
 

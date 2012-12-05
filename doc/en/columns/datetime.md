@@ -174,7 +174,7 @@ $datagrid->addColumn('purchuase_date', 'datetime', array(
 
 //Shows column with date that is combination of create_date and create_time fields.
 $datagrid->addColumn('create_datetime', 'datetime', array(
-    'label'  => 'Create datetime',
+    'label' => 'Create datetime',
     'mapping_fields' => array('create_date', 'create_time'),
     'glue' => '&nbsp;',
     'editable' => true,
@@ -185,7 +185,7 @@ $datagrid->addColumn('create_datetime', 'datetime', array(
 
 //Shows column that value is combination formatted fields create_date and timestamp.
 $datagrid->addColumn('create_date_timestamp', 'datetime', array(
-    'label'  => 'Crate date from timestamp',
+    'label' => 'Crate date from timestamp',
     'mapping_fields' => array('create_date', 'timestamp'),
     'glue' => '<br/>',
     'editable' => true,
@@ -196,7 +196,7 @@ $datagrid->addColumn('create_date_timestamp', 'datetime', array(
 
 //Shows date, that is combination of three integer fields.
 $datagrid->addColumn('join_date', 'datetime', array(
-    'label'  => 'Join date',
+    'label' => 'Join date',
     'mapping_fields' => array('int_year', 'int_month', 'int_day'),
     'glue' => '-',
     'input' => 'array',

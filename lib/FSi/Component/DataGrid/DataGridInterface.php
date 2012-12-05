@@ -39,10 +39,10 @@ interface DataGridInterface
      *
      * @param string|ColumnTypeInterface $name
      * @param string $type
-     * @param array $otpions
+     * @param array $options
      * @return DataGridInterface
      */
-    public function addColumn($name, $type = 'text', $otpions = array());
+    public function addColumn($name, $type = 'text', $options = array());
 
     /**
      * Remove column from DataGrdid.
@@ -54,7 +54,6 @@ interface DataGridInterface
 
     /**
      * Remove all columns from DataGrid
-     *
      */
     public function clearColumns();
 

@@ -17,15 +17,15 @@ class DataGridRowViewTest extends \PHPUnit_Framework_TestCase
     public function testCreateDataGridRowView()
     {
         $source = 'SOURCE';
-        
+
         $columnView = $this->getMock('FSi\Component\DataGrid\Column\ColumnViewInterface');
-        
+
         $column = $this->getMock('FSi\Component\DataGrid\Column\ColumnTypeInterface');
         $column->expects($this->atLeastOnce())
                 ->method('createView')
                 ->with($source, 0)
                 ->will($this->returnValue($columnView));
-        
+
         $columns = array(
             'foo' =>$column
         );

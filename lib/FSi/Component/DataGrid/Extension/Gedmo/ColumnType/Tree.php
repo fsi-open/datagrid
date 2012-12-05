@@ -143,7 +143,7 @@ class Tree extends ColumnAbstractType
     public function getDefaultOptionsValues()
     {
         return array(
-        	'em' => null
+            'em' => null
         );
     }
 

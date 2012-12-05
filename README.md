@@ -158,7 +158,7 @@ More about creating DataGridFactory and loading columns into it will be describe
 $grid = $this->get('datagrid.factory')->createDataGrid();
 ```
     
-DataGrid::addColumn($name, $type = 'text', $otpions = array());
+DataGrid::addColumn($name, $type = 'text', $options = array());
 
 ``` php
 $grid->addColumn('id', 'number', array('label' => 'Id'))

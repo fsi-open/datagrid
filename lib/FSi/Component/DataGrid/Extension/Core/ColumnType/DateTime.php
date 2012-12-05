@@ -24,9 +24,9 @@ class DateTime extends ColumnAbstractType
 
     public function filterValue($value)
     {
-        $format             = $this->getOption('format');
+        $format = $this->getOption('format');
         $mappingFieldFormat = $this->getOption('mapping_fields_format');
-        $inputValues        = $this->getInputData($value);
+        $inputValues = $this->getInputData($value);
 
         $return = array();
         foreach ($inputValues as $field => $value) {
@@ -51,7 +51,7 @@ class DateTime extends ColumnAbstractType
     {
         return array(
             'format' => 'Y-m-d H:i:s',
-        	'mapping_fields' => array($this->getName()),
+            'mapping_fields' => array($this->getName()),
         );
     }
 
@@ -67,7 +67,7 @@ class DateTime extends ColumnAbstractType
 
     private function getInputData($value)
     {
-        $input         = $this->getOption('input');
+        $input = $this->getOption('input');
         $mappingFormat = $this->getOption('mapping_fields_format');
 
         if (!isset($input)) $input = $this->guessInput($value);
@@ -111,7 +111,7 @@ class DateTime extends ColumnAbstractType
                             sprintf('"%s" should be an array.', $field)
                         );
                     }
-                    $fieldInput    = (array_key_exists('input', $input)) ? $input['input'] : $this->guessInput($value[$field]);
+                    $fieldInput = (array_key_exists('input', $input)) ? $input['input'] : $this->guessInput($value[$field]);
 
                     switch (strtolower($fieldInput)) {
                         case 'string':
@@ -156,7 +156,7 @@ class DateTime extends ColumnAbstractType
                 $inputData[$field] = $this->transformStringToDateTime($value, $mappingFormat);
                 break;
             case 'datetime':
-                $field   = key($value);
+                $field = key($value);
                 $value = current($value);
 
                 if (!($value instanceof \DateTime)) {
@@ -245,8 +245,8 @@ class DateTime extends ColumnAbstractType
     {
         if (!filter_var($value, FILTER_VALIDATE_INT)) {
             throw new \InvalidArgumentException(
-            	sprintf('Value in column "%s" should be timestamp but "%s" type was detected. Maybe you should consider using different "input" opition value?', $this->getName(), gettype($value))
-        	);
+                sprintf('Value in column "%s" should be timestamp but "%s" type was detected. Maybe you should consider using different "input" opition value?', $this->getName(), gettype($value))
+            );
         }
 
         $dateTime = new \DateTime('@' . $value);
