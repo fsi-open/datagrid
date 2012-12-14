@@ -9,13 +9,16 @@ none
 ### Form Extension ###
 
 This extensions is loaded into almost all column types. It allows you to set 
-``editable`` otpion in column type. <br>
+``editable`` otpion in column type.
+
 If ``editable`` option value is ``true`` the SymfonyForm is being created from
 column ``mapping_fields``.
 
 **Usage example**
 
 ```php
+<?php
+
 $grid->addColumn('email', 'text', array(
             'editable' => true  
         )
@@ -41,6 +44,7 @@ Symfony Form View object is available as ColumnView attribute.
 **Handling Requests in DataGrid in Symfony2**
 
 ```php
+<?php
 
 if ($request->getMethod() == 'POST') {
     $grid->bindData($request);
@@ -56,6 +60,8 @@ form elements.
 
 **Example**
 ```php
+<?php
+
 $grid->addColumn('user_email', 'text', array(
             'mapping_fields' => array('user_email'), //in this case this parameter is optional because column name is same as mapping_field
             'editable' => true,
@@ -74,5 +80,7 @@ $grid->addColumn('user_email', 'text', array(
 This will add column into form with ``type`` email and addition option ``required``
 
 ```php
+<?php
+
 $form->add('user_email', 'email', array('required' => true));
 ```
