@@ -15,7 +15,6 @@ use FSi\Component\DataGrid\DataGridInterface;
 use FSi\Component\DataGrid\Column\ColumnTypeInterface;
 use FSi\Component\DataGrid\Column\ColumnViewInterface;
 use FSi\Component\DataGrid\Column\ColumnAbstractTypeExtension;
-use FSi\Component\DataGrid\Exception\DataGridColumnException;
 use Symfony\Component\Form\FormFactoryInterface;
 
 class FormExtension extends ColumnAbstractTypeExtension

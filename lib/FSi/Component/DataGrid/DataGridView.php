@@ -11,10 +11,8 @@
 
 namespace FSi\Component\DataGrid;
 
-use FSi\Component\DataGrid\DataGridRowView;
 use FSi\Component\DataGrid\Data\DataRowsetInterface;
 use FSi\Component\DataGrid\Column\ColumnTypeInterface;
-use FSi\Component\DataGrid\Exception\UnexpectedTypeException;
 
 class DataGridView extends DataGridAbstractView
 {
@@ -88,7 +86,7 @@ class DataGridView extends DataGridAbstractView
             return $this->columns[$name];
         }
 
-        throw new \InvalidArgumentException(sprintf('Column "%s" does not exist in data grid.', $offset));
+        throw new \InvalidArgumentException(sprintf('Column "%s" does not exist in data grid.', $name));
     }
 
     /**

@@ -11,7 +11,6 @@
 
 namespace FSi\Component\DataGrid\Extension\Core\ColumnType;
 
-use FSi\Component\DataGrid\Column\ColumnViewInterface;
 use FSi\Component\DataGrid\Column\ColumnAbstractType;
 use FSi\Component\DataGrid\Exception\DataGridColumnException;
 
@@ -25,7 +24,6 @@ class DateTime extends ColumnAbstractType
     public function filterValue($value)
     {
         $format = $this->getOption('format');
-        $mappingFieldFormat = $this->getOption('mapping_fields_format');
         $inputValues = $this->getInputData($value);
 
         $return = array();
@@ -139,7 +137,6 @@ class DateTime extends ColumnAbstractType
                                 sprintf('"%s" is not valid input option value for field "%s". '.
                                 'You should consider using one of "array", "string", "datetime" or "timestamp" input option values. ', $fieldInput, $field)
                             );
-                            break;
                     }
                 }
                 break;
@@ -178,7 +175,6 @@ class DateTime extends ColumnAbstractType
                     sprintf('"%s" is not valid input option value. '.
                     'You should consider using one of "array", "string", "datetime" or "timestamp" input option values. ', $input)
                 );
-                break;
         }
 
         return $inputData;

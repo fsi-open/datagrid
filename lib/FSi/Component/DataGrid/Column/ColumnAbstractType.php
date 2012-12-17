@@ -128,7 +128,7 @@ abstract class ColumnAbstractType implements ColumnTypeInterface
     public function bindData($data, $object, $index)
     {
         foreach ($this->extensions as $extension) {
-            $values = $extension->bindData($this, $data, $object, $index);
+            $extension->bindData($this, $data, $object, $index);
         }
     }
 

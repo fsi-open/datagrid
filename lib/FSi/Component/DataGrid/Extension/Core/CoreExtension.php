@@ -15,9 +15,7 @@ use FSi\Component\DataGrid\DataGridViewInterface;
 use FSi\Component\DataGrid\DataGridInterface;
 use FSi\Component\DataGrid\DataGridAbstractExtension;
 use FSi\Component\DataGrid\Extension\Core\ColumnType;
-use FSi\Component\DataGrid\Extension\Core\EventListener;
 use FSi\Component\DataGrid\Extension\Core\ColumnTypeExtension;
-
 
 class CoreExtension extends DataGridAbstractExtension
 {

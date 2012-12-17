@@ -12,7 +12,6 @@
 namespace FSi\Component\DataGrid\Extension\Core;
 
 use FSi\Component\DataGrid\DataGridAbstractExtension;
-use FSi\Component\DataGrid\Extension\Core\ColumnType;
 
 class CoreExtension extends DataGridAbstractExtension
 {

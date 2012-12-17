@@ -12,8 +12,6 @@
 namespace FSi\Component\DataGrid\Extension\Doctrine\ColumnType;
 
 use Doctrine\Common\Collections\Collection;
-use Doctrine\Common\Collections\ArrayCollection;
-use FSi\Component\DataGrid\Column\ColumnViewInterface;
 use FSi\Component\DataGrid\Column\ColumnAbstractType;
 
 class Entity extends ColumnAbstractType

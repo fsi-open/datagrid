@@ -11,8 +11,6 @@
 
 namespace FSi\Component\DataGrid\DataMapper;
 
-use FSi\Component\DataGrid\Column\ColumnTypeInterface;
-
 interface DataMapperInterface
 {
     /**

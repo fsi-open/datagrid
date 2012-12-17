@@ -11,7 +11,6 @@
 
 namespace FSi\Component\DataGrid\Extension\Core\ColumnType;
 
-use FSi\Component\DataGrid\Column\ColumnViewInterface;
 use FSi\Component\DataGrid\Column\ColumnAbstractType;
 use FSi\Component\DataGrid\Exception\DataGridColumnException;
 

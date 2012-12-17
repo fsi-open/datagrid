@@ -13,7 +13,6 @@ namespace FSi\Component\DataGrid\Extension\Core\ColumnTypeExtension;
 
 use FSi\Component\DataGrid\Column\ColumnTypeInterface;
 use FSi\Component\DataGrid\Column\ColumnAbstractTypeExtension;
-use FSi\Component\DataGrid\Exception\UnexpectedTypeException;
 
 class ActionColumnExtension extends ColumnAbstractTypeExtension
 {

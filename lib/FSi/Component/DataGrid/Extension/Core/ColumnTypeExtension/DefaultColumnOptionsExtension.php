@@ -14,7 +14,6 @@ namespace FSi\Component\DataGrid\Extension\Core\ColumnTypeExtension;
 use FSi\Component\DataGrid\Column\ColumnTypeInterface;
 use FSi\Component\DataGrid\Column\ColumnViewInterface;
 use FSi\Component\DataGrid\Column\ColumnAbstractTypeExtension;
-use FSi\Component\DataGrid\Exception\DataGridColumnException;
 
 class DefaultColumnOptionsExtension extends ColumnAbstractTypeExtension
 {
@@ -23,7 +22,6 @@ class DefaultColumnOptionsExtension extends ColumnAbstractTypeExtension
         switch ($column->getId()) {
             case 'action':
                 return;
-                break;
         }
 
         $glue = $column->getOption('glue');

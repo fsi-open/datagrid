@@ -16,7 +16,6 @@ use FSi\Component\DataGrid\DataGridEvent;
 use FSi\Component\DataGrid\DataGridEvents;
 use FSi\Component\DataGrid\Data\DataRowset;
 use FSi\Component\DataGrid\Data\IndexingStrategyInterface;
-use FSi\Component\DataGrid\Event\DataEvent;
 use FSi\Component\DataGrid\Column\ColumnTypeInterface;
 use FSi\Component\DataGrid\DataMapper\DataMapperInterface;
 use FSi\Component\DataGrid\Exception\UnexpectedTypeException;

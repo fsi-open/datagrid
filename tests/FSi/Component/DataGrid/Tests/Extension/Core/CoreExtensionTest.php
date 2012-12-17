@@ -11,7 +11,6 @@
 namespace FSi\Component\DataGrid\Tests\Extension\Core;
 
 use FSi\Component\DataGrid\Extension\Core\CoreExtension;
-use FSi\Component\DataGrid\Extension\Core\ColumnType;
 
 class CoreExtensionTest extends \PHPUnit_Framework_TestCase
 {

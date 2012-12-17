@@ -242,10 +242,14 @@ class DataRowset implements DataRowsetInterface
 
     protected function getIndex($object)
     {
-        $identifires = $this->strategy->getIndex($object);
+        $identifiers = $this->strategy->getIndex($object);
+
+        if (!is_array($identifiers)) {
+            throw new \RuntimeException('Indexing strategy can\'t resolve the index from object.');
+        }
 
         $indexes = array();
-        foreach ($identifires as $identifier) {
+        foreach ($identifiers as $identifier) {
             $indexes[] = $this->dataMapper->getData($identifier, $object);
         }
 
