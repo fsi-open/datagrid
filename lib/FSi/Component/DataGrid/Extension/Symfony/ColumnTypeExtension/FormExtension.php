@@ -110,7 +110,7 @@ class FormExtension extends ColumnAbstractTypeExtension
     {
         return array(
             'text',
-            'integer',
+            'number',
             'datetime',
             'entity',
             'gedmo.tree'
