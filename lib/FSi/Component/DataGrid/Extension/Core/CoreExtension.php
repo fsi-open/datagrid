@@ -16,6 +16,7 @@ use FSi\Component\DataGrid\DataGridInterface;
 use FSi\Component\DataGrid\DataGridAbstractExtension;
 use FSi\Component\DataGrid\Extension\Core\ColumnType;
 use FSi\Component\DataGrid\Extension\Core\ColumnTypeExtension;
+use FSi\Component\DataGrid\Extension\Core\EventSubscriber;
 
 class CoreExtension extends DataGridAbstractExtension
 {
@@ -46,19 +47,10 @@ class CoreExtension extends DataGridAbstractExtension
     /**
      * {@inheritdoc}
      */
-    public function buildView(DataGridViewInterface $view, DataGridInterface $dataGridFactory)
+    protected function loadSubscribers()
     {
-        if (count($view->columns)) {
-            uasort($view->columns, function($a, $b) {
-                $ordera = $a->hasOption('order') ? (float) $a->getOption('order') : 0;
-                $orderb = $b->hasOption('order') ? (float) $b->getOption('order') : 0;
-
-                if ($ordera == $orderb) {
-                    return true;
-                }
-
-                return ($ordera < $orderb) ? -1 : 1;
-            });
-        }
+        return array(
+            new EventSubscriber\ColumnOrder()
+        );
     }
 }

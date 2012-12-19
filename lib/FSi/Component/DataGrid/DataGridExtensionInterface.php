@@ -46,11 +46,4 @@ interface DataGridExtensionInterface
      * @param string $type
      */
     public function getColumnTypeExtensions($type);
-
-    /**
-     * Build data grid view by adding new types.
-     *
-     * @param DataGridViewInterface $view
-     */
-    public function buildView(DataGridViewInterface $view, DataGridInterface $dataGridFactory);
 }

@@ -118,4 +118,21 @@ class DataGridView extends DataGridAbstractView
         $this->columns = array();
         return $this;
     }
+
+    /**
+     * Set new columns set to view.
+     */
+    public function setColumns(array $columns)
+    {
+        $this->columns = array();
+
+        foreach ($columns as $column) {
+            if (!($column instanceof ColumnTypeInterface)) {
+                throw new \InvalidArgumentException('Column must implement FSi\Component\DataGrid\Column\ColumnTypeInterface');
+            }
+            $this->columns[$column->getName()] = $column;
+        }
+
+        return $this;
+    }
 }

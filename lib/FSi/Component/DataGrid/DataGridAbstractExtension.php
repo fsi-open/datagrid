@@ -116,12 +116,6 @@ abstract class DataGridAbstractExtension implements DataGridExtensionInterface
     }
 
     /**
-     * {@inheritdoc}
-     */
-    public function buildView(DataGridViewInterface $view, DataGridInterface $dataGridFactory)
-    {}
-
-    /**
      * If extension needs to provide new column types this function
      * should be owerloaded in child class and return array of DataGridColumnTypeInterface
      * instances

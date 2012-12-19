@@ -263,17 +263,18 @@ class DataGrid implements DataGridInterface
      */
     public function createView()
     {
+        $event = new DataGridEvent($this, null);
+        $this->eventDispatcher->dispatch(DataGridEvents::PRE_BUILD_VIEW, $event);
+
         $view = new DataGridView($this->name, $this->getRowset());
 
         foreach ($this->columns as $name => $column) {
             $view->addColumn($column);
         }
 
-        $extensions = $this->dataGridFactory->getExtensions();
-
-        foreach ($extensions as $extension) {
-            $extension->buildView($view, $this);
-        }
+        $event = new DataGridEvent($this, $view);
+        $this->eventDispatcher->dispatch(DataGridEvents::POST_BUILD_VIEW, $event);
+        $view = $event->getData();
 
         return $view;
     }
