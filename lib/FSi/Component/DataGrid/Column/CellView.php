@@ -11,7 +11,7 @@
 
 namespace FSi\Component\DataGrid\Column;
 
-class ColumnView implements ColumnViewInterface
+class CellView implements CellViewInterface
 {
     protected $source;
 

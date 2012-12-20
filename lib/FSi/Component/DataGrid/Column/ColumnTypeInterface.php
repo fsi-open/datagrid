@@ -11,7 +11,7 @@
 
 namespace FSi\Component\DataGrid\Column;
 
-use FSi\Component\DataGrid\Column\ColumnViewInterface;
+use FSi\Component\DataGrid\Column\CellViewInterface;
 use FSi\Component\DataGrid\DataMapper\DataMapperInterface;
 use FSi\Component\DataGrid\Column\ColumnTypeExtensionInterface;
 
@@ -34,17 +34,17 @@ interface ColumnTypeInterface
     public function filterValue($value);
 
     /**
-     * Create ColumnView object set source value on it.
+     * Create CellView object set source value on it.
      * @param mixed $object
      * @param mixed $index - row index in rowset
      */
-    public function createView($object, $index);
+    public function createCellView($object, $index);
 
     /**
      *
-     * @param ColumnViewInterface $view
+     * @param CellViewInterface $view
      */
-    public function buildView(ColumnViewInterface $view);
+    public function buildCellView(CellViewInterface $view);
 
     /**
      * Set DataMapper

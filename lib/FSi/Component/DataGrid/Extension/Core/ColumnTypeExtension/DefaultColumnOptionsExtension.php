@@ -12,12 +12,12 @@
 namespace FSi\Component\DataGrid\Extension\Core\ColumnTypeExtension;
 
 use FSi\Component\DataGrid\Column\ColumnTypeInterface;
-use FSi\Component\DataGrid\Column\ColumnViewInterface;
+use FSi\Component\DataGrid\Column\CellViewInterface;
 use FSi\Component\DataGrid\Column\ColumnAbstractTypeExtension;
 
 class DefaultColumnOptionsExtension extends ColumnAbstractTypeExtension
 {
-    public function buildView(ColumnTypeInterface $column, ColumnViewInterface $view)
+    public function buildCellView(ColumnTypeInterface $column, CellViewInterface $view)
     {
         switch ($column->getId()) {
             case 'action':

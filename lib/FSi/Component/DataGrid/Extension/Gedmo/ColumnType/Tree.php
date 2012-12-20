@@ -16,7 +16,7 @@ use Gedmo\Tree\Strategy;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use FSi\Component\Reflection\ReflectionClass;
 use FSi\Component\DataGrid\Exception\DataGridColumnException;
-use FSi\Component\DataGrid\Column\ColumnViewInterface;
+use FSi\Component\DataGrid\Column\CellViewInterface;
 use FSi\Component\DataGrid\Column\ColumnAbstractType;
 
 class Tree extends ColumnAbstractType
@@ -128,7 +128,7 @@ class Tree extends ColumnAbstractType
         return $value;
     }
 
-    public function buildView(ColumnViewInterface $view)
+    public function buildCellView(CellViewInterface $view)
     {
         foreach ($this->getViewAttributes() as $attrName => $attrValue) {
             $view->setAttribute($attrName, $attrValue);

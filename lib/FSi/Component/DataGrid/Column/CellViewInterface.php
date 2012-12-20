@@ -11,7 +11,7 @@
 
 namespace FSi\Component\DataGrid\Column;
 
-interface ColumnViewInterface
+interface CellViewInterface
 {
     /**
      * Set view attribute

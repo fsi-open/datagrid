@@ -12,7 +12,7 @@
 namespace FSi\Component\DataGrid\Column;
 
 use FSi\Component\DataGrid\DataGridInterface;
-use FSi\Component\DataGrid\Column\ColumnView;
+use FSi\Component\DataGrid\Column\CellView;
 use FSi\Component\DataGrid\Column\ColumnTypeInterface;
 use FSi\Component\DataGrid\Column\ColumnTypeExtensionInterface;
 use FSi\Component\DataGrid\Exception\DataGridColumnException;
@@ -148,11 +148,11 @@ abstract class ColumnAbstractType implements ColumnTypeInterface
         return $values;
     }
 
-    public function createView($object, $index)
+    public function createCellView($object, $index)
     {
         $this->validateOptions();
 
-        $view = new ColumnView($this->getId());
+        $view = new CellView($this->getId());
         $view->setSource($object);
         $view->setName($this->getName());
         $view->setAttribute('row', $index);
@@ -173,15 +173,15 @@ abstract class ColumnAbstractType implements ColumnTypeInterface
         $view->setValue($value);
 
         foreach ($this->getExtensions() as $extension) {
-            $extension->buildView($this, $view);
+            $extension->buildCellView($this, $view);
         }
 
-        $this->buildView($view);
+        $this->buildCellView($view);
 
         return $view;
     }
 
-    public function buildView(ColumnViewInterface $view)
+    public function buildCellView(CellViewInterface $view)
     {}
 
     public function setExtensions(array $extensions)

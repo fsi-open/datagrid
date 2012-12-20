@@ -20,7 +20,7 @@ class DataGridRowView implements DataGridRowViewInterface
      * Cells views.
      * @var array
      */
-    protected $columnViews = array();
+    protected $cellViews = array();
 
     /**
      * Columns objects used to create each cell view
@@ -57,7 +57,7 @@ class DataGridRowView implements DataGridRowViewInterface
                 throw new UnexpectedTypeException($column, 'FSi\Component\DataGrid\Column\ColumnTypeInterface');
             }
 
-            $this->columnViews[$name] = $column->createView($this->source, $index);
+            $this->cellViews[$name] = $column->createCellView($this->source, $index);
             if (!isset($this->position)) {
                 $this->position = $name;
             }
@@ -71,7 +71,7 @@ class DataGridRowView implements DataGridRowViewInterface
 
     public function seek($position)
     {
-        if (!isset($this->columnViews[$position])) {
+        if (!isset($this->cellViews[$position])) {
             throw new \OutOfBoundsException(sprintf('Illegal index "%d%"', $position));
         }
 
@@ -96,11 +96,11 @@ class DataGridRowView implements DataGridRowViewInterface
      * Similar to the current() function for arrays in PHP
      * Required by interface Iterator.
      *
-     * @return DataGridColumnView current element from the rowset
+     * @return DataGridCellView current element from the rowset
      */
     public function current()
     {
-        return $this->columnViews[$this->position];
+        return $this->cellViews[$this->position];
     }
 
     /**
@@ -112,7 +112,7 @@ class DataGridRowView implements DataGridRowViewInterface
      */
     public function key()
     {
-        $key = key($this->columnViews);
+        $key = key($this->cellViews);
         return $key;
     }
 
@@ -125,8 +125,8 @@ class DataGridRowView implements DataGridRowViewInterface
      */
     public function next()
     {
-        next($this->columnViews);
-        $key = key($this->columnViews);
+        next($this->cellViews);
+        $key = key($this->cellViews);
         $this->position = $key;
         return $this;
     }
@@ -140,8 +140,8 @@ class DataGridRowView implements DataGridRowViewInterface
      */
     public function rewind()
     {
-        reset($this->columnViews);
-        $key = key($this->columnViews);
+        reset($this->cellViews);
+        $key = key($this->cellViews);
         $this->position = $key;
         return $this;
     }
@@ -152,7 +152,7 @@ class DataGridRowView implements DataGridRowViewInterface
      */
     public function  valid()
     {
-        if (current($this->columnViews) === false) {
+        if (current($this->cellViews) === false) {
             return false;
         }
 
@@ -165,7 +165,7 @@ class DataGridRowView implements DataGridRowViewInterface
      */
     public function offsetExists($offset)
     {
-        return isset($this->columnViews[$offset]);
+        return isset($this->cellViews[$offset]);
     }
 
     /**
@@ -176,7 +176,7 @@ class DataGridRowView implements DataGridRowViewInterface
     public function offsetGet($offset)
     {
         if ($this->offsetExists($offset)) {
-            return $this->columnViews[$offset];
+            return $this->cellViews[$offset];
         }
 
         throw new \InvalidArgumentException(sprintf('Column "%s" does not exist in row.', $offset));

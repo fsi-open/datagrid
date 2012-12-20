@@ -18,19 +18,19 @@ class DataGridRowViewTest extends \PHPUnit_Framework_TestCase
     {
         $source = 'SOURCE';
 
-        $columnView = $this->getMock('FSi\Component\DataGrid\Column\ColumnViewInterface');
+        $cellView = $this->getMock('FSi\Component\DataGrid\Column\CellViewInterface');
 
         $column = $this->getMock('FSi\Component\DataGrid\Column\ColumnTypeInterface');
         $column->expects($this->atLeastOnce())
-                ->method('createView')
+                ->method('createCellView')
                 ->with($source, 0)
-                ->will($this->returnValue($columnView));
+                ->will($this->returnValue($cellView));
 
         $columns = array(
             'foo' =>$column
         );
 
         $gridRow = new DataGridRowView($columns, $source, 0);
-        $this->assertSame($gridRow->current(), $columnView);
+        $this->assertSame($gridRow->current(), $cellView);
     }
 }

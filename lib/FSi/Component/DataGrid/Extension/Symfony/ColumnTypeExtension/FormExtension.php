@@ -13,7 +13,7 @@ namespace FSi\Component\DataGrid\Extension\Symfony\ColumnTypeExtension;
 
 use FSi\Component\DataGrid\DataGridInterface;
 use FSi\Component\DataGrid\Column\ColumnTypeInterface;
-use FSi\Component\DataGrid\Column\ColumnViewInterface;
+use FSi\Component\DataGrid\Column\CellViewInterface;
 use FSi\Component\DataGrid\Column\ColumnAbstractTypeExtension;
 use Symfony\Component\Form\FormFactoryInterface;
 
@@ -90,7 +90,7 @@ class FormExtension extends ColumnAbstractTypeExtension
     /**
      * {@inheritdoc}
      */
-    public function buildView(ColumnTypeInterface $column, ColumnViewInterface $view)
+    public function buildCellView(ColumnTypeInterface $column, CellViewInterface $view)
     {
         if (!$column->getOption('editable')) {
             return;
