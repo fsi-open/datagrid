@@ -14,6 +14,7 @@ namespace FSi\Component\DataGrid\Column;
 use FSi\Component\DataGrid\DataGridInterface;
 use FSi\Component\DataGrid\Column\ColumnTypeInterface;
 use FSi\Component\DataGrid\Column\CellViewInterface;
+use FSi\Component\DataGrid\Column\HeaderViewInterface;
 use FSi\Component\DataGrid\Column\ColumnTypeExtensionInterface;
 
 abstract class ColumnAbstractTypeExtension implements ColumnTypeExtensionInterface
@@ -25,6 +26,9 @@ abstract class ColumnAbstractTypeExtension implements ColumnTypeExtensionInterfa
     {}
 
     public function buildCellView(ColumnTypeInterface $column, CellViewInterface $view)
+    {}
+
+    public function buildHeaderView(ColumnTypeInterface $column, HeaderViewInterface $view)
     {}
 
     public function getRequiredOptions(ColumnTypeInterface $column)

@@ -13,6 +13,8 @@ namespace FSi\Component\DataGrid\Column;
 
 use FSi\Component\DataGrid\DataGridInterface;
 use FSi\Component\DataGrid\Column\CellView;
+use FSi\Component\DataGrid\Column\HeaderView;
+use FSi\Component\DataGrid\Column\HeaderViewInterface;
 use FSi\Component\DataGrid\Column\ColumnTypeInterface;
 use FSi\Component\DataGrid\Column\ColumnTypeExtensionInterface;
 use FSi\Component\DataGrid\Exception\DataGridColumnException;
@@ -182,6 +184,22 @@ abstract class ColumnAbstractType implements ColumnTypeInterface
     }
 
     public function buildCellView(CellViewInterface $view)
+    {}
+
+    public function createHeaderView()
+    {
+        $view = new HeaderView($this->getName());
+
+        foreach ($this->getExtensions() as $extension) {
+            $extension->buildHeaderView($this, $view);
+        }
+
+        $this->buildHeaderView($view);
+
+        return $view;
+    }
+
+    public function buildHeaderView(HeaderViewInterface $view)
     {}
 
     public function setExtensions(array $extensions)

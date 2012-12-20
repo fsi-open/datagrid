@@ -24,33 +24,34 @@ class DataGridViewTest extends \PHPUnit_Framework_TestCase
      */
     private $gridView;
 
-    protected function setUp()
-    {
-        $this->rowset = $this->getMock('FSi\Component\DataGrid\Data\DataRowsetInterface');
-        $this->gridView = new DataGridView('test-grid-view', $this->rowset);
-    }
-
-    public function testGetName()
-    {
-        $this->assertSame('test-grid-view', $this->gridView->getName());
-    }
-
     public function testAddHasGetRemoveColumn()
     {
         $column = $this->getMock('FSi\Component\DataGrid\Column\ColumnTypeInterface');
-        $column->expects($this->exactly(2))
+        $column->expects($this->any())
+            ->method('createHeaderView')
+            ->will($this->returnValue('ColumnHeaderView'));
+
+        $column->expects($this->any())
             ->method('getName')
             ->will($this->returnValue('foo'));
 
-        $this->assertFalse($this->gridView->hasColumn('foo'));
-        $this->gridView->addColumn($column);
+        $columnHeader = $this->getMock('FSi\Component\DataGrid\Column\HeaderViewInterface');
+        $columnHeader->expects($this->any())
+                ->method('getName')
+                ->will($this->returnValue('foo'));
+
+        $this->rowset = $this->getMock('FSi\Component\DataGrid\Data\DataRowsetInterface');
+        $this->gridView = new DataGridView('test-grid-view', array($column) , $this->rowset);
+
+        $this->assertSame('test-grid-view', $this->gridView->getName());
+
         $this->assertTrue($this->gridView->hasColumn('foo'));
         $this->assertSame(1, count($this->gridView->getColumns()));
-        $this->assertSame($this->gridView->getColumn('foo'), $column);
+        $this->assertSame($this->gridView->getColumn('foo'), 'ColumnHeaderView');
         $this->gridView->removeColumn('foo');
         $this->assertFalse($this->gridView->hasColumn('foo'));
 
-        $this->gridView->addColumn($column);
+        $this->gridView->addColumn($columnHeader);
         $this->assertTrue($this->gridView->hasColumn('foo'));
 
         $this->gridView->clearColumns();

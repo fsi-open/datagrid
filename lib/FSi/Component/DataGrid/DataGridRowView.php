@@ -23,12 +23,6 @@ class DataGridRowView implements DataGridRowViewInterface
     protected $cellViews = array();
 
     /**
-     * Columns objects used to create each cell view
-     * @var array
-     */
-    protected $columns = array();
-
-    /**
      * The source object for which view is created
      * @var mixed
      */
@@ -51,10 +45,9 @@ class DataGridRowView implements DataGridRowViewInterface
         $this->count = count($columns);
         $this->source = $source;
         $this->index = $index;
-        $this->columns = $columns;
-        foreach ($this->columns as $name => $column) {
+        foreach ($columns as $name => $column) {
             if (!($column instanceof ColumnTypeInterface)) {
-                throw new UnexpectedTypeException($column, 'FSi\Component\DataGrid\Column\ColumnTypeInterface');
+                throw new UnexpectedTypeException('Column object must implements FSi\Component\DataGrid\Column\ColumnTypeInterface');
             }
 
             $this->cellViews[$name] = $column->createCellView($this->source, $index);

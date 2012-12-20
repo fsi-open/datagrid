@@ -14,6 +14,7 @@ namespace FSi\Component\DataGrid\Column;
 use FSi\Component\DataGrid\DataGridInterface;
 use FSi\Component\DataGrid\Column\ColumnTypeInterface;
 use FSi\Component\DataGrid\Column\CellViewInterface;
+use FSi\Component\DataGrid\Column\HeaderViewInterface;
 
 interface ColumnTypeExtensionInterface
 {
@@ -22,6 +23,8 @@ interface ColumnTypeExtensionInterface
     public function bindData(ColumnTypeInterface $column, $data, $object, $index);
 
     public function buildCellView(ColumnTypeInterface $column, CellViewInterface $view);
+
+    public function buildHeaderView(ColumnTypeInterface $column, HeaderViewInterface $view);
 
     public function filterValue(ColumnTypeInterface $column, $value);
 

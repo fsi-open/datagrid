@@ -13,6 +13,7 @@ namespace FSi\Component\DataGrid\Extension\Core\ColumnTypeExtension;
 
 use FSi\Component\DataGrid\Column\ColumnTypeInterface;
 use FSi\Component\DataGrid\Column\CellViewInterface;
+use FSi\Component\DataGrid\Column\HeaderViewInterface;
 use FSi\Component\DataGrid\Column\ColumnAbstractTypeExtension;
 
 class DefaultColumnOptionsExtension extends ColumnAbstractTypeExtension
@@ -32,6 +33,12 @@ class DefaultColumnOptionsExtension extends ColumnAbstractTypeExtension
         }
 
         $view->setValue($value);
+    }
+
+    public function buildHeaderView(ColumnTypeInterface $column, HeaderViewInterface $view)
+    {
+        $view->setLabel($column->getOption('label'));
+        $view->setAttribute('order', $column->getOption('order'));
     }
 
     public function getExtendedColumnTypes()

@@ -47,6 +47,12 @@ interface ColumnTypeInterface
     public function buildCellView(CellViewInterface $view);
 
     /**
+     * Create HeaderView object for column.
+     * @param mixed $name
+     */
+    public function createHeaderView();
+
+    /**
      * Set DataMapper
      *
      * @param DataMapperInterface $dataMapper

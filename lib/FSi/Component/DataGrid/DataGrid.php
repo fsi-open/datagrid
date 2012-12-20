@@ -266,11 +266,7 @@ class DataGrid implements DataGridInterface
         $event = new DataGridEvent($this, null);
         $this->eventDispatcher->dispatch(DataGridEvents::PRE_BUILD_VIEW, $event);
 
-        $view = new DataGridView($this->name, $this->getRowset());
-
-        foreach ($this->columns as $name => $column) {
-            $view->addColumn($column);
-        }
+        $view = new DataGridView($this->name, $this->columns, $this->getRowset());
 
         $event = new DataGridEvent($this, $view);
         $this->eventDispatcher->dispatch(DataGridEvents::POST_BUILD_VIEW, $event);

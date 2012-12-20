@@ -31,8 +31,8 @@ class ColumnOrder implements EventSubscriberInterface
             $columns = $view->getColumns();
 
             uasort($columns, function($a, $b) {
-                $ordera = $a->hasOption('order') ? (float) $a->getOption('order') : 0;
-                $orderb = $b->hasOption('order') ? (float) $b->getOption('order') : 0;
+                $ordera = $a->hasAttribute('order') ? (float) $a->getAttribute('order') : 0;
+                $orderb = $b->hasAttribute('order') ? (float) $b->getAttribute('order') : 0;
 
                 if ($ordera == $orderb) {
                     return true;
