@@ -16,6 +16,7 @@ use FSi\Component\DataGrid\Column\ColumnTypeInterface;
 use FSi\Component\DataGrid\Column\CellViewInterface;
 use FSi\Component\DataGrid\Column\ColumnAbstractTypeExtension;
 use Symfony\Component\Form\FormFactoryInterface;
+use Symfony\Component\OptionsResolver\Exception\InvalidOptionsException;
 
 class FormExtension extends ColumnAbstractTypeExtension
 {
@@ -53,30 +54,34 @@ class FormExtension extends ColumnAbstractTypeExtension
      */
     public function bindData(ColumnTypeInterface $column, $data, $object, $index)
     {
-
         if ($column->getOption('editable') === false) {
             return;
         }
 
-        // Sometimes mapping_fields dont match the data indexes, like in entity
-        // column so we need to do special check.
+        $formData = array();
         switch ($column->getId()) {
             case 'entity':
                 $relationField = $column->getOption('relation_field');
-                if (!array_key_exists($relationField, $data)) {
+                if (!isset($data[$relationField])) {
                     return;
                 }
+
+                $formData[$relationField] = $data[$relationField];
                 break;
             default:
                 $mapping_fields = $column->getOption('mapping_fields');
-                if (count(array_diff($mapping_fields, array_keys($data)))) {
-                     return;
+                foreach ($mapping_fields as $field) {
+                    if (!isset($data[$field])) {
+                        return;
+                    }
+
+                    $formData[$field] = $data[$field];
                 }
-            break;
+                break;
         }
 
         $form = $this->createForm($column, $index, $object);
-        $form->bind(array($index => $data));
+        $form->bind(array($index => $formData));
         if ($form->isValid()) {
             $data = $form->getData();
             foreach ($data as $index => $fields) {
@@ -232,17 +237,25 @@ class FormExtension extends ColumnAbstractTypeExtension
         }
 
         // Create form builder
-        $formBuilder = $this->formFactory->createNamedBuilder(
-            $this->formName,
-            'collection',
-            array(
-                $index => $dataArray
-            ),
-            array(
-                'type' => new RowType($fields),
-                'csrf_protection' => false
-            )
-        );
+        try {
+            $formBuilder = $this->formFactory->createNamedBuilder(
+                $this->formName,
+                'collection',
+                array($index => $dataArray),
+                array(
+                    'type' => new RowType($fields),
+                    'csrf_protection' => false
+                )
+            );
+        //Exception throwed when csrf_protection is not loaded.
+        } catch (InvalidOptionsException $exception) {
+            $formBuilder = $this->formFactory->createNamedBuilder(
+                $this->formName,
+                'collection',
+                array($index => $dataArray),
+                array('type' => new RowType($fields))
+            );
+        }
 
         // Create Form
         $this->forms[$formId] = $formBuilder->getForm();

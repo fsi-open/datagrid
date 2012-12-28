@@ -14,6 +14,8 @@ class Entity
 {
     private $name;
 
+    private $author;
+
     public function __construct($name)
     {
         $this->name = $name;
@@ -28,5 +30,16 @@ class Entity
     public function getName()
     {
         return $this->name;
+    }
+
+    public function setAuthor($author)
+    {
+        $this->author = $author;
+        return $this;
+    }
+
+    public function getAuthor()
+    {
+        return $this->author;
     }
 }
