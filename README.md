@@ -191,29 +191,51 @@ And the last view part, column is an object with methods like ``getAttribute``,
 
 Here is a simple view implementation:
 
-    <table>
-        <tr>
-        <?php foreach ($view->getColumns() as $column):?>
-            <td><?php echo $column->getOption('label'); ?></td>
+```
+
+<table>
+    <tr>
+    <?php foreach ($view->getColumns() as $column):?>
+        <td><?php echo $column->getLabel(); ?></td>
+    <?php endforeach; ?>
+    </tr>
+    <tr>
+    <?php foreach ($view as $row) :?>
+    <tr>
+        <?php foreach ($row as $column):?>
+        <td>
+            <?php if ($column->getType() == 'action'): ?>
+                <?php foreach ($column->getValue() as $link): ?>
+                    <a href="<?php echo $link['url']; ?>"><?php echo $link['anchor']; ?></a>
+                <?php endforeach; ?>
+            <?php else: ?>
+                <?php echo $column->getValue(); ?>
+            <?php endif;?>
+        </td>
         <?php endforeach; ?>
-        </tr>
-        <tr>
-        <?php foreach ($view as $row) :?>
-        <tr>
-            <?php foreach ($row as $column):?>
-            <td>
-                <?php if ($column->getType() == 'action'): ?>
-                    <?php foreach ($column->getValue() as $link): ?>
-                        <a href="<?php echo $link['url']; ?>"><?php echo $link['anchor']; ?></a>
-                    <?php endforeach; ?>
-                <?php else: ?>
-                    <?php echo $column->getValue(); ?>
-                <?php endif;?>
-            </td>
-            <?php endforeach; ?>
-        </tr>
-        <?php endforeach; ?>
-    </table>
+    </tr>
+    <?php endforeach; ?>
+</table>
+
+```
+   
+**Heads up!**   
+There is a difference between using getColumns method at view and direct array access.
+
+```
+<?php
+
+$columns = $view->getColumns();
+foreach ($columns as $column) {
+    // this will give you access to ``HeaderView`` object. 
+    echo $column->getLabel();
+}
+
+// this will give you access to ``CellView`` object. 
+$cell = $view['name'];
+echo $cell->getValue();
+```
+   
     
 ##Installation##
 
@@ -225,7 +247,7 @@ finally alows you to create ``DataGrid`` objects.
 Here are sample scenarios of component usage:
     
 - [standalone](https://github.com/norzechowicz/datagrid-standalone)
-- symfony (You can find documentation for this scenario in ``doc/en/installation`` folder.)
+- [symfony](https://github.com/fsi-open/datagrid-bundle)
     
 ## Extensions ##
 
