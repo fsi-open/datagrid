@@ -14,7 +14,7 @@ It can be very useful in all kind of admin panel generators.
 The sample code shows more than a thousand words so lets start!
 
 Before you can display data you need to add columns into DataGrid component. 
-Columns pull data from objects using ``DataMappers`` (They will be described later). 
+Columns pull data from objects using ``DataMappers`` (They will be described later).
 
 Imagine a situation where we need to display a list of news. List must contains 
 such information as:
@@ -26,44 +26,11 @@ such information as:
 - Some basic actions like edit and delete
 
 So we should get a table similar to the following:
- 
-<table>
-    <tr>
-        <td>Id</td>
-        <td>News Title</td>
-        <td>Author</td>
-        <td>Publication Date</td>
-        <td>Actions</td>
-    </tr>
-    <tr>
-        <td>1</td>
-        <td>First News</td>
-        <td>
-            Norbert<br/>
-            Orzechowicz<br/>
-            norbert@fsi.pl<br/>
-        </td>
-        <td>2012.05.01 15:13:52</td>
-        <td>
-            <i>Edit</i><br>
-            <i>Delete</i>
-        </td>
-    </tr>
-    <tr>
-        <td>2</td>
-        <td>Second News</td>
-        <td>
-            Norbert<br/>
-            Orzechowicz<br/>
-            norbert@fsi.pl<br/>
-        </td>
-        <td>2012.05.06 15:13:52</td>
-        <td>
-            <i>Edit</i><br>
-            <i>Delete</i>
-        </td>
-    </tr>
-</table>
+
+Id  | News title | Author | Publication date | Actions
+--- | ---------- | ------ | ---------------- | -------
+1 | First News | Norbert Orzechowicz norbert@fsi.pl | 2012.05.01 15:13:52 | *Edit Delete*
+2 | Second News | Norbert Orzechowicz norbert@fsi.pl | 2012.05.06 15:13:52 | *Edit Delete*
 
 And here is our News object.  
 
@@ -146,6 +113,8 @@ class News
 Suppose that we use Doctrine ORM and we can get a list of objects as follows:
 
 ``` php
+<?php
+
 $data = $this->getEntityManager()->getRepository('FSi\SiteBundle\Entity\News')->findAll();
 ```
 
@@ -155,12 +124,16 @@ We assume that datagrid.factory is a service with DataGridFactory object instanc
 More about creating DataGridFactory and loading columns into it will be described later.
 
 ``` php
+<?php
+
 $grid = $this->get('datagrid.factory')->createDataGrid();
 ```
     
 DataGrid::addColumn($name, $type = 'text', $options = array());
 
 ``` php
+<?php
+
 $grid->addColumn('id', 'number', array('label' => 'Id'))
      ->addColumn('title', 'text', array('label' => 'News Title'))
      ->addColumn('author', 'text', array(
@@ -201,14 +174,18 @@ $grid->addColumn('id', 'number', array('label' => 'Id'))
 Ok, so now when we have grid its time to create view. This can be done by calling ``DataGrid::CreateView()``
 
 ``` php
+<?php
+
 $view = $gird->createView();
 ```
    
 $view is ``DataGridView`` object that implements ``\SeekableIterator``, ``\Countable`` 
-and ``\ArrayAccess`` iterfaces so have easy access to each row in view.<br>
+and ``\ArrayAccess`` iterfaces so have easy access to each row in view.
+
 Every single row in view must be ``DataGridRowView`` object that also implements 
 ``\SeekableIterator``, ``\Countable`` and ``\ArrayAccess`` iterfaces so you have 
-access to each column in row.<br>
+access to each column in row.
+
 And the last view part, column is an object with methods like ``getAttribute``, 
 ``getValue`` and few other that will help you to build pefrect view. 
 
@@ -248,7 +225,7 @@ finally alows you to create ``DataGrid`` objects.
 Here are sample scenarios of component usage:
     
 - [standalone](https://github.com/norzechowicz/datagrid-standalone)
-- [symfony](https://github.com/fsi-open/datagrid/blob/master/doc/en/installation/symfony.md)
+- symfony (You can find documentation for this scenario in ``doc/en/installation`` folder.)
     
 ## Extensions ##
 
@@ -257,30 +234,36 @@ are highly inspired by SymfonyForm extensions.
 
 There are two kinds of extensions. 
 
-**DataGrid Extension**<br>
-**DataGrid Column Extensions**
+- **DataGrid Extension**
+- **DataGrid Column Extensions**
 
 DataGrid Extension are used to provide new column types, event subscribers even 
-additional options for existsing column types.<br>
+additional options for existsing column types.
+
 DataGrid Column Extensions purpose is to add new functionality to existing column
-types.<br>
+types.
+
 Each DataGrid Column Extension must be loaded by DataGrid Extension. Loading extension
 into DataGrid is nothing more than registring it in DataGridFactory. 
  
 ## Built-in Extension Types ##
 
-- [Core](https://github.com/fsi-open/datagrid/blob/master/doc/en/extensions/core.md)
-- [SymfonyForm](https://github.com/fsi-open/datagrid/blob/master/doc/en/extensions/symfonyform.md)
+(You can find documentation for some of these extensions in ``doc/en/extensions`` folder.)
+
+- Core
+- SymfonyForm
 - SymfonyDependencyInjection
 - Docrtine
 - Gedmo
 
 ## Built-in Column Types ##
 
-- [text](https://github.com/fsi-open/datagrid/blob/master/doc/en/columns/text.md)
-- [number](https://github.com/fsi-open/datagrid/blob/master/doc/en/columns/number.md)
-- [money](https://github.com/fsi-open/datagrid/blob/master/doc/en/columns/money.md)
-- [datetime](https://github.com/fsi-open/datagrid/blob/master/doc/en/columns/datetime.md)
-- [action](https://github.com/fsi-open/datagrid/blob/master/doc/en/columns/action.md)
-- [entity](https://github.com/fsi-open/datagrid/blob/master/doc/en/columns/entity.md)
-- [tree](https://github.com/fsi-open/datagrid/blob/master/doc/en/columns/tree.md)
+(You can find documentation for types in ``doc/en/columns`` folder.)
+
+- text
+- number
+- money
+- datetime
+- action
+- entity
+- tree

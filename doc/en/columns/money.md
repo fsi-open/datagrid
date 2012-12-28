@@ -4,233 +4,24 @@ Provided by ``DataGrid\Extension\Core\CoreExtension``
 
 ## Available Options ##
 
-<table>
-    <tr>
-        <td>
-            <b>Option Name</b>
-        </td>
-        <td>
-            <b>Type</b>
-        </td>
-        <td>
-            <b>Default value</b>
-        </td>
-        <td>
-            <b>Required</b>
-        </td>
-        <td>
-            <b>Provided by (extension name)</b>
-        </td>
-    </tr>
-    <tr>
-        <td>
-            <code>round_mode</code>
-        </td>
-        <td>
-            Integer (from allowed list)
-        </td>
-        <td>
-            <code>PHP_ROUND_HALF_UP</code>
-        </td>
-        <td>
-            no
-        </td>
-        <td>
-            -
-        </td>
-    </tr>
-    <tr>
-        <td>
-            <code>precision</code>
-        </td>
-        <td>
-            Integer
-        </td>
-        <td>
-            <code>2</code>
-        </td>
-        <td>
-            no
-        </td>
-        <td>
-            -
-        </td>
-    </tr>
-    <tr>
-        <td>
-            <code>decimals</code>
-        </td>
-        <td>
-            Integer
-        </td>
-        <td>
-            <code>2</code>
-        </td>
-        <td>
-            no
-        </td>
-        <td>
-            -
-        </td>
-    </tr>
-    <tr>
-        <td>
-            <code>dec_point</code>
-        </td>
-        <td>
-            String
-        </td>
-        <td>
-            <code>.</code>
-        </td>
-        <td>
-            no
-        </td>
-        <td>
-            -
-        </td>
-    </tr>
-    <tr>
-        <td>
-            <code>thousands_sep</code>
-        </td>
-        <td>
-            String
-        </td>
-        <td>
-            <code>,</code>
-        </td>
-        <td>
-            no
-        </td>
-        <td>
-            -
-        </td>
-    </tr>
-    <tr>
-        <td>
-            <code>value_currency_separator</code>
-        </td>
-        <td>
-            String
-        </td>
-        <td>
-            <code>" "</code> <i>(space character)</i>
-        </td>
-        <td>
-            no
-        </td>
-        <td>
-            -
-        </td>
-    </tr>
-    <tr>
-        <td>
-            <code>currency_field</code>
-        </td>
-        <td>
-            String
-        </td>
-        <td>
-            -
-        </td>
-        <td>
-            no
-        </td>
-        <td>
-            -
-        </td>
-    </tr>
-    <tr>
-        <td>
-            <code>currency</code>
-        </td>
-        <td>
-            Float
-        </td>
-        <td>
-            -
-        </td>
-        <td>
-            no
-        </td>
-        <td>
-            -
-        </td>
-    </tr>
-    <tr>
-        <td>
-            <code>mapping_fields</code>
-        </td>
-        <td>
-            Array
-        </td>
-        <td>
-            <code>[$column->getName()]</code>
-        </td>
-        <td>
-            no
-        </td>
-        <td>
-            Core
-        </td>
-    </tr>
-    <tr>
-        <td>
-            <code>label</code>
-        </td>
-        <td>
-            String
-        </td>
-        <td>
-            <code>$column->getName()</code>
-        </td>
-        <td>
-            no
-        </td>
-        <td>
-            Core
-        </td>
-    </tr>
-    <tr>
-        <td>
-            <code>glue</code>
-        </td>
-        <td>
-            String
-        </td>
-        <td>
-            <code>" "</code> <i>(space character)</i>
-        </td>
-        <td>
-            no
-        </td>
-        <td>
-            Core
-        </td>
-    </tr>
-    <tr>
-        <td>
-            <code>editable</code>
-        </td>
-        <td>
-            Boolean
-        </td>
-        <td>
-            <code>false</code>
-        </td>
-        <td>
-            no
-        </td>
-        <td>
-            Symfony
-        </td>
-    </tr>
-</table>
+* ``round_mode`` - integer
+* ``precision`` - integer, by default ``2`` 
+* ``decimals`` - integer, by default ``2``
+* ``dec_point`` - string, by default ``.``
+* ``thousands_sep`` - string, by default ``,``
+* ``value_currency_separator`` - string, by default `` `` (space character)
+* ``currency_field`` - string
+* ``currency`` - string
+* ``label`` - string, by default ``[$field->getName()]``
+* ``mapping_fields`` - **required**, array, by default ``[$field->getName()]``
+* ``glue`` - **required**, string, by default ``" "`` (space character)
+* ``order`` - integer, by default ``0``
+* ``editable`` - **required**, boolean, by default ``false``
+* ``fields_options`` - array, by default ``array()``
 
 ## Options Description ##
 
-**round_mode** One of ``Number::ROUND_HALF_UP``, ``Number::ROUND_HALF_DOWN``, ``Number::ROUND_HALF_EVEN``, or ``Number::ROUND_HALF_ODD``.
+**round_mode** One of ``Number::ROUND_HALF_UP``, ``Number::ROUND_HALF_DOWN``, ``Number::ROUND_HALF_EVEN`` or ``Number::ROUND_HALF_ODD``.
 
 **precision** Number of decimal digits to round to.
 
@@ -254,11 +45,10 @@ Option is useful when you need to implode few fields from object in one column.
 
 **glue** Useful only when you need to implode data from few source object fields into one column. By default its single space character " ". 
 
-**editable** If enabled SymfonyForm object is automatically created and passed into view as attribute and you can easly use it to display quick edit.
-
 ## Example Usage ##
 
 ``` php
+<?php
 
 //This cofiguration will show price from field 'price' and its currency from 'currency' field.
 $datagrid->addColumn('productprice', 'money', array(
