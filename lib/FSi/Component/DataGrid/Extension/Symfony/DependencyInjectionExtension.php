@@ -20,17 +20,17 @@ class DependencyInjectionExtension extends DataGridAbstractExtension
 
     protected $columnServiceIds;
 
-    protected $gridExtensionServiceIds;
+    protected $columnExtensionServiceIds;
 
-    protected $subscriberServiceIds;
+    protected $gridSubscriberServiceIds;
 
     public function __construct(ContainerInterface $container, array $columnServiceIds,
-            array $gridExtensionServiceIds, array $subscriberServiceIds)
+            array $columnExtensionServiceIds, array $gridSubscriberServiceIds)
     {
         $this->container = $container;
         $this->columnServiceIds = $columnServiceIds;
-        $this->columnExtensionServiceIds = $gridExtensionServiceIds;
-        $this->subscriberServiceIds = $subscriberServiceIds;
+        $this->columnExtensionServiceIds = $columnExtensionServiceIds;
+        $this->gridSubscriberServiceIds = $gridSubscriberServiceIds;
     }
 
     public function hasColumnTypeExtensions($type)
@@ -80,8 +80,8 @@ class DependencyInjectionExtension extends DataGridAbstractExtension
     {
         $subscribers = array();
 
-        foreach ($this->subscriberServiceIds as $alias => $subscriberName) {
-            $subscriber = $this->container->get($this->subscriberServiceIds[$alias]);
+        foreach ($this->gridSubscriberServiceIds as $alias => $subscriberName) {
+            $subscriber = $this->container->get($this->gridSubscriberServiceIds[$alias]);
             $subscribers[] = $subscriber;
         }
 
