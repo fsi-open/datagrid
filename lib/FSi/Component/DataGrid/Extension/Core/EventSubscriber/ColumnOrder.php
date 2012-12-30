@@ -29,19 +29,35 @@ class ColumnOrder implements EventSubscriberInterface
 
         if (count($view->getColumns())) {
             $columns = $view->getColumns();
+            $sort = false;
 
-            uasort($columns, function($a, $b) {
-                $ordera = $a->hasAttribute('order') ? (float) $a->getAttribute('order') : 0;
-                $orderb = $b->hasAttribute('order') ? (float) $b->getAttribute('order') : 0;
-
-                if ($ordera == $orderb) {
-                    return true;
+            /**
+             * Check if any of selected column have order attribute different than 0.
+             * Sorting columns without order attribute may give strange output columns order.
+             */
+            foreach ($columns as $column) {
+                if ($column->hasAttribute('order')) {
+                    if ((float) $column->getAttribute('order') != 0) {
+                        $sort = true;
+                        break;
+                    }
                 }
+            }
 
-                return ($ordera < $orderb) ? -1 : 1;
-            });
+            if ($sort) {
+                uasort($columns, function($a, $b) {
+                    $orderA = $a->hasAttribute('order') ? (float) $a->getAttribute('order') : 0;
+                    $orderB = $b->hasAttribute('order') ? (float) $b->getAttribute('order') : 0;
 
-            $view->setColumns($columns);
+                    if ($orderA == $orderB) {
+                        return 1;
+                    }
+
+                    return ($orderA < $orderB) ? -1 : 1;
+                });
+
+                $view->setColumns($columns);
+            }
         }
 
         $event->setData($view);
