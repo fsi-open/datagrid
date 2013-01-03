@@ -11,6 +11,8 @@
 
 namespace FSi\Component\DataGrid\Extension\Core;
 
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+
 use FSi\Component\DataGrid\DataGridViewInterface;
 use FSi\Component\DataGrid\DataGridInterface;
 use FSi\Component\DataGrid\DataGridAbstractExtension;
@@ -41,6 +43,7 @@ class CoreExtension extends DataGridAbstractExtension
     {
         return array(
             new ColumnTypeExtension\DefaultColumnOptionsExtension(),
+            new ColumnTypeExtension\ValueFormatColumnOptionsExtension()
         );
     }
 

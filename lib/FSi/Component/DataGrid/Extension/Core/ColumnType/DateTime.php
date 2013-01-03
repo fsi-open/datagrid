@@ -23,7 +23,7 @@ class DateTime extends ColumnAbstractType
 
     public function filterValue($value)
     {
-        $format = $this->getOption('format');
+        $format = $this->getOption('datetime_format');
         $inputValues = $this->getInputData($value);
 
         $return = array();
@@ -48,19 +48,19 @@ class DateTime extends ColumnAbstractType
     public function getDefaultOptionsValues()
     {
         return array(
-            'format' => 'Y-m-d H:i:s',
+            'datetime_format' => 'Y-m-d H:i:s',
             'mapping_fields' => array($this->getName()),
         );
     }
 
     public function getRequiredOptions()
     {
-        return array('format');
+        return array('datetime_format');
     }
 
     public function getAvailableOptions()
     {
-        return array('format', 'input', 'mapping_fields', 'mapping_fields_format');
+        return array('datetime_format', 'input', 'mapping_fields', 'mapping_fields_format');
     }
 
     private function getInputData($value)
@@ -113,10 +113,10 @@ class DateTime extends ColumnAbstractType
 
                     switch (strtolower($fieldInput)) {
                         case 'string':
-                            $mappingFormat = (array_key_exists('format', $input)) ? $input['format'] : null;
+                            $mappingFormat = (array_key_exists('datetime_format', $input)) ? $input['datetime_format'] : null;
                             if (!isset($mappingFormat)) {
                                 throw new DataGridColumnException(
-                                    sprintf('"format" option is required in "mapping_fields_format" for field "%s".', $field)
+                                    sprintf('"datetime_format" option is required in "mapping_fields_datetime_format" for field "%s".', $field)
                                 );
                             }
                             $inputData[$field] = $this->transformStringToDateTime($value[$field], $mappingFormat);

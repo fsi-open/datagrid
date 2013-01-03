@@ -14,47 +14,31 @@ use FSi\Component\DataGrid\Extension\Core\ColumnTypeExtension\DefaultColumnOptio
 
 class DefaultColumnOptionsExtensionTest extends \PHPUnit_Framework_TestCase
 {
-    public function testBuildViewForAction()
+    public function testBuildHeaderView()
     {
         $extension = new DefaultColumnOptionsExtension();
 
         $column = $this->getMock('FSi\Component\DataGrid\Column\ColumnTypeInterface');
-        $view = $this->getMock('FSi\Component\DataGrid\Column\CellViewInterface');
+        $view = $this->getMock('FSi\Component\DataGrid\Column\HeaderViewInterface');
 
         $column->expects($this->at(0))
-            ->method('getId')
-            ->will($this->returnValue('action'));
-
-        $view->expects($this->never())
-            ->method('getValue');
-
-        $extension->buildCellView($column, $view);
-    }
-
-    public function testBuildCellView()
-    {
-        $extension = new DefaultColumnOptionsExtension();
-
-        $column = $this->getMock('FSi\Component\DataGrid\Column\ColumnTypeInterface');
-        $view = $this->getMock('FSi\Component\DataGrid\Column\CellViewInterface');
-
-        $column->expects($this->at(0))
-            ->method('getId')
-            ->will($this->returnValue('text'));
+            ->method('getOption')
+            ->with('label')
+            ->will($this->returnValue('foo'));
 
         $column->expects($this->at(1))
             ->method('getOption')
-            ->with('glue')
-            ->will($this->returnValue('-'));
+            ->with('order')
+            ->will($this->returnValue(100));
 
         $view->expects($this->at(0))
-            ->method('getValue')
-            ->will($this->returnValue(array('foo', 'bar')));
+            ->method('setLabel')
+            ->with('foo');
 
         $view->expects($this->at(1))
-            ->method('setValue')
-            ->with('foo-bar');
+            ->method('setAttribute')
+            ->with('order', 100);
 
-        $extension->buildCellView($column, $view);
+        $extension->buildHeaderView($column, $view);
     }
 }

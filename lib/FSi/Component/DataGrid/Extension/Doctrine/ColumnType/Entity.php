@@ -36,23 +36,25 @@ class Entity extends ColumnAbstractType
         }
 
         $values = array();
+        $objectValues = array();
         $mappingFields = $this->getOption('mapping_fields');
-        $glueMultiple = $this->getOption('glue_multiple');
 
         if (is_array($value)) {
             foreach ($value as $object) {
-                $objectValues = array();
                 foreach ($mappingFields as $field) {
-                    $objectValues[] = $this->getDataMapper()->getData($field, $object);
+                    $objectValues[$field] = $this->getDataMapper()->getData($field, $object);
                 }
-                $values[] = implode($glueMultiple, $objectValues);
+
+                $values[] = $objectValues;
             }
         } else {
             foreach ($mappingFields as $field) {
-                if (isset($value)) {
-                    $values[] = $this->getDataMapper()->getData($field, $value);
-                }
+                $objectValues[$field] = isset($value)
+                    ? $this->getDataMapper()->getData($field, $value)
+                    : null;
             }
+
+            $values[] = $objectValues;
         }
 
         return $values;
@@ -62,18 +64,17 @@ class Entity extends ColumnAbstractType
     {
         return array(
             'label' => $this->getName(),
-            'glue' => ' ',
-            'glue_multiple' => ' '
+            'relation_field' => $this->getName()
         );
     }
 
     public function getRequiredOptions()
     {
-        return array('mapping_fields', 'glue', 'relation_field');
+        return array('mapping_fields', 'relation_field');
     }
 
     public function getAvailableOptions()
     {
-        return array('label', 'mapping_fields', 'glue', 'relation_field', 'glue_multiple');
+        return array('label', 'mapping_fields', 'relation_field');
     }
 }

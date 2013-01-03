@@ -121,10 +121,6 @@ class Tree extends ColumnAbstractType
 
     public function filterValue($value)
     {
-        foreach ($value as &$val) {
-            $val = $val;
-        }
-
         return $value;
     }
 

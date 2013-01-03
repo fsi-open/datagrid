@@ -16,10 +16,23 @@ use FSi\Component\DataGrid\Extension\Doctrine\ColumnType;
 
 class DoctrineExtension extends DataGridAbstractExtension
 {
+    /**
+     * {@inheritdoc}
+     */
     protected function loadColumnTypes()
     {
         return array(
             new ColumnType\Entity()
+        );
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    protected function loadColumnTypesExtensions()
+    {
+        return array(
+            new ColumnTypeExtension\ValueFormatColumnOptionsExtension()
         );
     }
 }

@@ -6,7 +6,7 @@ Provided by ``DataGrid\Extension\Symfony\ColumnTypeExtension\ActionColumnExtensi
 
 * ``label`` - string, by default ``[$field->getName()]``
 * ``mapping_fields`` - **required**, array, by default ``[$field->getName()]``
-* ``glue`` - **required**, string, by default ``" "`` (space character)
+* ``glue`` - string
 * ``glue_multiple`` - string, by default ``" "`` (space character)
 * ``relation_field`` - **required**, string
 * ``order`` - integer, by default ``0``
@@ -21,9 +21,12 @@ Provided by ``DataGrid\Extension\Symfony\ColumnTypeExtension\ActionColumnExtensi
 field and its taken from name under what column was registred in grid. 
 Option is useful when you need to implode few fields from object in one column. 
 
-**glue** Useful only when you need to implode data from few source object fields into one column. By default its single space character " ". 
+**glue** Useful only when you need to implode data from few source object fields into one column.
 
-**glue_multiple** Glue between many entities. (Similar to 'glue' option, but 'glue' is between many different fields in one colum.)
+**format** Useful when you need to format value before passing it to view. Value is formated with php ``sprintf`` function. There should be at least same count of ``mapping_fields`` option 
+values as placeholders count in format string. This option can be used with ``glue`` option.
+
+**glue_multiple** Glue between objects from relation. Should be used if you want to display relation with many objects and add some separator between them. 
 
 **relation_field** Field that relates to other entity (entities).
 
@@ -39,11 +42,27 @@ Option is useful when you need to implode few fields from object in one column.
 ``` php
 <?php
 
+//Input Data: Object (category => Object('id' => 1, 'name' => 'Foo'))
+
 $dataGrid->addColumn('category', 'entity', array(
-    'label' => 'Product category',
+    'label' => 'News category',
     'relation_field' => 'category',
-    'mapping_fields' => array('id', 'name'),
-    'editable' => true,
+    'format' => '%s %s',
+    'mapping_fields' => array('id', 'name')
 ));
 
+//Output: "1 Foo"
+
+
+//Input Data: Object (newses => array(0 => Object('id' => 1, 'name' => 'Foo'), 1 => Object('id' => 2, 'name' => 'Bar')))
+
+$dataGrid->addColumn('newses', 'entity', array(
+    'label' => 'Category Newses',
+    'relation_field' => 'newses',
+    'format' => '(%s: %s)',
+    'glue_multiple' => ' - ',
+    'mapping_fields' => array('id', 'name')
+));
+
+//Output: "(1: Foo) - (2: Bar)"
 ```

@@ -8,7 +8,7 @@ Provided by ``DataGrid\Extension\Core\CoreExtension``
 * ``precision`` - integer, by default ``2`` 
 * ``label`` - string, by default ``[$field->getName()]``
 * ``mapping_fields`` - **required**, array, by default ``[$field->getName()]``
-* ``glue`` - **required**, string, by default ``" "`` (space character)
+* ``glue`` - string
 * ``order`` - integer, by default ``0``
 * ``editable`` - **required**, boolean, by default ``false``
 
@@ -24,7 +24,10 @@ Provided by ``DataGrid\Extension\Core\CoreExtension``
 field and its taken from name under what column was registred in grid. 
 Option is useful when you need to implode few fields from object in one column. 
 
-**glue** Useful only when you need to implode data from few source object fields into one column. By default its single space character " ".
+**glue** Useful only when you need to implode data from few source object fields into one column.
+
+**format** Useful when you need to format value before passing it to view. Value is formated with php ``sprintf`` function. There should be at least same count of ``mapping_fields`` option 
+values as placeholders count in format string. This option can be used with ``glue`` option.
 
 **order** Column order.
 

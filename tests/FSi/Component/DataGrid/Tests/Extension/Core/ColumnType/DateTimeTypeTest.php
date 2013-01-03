@@ -40,7 +40,7 @@ class DateTimeTypeTest extends \PHPUnit_Framework_TestCase
         $column = new DateTime();
         $column->setName('datetime');
         $column->setOption('mapping_fields', array('datetime'));
-        $column->setOption('format', 'Y.d.m');
+        $column->setOption('datetime_format', 'Y.d.m');
 
         $this->assertSame(
             $column->filterValue($value),
@@ -176,7 +176,7 @@ class DateTimeTypeTest extends \PHPUnit_Framework_TestCase
         $column->setOption('mapping_fields_format', array(
             'datetime' => array('input' => 'datetime'),
             'time' => array('input' => 'datetime'),
-            'string' => array('input' => 'string', 'format' => 'Y-m-d H:i:s'),
+            'string' => array('input' => 'string', 'datetime_format' => 'Y-m-d H:i:s'),
             'timestamp' => array('input' => 'timestamp')
         ));
 
@@ -205,11 +205,11 @@ class DateTimeTypeTest extends \PHPUnit_Framework_TestCase
         $column = new DateTime();
         $column->setName('datetime');
         $column->setOption('input', 'array');
-        $column->setOption('format', 'Y.d.m');
+        $column->setOption('datetime_format', 'Y.d.m');
         $column->setOption('mapping_fields_format', array(
             'datetime' => array('input' => 'datetime'),
             'time' => array('input' => 'datetime'),
-            'string' => array('input' => 'string', 'format' => 'Y-m-d H:i:s'),
+            'string' => array('input' => 'string', 'datetime_format' => 'Y-m-d H:i:s'),
             'timestamp' => array('input' => 'timestamp')
         ));
 

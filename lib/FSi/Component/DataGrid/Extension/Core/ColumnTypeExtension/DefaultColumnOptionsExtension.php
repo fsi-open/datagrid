@@ -18,22 +18,6 @@ use FSi\Component\DataGrid\Column\ColumnAbstractTypeExtension;
 
 class DefaultColumnOptionsExtension extends ColumnAbstractTypeExtension
 {
-    public function buildCellView(ColumnTypeInterface $column, CellViewInterface $view)
-    {
-        switch ($column->getId()) {
-            case 'action':
-                return;
-        }
-
-        $glue = $column->getOption('glue');
-        $value = $view->getValue();
-
-        if (is_array($value)) {
-            $value = implode($glue, $value);
-        }
-
-        $view->setValue($value);
-    }
 
     public function buildHeaderView(ColumnTypeInterface $column, HeaderViewInterface $view)
     {
@@ -59,18 +43,17 @@ class DefaultColumnOptionsExtension extends ColumnAbstractTypeExtension
         return array(
             'label' => $column->getName(),
             'mapping_fields' => array($column->getName()),
-            'glue' => ' ',
             'order' => 0
         );
     }
 
     public function getRequiredOptions(ColumnTypeInterface $column)
     {
-        return array('mapping_fields', 'glue');
+        return array('mapping_fields');
     }
 
     public function getAvailableOptions(ColumnTypeInterface $column)
     {
-        return array('label', 'mapping_fields', 'glue', 'order');
+        return array('label', 'mapping_fields', 'order');
     }
 }
