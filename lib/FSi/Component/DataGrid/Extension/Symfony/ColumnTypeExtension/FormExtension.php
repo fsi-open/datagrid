@@ -115,6 +115,7 @@ class FormExtension extends ColumnAbstractTypeExtension
     {
         return array(
             'text',
+            'boolean',
             'number',
             'datetime',
             'entity',

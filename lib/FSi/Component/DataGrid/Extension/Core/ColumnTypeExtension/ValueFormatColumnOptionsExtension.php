@@ -60,6 +60,7 @@ class ValueFormatColumnOptionsExtension extends ColumnAbstractTypeExtension
     {
         return array(
             'text',
+            'boolean',
             'datetime',
             'number',
             'money',

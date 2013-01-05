@@ -29,6 +29,7 @@ class DefaultColumnOptionsExtension extends ColumnAbstractTypeExtension
     {
         return array(
             'text',
+            'boolean',
             'datetime',
             'number',
             'money',
