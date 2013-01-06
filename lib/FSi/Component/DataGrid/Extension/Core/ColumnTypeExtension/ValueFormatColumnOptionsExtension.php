@@ -13,14 +13,15 @@ namespace FSi\Component\DataGrid\Extension\Core\ColumnTypeExtension;
 
 use FSi\Component\DataGrid\Column\ColumnTypeInterface;
 use FSi\Component\DataGrid\Column\CellViewInterface;
-use FSi\Component\DataGrid\Column\HeaderViewInterface;
 use FSi\Component\DataGrid\Column\ColumnAbstractTypeExtension;
 
 class ValueFormatColumnOptionsExtension extends ColumnAbstractTypeExtension
 {
     public function buildCellView(ColumnTypeInterface $column, CellViewInterface $view)
     {
-        $value = $view->getValue();
+        $this->validateEmptyValueOption($column);
+
+        $value = $this->populateValue($view->getValue(), $column->getOption('empty_value'));
         $glue = $column->getOption('glue');
         $format = $column->getOption('format');
 
@@ -46,6 +47,7 @@ class ValueFormatColumnOptionsExtension extends ColumnAbstractTypeExtension
         }
 
         if (is_array($value) && count($value) == 1) {
+            reset($value);
             $value = current($value);
         }
 
@@ -68,8 +70,90 @@ class ValueFormatColumnOptionsExtension extends ColumnAbstractTypeExtension
         );
     }
 
+    public function getDefaultOptionsValues(ColumnTypeInterface $column)
+    {
+        return array(
+            'empty_value' => ''
+        );
+    }
+
     public function getAvailableOptions(ColumnTypeInterface $column)
     {
-        return array('glue', 'format');
+        return array('glue', 'format', 'empty_value');
+    }
+
+    private function validateEmptyValueOption(ColumnTypeInterface $column)
+    {
+        $emptyValue = $column->getOption('empty_value');
+        $mappingFields = $column->getOption('mapping_fields');
+
+        if (is_string($emptyValue)) {
+            return;
+        }
+
+        if (!is_array($emptyValue)) {
+            throw new \InvalidArgumentException(
+                sprintf('Option "empty_value" in column: "%s" must be a array.', $column->getName())
+            );
+        }
+
+        foreach ($emptyValue as $field => $value) {
+            if (!in_array($field, $mappingFields)) {
+                throw new \InvalidArgumentException(
+                    sprintf(
+                        'Mapping field "%s" does\'t exists in column: "%s".',
+                        $field,
+                        $column->getName()
+                    )
+                );
+            }
+
+            if (!is_string($value)) {
+                throw new \InvalidArgumentException(
+                    sprintf(
+                        'Option "empty_value" for field "%s" in column: "%s" must be a valid string.',
+                        $field,
+                        $column->getName()
+                    )
+                );
+            }
+        }
+    }
+
+    private function populateValue($value, $emptyValue)
+    {
+        if (is_string($emptyValue)) {
+            if (empty($value)) {
+                return $emptyValue;
+            }
+
+            if (is_array($value)) {
+                foreach ($value as &$val) {
+                    if (empty($val)) {
+                        $val = $emptyValue;
+                    }
+                }
+            }
+
+            return $value;
+        }
+
+        /**
+         * If value is simple string and $empty_value is array there is no way
+         * to guess which empty_value should be used.
+         */
+        if (is_string($value)) {
+            return $value;
+        }
+
+        foreach ($value as $field => &$fieldValue)  {
+            if (empty($fieldValue)) {
+                $fieldValue = array_key_exists($field, $emptyValue)
+                    ? $emptyValue[$field]
+                    : '';
+            }
+        }
+
+        return $value;
     }
 }

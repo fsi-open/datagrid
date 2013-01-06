@@ -21,21 +21,33 @@ class ValueFormatColumnOptionsExtensionTest extends \PHPUnit_Framework_TestCase
         $column = $this->getMock('FSi\Component\DataGrid\Column\ColumnTypeInterface');
         $view = $this->getMock('FSi\Component\DataGrid\Column\CellViewInterface');
 
-        $column->expects($this->at(0))
+        $column->expects($this->any())
             ->method('getOption')
-            ->with('glue')
-            ->will($this->returnValue('-'));
+            ->will($this->returnCallback(function($option) {
+                switch($option) {
+                    case 'glue':
+                        return '-';
+                        break;
+                    case 'empty_value':
+                        return '';
+                        break;
+                    case 'mapping_fields':
+                        return array();
+                        break;
+                }
+            }));
 
-        $view->expects($this->at(0))
+        $view->expects($this->any(0))
             ->method('getValue')
             ->will($this->returnValue(array('foo', 'bar')));
 
-        $view->expects($this->at(1))
+        $view->expects($this->any(1))
             ->method('setValue')
             ->with('foo-bar');
 
         $extension->buildCellView($column, $view);
     }
+
 
     public function testBuildCellViewWithoutFormatAndGlue()
     {
@@ -43,19 +55,26 @@ class ValueFormatColumnOptionsExtensionTest extends \PHPUnit_Framework_TestCase
         $view = $this->getMock('FSi\Component\DataGrid\Column\CellViewInterface');
         $column = $this->getMock('FSi\Component\DataGrid\Column\ColumnTypeInterface');
 
+        $column->expects($this->any())
+            ->method('getOption')
+            ->will($this->returnCallback(function($option) {
+            switch($option) {
+                case 'format':
+                case 'glue':
+                    return null;
+                    break;
+                case 'empty_value':
+                    return '';
+                    break;
+                case 'mapping_fields':
+                    return array();
+                    break;
+            }
+        }));
+
         $view->expects($this->at(0))
             ->method('getValue')
             ->will($this->returnValue(array('foo')));
-
-        $column->expects($this->at(0))
-            ->method('getOption')
-            ->with('glue')
-            ->will($this->returnValue(null));
-
-        $column->expects($this->at(1))
-            ->method('getOption')
-            ->with('format')
-            ->will($this->returnValue(null));
 
         $view->expects($this->at(1))
             ->method('setValue')
@@ -64,25 +83,35 @@ class ValueFormatColumnOptionsExtensionTest extends \PHPUnit_Framework_TestCase
         $extension->buildCellView($column, $view);
     }
 
+
     public function testBuildCellViewWithFormatAndGlue()
     {
         $extension = new ValueFormatColumnOptionsExtension();
         $view = $this->getMock('FSi\Component\DataGrid\Column\CellViewInterface');
         $column = $this->getMock('FSi\Component\DataGrid\Column\ColumnTypeInterface');
 
+        $column->expects($this->any())
+            ->method('getOption')
+            ->will($this->returnCallback(function($option) {
+            switch($option) {
+                case 'format':
+                    return '<b>%s</b>';
+                    break;
+                case 'glue':
+                    return '<br/>';
+                    break;
+                case 'empty_value':
+                    return '';
+                    break;
+                case 'mapping_fields':
+                    return array();
+                    break;
+            }
+        }));
+
         $view->expects($this->at(0))
             ->method('getValue')
             ->will($this->returnValue(array('foo', 'bar')));
-
-        $column->expects($this->at(0))
-            ->method('getOption')
-            ->with('glue')
-            ->will($this->returnValue('<br/>'));
-
-        $column->expects($this->at(1))
-            ->method('getOption')
-            ->with('format')
-            ->will($this->returnValue('<b>%s</b>'));
 
         $view->expects($this->at(1))
             ->method('setValue')
@@ -100,19 +129,26 @@ class ValueFormatColumnOptionsExtensionTest extends \PHPUnit_Framework_TestCase
         $view = $this->getMock('FSi\Component\DataGrid\Column\CellViewInterface');
         $column = $this->getMock('FSi\Component\DataGrid\Column\ColumnTypeInterface');
 
+        $column->expects($this->any())
+            ->method('getOption')
+            ->will($this->returnCallback(function($option) {
+            switch($option) {
+                case 'format':
+                case 'glue':
+                    return null;
+                    break;
+                case 'empty_value':
+                    return '';
+                    break;
+                case 'mapping_fields':
+                    return array();
+                    break;
+            }
+        }));
+
         $view->expects($this->at(0))
             ->method('getValue')
             ->will($this->returnValue(array('foo', 'bar')));
-
-        $column->expects($this->at(0))
-            ->method('getOption')
-            ->with('glue')
-            ->will($this->returnValue(null));
-
-        $column->expects($this->at(1))
-            ->method('getOption')
-            ->with('format')
-            ->will($this->returnValue(null));
 
         $extension->buildCellView($column, $view);
     }
@@ -123,19 +159,28 @@ class ValueFormatColumnOptionsExtensionTest extends \PHPUnit_Framework_TestCase
         $view = $this->getMock('FSi\Component\DataGrid\Column\CellViewInterface');
         $column = $this->getMock('FSi\Component\DataGrid\Column\ColumnTypeInterface');
 
+        $column->expects($this->any())
+            ->method('getOption')
+            ->will($this->returnCallback(function($option) {
+            switch($option) {
+                case 'format':
+                    return '<b>%s</b>';
+                    break;
+                case 'glue':
+                    return null;
+                    break;
+                case 'empty_value':
+                    return '';
+                    break;
+                case 'mapping_fields':
+                    return array();
+                    break;
+            }
+        }));
+
         $view->expects($this->at(0))
             ->method('getValue')
             ->will($this->returnValue(array('foo')));
-
-        $column->expects($this->at(0))
-            ->method('getOption')
-            ->with('glue')
-            ->will($this->returnValue(null));
-
-        $column->expects($this->at(1))
-            ->method('getOption')
-            ->with('format')
-            ->will($this->returnValue('<b>%s</b>'));
 
         $view->expects($this->at(1))
             ->method('setValue')
@@ -150,19 +195,28 @@ class ValueFormatColumnOptionsExtensionTest extends \PHPUnit_Framework_TestCase
         $view = $this->getMock('FSi\Component\DataGrid\Column\CellViewInterface');
         $column = $this->getMock('FSi\Component\DataGrid\Column\ColumnTypeInterface');
 
+        $column->expects($this->any())
+            ->method('getOption')
+            ->will($this->returnCallback(function($option) {
+            switch($option) {
+                case 'format':
+                    return '<b>%s</b><br/><b>%s</b>';
+                    break;
+                case 'glue':
+                    return null;
+                    break;
+                case 'empty_value':
+                    return '';
+                    break;
+                case 'mapping_fields':
+                    return array();
+                    break;
+            }
+        }));
+
         $view->expects($this->at(0))
             ->method('getValue')
             ->will($this->returnValue(array('foo', 'bar')));
-
-        $column->expects($this->at(0))
-            ->method('getOption')
-            ->with('glue')
-            ->will($this->returnValue(null));
-
-        $column->expects($this->at(1))
-            ->method('getOption')
-            ->with('format')
-            ->will($this->returnValue('<b>%s</b><br/><b>%s</b>'));
 
         $view->expects($this->at(1))
             ->method('setValue')
@@ -180,19 +234,28 @@ class ValueFormatColumnOptionsExtensionTest extends \PHPUnit_Framework_TestCase
         $view = $this->getMock('FSi\Component\DataGrid\Column\CellViewInterface');
         $column = $this->getMock('FSi\Component\DataGrid\Column\ColumnTypeInterface');
 
+        $column->expects($this->any())
+            ->method('getOption')
+            ->will($this->returnCallback(function($option) {
+            switch($option) {
+                case 'format':
+                    return '%s%s';
+                    break;
+                case 'glue':
+                    return null;
+                    break;
+                case 'empty_value':
+                    return '';
+                    break;
+                case 'mapping_fields':
+                    return array();
+                    break;
+            }
+        }));
+
         $view->expects($this->at(0))
             ->method('getValue')
             ->will($this->returnValue(array('foo')));
-
-        $column->expects($this->at(0))
-            ->method('getOption')
-            ->with('glue')
-            ->will($this->returnValue(null));
-
-        $column->expects($this->at(1))
-            ->method('getOption')
-            ->with('format')
-            ->will($this->returnValue('%s%s'));
 
         $extension->buildCellView($column, $view);
     }
@@ -203,19 +266,28 @@ class ValueFormatColumnOptionsExtensionTest extends \PHPUnit_Framework_TestCase
         $view = $this->getMock('FSi\Component\DataGrid\Column\CellViewInterface');
         $column = $this->getMock('FSi\Component\DataGrid\Column\ColumnTypeInterface');
 
+        $column->expects($this->any())
+            ->method('getOption')
+            ->will($this->returnCallback(function($option) {
+            switch($option) {
+                case 'format':
+                    return '<b>%s</b>';
+                    break;
+                case 'glue':
+                    return null;
+                    break;
+                case 'empty_value':
+                    return '';
+                    break;
+                case 'mapping_fields':
+                    return array();
+                    break;
+            }
+        }));
+
         $view->expects($this->at(0))
             ->method('getValue')
             ->will($this->returnValue(array('foo', 'bar')));
-
-        $column->expects($this->at(0))
-            ->method('getOption')
-            ->with('glue')
-            ->will($this->returnValue(null));
-
-        $column->expects($this->at(1))
-            ->method('getOption')
-            ->with('format')
-            ->will($this->returnValue('<b>%s</b>'));
 
         $view->expects($this->at(1))
             ->method('setValue')
@@ -230,19 +302,28 @@ class ValueFormatColumnOptionsExtensionTest extends \PHPUnit_Framework_TestCase
         $view = $this->getMock('FSi\Component\DataGrid\Column\CellViewInterface');
         $column = $this->getMock('FSi\Component\DataGrid\Column\ColumnTypeInterface');
 
+        $column->expects($this->any())
+            ->method('getOption')
+            ->will($this->returnCallback(function($option) {
+            switch($option) {
+                case 'format':
+                    return '';
+                    break;
+                case 'glue':
+                    return null;
+                    break;
+                case 'empty_value':
+                    return '';
+                    break;
+                case 'mapping_fields':
+                    return array();
+                    break;
+            }
+        }));
+
         $view->expects($this->at(0))
             ->method('getValue')
             ->will($this->returnValue(array('foo')));
-
-        $column->expects($this->at(0))
-            ->method('getOption')
-            ->with('glue')
-            ->will($this->returnValue(null));
-
-        $column->expects($this->at(1))
-            ->method('getOption')
-            ->with('format')
-            ->will($this->returnValue(''));
 
         $view->expects($this->at(1))
             ->method('setValue')
@@ -251,4 +332,226 @@ class ValueFormatColumnOptionsExtensionTest extends \PHPUnit_Framework_TestCase
         $extension->buildCellView($column, $view);
     }
 
+    public function testBuildCellViewWithoutEmptyValue()
+    {
+        $extension = new ValueFormatColumnOptionsExtension();
+        $view = $this->getMock('FSi\Component\DataGrid\Column\CellViewInterface');
+        $column = $this->getMock('FSi\Component\DataGrid\Column\ColumnTypeInterface');
+
+        $column->expects($this->any())
+            ->method('getOption')
+            ->will($this->returnCallback(function($option) {
+            switch($option) {
+                case 'format':
+                    return null;
+                    break;
+                case 'glue':
+                    return ' ';
+                    break;
+                case 'empty_value':
+                    return '';
+                    break;
+                case 'mapping_fields':
+                    return array();
+                    break;
+            }
+        }));
+
+        $view->expects($this->at(0))
+            ->method('getValue')
+            ->will($this->returnValue(array(null)));
+
+        $view->expects($this->at(1))
+            ->method('setValue')
+            ->with('');
+
+        $extension->buildCellView($column, $view);
+    }
+
+    public function testBuildCellViewWithEmptyValueString()
+    {
+        $extension = new ValueFormatColumnOptionsExtension();
+        $view = $this->getMock('FSi\Component\DataGrid\Column\CellViewInterface');
+        $column = $this->getMock('FSi\Component\DataGrid\Column\ColumnTypeInterface');
+
+        $column->expects($this->any())
+            ->method('getOption')
+            ->will($this->returnCallback(function($option) {
+            switch($option) {
+                case 'format':
+                case 'glue':
+                    return null;
+                    break;
+                case 'empty_value':
+                    return 'empty';
+                    break;
+                case 'mapping_fields':
+                    return array();
+                    break;
+            }
+        }));
+
+        $view->expects($this->at(0))
+            ->method('getValue')
+            ->will($this->returnValue(array(null)));
+
+        $view->expects($this->at(1))
+            ->method('setValue')
+            ->with('empty');
+
+        $extension->buildCellView($column, $view);
+    }
+
+    public function testBuildCellViewWithEmptyValueStringAndValueArray()
+    {
+        $extension = new ValueFormatColumnOptionsExtension();
+        $view = $this->getMock('FSi\Component\DataGrid\Column\CellViewInterface');
+        $column = $this->getMock('FSi\Component\DataGrid\Column\ColumnTypeInterface');
+
+        $column->expects($this->any())
+            ->method('getOption')
+            ->will($this->returnCallback(function($option) {
+            switch($option) {
+                case 'format':
+                    return null;
+                    break;
+                case 'glue':
+                    return ' ';
+                    break;
+                case 'empty_value':
+                    return 'empty';
+                    break;
+                case 'mapping_fields':
+                    return array();
+                    break;
+            }
+        }));
+
+        $view->expects($this->at(0))
+            ->method('getValue')
+            ->will($this->returnValue(array(
+                    'val',
+                    '',
+                    null
+                )
+            ));
+
+        $view->expects($this->at(1))
+            ->method('setValue')
+            ->with('val empty empty');
+
+        $extension->buildCellView($column, $view);
+    }
+
+    public function testBuildCellViewWithEmptyValueArrayAndValueString()
+    {
+        $extension = new ValueFormatColumnOptionsExtension();
+        $view = $this->getMock('FSi\Component\DataGrid\Column\CellViewInterface');
+        $column = $this->getMock('FSi\Component\DataGrid\Column\ColumnTypeInterface');
+
+        $column->expects($this->any())
+            ->method('getOption')
+            ->will($this->returnCallback(function($option) {
+            switch($option) {
+                case 'format':
+                case 'glue':
+                    return null;
+                    break;
+                case 'empty_value':
+                    return array(
+                        'fo' => 'foo',
+                        'ba' => 'bar'
+                    );
+                    break;
+                case 'mapping_fields':
+                    return array('fo', 'ba');
+                    break;
+            }
+        }));
+
+        $view->expects($this->at(0))
+            ->method('getValue')
+            ->will($this->returnValue('default'));
+
+        $view->expects($this->at(1))
+            ->method('setValue')
+            ->with('default');
+
+        $extension->buildCellView($column, $view);
+    }
+
+    /**
+     * @expectedException \InvalidArgumentException
+     */
+    public function testBuildCellViewWithEmptyValueArrayKeyThatNotExistsInMappingFields()
+    {
+        $extension = new ValueFormatColumnOptionsExtension();
+        $view = $this->getMock('FSi\Component\DataGrid\Column\CellViewInterface');
+        $column = $this->getMock('FSi\Component\DataGrid\Column\ColumnTypeInterface');
+
+        $column->expects($this->any())
+            ->method('getOption')
+            ->will($this->returnCallback(function($option) {
+            switch($option) {
+                case 'format':
+                case 'glue':
+                    return null;
+                    break;
+                case 'empty_value':
+                    return array(
+                        'fo' => 'empty',
+                    );
+                    break;
+                case 'mapping_fields':
+                    return array('fos');
+                    break;
+            }
+        }));
+
+        $extension->buildCellView($column, $view);
+    }
+
+    public function testBuildCellViewWithEmptyValueArrayAndValueArray()
+    {
+        $extension = new ValueFormatColumnOptionsExtension();
+        $view = $this->getMock('FSi\Component\DataGrid\Column\CellViewInterface');
+        $column = $this->getMock('FSi\Component\DataGrid\Column\ColumnTypeInterface');
+
+        $column->expects($this->any())
+            ->method('getOption')
+            ->will($this->returnCallback(function($option) {
+            switch($option) {
+                case 'format':
+                    return '"%s" "%s" "%s"';
+                    break;
+                case 'glue':
+                    return null;
+                    break;
+                case 'empty_value':
+                    return array(
+                        'fo' => 'empty-fo',
+                        'ba' => 'empty-bar'
+                    );
+                    break;
+                case 'mapping_fields':
+                    return array('fo', 'ba', 'ca');
+                    break;
+            }
+        }));
+
+        $view->expects($this->at(0))
+            ->method('getValue')
+            ->will($this->returnValue(array(
+                    'fo' => '',
+                    'ba' => '',
+                    'ca' => null
+                )
+            ));
+
+        $view->expects($this->at(1))
+            ->method('setValue')
+            ->with('"empty-fo" "empty-bar" ""');
+
+        $extension->buildCellView($column, $view);
+    }
 }

@@ -14,6 +14,7 @@ Provided by ``DataGrid\Extension\Core\CoreExtension``
 * ``order`` - integer, by default ``0``
 * ``editable`` - **required**, boolean, by default ``false``
 * ``fields_options`` - array, by default ``array()``
+* ``empty_value`` - string|array, by default ``""`` (empty string)
 
 ## Options Description ##
 
@@ -23,23 +24,26 @@ Provided by ``DataGrid\Extension\Core\CoreExtension``
 
 **mapping_fields_format** Array of formats if you specify more than one field in mapping_fields option (that keys match 'mapping_fields` option keys), otherwise its equal to 'datetime_format' option.
 
-**label** By default label value its taken from name under what column was registred in grid. 
+**label** By default label value its taken from name under what column was registred in grid.
 
-**mapping_fields** Fields that should be used when data is retrieved from the source. By default there is only one mapping 
-field and its taken from name under what column was registred in grid. 
-Option is useful when you need to implode few fields from object in one column. 
+**mapping_fields** Fields that should be used when data is retrieved from the source. By default there is only one mapping
+field and its taken from name under what column was registred in grid.
+Option is useful when you need to implode few fields from object in one column.
 
 **glue** Useful only when you need to implode data from few source object fields into one column.
 
-**format** Useful when you need to format value before passing it to view. Value is formated with php ``sprintf`` function. There should be at least same count of ``mapping_fields`` option 
+**format** Useful when you need to format value before passing it to view. Value is formated with php ``sprintf`` function. There should be at least same count of ``mapping_fields`` option
 values as placeholders count in format string. This option can be used with ``glue`` option.
 
-**order** Column order. 
+**order** Column order.
 
 **editable** If enabled SymfonyForm object is automatically created and passed into view as attribute and you can easly use it to display quick edit.
 
 **fields_options** Array of options for forms, where key is name of field (one of mapping fields) and value is options passed to form
 (given as array('name' => '...', 'type' => '...', 'options' => array('...'))).
+
+**empty_value** if value from mapping field is empty (null, !strlen) then it will be replaced with ``empty_value`` option value which by default is empty string. There is also possibility to pass ``empty_value`` to selected ``mapping_fields``.
+To do it you just need set ``empty_value`` as array where keys are ``mapping_fields`` keys. If mapping field value is empty and its not included in ``empty_value`` option it will be replaced with empty string.
 
 ## Example Usage ##
 
@@ -48,7 +52,7 @@ values as placeholders count in format string. This option can be used with ``gl
 
 //Shows column with date in 'Y-m-d H:i:s' format.
 $datagrid->addColumn('purchuase_date', 'datetime', array(
-    'label' => 'Purchuase date', 
+    'label' => 'Purchuase date',
     'datetime_format' => 'Y-m-d H:i:s',
     'editable' => true,
 ));

@@ -5,7 +5,7 @@ Provided by ``DataGrid\Extension\Core\CoreExtension``
 ## Available Options ##
 
 * ``round_mode`` - integer
-* ``precision`` - integer, by default ``2`` 
+* ``precision`` - integer, by default ``2``
 * ``decimals`` - integer, by default ``2``
 * ``dec_point`` - string, by default ``.``
 * ``thousands_sep`` - string, by default ``,``
@@ -18,6 +18,7 @@ Provided by ``DataGrid\Extension\Core\CoreExtension``
 * ``order`` - integer, by default ``0``
 * ``editable`` - **required**, boolean, by default ``false``
 * ``fields_options`` - array, by default ``array()``
+* ``empty_value`` - string|array, by default ``""`` (empty string)
 
 ## Options Description ##
 
@@ -27,7 +28,7 @@ Provided by ``DataGrid\Extension\Core\CoreExtension``
 
 **decimals** The number of decimal points.
 
-**dec_point** Decimal point. 
+**dec_point** Decimal point.
 
 **thousands_sep** Thousands separator.
 
@@ -37,17 +38,19 @@ Provided by ``DataGrid\Extension\Core\CoreExtension``
 
 **currency** Currency. Mandatory if currency_field not specified.
 
-**mapping_fields** Fields that should be used when data is retrieved from the source. By default there is only one mapping 
-field and its taken from name under what column was registred in grid. 
-Option is useful when you need to implode few fields from object in one column. 
+**mapping_fields** Fields that should be used when data is retrieved from the source. By default there is only one mapping
+field and its taken from name under what column was registred in grid.
+Option is useful when you need to implode few fields from object in one column.
 
-**label** By default label value its taken from name under what column was registred in grid. 
+**label** By default label value its taken from name under what column was registred in grid.
 
 **glue** Useful only when you need to implode data from few source object fields into one column.
 
-**format** Useful when you need to format value before passing it to view. Value is formated with php ``sprintf`` function. There should be at least same count of ``mapping_fields`` option 
+**format** Useful when you need to format value before passing it to view. Value is formated with php ``sprintf`` function. There should be at least same count of ``mapping_fields`` option
 values as placeholders count in format string. This option can be used with ``glue`` option.
 
+**empty_value** if value from mapping field is empty (null, !strlen) then it will be replaced with ``empty_value`` option value which by default is empty string. There is also possibility to pass ``empty_value`` to selected ``mapping_fields``.
+To do it you just need set ``empty_value`` as array where keys are ``mapping_fields`` keys. If mapping field value is empty and its not included in ``empty_value`` option it will be replaced with empty string.
 
 ## Example Usage ##
 
@@ -56,7 +59,7 @@ values as placeholders count in format string. This option can be used with ``gl
 
 //This cofiguration will show price from field 'price' and its currency from 'currency' field.
 $datagrid->addColumn('productprice', 'money', array(
-    'label' => 'Product price', 
+    'label' => 'Product price',
     'mapping_fields' => array('price', 'currency'),
     'currency_field' => 'currency',
     'value_currency_separator' => ' - ',
@@ -65,7 +68,7 @@ $datagrid->addColumn('productprice', 'money', array(
 
 //This cofiguration will show price from two fields ('price' and 'promo_price') with arbitrary USD currency.
 $datagrid->addColumn('productprice', 'money', array(
-    'label' => 'Product price', 
+    'label' => 'Product price',
     'mapping_fields' => array('price', 'promo_price'),
     'currency' => 'USD',
     'value_currency_separator' => '$ ',
