@@ -28,16 +28,6 @@ class DataGridRowView implements DataGridRowViewInterface
      */
     protected $source;
 
-    /**
-     * @var integer
-     */
-    protected $count = 0;
-
-    /**
-     * @var integer
-     */
-    protected $position;
-
     protected $index;
 
     public function __construct(array $columns, $source, $index)
@@ -51,9 +41,6 @@ class DataGridRowView implements DataGridRowViewInterface
             }
 
             $this->cellViews[$name] = $column->createCellView($this->source, $index);
-            if (!isset($this->position)) {
-                $this->position = $name;
-            }
         }
     }
 
@@ -62,18 +49,8 @@ class DataGridRowView implements DataGridRowViewInterface
         return $this->index;
     }
 
-    public function seek($position)
-    {
-        if (!isset($this->cellViews[$position])) {
-            throw new \OutOfBoundsException(sprintf('Illegal index "%d%"', $position));
-        }
-
-        $this->position = $position;
-        return $this;
-    }
-
     /**
-     * Returns the number of columns in the row.
+     * Returns the number of cells in the row.
      *
      * Implements Countable::count()
      *
@@ -81,11 +58,11 @@ class DataGridRowView implements DataGridRowViewInterface
      */
     public function count()
     {
-        return $this->count;
+        return count($this->cellViews);
     }
 
     /**
-     * Return the current column view.
+     * Return the current cell view.
      * Similar to the current() function for arrays in PHP
      * Required by interface Iterator.
      *
@@ -93,7 +70,7 @@ class DataGridRowView implements DataGridRowViewInterface
      */
     public function current()
     {
-        return $this->cellViews[$this->position];
+        return current($this->cellViews);
     }
 
     /**
@@ -105,12 +82,11 @@ class DataGridRowView implements DataGridRowViewInterface
      */
     public function key()
     {
-        $key = key($this->cellViews);
-        return $key;
+        return key($this->cellViews);
     }
 
     /**
-     * Move forward to next column.
+     * Move forward to next cell view.
      * Similar to the next() function for arrays in PHP.
      * Required by interface Iterator.
      *
@@ -119,9 +95,6 @@ class DataGridRowView implements DataGridRowViewInterface
     public function next()
     {
         next($this->cellViews);
-        $key = key($this->cellViews);
-        $this->position = $key;
-        return $this;
     }
 
     /**
@@ -134,9 +107,6 @@ class DataGridRowView implements DataGridRowViewInterface
     public function rewind()
     {
         reset($this->cellViews);
-        $key = key($this->cellViews);
-        $this->position = $key;
-        return $this;
     }
 
     /**
@@ -145,11 +115,7 @@ class DataGridRowView implements DataGridRowViewInterface
      */
     public function  valid()
     {
-        if (current($this->cellViews) === false) {
-            return false;
-        }
-
-        return true;
+        return $this->key() !== null;
     }
 
     /**
