@@ -15,86 +15,27 @@ use FSi\Component\DataGrid\Data\DataRowset;
 
 class DataRowsetTest extends \PHPUnit_Framework_TestCase
 {
-    protected $strategy;
-
-    protected $dataMapper;
-
-    protected function setUp()
+    /**
+     * @expectedException InvalidArgumentException
+     */
+    public function testCreateWithInvalidData()
     {
-        $this->strategy = $this->getMock('FSi\Component\DataGrid\Data\IndexingStrategyInterface');
-        $this->dataMapper = $this->getMock('FSi\Component\DataGrid\DataMapper\DataMapperInterface');
+        $rowset = new DataRowset('Invalid Data');
     }
 
-    public function testSetDataWithInvalidData()
+    public function testCreateRowset()
     {
-        $rowset = new DataRowset($this->strategy, $this->dataMapper);
-        $this->setExpectedException('InvalidArgumentException');
-        $rowset->setData('broken data');
-    }
-
-    public function testSetData()
-    {
-        $this->strategy->expects($this->any())
-            ->method('getIndex')
-            ->will($this->returnValue(array('name')));
-
-        $this->dataMapper->expects($this->any())
-            ->method('getIndex')
-            ->will($this->returnCallback(function($identifier, $object) {
-                return $object->getName();
-            }));
-
-        $this->dataMapper->expects($this->any())
-            ->method('getData')
-            ->will($this->returnCallback(function($identifier, $object) {
-                return $object->getName();
-            }));
-
-
-        $entity1 = new Entity('entity1');
-        $entity2 = new Entity('entity2');
         $data = array(
-            $entity1,
-            $entity2
+            'e1' => new Entity('entity1'),
+            'e2' => new Entity('entity2')
         );
 
-        $rowset = new DataRowset($this->strategy, $this->dataMapper);
-        $rowset->setData($data);
-        $this->assertSame($entity1, $rowset->getObjectByIndex('entity1'));
+        $rowset = new DataRowset($data);
+
+        foreach ($rowset as $index => $row) {
+            $this->assertSame($data[$index], $row);
+        }
+
         $this->assertSame(2, $rowset->count());
-        $this->assertSame($entity1, $rowset->current());
-        $rowset->next();
-        $this->assertSame($entity2, $rowset->current());
-    }
-
-    public function testSetInvalidData()
-    {
-        $this->strategy->expects($this->any())
-        ->method('getIndex')
-        ->will($this->returnValue(null));
-
-        $this->dataMapper->expects($this->any())
-        ->method('getIndex')
-        ->will($this->returnCallback(function($identifier, $object) {
-            return $object->getName();
-        }));
-
-        $this->dataMapper->expects($this->any())
-        ->method('getData')
-        ->will($this->returnCallback(function($identifier, $object) {
-            return $object->getName();
-        }));
-
-        $entity1 = new Entity('entity1');
-        $entity2 = new Entity('entity2');
-        $data = array(
-            $entity1,
-            $entity2
-        );
-
-        $rowset = new DataRowset($this->strategy, $this->dataMapper);
-
-        $this->setExpectedException('RuntimeException');
-        $rowset->setData($data);
     }
 }

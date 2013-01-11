@@ -33,8 +33,8 @@ class TreeTypeTest extends \PHPUnit_Framework_TestCase
 
     public function testGetValue()
     {
-        if (!interface_exists('Doctrine\Common\Persistence\ManagerRegistry') ||
-            !class_exists('Gedmo\Tree\TreeListener')) {
+        if (!interface_exists('Doctrine\Common\Persistence\ManagerRegistry')
+            || !class_exists('Gedmo\Tree\TreeListener')) {
             $this->markTestSkipped('Doctrine\Common\Persistence\ManagerRegistry is required for testGetValue in gedmo.tree column type');
         }
 
@@ -51,40 +51,43 @@ class TreeTypeTest extends \PHPUnit_Framework_TestCase
         $dataMapper = $this->getMock('FSi\Component\DataGrid\DataMapper\DataMapperInterface');
 
         $registry->expects($this->any())
-                 ->method('getManager')
-                 ->will($this->returnValue($em));
+            ->method('getManager')
+            ->will($this->returnValue($em));
 
         $treeListener->expects($this->once())
-                     ->method('getStrategy')
-                     ->will($this->returnValue($strategy));
+            ->method('getStrategy')
+            ->will($this->returnValue($strategy));
 
         $treeListener->expects($this->once())
-                      ->method('getConfiguration')
-                      ->will($this->returnValue(
-                        array(
-                            'left' => 'left',
-                            'right' => 'right',
-                            'root' => 'root',
-                            'level' => 'level',
-                            'parent' => 'parent'
-                        )
-                      ));
+            ->method('getConfiguration')
+            ->will($this->returnValue(
+                array(
+                    'left' => 'left',
+                    'right' => 'right',
+                    'root' => 'root',
+                    'level' => 'level',
+                    'parent' => 'parent'
+                )
+            ));
 
         $strategy->expects($this->once())
-                 ->method('getName')
-                 ->will($this->returnValue('nested'));
+            ->method('getName')
+            ->will($this->returnValue('nested'));
 
-        $dataMapper->expects($this->once())
-                   ->method('getData')
-                   ->will($this->returnValue(array('foo' => 'bar')));
+        $dataMapper->expects($this->any())
+            ->method('getData')
+            ->will($this->returnValue('foo'));
 
         $dataGrid->expects($this->once())
-                 ->method('getIndexingStrategy')
-                 ->will($this->returnValue($indexingStrategy));
+            ->method('getIndexingStrategy')
+            ->will($this->returnValue($indexingStrategy));
 
         $indexingStrategy->expects($this->any())
-                         ->method('getIndex')
-                         ->will($this->returnValue(array('foo')));
+            ->method('getIndex')
+            ->will($this->returnCallback(function($object, $dataMapper){
+
+                return $dataMapper->getData($object, 'foo');
+            }));
 
         $column = new Tree($registry);
         $column->setName('tree');

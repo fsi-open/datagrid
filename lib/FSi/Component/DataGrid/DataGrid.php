@@ -198,10 +198,16 @@ class DataGrid implements DataGridInterface
             }
         }
 
-        $this->rowset = new DataRowset($this->strategy, $this->dataMapper);
-        $this->rowset->setData($data);
+        $indexedData = array();
 
-        $event = new DataGridEvent($this, $data);
+        foreach ($data as $object) {
+            $index = $this->getIndexingStrategy()->getIndex($object, $this->getDataMapper());
+            $indexedData[$index] = $object;
+        }
+
+        $this->rowset = new DataRowset($indexedData);
+
+        $event = new DataGridEvent($this, $indexedData);
         $this->eventDispatcher->dispatch(DataGridEvents::POST_SET_DATA, $event);
 
         return $this;

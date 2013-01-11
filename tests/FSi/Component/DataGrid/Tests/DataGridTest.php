@@ -41,30 +41,31 @@ class DataGridTest extends \PHPUnit_Framework_TestCase
     {
         $this->dataMapper = $this->getMock('FSi\Component\DataGrid\DataMapper\DataMapperInterface');
         $this->dataMapper->expects($this->any())
-                     ->method('getData')
-                     ->will($this->returnCallback(function($field, $object){
-                         switch($field) {
-                             case 'name':
-                                    return $object->getName();
-                                 break;
-                         }
-                     }));
+            ->method('getData')
+            ->will($this->returnCallback(function($field, $object){
+                switch($field) {
+                    case 'name':
+                        return $object->getName();
+                    break;
+                }
+            }));
+
         $this->dataMapper->expects($this->any())
-                     ->method('setData')
-                     ->will($this->returnCallback(function($field, $object, $value){
-                         switch($field) {
-                             case 'name':
-                                    return $object->setName($value);
-                                 break;
-                         }
-                     }));
+            ->method('setData')
+            ->will($this->returnCallback(function($field, $object, $value){
+                switch($field) {
+                    case 'name':
+                           return $object->setName($value);
+                        break;
+                }
+            }));
 
         $this->indexingStrategy = $this->getMock('FSi\Component\DataGrid\Data\IndexingStrategyInterface');
         $this->indexingStrategy->expects($this->any())
             ->method('getIndex')
-            ->will($this->returnValue(
-                array('name')
-            ));
+            ->will($this->returnCallback(function($object, $dataMapper){
+                return $object->getName();
+            }));
 
         $this->factory = $this->getMock('FSi\Component\DataGrid\DataGridFactoryInterface');
         $this->factory->expects($this->any())
@@ -72,12 +73,14 @@ class DataGridTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue(array(
                 new FooExtension(),
             )));
+
         $this->factory->expects($this->any())
             ->method('getColumnType')
             ->with($this->equalTo('foo'))
             ->will($this->returnValue(
                 new FooType()
             ));
+
         $this->factory->expects($this->any())
             ->method('hasColumnType')
             ->with($this->equalTo('foo'))

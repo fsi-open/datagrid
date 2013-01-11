@@ -95,7 +95,7 @@ class Tree extends ColumnAbstractType
 
         $indexingStrategy = $this->getDataGrid()->getIndexingStrategy();
 
-        $id = implode('-', $indexingStrategy->getIndex($object));
+        $id = $indexingStrategy->getIndex($object, $this->getDataMapper());
         $left = $reflection->getProperty($config['left'])->getValue($object);
         $right = $reflection->getProperty($config['right'])->getValue($object);
         $root = isset($config['root']) ? $reflection->getProperty($config['root'])->getValue($object) : null;
@@ -103,7 +103,7 @@ class Tree extends ColumnAbstractType
         $parent = $reflection->getProperty($config['parent'])->getValue($object);
         $parentId = null;
         if (isset($parent)) {
-            $parentId = implode('-', $indexingStrategy->getIndex($parent));
+            $parentId = $indexingStrategy->getIndex($parent, $this->getDataMapper());
         }
 
         $this->viewAttributes = array(

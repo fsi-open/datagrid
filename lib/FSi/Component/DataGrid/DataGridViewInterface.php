@@ -11,6 +11,6 @@
 
 namespace FSi\Component\DataGrid;
 
-interface DataGridViewInterface extends \SeekableIterator, \Countable, \ArrayAccess
+interface DataGridViewInterface extends \Iterator, \Countable, \ArrayAccess
 {
 }

@@ -11,32 +11,100 @@
 
 namespace FSi\Component\DataGrid\Data;
 
+use Doctrine\Common\Persistence\ManagerRegistry;
 use FSi\Component\DataGrid\Data\IndexingStrategyInterface;
-use Doctrine\ORM\EntityManager;
+use FSi\Component\DataGrid\DataMapper\DataMapperInterface;
+use Doctrine\Common\Persistence\Mapping\MappingException;
 
 class EntityIndexingStrategy implements IndexingStrategyInterface
 {
-    protected $em;
+    /**
+     * @var string
+     */
+    protected $separator;
 
-    public function __construct(EntityManager $em)
+    /**
+     * @var Doctrine\Common\Persistence\ManagerRegistry
+     */
+    protected $registry;
+
+    /**
+     * @param Doctrine\Common\Persistence\ObjectManager $em
+     */
+    public function __construct(ManagerRegistry $registry)
     {
-        $this->em = $em;
+        $this->registry = $registry;
+        $this->separator = '|';
     }
 
-    public function getIndex($object)
+    /**
+     * {@inheritdoc}
+     */
+    public function getIndex($object, DataMapperInterface $dataMapper)
     {
         if (!is_object($object)){
             return null;
         }
 
         $class = get_class($object);
-        $metadataFactory = $this->em->getMetadataFactory();
+        $em = $this->registry->getManagerForClass($class);
+        $metadataFactory = $em->getMetadataFactory();
+        $metadata = $metadataFactory->getMetadataFor($class);
 
-        if (!$metadataFactory->hasMetadataFor($class)) {
-            return null;
+        $identifiers = $metadata->getIdentifierFieldNames();
+
+        if (!is_array($identifiers)) {
+            throw new \RuntimeException('Entity indexing strategy can\'t resolve the index from object.');
         }
 
-        $metadata = $metadataFactory->getMetadataFor($class);
-        return $metadata->getIdentifierColumnNames();
+        $indexes = array();
+        foreach ($identifiers as $identifier) {
+            $indexes[] = $dataMapper->getData($identifier, $object);
+        }
+
+        return implode($this->separator, $indexes);
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function revertIndex($index, $dataType)
+    {
+        $em = $this->registry->getManagerForClass($dataType);
+        $metadataFactory = $em->getMetadataFactory();
+        $metadata = $metadataFactory->getMetadataFor($dataType);
+        $identifiers = $metadata->getIdentifierFieldNames();
+
+        if (count($identifiers) == 1) {
+            $key = current($identifiers);
+
+            return array($key => $index);
+        }
+
+        $indexPieces = explode($this->separator, $index);
+
+        if (count($indexPieces) != count($identifiers)) {
+            throw new \RuntimeException(sprintf('Entity indexing strategy can\'t revert the index: "%s"', $index));
+        }
+
+        $reverted = array();
+
+        foreach ($indexPieces as $pos => $piece) {
+            if (!isset($identifiers[$pos])) {
+                throw new \RuntimeException(sprintf('Entity indexing strategy can\'t revert the index: "%s"', $index));
+            }
+
+            $reverted[$identifiers[$pos]] = $piece;
+        }
+
+        return $reverted;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setSeparator($separator)
+    {
+        $this->separator = $separator;
     }
 }

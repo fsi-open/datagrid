@@ -11,36 +11,18 @@
 
 namespace FSi\Component\DataGrid\Data;
 
-use FSi\Component\DataGrid\Data\IndexingStrategyInterface;
-use FSi\Component\DataGrid\DataMapper\DataMapperInterface;
-
 class DataRowset implements DataRowsetInterface
 {
-    protected $indexesSeparator = ':';
-
-    protected $strategy;
-
-    protected $dataMapper;
-
-    protected $source;
-
-    protected $count;
-
-    protected $position = 0;
-
+    /**
+     * @var array
+     */
     protected $data = array();
 
-    protected $indexes = array();
-
-    protected $indexedData = array();
-
-    public function __construct(IndexingStrategyInterface $strategy, DataMapperInterface $dataMapper)
-    {
-        $this->strategy = $strategy;
-        $this->dataMapper = $dataMapper;
-    }
-
-    public function setData($data)
+    /**
+     * @param array|\Traversable $data
+     * @throws \InvalidArgumentException
+     */
+    public function __construct($data)
     {
         if (!is_array($data)) {
             if (!($data instanceof \Traversable)) {
@@ -48,55 +30,7 @@ class DataRowset implements DataRowsetInterface
             }
         }
 
-        $this->source = $data;
-
-        foreach ($data as $object) {
-            $index = $this->getIndex($object);
-            $this->indexes[] = $index;
-            $this->data[] = $object;
-            $this->indexedData[$index] = $object;
-        }
-
-        $this->count = count($this->data);
-
-        return $this;
-    }
-
-    public function getRowIndex($row)
-    {
-        if ($this->offsetExists($row)) {
-            return $this->indexes[$row];
-        }
-        return null;
-    }
-
-    public function hasObjectWithIndex($index)
-    {
-        return isset($this->indexedData[$index]);
-    }
-
-    public function getObjectByIndex($index)
-    {
-        if (!isset($this->indexedData[$index])) {
-            throw new \OutOfBoundsException(sprintf('Illegal index "%d"', $index));
-        }
-        return $this->indexedData[$index];
-    }
-
-    /**
-     * Sets indexes separator. This variable is used only when
-     * object is indexed by many values. For example if we have object user
-     * with indexes on fields email and username indexesSeparator will be used
-     * to create one index for datagrid.
-     *
-     * $index = 'email' . $this->indexesSeparator . 'username';
-     *
-     * @param string $separator
-     */
-    public function setIndexesSeparator($separator)
-    {
-        $this->indexesSeparator = (string)$separator;
-        return $this;
+        $this->data  = $data;
     }
 
     /**
@@ -107,23 +41,7 @@ class DataRowset implements DataRowsetInterface
      */
     public function count()
     {
-        return $this->count;
-    }
-
-    /**
-     * Take the Iterator to position $position
-     * Required by interface SeekableIterator.
-     *
-     * @param int $position the position to seek to
-     */
-    public function seek($position)
-    {
-        $position = (int)$position;
-        if ($position < 0 || $position >= $this->count()) {
-            throw new \OutOfBoundsException(sprintf('Illegal index "%d%"', $position));
-        }
-        $this->position = $position;
-        return $this;
+        return count($this->data);
     }
 
     /**
@@ -135,11 +53,7 @@ class DataRowset implements DataRowsetInterface
      */
     public function current()
     {
-        if ($this->valid() === false) {
-            return null;
-        }
-
-        return $this->data[$this->position];
+        return current($this->data);
     }
 
     /**
@@ -151,7 +65,7 @@ class DataRowset implements DataRowsetInterface
      */
     public function key()
     {
-        return $this->position;
+        return key($this->data);
     }
 
     /**
@@ -163,7 +77,7 @@ class DataRowset implements DataRowsetInterface
      */
     public function next()
     {
-        $this->position++;
+        next($this->data);
     }
 
     /**
@@ -175,8 +89,7 @@ class DataRowset implements DataRowsetInterface
      */
     public function rewind()
     {
-        $this->position = 0;
-        return $this;
+        reset($this->data);
     }
 
     /**
@@ -188,7 +101,8 @@ class DataRowset implements DataRowsetInterface
      */
     public function valid()
     {
-        return $this->position >= 0 && $this->position < $this->count;
+
+        return $this->key() !== null;
     }
 
     /**
@@ -200,7 +114,7 @@ class DataRowset implements DataRowsetInterface
      */
     public function offsetExists($offset)
     {
-        return isset($this->data[(int)$offset]);
+        return isset($this->data[$offset]);
     }
 
     /**
@@ -238,21 +152,5 @@ class DataRowset implements DataRowsetInterface
      */
     public function offsetUnset($offset)
     {
-    }
-
-    protected function getIndex($object)
-    {
-        $identifiers = $this->strategy->getIndex($object);
-
-        if (!is_array($identifiers)) {
-            throw new \RuntimeException('Indexing strategy can\'t resolve the index from object.');
-        }
-
-        $indexes = array();
-        foreach ($identifiers as $identifier) {
-            $indexes[] = $this->dataMapper->getData($identifier, $object);
-        }
-
-        return implode($this->indexesSeparator, $indexes);
     }
 }

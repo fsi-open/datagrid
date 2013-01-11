@@ -32,16 +32,6 @@ class DataGridView implements DataGridViewInterface
     protected $columnsHeaders = array();
 
     /**
-     * @var integer
-     */
-    protected $position;
-
-    /**
-     * @var integer
-     */
-    protected $count = 0;
-
-    /**
      * Unique data grid name.
      * @var string
      */
@@ -64,9 +54,7 @@ class DataGridView implements DataGridViewInterface
         }
 
         $this->name = $name;
-        $this->position = 0;
         $this->rowset = $rowset;
-        $this->count = $rowset->count();
     }
 
     /**
@@ -172,22 +160,6 @@ class DataGridView implements DataGridViewInterface
     }
 
     /**
-     * Take the Iterator to position $position
-     * Required by interface SeekableIterator.
-     *
-     * @param int $position the position to seek to
-     */
-    public function seek($position)
-    {
-        $position = (int)$position;
-        if ($position < 0 || $position >= $this->count()) {
-            throw new \OutOfBoundsException(sprintf('Illegal index "%d%"', $position));
-        }
-        $this->position = $position;
-        return $this;
-    }
-
-    /**
      * Returns the number of elements in the collection.
      *
      * Implements Countable::count()
@@ -196,7 +168,7 @@ class DataGridView implements DataGridViewInterface
      */
     public function count()
     {
-        return $this->count;
+        return $this->rowset->count();
     }
 
     /**
@@ -208,11 +180,8 @@ class DataGridView implements DataGridViewInterface
      */
     public function current()
     {
-        if ($this->valid() === false) {
-            return null;
-        }
-        $index = $this->rowset->getRowIndex($this->position);
-        return new DataGridRowView($this->getOriginColumns(), $this->rowset[$this->position], $index);
+        $index = $this->rowset->key();
+        return new DataGridRowView($this->getOriginColumns(), $this->rowset->current(), $index);
     }
 
     /**
@@ -224,12 +193,7 @@ class DataGridView implements DataGridViewInterface
      */
     public function key()
     {
-        return $this->position;
-    }
-
-    public function index()
-    {
-        return $this->rowset->getRowIndex($this->position);;
+        return $this->rowset->key();
     }
 
     /**
@@ -242,7 +206,6 @@ class DataGridView implements DataGridViewInterface
     public function next()
     {
         $this->rowset->next();
-        $this->position++;
     }
 
     /**
@@ -255,8 +218,6 @@ class DataGridView implements DataGridViewInterface
     public function rewind()
     {
         $this->rowset->rewind();
-        $this->position = 0;
-        return $this;
     }
 
     /**
@@ -268,7 +229,7 @@ class DataGridView implements DataGridViewInterface
      */
     public function valid()
     {
-        return $this->position >= 0 && $this->position < $this->count;
+        return $this->rowset->valid();
     }
 
     /**
@@ -280,7 +241,7 @@ class DataGridView implements DataGridViewInterface
      */
     public function offsetExists($offset)
     {
-        return isset($this->rowset[(int)$offset]);
+        return isset($this->rowset[$offset]);
     }
 
     /**

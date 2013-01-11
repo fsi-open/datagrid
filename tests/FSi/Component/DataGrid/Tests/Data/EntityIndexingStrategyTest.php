@@ -16,54 +16,125 @@ use FSi\Component\DataGrid\Tests\Fixtures\EntityManagerMock;
 
 class EntityIndexingStrategyTest extends \PHPUnit_Framework_TestCase
 {
-    public function testInvalidObject()
-    {
-        $em = new EntityManagerMock();
-        $strategy = new EntityIndexingStrategy($em);
+    protected $dataMapper;
 
-        $this->assertSame(null, $strategy->getIndex('foo'));
+    protected function setUp()
+    {
+        $this->dataMapper = $this->getMock('FSi\Component\DataGrid\DataMapper\DataMapperInterface');
     }
 
-    public function testGetIndexFailure()
+    public function testInvalidObject()
     {
-        $metadataFactory = $this->getMock('Doctrine\ORM\Mapping\ClassMetadataFactory');
-        $metadataFactory->expects($this->once())
-                        ->method('hasMetadataFor')
-                        ->will($this->returnValue(false));
+        $registry = $this->getMock('Doctrine\Common\Persistence\ManagerRegistry');
 
-        $em = new EntityManagerMock();
-        $em->_setMetadataFactory($metadataFactory);
-
-
-        $strategy = new EntityIndexingStrategy($em);
-
-        $this->assertSame(null, $strategy->getIndex(new Entity('test')));
+        $strategy = new EntityIndexingStrategy($registry);
+        $this->assertSame(null, $strategy->getIndex('foo', $this->dataMapper));
     }
 
     public function testGetIndex()
     {
-        $metadataFactory = $this->getMock('Doctrine\ORM\Mapping\ClassMetadataFactory');
-        $metadataFactory->expects($this->once())
-                        ->method('hasMetadataFor')
-                        ->will($this->returnValue(true));
+        $registry = $this->getMock('Doctrine\Common\Persistence\ManagerRegistry');
+        $registry->expects($this->once())
+            ->method('getManagerForClass')
+            ->will($this->returnCallback(function() {
 
-        $classMetadata = $this->getMockBuilder('Doctrine\ORM\Mapping\ClassMetadata')
+                $metadataFactory = $this->getMock('Doctrine\ORM\Mapping\ClassMetadataFactory');
+                $metadataFactory->expects($this->once())
+                    ->method('getMetadataFor')
+                    ->will($this->returnCallback(function(){
+                        $classMetadata = $this->getMockBuilder('Doctrine\ORM\Mapping\ClassMetadata')
+                                ->disableOriginalConstructor()
+                                ->getMock();
+
+                        $classMetadata->expects($this->once())
+                                ->method('getIdentifierFieldNames')
+                                ->will($this->returnValue(array('id')));
+
+                        return $classMetadata;
+                   }));
+
+                $em = new EntityManagerMock();
+                $em->_setMetadataFactory($metadataFactory);
+
+                return $em;
+            }));
+
+        $strategy = new EntityIndexingStrategy($registry);
+
+        $this->dataMapper->expects($this->once())
+            ->method('getData')
+            ->will($this->returnValue('test'));
+
+        $this->assertSame('test', $strategy->getIndex(new Entity('test'), $this->dataMapper));
+    }
+
+    public function testRevertIndex()
+    {
+        $registry = $this->getMock('Doctrine\Common\Persistence\ManagerRegistry');
+        $registry->expects($this->once())
+            ->method('getManagerForClass')
+            ->will($this->returnCallback(function() {
+
+                $metadataFactory = $this->getMock('Doctrine\ORM\Mapping\ClassMetadataFactory');
+                $metadataFactory->expects($this->once())
+                    ->method('getMetadataFor')
+                    ->will($this->returnCallback(function(){
+                        $classMetadata = $this->getMockBuilder('Doctrine\ORM\Mapping\ClassMetadata')
                             ->disableOriginalConstructor()
                             ->getMock();
 
-        $classMetadata->expects($this->once())
-                      ->method('getIdentifierColumnNames')
-                      ->will($this->returnValue(array('id')));
+                        $classMetadata->expects($this->once())
+                            ->method('getIdentifierFieldNames')
+                            ->will($this->returnValue(array('id')));
 
-        $metadataFactory->expects($this->once())
-                        ->method('getMetadataFor')
-                        ->will($this->returnValue($classMetadata));
+                        return $classMetadata;
+                    }));
 
-        $em = new EntityManagerMock();
-        $em->_setMetadataFactory($metadataFactory);
+                $em = new EntityManagerMock();
+                $em->_setMetadataFactory($metadataFactory);
 
-        $strategy = new EntityIndexingStrategy($em);
+                return $em;
+            }));
 
-        $this->assertSame(array('id'), $strategy->getIndex(new Entity('test')));
+        $index = 'test|id';
+
+        $strategy = new EntityIndexingStrategy($registry);
+        $this->assertSame(array('id' => 'test|id'), $strategy->revertIndex($index, 'Entity'));
+    }
+
+    public function testRevertIndexComposite()
+    {
+        $registry = $this->getMock('Doctrine\Common\Persistence\ManagerRegistry');
+        $registry->expects($this->any())
+        ->method('getManagerForClass')
+        ->will($this->returnCallback(function() {
+
+            $metadataFactory = $this->getMock('Doctrine\ORM\Mapping\ClassMetadataFactory');
+            $metadataFactory->expects($this->any())
+            ->method('getMetadataFor')
+            ->will($this->returnCallback(function(){
+                $classMetadata = $this->getMockBuilder('Doctrine\ORM\Mapping\ClassMetadata')
+                ->disableOriginalConstructor()
+                ->getMock();
+
+                $classMetadata->expects($this->any())
+                ->method('getIdentifierFieldNames')
+                ->will($this->returnValue(array('id', 'name')));
+
+                return $classMetadata;
+            }));
+
+            $em = new EntityManagerMock();
+            $em->_setMetadataFactory($metadataFactory);
+
+            return $em;
+        }));
+
+        $strategy = new EntityIndexingStrategy($registry);
+        foreach (array('_', '|') as $separator) {
+            $index = '1'.$separator.'Foo';
+            $strategy->setSeparator($separator);
+            $this->assertSame(array('id' => '1', 'name' => 'Foo' ), $strategy->revertIndex($index, 'Entity'));
+        }
     }
 }
