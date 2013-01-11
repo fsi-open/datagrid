@@ -32,6 +32,10 @@ class Number extends ColumnAbstractType
 
         if (isset($roundmode)) {
             foreach ($value as &$val) {
+                if (empty($val)) {
+                    continue;
+                }
+
                 $val = round($val, $precision, $roundmode);
             }
         }

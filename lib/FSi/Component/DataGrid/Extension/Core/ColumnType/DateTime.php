@@ -28,6 +28,11 @@ class DateTime extends ColumnAbstractType
 
         $return = array();
         foreach ($inputValues as $field => $value) {
+            if (empty($value)) {
+                $return[$field]  = null;
+                continue;
+            }
+
             if (is_string($format)) {
                 $return[$field] = $value->format($format);
                 continue;
@@ -119,17 +124,27 @@ class DateTime extends ColumnAbstractType
                                     sprintf('"datetime_format" option is required in "mapping_fields_datetime_format" for field "%s".', $field)
                                 );
                             }
-                            $inputData[$field] = $this->transformStringToDateTime($value[$field], $mappingFormat);
+                            if (empty($value[$field])) {
+                                $inputData[$field] = null;
+                            } else {
+                                $inputData[$field] = $this->transformStringToDateTime($value[$field], $mappingFormat);
+                            }
+
                             break;
                         case 'timestamp':
-                            $inputData[$field] = $this->transformTimestampToDateTime($value[$field]);
+                            if (empty($value[$field])) {
+                                $inputData[$field] = null;
+                            } else {
+                                $inputData[$field] = $this->transformTimestampToDateTime($value[$field]);
+                            }
                             break;
                         case 'datetime':
-                            if (!($value[$field] instanceof \DateTime)) {
+                            if (!empty($value[$field]) && !($value[$field] instanceof \DateTime)) {
                                 throw new DataGridColumnException(
                                     sprintf('Value in field "%s" is "%s" type instead of "\DateTime" instance.', $field, gettype($value[$field]))
                                 );
                             }
+
                             $inputData[$field] = $value[$field];
                             break;
                         default:
@@ -144,19 +159,23 @@ class DateTime extends ColumnAbstractType
                 $field = key($value);
                 $value = current($value);
 
-                if (!is_string($value)) {
+                if (!empty($value) && !is_string($value)) {
                     throw new DataGridColumnException(
                         sprintf('Value in field "%s" is not a valid string.', $field)
                     );
                 }
 
-                $inputData[$field] = $this->transformStringToDateTime($value, $mappingFormat);
+                    if (empty($value)) {
+                        $inputData[$field] = null;
+                    } else {
+                        $inputData[$field] = $this->transformStringToDateTime($value, $mappingFormat);
+                    }
                 break;
             case 'datetime':
                 $field = key($value);
                 $value = current($value);
 
-                if (!($value instanceof \DateTime)) {
+                if (!empty($value) && !($value instanceof \DateTime)) {
                     throw new DataGridColumnException(
                         sprintf('Value in field "%s" is not instance of "\DateTime"', $field)
                     );
@@ -168,7 +187,11 @@ class DateTime extends ColumnAbstractType
                 $field = key($value);
                 $value = current($value);
 
-                $inputData[$field] = $this->transformTimestampToDateTime($value);
+                if (empty($value)) {
+                    $inputData[$field] = null;
+                } else {
+                    $inputData[$field] = $this->transformTimestampToDateTime($value);
+                }
                 break;
             default:
                 throw new DataGridColumnException(

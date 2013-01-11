@@ -57,6 +57,10 @@ class Money extends ColumnAbstractType
         }
 
         foreach ($value as $fieldName => &$val) {
+            if (empty($val)) {
+                continue;
+            }
+
             $val = round($val, $precision, $roundmode);
             $val = number_format($val, $decimals, $decPoint, $thousands);
 

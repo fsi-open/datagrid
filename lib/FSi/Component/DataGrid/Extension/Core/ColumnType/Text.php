@@ -25,6 +25,10 @@ class Text extends ColumnAbstractType
         $trim = (boolean)$this->getOption('trim');
         if (isset($trim) && $trim == true) {
             foreach ($value as &$val) {
+                if (empty($val)) {
+                    continue;
+                }
+
                 $val = trim($val);
             }
         }
