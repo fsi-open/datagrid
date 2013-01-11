@@ -249,6 +249,16 @@ Here are sample scenarios of component usage:
 - [standalone](https://github.com/norzechowicz/datagrid-standalone)
 - [symfony](https://github.com/fsi-open/datagrid-bundle)
     
+##Tests##
+
+Install PHPUnit 3.5.11.  
+To run tests for DataGrid you should install dev packages and run tests with commands: 
+
+```
+    $ php composer.phar install --dev
+    $ phpunit -c tests
+```
+    
 ## Extensions ##
 
 Extensions are something that makes DataGrid component extremely flexible, they 
