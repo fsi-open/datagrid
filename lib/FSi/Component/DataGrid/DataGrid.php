@@ -229,11 +229,11 @@ class DataGrid implements DataGridInterface
         }
 
         foreach ($data as $index => $values) {
-            if (!$this->rowset->hasObjectWithIndex($index)) {
+            if (!isset($this->rowset[$index])) {
                 continue;
             }
 
-            $object = $this->rowset->getObjectByIndex($index);
+            $object = $this->rowset[$index];
 
             foreach ($this->getColumns() as $column) {
                 $column->bindData($values, $object, $index);
