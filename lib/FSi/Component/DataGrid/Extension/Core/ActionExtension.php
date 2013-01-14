@@ -13,7 +13,7 @@ namespace FSi\Component\DataGrid\Extension\Core;
 
 use FSi\Component\DataGrid\DataGridAbstractExtension;
 
-class CoreExtension extends DataGridAbstractExtension
+class ActionExtension extends DataGridAbstractExtension
 {
     /**
      * {@inheritdoc}
