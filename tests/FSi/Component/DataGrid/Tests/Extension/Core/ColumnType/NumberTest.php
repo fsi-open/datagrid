@@ -12,7 +12,7 @@ namespace FSi\Component\DataGrid\Tests\Extension\Core\ColumnType;
 
 use FSi\Component\DataGrid\Extension\Core\ColumnType\Number;
 
-class NumberTypeTest extends \PHPUnit_Framework_TestCase
+class NumberTest extends \PHPUnit_Framework_TestCase
 {
     public function testPrecision()
     {

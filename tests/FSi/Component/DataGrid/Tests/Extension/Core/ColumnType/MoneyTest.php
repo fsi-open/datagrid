@@ -12,7 +12,7 @@ namespace FSi\Component\DataGrid\Tests\Extension\Core\ColumnType;
 
 use FSi\Component\DataGrid\Extension\Core\ColumnType\Money;
 
-class MoneyTypeTest extends \PHPUnit_Framework_TestCase
+class MoneyTest extends \PHPUnit_Framework_TestCase
 {
     public function testCurrencyOption()
     {

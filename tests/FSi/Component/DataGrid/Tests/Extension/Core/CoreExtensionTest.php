@@ -22,6 +22,7 @@ class CoreExtensionTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($extension->hasColumnType('datetime'));
         $this->assertTrue($extension->hasColumnType('action'));
         $this->assertTrue($extension->hasColumnType('money'));
+        $this->assertTrue($extension->hasColumnType('action'));
 
         $this->assertFalse($extension->hasColumnType('foo'));
     }

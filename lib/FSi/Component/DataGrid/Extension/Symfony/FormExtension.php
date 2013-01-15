@@ -12,7 +12,6 @@
 namespace FSi\Component\DataGrid\Extension\Symfony;
 
 use FSi\Component\DataGrid\DataGridAbstractExtension;
-use FSi\Component\DataGrid\Extension\Symfony\EventSubscriber;
 use FSi\Component\DataGrid\Extension\Symfony\ColumnTypeExtension;
 use Symfony\Component\Form\FormFactoryInterface;
 
@@ -30,16 +29,6 @@ class FormExtension extends DataGridAbstractExtension
     public function __construct(FormFactoryInterface $formFactory)
     {
         $this->formFactory = $formFactory;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    protected function loadSubscribers()
-    {
-        return array(
-            new EventSubscriber\BindRequest()
-        );
     }
 
     /**

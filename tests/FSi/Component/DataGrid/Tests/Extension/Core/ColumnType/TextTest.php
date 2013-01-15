@@ -12,7 +12,7 @@ namespace FSi\Component\DataGrid\Tests\Extension\Core\ColumnType;
 
 use FSi\Component\DataGrid\Extension\Core\ColumnType\Text;
 
-class TextTypeTest extends \PHPUnit_Framework_TestCase
+class TextTest extends \PHPUnit_Framework_TestCase
 {
     public function testTrimOption()
     {
