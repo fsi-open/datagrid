@@ -14,6 +14,14 @@ namespace FSi\Component\DataGrid\Column;
 interface CellViewInterface
 {
     /**
+     * Check if view attribute exists.
+     *
+     * @param string $name
+     * @return boolean
+     */
+    public function hasAttribute($name);
+
+    /**
      * Set view attribute
      *
      * @param string $name
@@ -30,12 +38,11 @@ interface CellViewInterface
     public function getAttribute($name);
 
     /**
-     * Check if view attribute exists.
+     * Get all cell attributes.
      *
-     * @param string $name
-     * @return boolean
+     * @return array
      */
-    public function hasAttribute($name);
+    public function getAttributes();
 
     /**
      * Set the source object.

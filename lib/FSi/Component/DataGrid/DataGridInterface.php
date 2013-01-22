@@ -34,7 +34,7 @@ interface DataGridInterface
     public function getIndexingStrategy();
 
     /**
-     * Add new column to DataGrid. Remeber that column type must be registred in
+     * Add new column to DataGrid. Remember that column type must be registered in
      * DataGridFactory that was used to create current DataGrid.
      *
      * @param string|ColumnTypeInterface $name
@@ -45,7 +45,7 @@ interface DataGridInterface
     public function addColumn($name, $type = 'text', $options = array());
 
     /**
-     * Remove column from DataGrdid.
+     * Remove column from DataGrid.
      *
      * @param string $name
      * @throws InvalidArgumentException when column with $name not exists in grid.
@@ -66,7 +66,7 @@ interface DataGridInterface
     public function getColumn($name);
 
     /**
-     * Return all registred columns in grid.
+     * Return all registered columns in grid.
      *
      * @return array
      */
@@ -82,6 +82,8 @@ interface DataGridInterface
 
     /**
      * Create DataGridView object that should be used to render data grid.
+     *
+     * @return DataGridView
      */
     public function createView();
 
@@ -90,12 +92,14 @@ interface DataGridInterface
      * should not be used to update date.
      * Data should be passed as array or object that implements
      * \ArrayAccess, \Countable and \IteratorAggregate interfaces.
+     *
      * @param array $data
      */
     public function setData($data);
 
     /**
      * This method should be used only to update already set data.
+     *
      * @param mixed $data
      */
     public function bindData($data);

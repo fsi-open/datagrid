@@ -13,50 +13,103 @@ namespace FSi\Component\DataGrid\Column;
 
 class CellView implements CellViewInterface
 {
+    /**
+     * The original object from which the value of the cell was retrieved.
+     *
+     * @var mixed
+     */
     protected $source;
 
+    /**
+     * Cell value. In most cases this should be a simple string.
+     *
+     * @var mixed
+     */
     protected $value;
 
+    /**
+     * Cell attributes.
+     *
+     * @var array
+     */
     protected $attributes = array();
 
-    protected $name;
     /**
-     * Column type
+     * Cell name
+     *
+     * @var string
+     */
+    protected $name;
+
+    /**
+     * Cell type
+     *
      * @var string
      */
     protected $type;
 
+    /**
+     * @param string $type
+     */
     public function __construct($type)
     {
         $this->type = $type;
     }
 
+    /**
+     * Return cell column type.
+     *
+     * @return string
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function setValue($value)
     {
         $this->value = $value;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function getValue()
     {
         return $this->value;
     }
 
+    /**
+     * @param string $name
+     */
     public function setName($name)
     {
         $this->name = $name;
     }
 
+    /**
+     * @return string
+     */
     public function getName()
     {
         return $this->name;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function setAttribute($name, $value)
     {
         $this->attributes[$name] = $value;
         return $this;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function getAttribute($name)
     {
         if (isset($this->attributes[$name])) {
@@ -66,29 +119,36 @@ class CellView implements CellViewInterface
         return null;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function getAttributes()
     {
         return $this->attributes;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function hasAttribute($name)
     {
         return array_key_exists($name, $this->attributes);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function setSource($source)
     {
         $this->source = $source;
         return $this;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function getSource()
     {
         return $this->source;
-    }
-
-    public function getType()
-    {
-        return $this->type;
     }
 }

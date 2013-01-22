@@ -15,24 +15,24 @@ Provided by ``DataGrid\Extension\Symfony\ColumnTypeExtension\ActionColumnExtensi
 
 ## Options Description ##
 
-**label** By default label value its taken from name under what column was registred in grid. 
+**label** By default label value its taken from name under what column was registered in grid.
 
-**mapping_fields** Fields that should be used when data is retrieved from the source. By default there is only one mapping 
-field and its taken from name under what column was registred in grid. 
-Option is useful when you need to implode few fields from object in one column. 
+**mapping_fields** Fields that should be used when data is retrieved from the source. By default there is only one mapping
+field and its taken from name under what column was registered in grid.
+Option is useful when you need to implode few fields from object in one column.
 
 **glue** Useful only when you need to implode data from few source object fields into one column.
 
-**format** Useful when you need to format value before passing it to view. Value is formated with php ``sprintf`` function. There should be at least same count of ``mapping_fields`` option 
+**format** Useful when you need to format value before passing it to view. Value is formatted with php ``sprintf`` function. There should be at least same count of ``mapping_fields`` option
 values as placeholders count in format string. This option can be used with ``glue`` option.
 
-**glue_multiple** Glue between objects from relation. Should be used if you want to display relation with many objects and add some separator between them. 
+**glue_multiple** Glue between objects from relation. Should be used if you want to display relation with many objects and add some separator between them.
 
 **relation_field** Field that relates to other entity (entities).
 
 **order** Column order.
 
-**editable** If enabled SymfonyForm object is automatically created and passed into view as attribute and you can easly use it to display quick edit.
+**editable** If enabled SymfonyForm object is automatically created and passed into view as attribute and you can easily use it to display quick edit.
 
 **fields_options** Array of options for forms, where key is name of field (one of mapping fields) and value is options passed to form
 (given as array('name' => '...', 'type' => '...', 'options' => array('...'))).

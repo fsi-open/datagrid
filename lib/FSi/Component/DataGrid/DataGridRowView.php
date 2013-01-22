@@ -18,18 +18,28 @@ class DataGridRowView implements DataGridRowViewInterface
 {
     /**
      * Cells views.
+     *
      * @var array
      */
     protected $cellViews = array();
 
     /**
      * The source object for which view is created
+     *
      * @var mixed
      */
     protected $source;
 
+    /**
+     * @var int
+     */
     protected $index;
 
+    /**
+     * @param array $columns
+     * @param mixed $source
+     * @param int $index
+     */
     public function __construct(array $columns, $source, $index)
     {
         $this->count = count($columns);
@@ -37,13 +47,16 @@ class DataGridRowView implements DataGridRowViewInterface
         $this->index = $index;
         foreach ($columns as $name => $column) {
             if (!($column instanceof ColumnTypeInterface)) {
-                throw new UnexpectedTypeException('Column object must implements FSi\Component\DataGrid\Column\ColumnTypeInterface');
+                throw new UnexpectedTypeException('Column object must implement FSi\Component\DataGrid\Column\ColumnTypeInterface');
             }
 
             $this->cellViews[$name] = $column->createCellView($this->source, $index);
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function getIndex()
     {
         return $this->index;
@@ -51,7 +64,6 @@ class DataGridRowView implements DataGridRowViewInterface
 
     /**
      * Returns the number of cells in the row.
-     *
      * Implements Countable::count()
      *
      * @return int

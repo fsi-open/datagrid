@@ -24,6 +24,9 @@ use FSi\Component\DataGrid\Exception\UnknownOptionException;
 
 abstract class ColumnAbstractType implements ColumnTypeInterface
 {
+    /**
+     * @var array
+     */
     protected $extensions = array();
 
     /**
@@ -46,6 +49,9 @@ abstract class ColumnAbstractType implements ColumnTypeInterface
      */
     protected $dataGrid;
 
+    /**
+     * {@inheritDoc}
+     */
     public function getName()
     {
         if (!isset($this->name)) {
@@ -55,12 +61,18 @@ abstract class ColumnAbstractType implements ColumnTypeInterface
         return $this->name;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function setName($name)
     {
         $this->name = (string)$name;
         return $this;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function setDataGrid(DataGridInterface $dataGrid)
     {
         $this->dataGrid = $dataGrid;
@@ -71,18 +83,24 @@ abstract class ColumnAbstractType implements ColumnTypeInterface
     }
 
     /**
-     * @return DataGrid
+     * {@inheritDoc}
      */
     public function getDataGrid()
     {
         return $this->dataGrid;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function setDataMapper(DataMapperInterface $dataMapper)
     {
         $this->dataMapper = $dataMapper;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function getDataMapper()
     {
         if (!isset($this->dataMapper)) {
@@ -91,49 +109,9 @@ abstract class ColumnAbstractType implements ColumnTypeInterface
         return $this->dataMapper;
     }
 
-    public function setOption($name, $value)
-    {
-        if (!isset($this->options)) {
-            $this->loadAvailableOptions();
-        }
-
-        if (!array_key_exists($name, $this->options)) {
-            throw new UnknownOptionException(sprintf('Option "%s" is not available in column type "%s".', $name, $this->getId()));
-        }
-
-        $this->options[$name] = $value;
-        return $this;
-    }
-
-    public function getOption($name)
-    {
-        if (!isset($this->options)) {
-            $this->loadAvailableOptions();
-        }
-
-        if (!array_key_exists($name, $this->options)) {
-            throw new UnknownOptionException(sprintf('Option "%s" is not available in column type "%s".', $name, $this->getId()));
-        }
-
-        return $this->options[$name];
-    }
-
-    public function hasOption($name)
-    {
-        if (!isset($this->options)) {
-            $this->loadAvailableOptions();
-        }
-
-        return array_key_exists($name, $this->options);
-    }
-
-    public function bindData($data, $object, $index)
-    {
-        foreach ($this->extensions as $extension) {
-            $extension->bindData($this, $data, $object, $index);
-        }
-    }
-
+    /**
+     * {@inheritDoc}
+     */
     public function getValue($object)
     {
         $values = array();
@@ -150,6 +128,10 @@ abstract class ColumnAbstractType implements ColumnTypeInterface
         return $values;
     }
 
+
+    /**
+     * {@inheritDoc}
+     */
     public function createCellView($object, $index)
     {
         $this->validateOptions();
@@ -183,9 +165,15 @@ abstract class ColumnAbstractType implements ColumnTypeInterface
         return $view;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function buildCellView(CellViewInterface $view)
     {}
 
+    /**
+     * {@inheritDoc}
+     */
     public function createHeaderView()
     {
         $view = new HeaderView($this->getName());
@@ -199,9 +187,70 @@ abstract class ColumnAbstractType implements ColumnTypeInterface
         return $view;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function buildHeaderView(HeaderViewInterface $view)
     {}
 
+    /**
+     * {@inheritDoc}
+     */
+    public function setOption($name, $value)
+    {
+        if (!isset($this->options)) {
+            $this->loadAvailableOptions();
+        }
+
+        if (!array_key_exists($name, $this->options)) {
+            throw new UnknownOptionException(sprintf('Option "%s" is not available in column type "%s".', $name, $this->getId()));
+        }
+
+        $this->options[$name] = $value;
+        return $this;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function getOption($name)
+    {
+        if (!isset($this->options)) {
+            $this->loadAvailableOptions();
+        }
+
+        if (!array_key_exists($name, $this->options)) {
+            throw new UnknownOptionException(sprintf('Option "%s" is not available in column type "%s".', $name, $this->getId()));
+        }
+
+        return $this->options[$name];
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function hasOption($name)
+    {
+        if (!isset($this->options)) {
+            $this->loadAvailableOptions();
+        }
+
+        return array_key_exists($name, $this->options);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public function bindData($data, $object, $index)
+    {
+        foreach ($this->extensions as $extension) {
+            $extension->bindData($this, $data, $object, $index);
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function setExtensions(array $extensions)
     {
         foreach ($extensions as $extension) {
@@ -213,15 +262,21 @@ abstract class ColumnAbstractType implements ColumnTypeInterface
         $this->extensions = $extensions;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function getExtensions()
     {
         return $this->extensions;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function addExtension(ColumnTypeExtensionInterface $extension)
     {
         if (!($extension instanceof ColumnTypeExtensionInterface)) {
-            throw new UnexpectedTypeException($extension, 'FSi\Component\DataGrid\Column\ColumnTypeExtensionInterface');
+            throw new UnexpectedTypeException('Column extension must implement FSi\Component\DataGrid\Column\ColumnTypeExtensionInterface');
         }
 
         $this->extensions[] = $extension;
@@ -256,6 +311,9 @@ abstract class ColumnAbstractType implements ColumnTypeInterface
         return array();
     }
 
+    /**
+     * @throws \FSi\Component\DataGrid\Exception\UnexpectedTypeException
+     */
     private function loadAvailableOptions()
     {
         // Load options from column type
@@ -276,9 +334,9 @@ abstract class ColumnAbstractType implements ColumnTypeInterface
             $this->options[strtolower($option)] = null;
         }
 
-        // Load options default values from colum type
+        // Load options default values from column type
         $defaultValues = $this->getDefaultOptionsValues();
-        // Load options default values from colum type extensions
+        // Load options default values from column type extensions
         foreach ($this->extensions as $extension) {
             $defaultValues = (array_merge($defaultValues, $extension->getDefaultOptionsValues($this)));
         }

@@ -11,7 +11,9 @@
 
 namespace FSi\Component\DataGrid\Column;
 
+use FSi\Component\DataGrid\DataGridInterface;
 use FSi\Component\DataGrid\Column\CellViewInterface;
+use FSi\Component\DataGrid\Column\HeaderViewInterface;
 use FSi\Component\DataGrid\DataMapper\DataMapperInterface;
 use FSi\Component\DataGrid\Column\ColumnTypeExtensionInterface;
 
@@ -19,50 +21,82 @@ interface ColumnTypeInterface
 {
     /**
      * Get column type identity.
+     *
+     * @return string
      */
     public function getId();
 
     /**
-     * Get name under column is registred in data grid.
+     * Get name under column is registered in data grid.
+     *
+     * @return string
      */
     public function getName();
 
     /**
+     * @param DataGridInterface $dataGrid
+     */
+    public function setDataGrid(DataGridInterface $dataGrid);
+
+    /**
+     * @return DataGridInterface $dataGrid
+     */
+    public function getDataGrid();
+
+    /**
+     * @param DataMapperInterface $dataMapper
+     * @return ColumnTypeInterface
+     */
+    public function setDataMapper(DataMapperInterface $dataMapper);
+
+    /**
+     * Return DataMapper
+     *
+     * @return DataMapperInterface
+     */
+    public function getDataMapper();
+
+    /**
      * Filter value before passing it to view.
+     *
      * @param mixed $value
      */
     public function filterValue($value);
 
     /**
+     * Get value from object using DataMapper
+     *
+     * @param mixed $value
+     */
+    public function getValue($object);
+
+    /**
      * Create CellView object set source value on it.
+     *
      * @param mixed $object
-     * @param mixed $index - row index in rowset
+     * @param string $index
+     * @return CellView
+     * @throws UnexpectedTypeException
      */
     public function createCellView($object, $index);
 
     /**
-     *
      * @param CellViewInterface $view
      */
     public function buildCellView(CellViewInterface $view);
 
     /**
      * Create HeaderView object for column.
+     *
      * @param mixed $name
      */
     public function createHeaderView();
 
     /**
-     * Set DataMapper
-     *
-     * @param DataMapperInterface $dataMapper
+     * @param HeaderViewInterface $view
+     * @return mixed
      */
-    public function setDataMapper(DataMapperInterface $dataMapper);
-
-    /**
-     * Return DataMapper
-     */
-    public function getDataMapper();
+    public function buildHeaderView(HeaderViewInterface $view);
 
     /**
      * Binds data into object using DataMapper object.
@@ -73,16 +107,40 @@ interface ColumnTypeInterface
      */
     public function bindData($data, $object, $index);
 
+    /**
+     * @param string $name
+     * @param mixed $value
+     * @return mixed
+     */
     public function setOption($name, $value);
 
+    /**
+     * @param string $name
+     * @return mixed
+     */
     public function getOption($name);
 
+    /**
+     * @param $name
+     * @return boolean
+     */
     public function hasOption($name);
 
+    /**
+     * @param array $extensions
+     * @return mixed
+     */
     public function setExtensions(array $extensions);
 
+    /**
+     * @param ColumnTypeExtensionInterface $extension
+     * @return ColumnTypeInterface
+     */
     public function addExtension(ColumnTypeExtensionInterface $extension);
 
+    /**
+     * @return array
+     */
     public function getExtensions();
 
 }

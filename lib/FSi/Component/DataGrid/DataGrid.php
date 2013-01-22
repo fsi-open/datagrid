@@ -26,19 +26,19 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 class DataGrid implements DataGridInterface
 {
     /**
-     * Unique data grid name. With this name grid is registred in factory.
+     * Unique data grid name. With this name grid is registered in factory.
      * @var string
      */
     protected $name;
 
     /**
      * DataCollection used to render view.
-     * @var FSi\Component\DataGrid\Data\RowsetData
+     * @var DataRowset
      */
     protected $rowset;
 
     /**
-     * DataMapper used by all columns to retrive data from rowset objects.
+     * DataMapper used by all columns to retrieve data from rowset objects.
      * @var DataMapperInterface
      */
     protected $dataMapper;
@@ -56,18 +56,25 @@ class DataGrid implements DataGridInterface
     protected $columns = array();
 
     /**
-     * Symfony EventDispatcher mechanism that allow users to register
-     * listeners and subsribers.
+     * Symfony EventDispatcher mechanism that allow users to register listeners and subscribers.
      * @var EventDispatcher
      */
     protected $eventDispatcher;
 
     /**
-     * Indexing strategy used to index rowset oryginal data under unique indexes.
+     * Indexing strategy used to index rowset original data under unique indexes.
      * @var IndexingStrategyInterface
      */
     protected $strategy;
 
+    /**
+     * Constructs new DataGrid instance. Should be called only from DataGridFactory.
+     *
+     * @param string $name
+     * @param DataGridFactoryInterface $dataGridFactory
+     * @param DataMapperInterface $dataMapper
+     * @param IndexingStrategyInterface $strategy
+     */
     public function __construct($name, DataGridFactoryInterface $dataGridFactory, DataMapperInterface $dataMapper, IndexingStrategyInterface $strategy)
     {
         $this->name = $name;
@@ -194,7 +201,7 @@ class DataGrid implements DataGridInterface
 
         if (!is_array($data)) {
             if (!($data instanceof \Traversable)) {
-                throw new \InvalidArgumentException('array or Traversable object is expected as data in setData method.');
+                throw new \InvalidArgumentException('Array or Traversable object is expected in setData method.');
             }
         }
 
@@ -299,7 +306,7 @@ class DataGrid implements DataGridInterface
     }
 
     /**
-     * Register all event subsribers provided by extensions.
+     * Register all event subscribers provided by extensions.
      */
     private function registerSubscribers()
     {

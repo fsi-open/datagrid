@@ -11,17 +11,17 @@ Provided by ``DataGrid\Extension\Core\CoreExtension``
 
 ## Options Description ##
 
-**mapping_fields** Fields that should be used when data is retrieved from the source. By default there is only one mapping 
-field and its taken from name under what column was registred in grid. 
-Option is useful when you need to implode few fields from object in one column. 
+**mapping_fields** Fields that should be used when data is retrieved from the source. By default there is only one mapping
+field and its taken from name under what column was registered in grid.
+Option is useful when you need to implode few fields from object in one column.
 
-**label** By default label value its taken from name under what column was registred in grid. 
+**label** By default label value its taken from name under what column was registered in grid.
 
-**order** Column order. 
+**order** Column order.
 
 **actions** Array of actions. This option is provided by two extensions and it's up to you to decide which one should be loaded. Each of extensions has defined own keys that are available/required/default inside of **actions** array (see example usage):
 
-For standalone datagrid use ``FSi\Component\DataGrid\Extension\Core\ColumnTypeExtension\ActionColumnExtension``, it provides: 
+For standalone datagrid use ``FSi\Component\DataGrid\Extension\Core\ColumnTypeExtension\ActionColumnExtension``, it provides:
 
  * ``uri_scheme`` - **required**, string, scheme of an uri
  * ``anchor`` - **required**, string, name of an anchor

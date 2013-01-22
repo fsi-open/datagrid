@@ -42,6 +42,13 @@ class DataGridView implements DataGridViewInterface
      */
     protected $rowset;
 
+    /**
+     * Constructs DataGridView, should be called only from DataGrid::createView method.
+     *
+     * @param string $name
+     * @param array $columns
+     * @param Data\DataRowsetInterface $rowset
+     */
     public function __construct($name, array $columns = array(), DataRowsetInterface $rowset)
     {
         foreach ($columns as $column) {
@@ -68,7 +75,7 @@ class DataGridView implements DataGridViewInterface
     }
 
     /**
-     * Check if column is registred in view.
+     * Check if column is registered in view.
      *
      * @param string $name
      * @return boolean
@@ -89,12 +96,14 @@ class DataGridView implements DataGridViewInterface
             unset($this->columnsHeaders[$name]);
             return true;
         }
+
         return false;
     }
 
     /**
      * Get column.
      *
+     * @throw InvalidArgumentException
      * @param string $name
      */
     public function getColumn($name)
@@ -107,7 +116,7 @@ class DataGridView implements DataGridViewInterface
     }
 
     /**
-     * Return all columns registred in view.
+     * Return all columns registered in view.
      *
      * @return array
      */
@@ -126,7 +135,7 @@ class DataGridView implements DataGridViewInterface
     }
 
     /**
-     * Set new columns set to view.
+     * Add new column to view.
      */
     public function addColumn(HeaderViewInterface $column)
     {
@@ -139,7 +148,7 @@ class DataGridView implements DataGridViewInterface
     }
 
     /**
-     * Set new columns set to view.
+     * Set new column list set to view.
      */
     public function setColumns(array $columns)
     {

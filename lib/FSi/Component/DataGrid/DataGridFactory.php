@@ -21,17 +21,18 @@ use FSi\Component\DataGrid\DataMapper\DataMapperInterface;
 class DataGridFactory implements DataGridFactoryInterface
 {
     /**
-     * Already registred data grids.
+     * Already registered data grids.
      * @var array
      */
     protected $dataGrids = array();
 
+    /**
+     * Currently loaded column types.
+     * @var array
+     */
     protected $columnTypes = array();
 
     /**
-     * Instance of Data Mapper. This object allows you mapping data from collection
-     * into selected column.
-     *
      * @var DataMapperInterface
      */
     protected $dataMapper;
@@ -43,13 +44,21 @@ class DataGridFactory implements DataGridFactoryInterface
      */
     protected $extensions = array();
 
+    /**
+     * @var IndexingStrategyInterface
+     */
     protected $strategy;
 
+    /**
+     * @param array $extensions
+     * @param DataMapperInterface $dataMapper
+     * @param IndexingStrategyInterface $strategy
+     */
     public function __construct(array $extensions, DataMapperInterface $dataMapper, IndexingStrategyInterface $strategy)
     {
         foreach ($extensions as $extension) {
             if (!($extension instanceof DataGridExtensionInterface)) {
-                throw new UnexpectedTypeException($extension, 'FSi\Component\DataGrid\DataGridExtensionInterface');
+                throw new \InvalidArgumentException('Each extension must implement FSi\Component\DataGrid\DataGridExtensionInterface');
             }
         }
 
@@ -60,8 +69,9 @@ class DataGridFactory implements DataGridFactoryInterface
 
     /**
      * Create data grid with unique name.
-     * @throws DataGridColumnException
+     *
      * @param string $name
+     * @throws DataGridColumnException
      */
     public function createDataGrid($name = 'grid')
     {
@@ -114,16 +124,28 @@ class DataGridFactory implements DataGridFactoryInterface
         return $this->extensions;
     }
 
+    /**
+     * @return DataMapper\DataMapperInterface
+     */
     public function getDataMapper()
     {
         return $this->dataMapper;
     }
 
+    /**
+     * @return IndexingStrategyInterface
+     */
     public function getIndexingStrategy()
     {
         return $this->strategy;
     }
 
+    /**
+     * Try to load column type from extensions registered in factory.
+     *
+     * @param string $type
+     * @throws UnexpectedTypeException
+     */
     private function loadColumnType($type)
     {
         if (isset($this->columnTypes[$type])) {

@@ -18,28 +18,72 @@ use FSi\Component\DataGrid\Column\HeaderViewInterface;
 
 interface ColumnTypeExtensionInterface
 {
+    /**
+     * @param DataGridInterface $dataGrid
+     * @return mixed
+     */
     public function setDataGrid(DataGridInterface $dataGrid);
 
+    /**
+     * @param ColumnTypeInterface $column
+     * @param mixed $data
+     * @param mixed $object
+     * @param string $index
+     */
     public function bindData(ColumnTypeInterface $column, $data, $object, $index);
 
+    /**
+     * @param ColumnTypeInterface $column
+     * @param CellViewInterface $view
+     */
     public function buildCellView(ColumnTypeInterface $column, CellViewInterface $view);
 
+    /**
+     * @param ColumnTypeInterface $column
+     * @param HeaderViewInterface $view
+     */
     public function buildHeaderView(ColumnTypeInterface $column, HeaderViewInterface $view);
 
+    /**
+     * @param ColumnTypeInterface $column
+     * @param mixed $value
+     * @return mixed
+     */
     public function filterValue(ColumnTypeInterface $column, $value);
 
     /**
-     * Return required options for all column types options registred in extension.
+     * Return required options for all column types options registered in extension.
+     *
+     * return array(
+     *     'trim',
+     *     'empty_value'
+     * );
+     *
+     * @return array
      */
     public function getRequiredOptions(ColumnTypeInterface $column);
 
     /**
-     * Return available options for all column types options registred in extension.
+     * Return available options for all column types options registered in extension.
+     *
+     * return array(
+     *     'trim',
+     *     'empty_value'
+     * );
+     *
+     * @return array
      */
     public function getAvailableOptions(ColumnTypeInterface $column);
 
     /**
-     * Return default values for all column types options registred in extension.
+     * Return default values for all column types options registered in extension.
+     * Example return:
+     *
+     * return array(
+     *     'trim' => true,
+     * );
+     *
+     * @return array
      */
     public function getDefaultOptionsValues(ColumnTypeInterface $column);
 
@@ -53,6 +97,8 @@ interface ColumnTypeExtensionInterface
      * );
      *
      * Extensions will be loaded into columns text and date_time.
+     *
+     * @return array
      */
     public function getExtendedColumnTypes();
 }

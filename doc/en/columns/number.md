@@ -19,15 +19,15 @@ Provided by ``DataGrid\Extension\Core\CoreExtension``
 
 **precision** Number of decimal digits to round to.
 
-**label** By default label value its taken from name under what column was registred in grid.
+**label** By default label value its taken from name under what column was registered in grid.
 
 **mapping_fields** Fields that should be used when data is retrieved from the source. By default there is only one mapping
-field and its taken from name under what column was registred in grid.
+field and its taken from name under what column was registered in grid.
 Option is useful when you need to implode few fields from object in one column.
 
 **glue** Useful only when you need to implode data from few source object fields into one column.
 
-**format** Useful when you need to format value before passing it to view. Value is formated with php ``sprintf`` function. There should be at least same count of ``mapping_fields`` option
+**format** Useful when you need to format value before passing it to view. Value iformatteded with php ``sprintf`` function. There should be at least same count of ``mapping_fields`` option
 values as placeholders count in format string. This option can be used with ``glue`` option.
 
 **order** Column order.

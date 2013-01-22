@@ -14,7 +14,7 @@ namespace FSi\Component\DataGrid;
 interface DataGridFactoryInterface
 {
     /**
-     * Check if column is registred in factory. Column types can be registred
+     * Check if column is registered in factory. Column types can be registered
      * only by extensions.
      *
      * @param boolean $type
@@ -22,13 +22,13 @@ interface DataGridFactoryInterface
     public function hasColumnType($type);
 
     /**
-     * @throws UnexpectedTypeException if column is not registred in factory.
+     * @throws UnexpectedTypeException if column is not registered in factory.
      * @param unknown_type $type
      */
     public function getColumnType($type);
 
     /**
-     * Return all registred in factory DataGrid extensions as array.
+     * Return all registered in factory DataGrid extensions as array.
      *
      * @return array
      */

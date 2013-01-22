@@ -13,7 +13,6 @@ namespace FSi\Component\DataGrid;
 
 use FSi\Component\DataGrid\DataGridInterface;
 use FSi\Component\DataGrid\DataGridExtensionInterface;
-use FSi\Component\DataGrid\DataGridViewInterface;
 use FSi\Component\DataGrid\Column\ColumnTypeInterface;
 use FSi\Component\DataGrid\Column\ColumnTypeExtensionInterface;
 use FSi\Component\DataGrid\Exception\UnexpectedTypeException;
@@ -38,9 +37,7 @@ abstract class DataGridAbstractExtension implements DataGridExtensionInterface
      * Returns a column type by id (all column types mush have unique id).
      *
      * @param string $id The identity of the column type
-     *
      * @return ColumnTypeInterface The column type
-     *
      * @throws DataGridException if the given column type is not a part of this extension
      */
     public function getColumnType($type)
@@ -117,7 +114,7 @@ abstract class DataGridAbstractExtension implements DataGridExtensionInterface
 
     /**
      * If extension needs to provide new column types this function
-     * should be owerloaded in child class and return array of DataGridColumnTypeInterface
+     * should be overloaded in child class and return array of DataGridColumnTypeInterface
      * instances
      *
      * @return array
@@ -128,7 +125,7 @@ abstract class DataGridAbstractExtension implements DataGridExtensionInterface
     }
 
     /**
-     * If extension needs to load event subscribers this method should be owerloaded in
+     * If extension needs to load event subscribers this method should be overloaded in
      * child class and return array event subscribers.
      */
     protected function loadSubscribers()
@@ -138,7 +135,7 @@ abstract class DataGridAbstractExtension implements DataGridExtensionInterface
 
     /**
      * If extension needs to provide new column types this function
-     * should be owerloaded in child class and return array of DataGridColumnTypeInterface
+     * should be overloaded in child class and return array of DataGridColumnTypeInterface
      * instances
      *
      * @return array
@@ -148,6 +145,9 @@ abstract class DataGridAbstractExtension implements DataGridExtensionInterface
         return array();
     }
 
+    /**
+     * @throws UnexpectedTypeException
+     */
     private function initColumnTypes()
     {
         $this->columnTypes = array();
@@ -156,19 +156,22 @@ abstract class DataGridAbstractExtension implements DataGridExtensionInterface
 
         foreach ($columnTypes as $columnType) {
             if (!($columnType instanceof ColumnTypeInterface)) {
-                throw new UnexpectedTypeException($columnType, 'FSi\Component\DataGrid\Column\ColumnTypeInterface');
+                throw new UnexpectedTypeException('Column Type must implement FSi\Component\DataGrid\Column\ColumnTypeInterface');
             }
 
             $this->columnTypes[$columnType->getId()] = $columnType;
         }
     }
 
+    /**
+     * @throws UnexpectedTypeException
+     */
     private function initColumnTypesExtensions()
     {
         $columnTypesExtensions = $this->loadColumnTypesExtensions();
         foreach ($columnTypesExtensions as $extension) {
             if (!($extension instanceof ColumnTypeExtensionInterface)) {
-                throw new UnexpectedTypeException($extension, 'FSi\Component\DataGrid\Column\ColumnTypeExtensionInterface');
+                throw new UnexpectedTypeException('Extension must implement FSi\Component\DataGrid\Column\ColumnTypeExtensionInterface');
             }
 
             $types = $extension->getExtendedColumnTypes();

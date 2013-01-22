@@ -22,8 +22,15 @@ class DataGridEvent extends Event implements DataGridEventInterface
      */
     protected $dataGrid;
 
+    /**
+     * @var mixed
+     */
     protected $data;
 
+    /**
+     * @param DataGridInterface $dataGrid
+     * @param mixed $data
+     */
     public function __construct(DataGridInterface $dataGrid, $data)
     {
         $this->dataGrid = $dataGrid;

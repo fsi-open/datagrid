@@ -19,33 +19,57 @@ use FSi\Component\DataGrid\Column\ColumnTypeExtensionInterface;
 
 abstract class ColumnAbstractTypeExtension implements ColumnTypeExtensionInterface
 {
+    /**
+     * {@inheritDoc}
+     */
     public function setDataGrid(DataGridInterface $dataGrid)
     {}
 
+    /**
+     * {@inheritDoc}
+     */
     public function bindData(ColumnTypeInterface $column, $data, $object, $index)
     {}
 
+    /**
+     * {@inheritDoc}
+     */
     public function buildCellView(ColumnTypeInterface $column, CellViewInterface $view)
     {}
 
+    /**
+     * {@inheritDoc}
+     */
     public function buildHeaderView(ColumnTypeInterface $column, HeaderViewInterface $view)
     {}
 
+    /**
+     * {@inheritDoc}
+     */
     public function getRequiredOptions(ColumnTypeInterface $column)
     {
         return array();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function getAvailableOptions(ColumnTypeInterface $column)
     {
         return array();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function getDefaultOptionsValues(ColumnTypeInterface $column)
     {
         return array();
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function filterValue(ColumnTypeInterface $column, $value)
     {
         return $value;

@@ -37,6 +37,8 @@ interface HeaderViewInterface
      */
     public function hasAttribute($name);
 
+    public function getAttributes();
+
     /**
      * Get view value. In most cases it should be simple string.
      *
@@ -51,7 +53,18 @@ interface HeaderViewInterface
      */
     public function setLabel($value);
 
+    /**
+     * Get column name.
+     *
+     * @return string
+     */
     public function getName();
 
+    /**
+     * Set column name.
+     *
+     * @param string $name
+     * @return HeaderViewInterface
+     */
     public function setName($name);
 }
