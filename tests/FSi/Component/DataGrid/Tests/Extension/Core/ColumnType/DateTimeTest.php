@@ -72,7 +72,7 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase
         $this->assertSame(
             $column->filterValue($value),
             array(
-                'datetime' => '2012-05-03 12:41:11'
+                'datetime' => $dateTimeObject->format('Y-m-d H:i:s')
             )
         );
     }
