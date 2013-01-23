@@ -60,22 +60,24 @@ class ActionTypeTest extends \PHPUnit_Framework_TestCase
 
     public function testFilterValueRequiredActionInActionsOption()
     {
+        $self = $this;
+
         $this->container->expects($this->any())
             ->method('get')
-            ->will($this->returnCallback(function($serviceId){
-                switch ($serviceId) {
-                    case 'router':
-                        $router = $this->getMock('Symfony\Component\Routing\RouterInterface');
-                        $router->expects($this->once())
-                            ->method('generate')
-                            ->with('foo', array('redirect_uri' => 'http://example.com/?test=1&test=2'), false)
-                            ->will($this->returnValue('/test/bar?redirect_uri=' . urlencode(MyRequest::URI)));
+            ->will($this->returnCallback(function($serviceId) use ($self) {
 
-                        return $router;
-                    break;
-                    case 'request':
-                        return new MyRequest();
-                    break;
+                if ($serviceId == 'router') {
+                    $router = $self->getMock('Symfony\Component\Routing\RouterInterface');
+                    $router->expects($self->once())
+                        ->method('generate')
+                        ->with('foo', array('redirect_uri' => 'http://example.com/?test=1&test=2'), false)
+                        ->will($self->returnValue('/test/bar?redirect_uri=' . urlencode(MyRequest::URI)));
+
+                    return $router;
+                }
+
+                if ($serviceId == 'request') {
+                    return new MyRequest();
                 }
             }));
 
@@ -104,16 +106,18 @@ class ActionTypeTest extends \PHPUnit_Framework_TestCase
 
     public function testFilterValueAvailableActionInActionsOption()
     {
+        $self = $this;
+
         $this->container->expects($this->any())
             ->method('get')
-            ->will($this->returnCallback(function($serviceId){
+            ->will($this->returnCallback(function($serviceId) use ($self) {
                 switch ($serviceId) {
                     case 'router':
-                        $router = $this->getMock('Symfony\Component\Routing\RouterInterface');
-                        $router->expects($this->once())
+                        $router = $self->getMock('Symfony\Component\Routing\RouterInterface');
+                        $router->expects($self->once())
                             ->method('generate')
                             ->with('foo', array('foo' => 'bar', 'redirect_uri' => 'http://example.com/?test=1&test=2'), true)
-                            ->will($this->returnValue('https://fsi.pl/test/bar?redirect_uri=' . urlencode(MyRequest::URI)));
+                            ->will($self->returnValue('https://fsi.pl/test/bar?redirect_uri=' . urlencode(MyRequest::URI)));
                         return $router;
                         break;
                     case 'request':
@@ -151,16 +155,18 @@ class ActionTypeTest extends \PHPUnit_Framework_TestCase
 
     public function testFilterValueWithRedirectUriFalse()
     {
+        $self = $this;
+
         $this->container->expects($this->any())
             ->method('get')
-            ->will($this->returnCallback(function($serviceId){
+            ->will($this->returnCallback(function($serviceId) use ($self) {
                 switch ($serviceId) {
                     case 'router':
-                        $router = $this->getMock('Symfony\Component\Routing\RouterInterface');
-                        $router->expects($this->once())
+                        $router = $self->getMock('Symfony\Component\Routing\RouterInterface');
+                        $router->expects($self->once())
                             ->method('generate')
                             ->with('foo', array(), false)
-                            ->will($this->returnValue('/test/bar'));
+                            ->will($self->returnValue('/test/bar'));
 
                         return $router;
                     break;

@@ -16,9 +16,12 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase
 {
     public function testBasicFilterValue()
     {
+        $dateTimeObject = new \DateTime('2012-05-03 12:41:11');
+
         $value = array(
-            'datetime' => new \DateTime('2012-05-03 12:41:11')
+            'datetime' => $dateTimeObject
         );
+
         $column = new DateTime();
         $column->setName('datetime');
         $column->setOption('mapping_fields', array('datetime'));
@@ -26,15 +29,17 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase
         $this->assertSame(
             $column->filterValue($value),
             array(
-                'datetime' => '2012-05-03 12:41:11'
+                'datetime' => $dateTimeObject->format('Y-m-d H:i:s')
             )
         );
     }
 
     public function testFormatOption()
     {
+        $dateTimeObject = new \DateTime('2012-05-03 12:41:11');
+
         $value = array(
-            'datetime' => new \DateTime('2012-05-03 12:41:11')
+            'datetime' => $dateTimeObject
         );
 
         $column = new DateTime();
@@ -45,7 +50,7 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase
         $this->assertSame(
             $column->filterValue($value),
             array(
-                'datetime' => '2012.03.05'
+                'datetime' => $dateTimeObject->format('Y.d.m')
             )
         );
     }
@@ -72,7 +77,7 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase
         $this->assertSame(
             $column->filterValue($value),
             array(
-                'datetime' => '2012-05-03 12:41:11'
+                'datetime' => $dateTimeObject->format('Y-m-d H:i:s')
             )
         );
     }
@@ -113,7 +118,7 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase
         $this->assertSame(
             $column->filterValue($value),
             array(
-                'datetime' => '2012-05-03 12:41:11'
+                'datetime' => $dateTimeObject->format('Y-m-d H:i:s')
             )
         );
 
@@ -165,8 +170,8 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase
         $dateObject = new \DateTime('2012-05-03');
         $value = array(
             'datetime' => $dateTimeObject,
-            'string' => $dateTimeObject->format('Y-m-d H:i:s'),
             'time' => $dateObject,
+            'string' => $dateTimeObject->format('Y-m-d H:i:s'),
             'timestamp' => $dateTimeObject->getTimestamp()
         );
 
@@ -183,10 +188,10 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase
         $this->assertSame(
             $column->filterValue($value),
             array(
-                'datetime' => '2012-05-03 12:41:11',
-                'time' => '2012-05-03 00:00:00',
-                'string' => '2012-05-03 12:41:11',
-                'timestamp' => '2012-05-03 10:41:11'
+                'datetime' => $dateTimeObject->format('Y-m-d H:i:s'),
+                'time' => $dateObject->format('Y-m-d 00:00:00'),
+                'string' => $dateTimeObject->format('Y-m-d H:i:s'),
+                'timestamp' => date('Y-m-d H:i:s', $dateTimeObject->getTimestamp()),
             )
         );
     }
@@ -197,8 +202,8 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase
         $dateObject = new \DateTime('2012-05-03');
         $value = array(
             'datetime' => $dateTimeObject,
-            'string' => $dateTimeObject->format('Y-m-d H:i:s'),
             'time' => $dateObject,
+            'string' => $dateTimeObject->format('Y-m-d H:i:s'),
             'timestamp' => $dateTimeObject->getTimestamp()
         );
 
@@ -216,10 +221,10 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase
         $this->assertSame(
             $column->filterValue($value),
             array(
-                'datetime' => '2012.03.05',
-                'time' => '2012.03.05',
-                'string' => '2012.03.05',
-                'timestamp' => '2012.03.05'
+                'datetime' => $dateTimeObject->format('Y.d.m'),
+                'time' => $dateObject->format('Y.d.m'),
+                'string' => $dateTimeObject->format('Y.d.m'),
+                'timestamp' => $dateTimeObject->format('Y.d.m')
             )
         );
     }
