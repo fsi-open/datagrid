@@ -51,15 +51,22 @@ class CellView implements CellViewInterface
     /**
      * @param string $type
      */
-    public function __construct($type)
+    public function __construct($name, $type)
     {
+        $this->name = $name;
         $this->type = $type;
     }
 
     /**
-     * Return cell column type.
-     *
-     * @return string
+     * {@inheritDoc}
+     */
+    public function getName()
+    {
+        return $this->name;
+    }
+
+    /**
+     * {@inheritDoc}
      */
     public function getType()
     {
@@ -80,22 +87,6 @@ class CellView implements CellViewInterface
     public function getValue()
     {
         return $this->value;
-    }
-
-    /**
-     * @param string $name
-     */
-    public function setName($name)
-    {
-        $this->name = $name;
-    }
-
-    /**
-     * @return string
-     */
-    public function getName()
-    {
-        return $this->name;
     }
 
     /**

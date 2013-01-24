@@ -24,6 +24,11 @@ class HeaderView implements HeaderViewInterface
     protected $name;
 
     /**
+     * @var string
+     */
+    protected $type;
+
+    /**
      * @var array
      */
     protected $attributes = array();
@@ -31,9 +36,10 @@ class HeaderView implements HeaderViewInterface
     /**
      * @param string $name
      */
-    public function __construct($name)
+    public function __construct($name, $type)
     {
         $this->name = $name;
+        $this->type = $type;
     }
 
     /**
@@ -92,16 +98,13 @@ class HeaderView implements HeaderViewInterface
     /**
      * {@inheritDoc}
      */
-    public function setName($name)
-    {
-        $this->name = $name;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
     public function getName()
     {
         return $this->name;
+    }
+
+    public function getType()
+    {
+        return $this->type;
     }
 }

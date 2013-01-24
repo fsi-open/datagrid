@@ -136,9 +136,8 @@ abstract class ColumnAbstractType implements ColumnTypeInterface
     {
         $this->validateOptions();
 
-        $view = new CellView($this->getId());
+        $view = new CellView($this->getName(), $this->getId());
         $view->setSource($object);
-        $view->setName($this->getName());
         $view->setAttribute('row', $index);
         $dataMapper = $this->getDataMapper();
 
@@ -176,7 +175,7 @@ abstract class ColumnAbstractType implements ColumnTypeInterface
      */
     public function createHeaderView()
     {
-        $view = new HeaderView($this->getName());
+        $view = new HeaderView($this->getName(), $this->getId());
 
         foreach ($this->getExtensions() as $extension) {
             $extension->buildHeaderView($this, $view);
