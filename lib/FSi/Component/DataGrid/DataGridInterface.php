@@ -11,6 +11,8 @@
 
 namespace FSi\Component\DataGrid;
 
+use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+
 interface DataGridInterface
 {
     /**
@@ -103,4 +105,8 @@ interface DataGridInterface
      * @param mixed $data
      */
     public function bindData($data);
+
+    public function addEventListener($eventName, $listener, $priority = 0);
+
+    public function addEventSubscriber(EventSubscriberInterface $subscriber);
 }
