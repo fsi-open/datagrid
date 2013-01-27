@@ -34,13 +34,6 @@ interface ColumnTypeInterface
     public function getName();
 
     /**
-     * Set column registered name.
-     *
-     * @param string $name
-     */
-    public function setName($name);
-
-    /**
      * @param DataGridInterface $dataGrid
      */
     public function setDataGrid(DataGridInterface $dataGrid);

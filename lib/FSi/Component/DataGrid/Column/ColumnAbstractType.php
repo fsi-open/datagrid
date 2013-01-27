@@ -62,7 +62,9 @@ abstract class ColumnAbstractType implements ColumnTypeInterface
     }
 
     /**
-     * {@inheritdoc}
+     * Set column registered name.
+     *
+     * @param string $name
      */
     public function setName($name)
     {
