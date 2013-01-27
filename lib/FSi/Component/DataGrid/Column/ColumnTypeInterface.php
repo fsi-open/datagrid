@@ -142,5 +142,4 @@ interface ColumnTypeInterface
      * @return array
      */
     public function getExtensions();
-
 }

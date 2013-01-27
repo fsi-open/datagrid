@@ -63,6 +63,9 @@ class ChainMapper implements DataMapperInterface
         return $data;
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function setData($field, $object, $value)
     {
         $data = null;

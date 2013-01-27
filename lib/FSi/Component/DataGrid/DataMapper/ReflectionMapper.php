@@ -69,6 +69,9 @@ class ReflectionMapper implements DataMapperInterface
         throw new DataMappingExteption(sprintf('Neither property "%s" nor method "%s()" nor method "%s()" exists in class "%s"', $field, $getter, $isser, $objectReflection->name));
     }
 
+    /**
+     * {@inheritdoc}
+     */
     public function setData($field, $object, $value)
     {
         if (!is_object($object)) {

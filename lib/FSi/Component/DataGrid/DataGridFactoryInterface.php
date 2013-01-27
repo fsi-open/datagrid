@@ -33,4 +33,22 @@ interface DataGridFactoryInterface
      * @return array
      */
     public function getExtensions();
+
+    /**
+     * Create data grid with unique name.
+     *
+     * @param string $name
+     * @throws DataGridColumnException
+     */
+    public function createDataGrid($name = 'grid');
+
+    /**
+     * @return DataMapper\DataMapperInterface
+     */
+    public function getDataMapper();
+
+    /**
+     * @return IndexingStrategyInterface
+     */
+    public function getIndexingStrategy();
 }
