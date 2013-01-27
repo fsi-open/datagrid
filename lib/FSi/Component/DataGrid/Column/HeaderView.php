@@ -43,7 +43,7 @@ class HeaderView implements HeaderViewInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function setAttribute($name, $value)
     {
@@ -52,7 +52,7 @@ class HeaderView implements HeaderViewInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getAttribute($name)
     {
@@ -64,7 +64,7 @@ class HeaderView implements HeaderViewInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function hasAttribute($name)
     {
@@ -72,7 +72,7 @@ class HeaderView implements HeaderViewInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getAttributes()
     {
@@ -80,7 +80,7 @@ class HeaderView implements HeaderViewInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function setLabel($label)
     {
@@ -88,7 +88,7 @@ class HeaderView implements HeaderViewInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getLabel()
     {
@@ -96,7 +96,7 @@ class HeaderView implements HeaderViewInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getName()
     {

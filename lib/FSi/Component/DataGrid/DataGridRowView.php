@@ -55,7 +55,7 @@ class DataGridRowView implements DataGridRowViewInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getIndex()
     {
@@ -125,7 +125,7 @@ class DataGridRowView implements DataGridRowViewInterface
      * Checks if current position is valid
      * Required by the SeekableIterator implementation
      */
-    public function  valid()
+    public function valid()
     {
         return $this->key() !== null;
     }

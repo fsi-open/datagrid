@@ -68,10 +68,7 @@ class DataGridFactory implements DataGridFactoryInterface
     }
 
     /**
-     * Create data grid with unique name.
-     *
-     * @param string $name
-     * @throws DataGridColumnException
+     * {@inheritdoc}
      */
     public function createDataGrid($name = 'grid')
     {
@@ -85,7 +82,7 @@ class DataGridFactory implements DataGridFactoryInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function hasColumnType($type)
     {
@@ -103,7 +100,7 @@ class DataGridFactory implements DataGridFactoryInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getColumnType($type)
     {
@@ -117,7 +114,7 @@ class DataGridFactory implements DataGridFactoryInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getExtensions()
     {
@@ -125,7 +122,7 @@ class DataGridFactory implements DataGridFactoryInterface
     }
 
     /**
-     * @return DataMapper\DataMapperInterface
+     * {@inheritdoc}
      */
     public function getDataMapper()
     {
@@ -133,7 +130,7 @@ class DataGridFactory implements DataGridFactoryInterface
     }
 
     /**
-     * @return IndexingStrategyInterface
+     * {@inhritdoc}
      */
     public function getIndexingStrategy()
     {
