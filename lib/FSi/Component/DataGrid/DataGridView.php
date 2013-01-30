@@ -65,9 +65,7 @@ class DataGridView implements DataGridViewInterface
     }
 
     /**
-     * Returns datagrid name.
-     *
-     * @return string
+     * {@inheritdoc}
      */
     public function getName()
     {
@@ -75,10 +73,7 @@ class DataGridView implements DataGridViewInterface
     }
 
     /**
-     * Check if column is registered in view.
-     *
-     * @param string $name
-     * @return boolean
+     * {@inhritdoc}
      */
     public function hasColumn($name)
     {
@@ -86,9 +81,7 @@ class DataGridView implements DataGridViewInterface
     }
 
     /**
-     * Removes column from view.
-     *
-     * @param string $name
+     * {@inhritdoc}
      */
     public function removeColumn($name)
     {
@@ -101,10 +94,7 @@ class DataGridView implements DataGridViewInterface
     }
 
     /**
-     * Get column.
-     *
-     * @throw InvalidArgumentException
-     * @param string $name
+     * {@inheritdoc}
      */
     public function getColumn($name)
     {
@@ -116,9 +106,7 @@ class DataGridView implements DataGridViewInterface
     }
 
     /**
-     * Return all columns registered in view.
-     *
-     * @return array
+     * {@inheritdoc}
      */
     public function getColumns()
     {
@@ -126,7 +114,7 @@ class DataGridView implements DataGridViewInterface
     }
 
     /**
-     * Remove all columns from view.
+     * {@inheritdoc}
      */
     public function clearColumns()
     {
@@ -135,7 +123,7 @@ class DataGridView implements DataGridViewInterface
     }
 
     /**
-     * Add new column to view.
+     * {@inheritdoc}
      */
     public function addColumn(HeaderViewInterface $column)
     {
@@ -148,7 +136,7 @@ class DataGridView implements DataGridViewInterface
     }
 
     /**
-     * Set new column list set to view.
+     * {@inheritdoc}
      */
     public function setColumns(array $columns)
     {

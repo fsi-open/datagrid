@@ -41,6 +41,8 @@ class FormExtensionTest extends \PHPUnit_Framework_TestCase
 
     public function testBindData()
     {
+        $self = $this;
+
         $dataGrid = $this->getMock('FSi\Component\DataGrid\DataGridInterface');
         $dataGrid->expects($this->any())
             ->method('getName')
@@ -56,18 +58,18 @@ class FormExtensionTest extends \PHPUnit_Framework_TestCase
 
         $column->expects($this->any())
             ->method('getDataMapper')
-            ->will($this->returnCallback(function(){
-                $dataMapper = $this->getMock('FSi\Component\DataGrid\DataMapper\DataMapperInterface');
-                $dataMapper->expects($this->any())
+            ->will($this->returnCallback(function() use ($self) {
+                $dataMapper = $self->getMock('FSi\Component\DataGrid\DataMapper\DataMapperInterface');
+                $dataMapper->expects($self->any())
                     ->method('getData')
-                    ->will($this->returnCallback(function($field, $object){
+                    ->will($self->returnCallback(function($field, $object){
                         $method = 'get' . ucfirst($field);
                         return $object->$method();
                     }));
 
-                $dataMapper->expects($this->any())
+                $dataMapper->expects($self->any())
                     ->method('setData')
-                    ->will($this->returnCallback(function($field, $object, $value){
+                    ->will($self->returnCallback(function($field, $object, $value){
                         $method = 'set' . ucfirst($field);
                         return $object->$method($value);
                     }));

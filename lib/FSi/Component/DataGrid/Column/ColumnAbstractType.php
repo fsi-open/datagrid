@@ -50,7 +50,7 @@ abstract class ColumnAbstractType implements ColumnTypeInterface
     protected $dataGrid;
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getName()
     {
@@ -62,7 +62,9 @@ abstract class ColumnAbstractType implements ColumnTypeInterface
     }
 
     /**
-     * {@inheritDoc}
+     * Set column registered name.
+     *
+     * @param string $name
      */
     public function setName($name)
     {
@@ -71,7 +73,7 @@ abstract class ColumnAbstractType implements ColumnTypeInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function setDataGrid(DataGridInterface $dataGrid)
     {
@@ -83,7 +85,7 @@ abstract class ColumnAbstractType implements ColumnTypeInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getDataGrid()
     {
@@ -91,7 +93,7 @@ abstract class ColumnAbstractType implements ColumnTypeInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function setDataMapper(DataMapperInterface $dataMapper)
     {
@@ -99,7 +101,7 @@ abstract class ColumnAbstractType implements ColumnTypeInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getDataMapper()
     {
@@ -110,7 +112,7 @@ abstract class ColumnAbstractType implements ColumnTypeInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getValue($object)
     {
@@ -130,15 +132,14 @@ abstract class ColumnAbstractType implements ColumnTypeInterface
 
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function createCellView($object, $index)
     {
         $this->validateOptions();
 
-        $view = new CellView($this->getId());
+        $view = new CellView($this->getName(), $this->getId());
         $view->setSource($object);
-        $view->setName($this->getName());
         $view->setAttribute('row', $index);
         $dataMapper = $this->getDataMapper();
 
@@ -166,17 +167,18 @@ abstract class ColumnAbstractType implements ColumnTypeInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function buildCellView(CellViewInterface $view)
-    {}
+    {
+    }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function createHeaderView()
     {
-        $view = new HeaderView($this->getName());
+        $view = new HeaderView($this->getName(), $this->getId());
 
         foreach ($this->getExtensions() as $extension) {
             $extension->buildHeaderView($this, $view);
@@ -188,13 +190,14 @@ abstract class ColumnAbstractType implements ColumnTypeInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function buildHeaderView(HeaderViewInterface $view)
-    {}
+    {
+    }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function setOption($name, $value)
     {
@@ -211,7 +214,7 @@ abstract class ColumnAbstractType implements ColumnTypeInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getOption($name)
     {
@@ -227,7 +230,7 @@ abstract class ColumnAbstractType implements ColumnTypeInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function hasOption($name)
     {
@@ -239,7 +242,7 @@ abstract class ColumnAbstractType implements ColumnTypeInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function bindData($data, $object, $index)
     {
@@ -249,7 +252,7 @@ abstract class ColumnAbstractType implements ColumnTypeInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function setExtensions(array $extensions)
     {
@@ -263,7 +266,7 @@ abstract class ColumnAbstractType implements ColumnTypeInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getExtensions()
     {
@@ -271,7 +274,7 @@ abstract class ColumnAbstractType implements ColumnTypeInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function addExtension(ColumnTypeExtensionInterface $extension)
     {

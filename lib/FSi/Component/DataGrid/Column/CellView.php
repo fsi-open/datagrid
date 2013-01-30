@@ -51,47 +51,14 @@ class CellView implements CellViewInterface
     /**
      * @param string $type
      */
-    public function __construct($type)
+    public function __construct($name, $type)
     {
+        $this->name = $name;
         $this->type = $type;
     }
 
     /**
-     * Return cell column type.
-     *
-     * @return string
-     */
-    public function getType()
-    {
-        return $this->type;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function setValue($value)
-    {
-        $this->value = $value;
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getValue()
-    {
-        return $this->value;
-    }
-
-    /**
-     * @param string $name
-     */
-    public function setName($name)
-    {
-        $this->name = $name;
-    }
-
-    /**
-     * @return string
+     * {@inheritdoc}
      */
     public function getName()
     {
@@ -99,7 +66,31 @@ class CellView implements CellViewInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
+     */
+    public function getType()
+    {
+        return $this->type;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setValue($value)
+    {
+        $this->value = $value;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getValue()
+    {
+        return $this->value;
+    }
+
+    /**
+     * {@inheritdoc}
      */
     public function setAttribute($name, $value)
     {
@@ -108,7 +99,7 @@ class CellView implements CellViewInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getAttribute($name)
     {
@@ -120,7 +111,7 @@ class CellView implements CellViewInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getAttributes()
     {
@@ -128,7 +119,7 @@ class CellView implements CellViewInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function hasAttribute($name)
     {
@@ -136,7 +127,7 @@ class CellView implements CellViewInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function setSource($source)
     {
@@ -145,7 +136,7 @@ class CellView implements CellViewInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getSource()
     {

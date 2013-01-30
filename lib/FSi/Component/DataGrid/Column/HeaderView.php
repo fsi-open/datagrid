@@ -24,6 +24,11 @@ class HeaderView implements HeaderViewInterface
     protected $name;
 
     /**
+     * @var string
+     */
+    protected $type;
+
+    /**
      * @var array
      */
     protected $attributes = array();
@@ -31,13 +36,14 @@ class HeaderView implements HeaderViewInterface
     /**
      * @param string $name
      */
-    public function __construct($name)
+    public function __construct($name, $type)
     {
         $this->name = $name;
+        $this->type = $type;
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function setAttribute($name, $value)
     {
@@ -46,7 +52,7 @@ class HeaderView implements HeaderViewInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getAttribute($name)
     {
@@ -58,7 +64,7 @@ class HeaderView implements HeaderViewInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function hasAttribute($name)
     {
@@ -66,7 +72,7 @@ class HeaderView implements HeaderViewInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getAttributes()
     {
@@ -74,7 +80,7 @@ class HeaderView implements HeaderViewInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function setLabel($label)
     {
@@ -82,7 +88,7 @@ class HeaderView implements HeaderViewInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getLabel()
     {
@@ -90,18 +96,15 @@ class HeaderView implements HeaderViewInterface
     }
 
     /**
-     * {@inheritDoc}
-     */
-    public function setName($name)
-    {
-        $this->name = $name;
-    }
-
-    /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getName()
     {
         return $this->name;
+    }
+
+    public function getType()
+    {
+        return $this->type;
     }
 }

@@ -262,13 +262,15 @@ class DateTime extends ColumnAbstractType
 
     private function transformTimestampToDateTime($value)
     {
-        if (!filter_var($value, FILTER_VALIDATE_INT)) {
+
+        if (!is_numeric($value)) {
             throw new \InvalidArgumentException(
                 sprintf('Value in column "%s" should be timestamp but "%s" type was detected. Maybe you should consider using different "input" opition value?', $this->getName(), gettype($value))
             );
         }
 
-        $dateTime = new \DateTime('@' . $value);
+        $dateTime = new \DateTime();
+        $dateTime->setTimestamp($value);
 
         if (!($dateTime instanceof \DateTime)) {
             throw new DataGridColumnException(

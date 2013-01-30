@@ -37,6 +37,11 @@ interface HeaderViewInterface
      */
     public function hasAttribute($name);
 
+    /**
+     * Return all view attributes.
+     *
+     * @return array
+     */
     public function getAttributes();
 
     /**
@@ -61,10 +66,9 @@ interface HeaderViewInterface
     public function getName();
 
     /**
-     * Set column name.
+     * Get column type.
      *
-     * @param string $name
-     * @return HeaderViewInterface
+     * @return string
      */
-    public function setName($name);
+    public function getType();
 }

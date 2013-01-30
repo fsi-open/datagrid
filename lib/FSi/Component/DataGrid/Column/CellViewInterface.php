@@ -71,4 +71,18 @@ interface CellViewInterface
      * @param mixed $value
      */
     public function setValue($value);
+
+    /**
+     * Return cell column type.
+     *
+     * @return string
+     */
+    public function getType();
+
+    /**
+     * Return cell column name.
+     *
+     * @return string
+     */
+    public function getName();
 }

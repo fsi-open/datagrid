@@ -33,22 +33,24 @@ class EntityIndexingStrategyTest extends \PHPUnit_Framework_TestCase
 
     public function testGetIndex()
     {
+        $self = $this;
+
         $registry = $this->getMock('Doctrine\Common\Persistence\ManagerRegistry');
         $registry->expects($this->once())
             ->method('getManagerForClass')
-            ->will($this->returnCallback(function() {
+            ->will($this->returnCallback(function() use ($self) {
 
-                $metadataFactory = $this->getMock('Doctrine\ORM\Mapping\ClassMetadataFactory');
-                $metadataFactory->expects($this->once())
+                $metadataFactory = $self->getMock('Doctrine\ORM\Mapping\ClassMetadataFactory');
+                $metadataFactory->expects($self->once())
                     ->method('getMetadataFor')
-                    ->will($this->returnCallback(function(){
-                        $classMetadata = $this->getMockBuilder('Doctrine\ORM\Mapping\ClassMetadata')
+                    ->will($self->returnCallback(function() use ($self) {
+                        $classMetadata = $self->getMockBuilder('Doctrine\ORM\Mapping\ClassMetadata')
                                 ->disableOriginalConstructor()
                                 ->getMock();
 
-                        $classMetadata->expects($this->once())
+                        $classMetadata->expects($self->once())
                                 ->method('getIdentifierFieldNames')
-                                ->will($this->returnValue(array('id')));
+                                ->will($self->returnValue(array('id')));
 
                         return $classMetadata;
                    }));
@@ -70,22 +72,24 @@ class EntityIndexingStrategyTest extends \PHPUnit_Framework_TestCase
 
     public function testRevertIndex()
     {
+        $self = $this;
+
         $registry = $this->getMock('Doctrine\Common\Persistence\ManagerRegistry');
         $registry->expects($this->once())
             ->method('getManagerForClass')
-            ->will($this->returnCallback(function() {
+            ->will($this->returnCallback(function() use ($self) {
 
-                $metadataFactory = $this->getMock('Doctrine\ORM\Mapping\ClassMetadataFactory');
-                $metadataFactory->expects($this->once())
+                $metadataFactory = $self->getMock('Doctrine\ORM\Mapping\ClassMetadataFactory');
+                $metadataFactory->expects($self->once())
                     ->method('getMetadataFor')
-                    ->will($this->returnCallback(function(){
-                        $classMetadata = $this->getMockBuilder('Doctrine\ORM\Mapping\ClassMetadata')
+                    ->will($self->returnCallback(function() use ($self) {
+                        $classMetadata = $self->getMockBuilder('Doctrine\ORM\Mapping\ClassMetadata')
                             ->disableOriginalConstructor()
                             ->getMock();
 
-                        $classMetadata->expects($this->once())
+                        $classMetadata->expects($self->once())
                             ->method('getIdentifierFieldNames')
-                            ->will($this->returnValue(array('id')));
+                            ->will($self->returnValue(array('id')));
 
                         return $classMetadata;
                     }));
@@ -104,31 +108,33 @@ class EntityIndexingStrategyTest extends \PHPUnit_Framework_TestCase
 
     public function testRevertIndexComposite()
     {
+        $self = $this;
+
         $registry = $this->getMock('Doctrine\Common\Persistence\ManagerRegistry');
         $registry->expects($this->any())
-        ->method('getManagerForClass')
-        ->will($this->returnCallback(function() {
+            ->method('getManagerForClass')
+            ->will($this->returnCallback(function() use ($self) {
 
-            $metadataFactory = $this->getMock('Doctrine\ORM\Mapping\ClassMetadataFactory');
-            $metadataFactory->expects($this->any())
-            ->method('getMetadataFor')
-            ->will($this->returnCallback(function(){
-                $classMetadata = $this->getMockBuilder('Doctrine\ORM\Mapping\ClassMetadata')
-                ->disableOriginalConstructor()
-                ->getMock();
+                $metadataFactory = $self->getMock('Doctrine\ORM\Mapping\ClassMetadataFactory');
+                $metadataFactory->expects($self->any())
+                    ->method('getMetadataFor')
+                    ->will($self->returnCallback(function() use ($self) {
+                        $classMetadata = $self->getMockBuilder('Doctrine\ORM\Mapping\ClassMetadata')
+                            ->disableOriginalConstructor()
+                            ->getMock();
 
-                $classMetadata->expects($this->any())
-                ->method('getIdentifierFieldNames')
-                ->will($this->returnValue(array('id', 'name')));
+                        $classMetadata->expects($self->any())
+                            ->method('getIdentifierFieldNames')
+                            ->will($self->returnValue(array('id', 'name')));
 
-                return $classMetadata;
+                        return $classMetadata;
+                    }));
+
+                $em = new EntityManagerMock();
+                $em->_setMetadataFactory($metadataFactory);
+
+                return $em;
             }));
-
-            $em = new EntityManagerMock();
-            $em->_setMetadataFactory($metadataFactory);
-
-            return $em;
-        }));
 
         $strategy = new EntityIndexingStrategy($registry);
         foreach (array('_', '|') as $separator) {
