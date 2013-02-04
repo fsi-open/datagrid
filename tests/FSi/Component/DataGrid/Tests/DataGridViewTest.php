@@ -26,10 +26,19 @@ class DataGridViewTest extends \PHPUnit_Framework_TestCase
 
     public function testAddHasGetRemoveColumn()
     {
+        $self = $this;
+
         $column = $this->getMock('FSi\Component\DataGrid\Column\ColumnTypeInterface');
         $column->expects($this->any())
             ->method('createHeaderView')
-            ->will($this->returnValue('ColumnHeaderView'));
+            ->will($this->returnCallback(function() use ($self) {
+                $headerView = $self->getMock('FSi\Component\DataGrid\Column\HeaderViewInterface');
+                $headerView->expects($self->any())
+                    ->method('getName')
+                    ->will($self->returnValue('ColumnHeaderView'));
+
+                return $headerView;
+            }));
 
         $column->expects($this->any())
             ->method('getName')
@@ -40,6 +49,9 @@ class DataGridViewTest extends \PHPUnit_Framework_TestCase
                 ->method('getName')
                 ->will($this->returnValue('foo'));
 
+        $columnHeader->expects($this->any())
+            ->method('setDataGridView');
+
         $this->rowset = $this->getMock('FSi\Component\DataGrid\Data\DataRowsetInterface');
         $this->gridView = new DataGridView('test-grid-view', array($column) , $this->rowset);
 
@@ -47,7 +59,7 @@ class DataGridViewTest extends \PHPUnit_Framework_TestCase
 
         $this->assertTrue($this->gridView->hasColumn('foo'));
         $this->assertSame(1, count($this->gridView->getColumns()));
-        $this->assertSame($this->gridView->getColumn('foo'), 'ColumnHeaderView');
+        $this->assertSame($this->gridView->getColumn('foo')->getName(), 'ColumnHeaderView');
         $this->gridView->removeColumn('foo');
         $this->assertFalse($this->gridView->hasColumn('foo'));
 

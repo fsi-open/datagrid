@@ -18,6 +18,8 @@ class DataGridRowViewTest extends \PHPUnit_Framework_TestCase
     {
         $source = 'SOURCE';
 
+        $dataGridView = $this->getMock('FSi\Component\DataGrid\DataGridViewInterface');
+
         $cellView = $this->getMock('FSi\Component\DataGrid\Column\CellViewInterface');
 
         $column = $this->getMock('FSi\Component\DataGrid\Column\ColumnTypeInterface');
@@ -30,7 +32,7 @@ class DataGridRowViewTest extends \PHPUnit_Framework_TestCase
             'foo' =>$column
         );
 
-        $gridRow = new DataGridRowView($columns, $source, 0);
+        $gridRow = new DataGridRowView($dataGridView, $columns, $source, 0);
         $this->assertSame($gridRow->current(), $cellView);
     }
 }
