@@ -11,6 +11,7 @@
 
 namespace FSi\Component\DataGrid;
 
+use FSi\Component\DataGrid\DataGridViewInterface;
 use FSi\Component\DataGrid\Column\ColumnTypeInterface;
 use FSi\Component\DataGrid\Exception\UnexpectedTypeException;
 
@@ -40,7 +41,7 @@ class DataGridRowView implements DataGridRowViewInterface
      * @param mixed $source
      * @param int $index
      */
-    public function __construct(array $columns, $source, $index)
+    public function __construct(DataGridViewInterface $dataGridView, array $columns, $source, $index)
     {
         $this->count = count($columns);
         $this->source = $source;
@@ -50,7 +51,10 @@ class DataGridRowView implements DataGridRowViewInterface
                 throw new UnexpectedTypeException('Column object must implement FSi\Component\DataGrid\Column\ColumnTypeInterface');
             }
 
-            $this->cellViews[$name] = $column->createCellView($this->source, $index);
+            $cellView = $column->createCellView($this->source, $index);
+            $cellView->setDataGridView($dataGridView);
+
+            $this->cellViews[$name] = $cellView;
         }
     }
 

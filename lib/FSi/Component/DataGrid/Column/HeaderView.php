@@ -11,6 +11,8 @@
 
 namespace FSi\Component\DataGrid\Column;
 
+use FSi\Component\DataGrid\DataGridViewInterface;
+
 class HeaderView implements HeaderViewInterface
 {
     /**
@@ -32,6 +34,11 @@ class HeaderView implements HeaderViewInterface
      * @var array
      */
     protected $attributes = array();
+
+    /**
+     * @var DataGridViewInterface
+     */
+    protected $datagrid;
 
     /**
      * @param string $name
@@ -106,5 +113,23 @@ class HeaderView implements HeaderViewInterface
     public function getType()
     {
         return $this->type;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setDataGridView(DataGridViewInterface $dataGrid)
+    {
+        $this->datagrid = $dataGrid;
+
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getDataGridView()
+    {
+        return $this->datagrid;
     }
 }

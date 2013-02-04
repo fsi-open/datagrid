@@ -11,6 +11,8 @@
 
 namespace FSi\Component\DataGrid\Column;
 
+use FSi\Component\DataGrid\DataGridViewInterface;
+
 interface CellViewInterface
 {
     /**
@@ -85,4 +87,19 @@ interface CellViewInterface
      * @return string
      */
     public function getName();
+
+    /**
+     * Set DataGridView
+     *
+     * @param DataGridViewInterface $dataGrid
+     * @return mixed
+     */
+    public function setDataGridView(DataGridViewInterface $dataGrid);
+
+    /**
+     * Get DataGridView
+     *
+     * @return mixed
+     */
+    public function getDataGridView();
 }

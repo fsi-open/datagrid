@@ -11,6 +11,8 @@
 
 namespace FSi\Component\DataGrid\Column;
 
+use FSi\Component\DataGrid\DataGridViewInterface;
+
 interface HeaderViewInterface
 {
     /**
@@ -71,4 +73,19 @@ interface HeaderViewInterface
      * @return string
      */
     public function getType();
+
+    /**
+     * Set DataGridView
+     *
+     * @param DataGridViewInterface $dataGrid
+     * @return mixed
+     */
+    public function setDataGridView(DataGridViewInterface $dataGrid);
+
+    /**
+     * Get DataGridView
+     *
+     * @return mixed
+     */
+    public function getDataGridView();
 }

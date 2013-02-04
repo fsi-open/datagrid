@@ -11,6 +11,8 @@
 
 namespace FSi\Component\DataGrid\Column;
 
+use FSi\Component\DataGrid\DataGridViewInterface;
+
 class CellView implements CellViewInterface
 {
     /**
@@ -141,5 +143,23 @@ class CellView implements CellViewInterface
     public function getSource()
     {
         return $this->source;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function setDataGridView(DataGridViewInterface $dataGrid)
+    {
+        $this->datagrid = $dataGrid;
+
+        return $this;
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function getDataGridView()
+    {
+        return $this->datagrid;
     }
 }

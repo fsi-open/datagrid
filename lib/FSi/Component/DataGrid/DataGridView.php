@@ -57,7 +57,9 @@ class DataGridView implements DataGridViewInterface
             }
 
             $this->columns[$column->getName()] = $column;
-            $this->columnsHeaders[$column->getName()] = $column->createHeaderView();
+            $headerView = $column->createHeaderView();
+            $headerView->setDataGridView($this);
+            $this->columnsHeaders[$column->getName()] = $headerView;
         }
 
         $this->name = $name;
@@ -178,7 +180,7 @@ class DataGridView implements DataGridViewInterface
     public function current()
     {
         $index = $this->rowset->key();
-        return new DataGridRowView($this->getOriginColumns(), $this->rowset->current(), $index);
+        return new DataGridRowView($this, $this->getOriginColumns(), $this->rowset->current(), $index);
     }
 
     /**
@@ -251,7 +253,7 @@ class DataGridView implements DataGridViewInterface
     public function offsetGet($offset)
     {
         if ($this->offsetExists($offset)) {
-            return new DataGridRowView($this->getOriginColumns(), $this->rowset[$offset]);
+            return new DataGridRowView($this, $this->getOriginColumns(), $this->rowset[$offset], $offset);
         }
 
         throw new \InvalidArgumentException(sprintf('Row "%s" does not exist in rowset.', $offset));
@@ -281,7 +283,7 @@ class DataGridView implements DataGridViewInterface
     /**
      * Return the origin columns in order of columns headers.
      */
-    private function getOriginColumns()
+    protected function getOriginColumns()
     {
         $columns = array();
         foreach ($this->columnsHeaders as $name => $header) {
