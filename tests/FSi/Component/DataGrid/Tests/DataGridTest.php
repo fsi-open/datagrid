@@ -64,7 +64,10 @@ class DataGridTest extends \PHPUnit_Framework_TestCase
         $this->indexingStrategy->expects($this->any())
             ->method('getIndex')
             ->will($this->returnCallback(function($object, $dataMapper){
-                return $object->getName();
+                if (is_object($object)) {
+                    return $object->getName();
+                }
+                return null;
             }));
 
         $this->factory = $this->getMock('FSi\Component\DataGrid\DataGridFactoryInterface');
@@ -139,6 +142,17 @@ class DataGridTest extends \PHPUnit_Framework_TestCase
 
         $this->datagrid->setData($gridData);
 
+        $this->assertEquals(count($gridData), count($this->datagrid->createView()));
+
+        $gridData = array(
+            array('some', 'data'),
+            array('next', 'data')
+        );
+
+        $this->datagrid->setData($gridData);
+
+        $this->assertEquals(count($gridData), count($this->datagrid->createView()));
+
         $gridBrokenData = false;
         $this->setExpectedException('InvalidArgumentException');
         $this->datagrid->setData($gridBrokenData);
@@ -161,5 +175,27 @@ class DataGridTest extends \PHPUnit_Framework_TestCase
 
         $this->datagrid->setData($gridData);
         $this->assertInstanceOf('FSi\Component\DataGrid\DataGridViewInterface',$this->datagrid->createView());
+    }
+
+    public function testSetDataForArray()
+    {
+        $gridData = array(
+            array('one'),
+            array('two'),
+            array('three'),
+            array('four'),
+            array('bazinga!'),
+            array('five'),
+        );
+
+        $this->datagrid->setData($gridData);
+        $view = $this->datagrid->createView();
+
+        $keys = array();
+        foreach ($view as $row) {
+            $keys[] = $row->getIndex();
+        }
+
+        $this->assertEquals(array_keys($gridData), $keys);
     }
 }
