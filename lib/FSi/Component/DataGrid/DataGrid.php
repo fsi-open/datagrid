@@ -207,8 +207,9 @@ class DataGrid implements DataGridInterface
 
         $indexedData = array();
 
-        foreach ($data as $object) {
+        foreach ($data as $defIndex => $object) {
             $index = $this->getIndexingStrategy()->getIndex($object, $this->getDataMapper());
+            $index = $index ? : $defIndex;
             $indexedData[$index] = $object;
         }
 
