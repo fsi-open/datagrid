@@ -24,10 +24,13 @@ class GedmoDoctrineExtension extends DataGridAbstractExtension
         $this->registry = $registry;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     protected function loadColumnTypes()
     {
         return array(
-            new ColumnType\Tree($this->registry)
+            new ColumnType\Tree($this->registry),
         );
     }
 }

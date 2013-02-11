@@ -106,7 +106,7 @@ class TreeTypeTest extends \PHPUnit_Framework_TestCase
                 "left" => "left",
                 "right" => "right",
                 "level" => "level",
-                "children" => 2
+                "children" => 2,
             ),
             $column->getViewAttributes()
         );

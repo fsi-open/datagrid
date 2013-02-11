@@ -17,7 +17,7 @@ class MoneyTest extends \PHPUnit_Framework_TestCase
     public function testCurrencyOption()
     {
         $value = array(
-            'value' => 10
+            'value' => 10,
         );
 
         $column = new Money();
@@ -26,7 +26,7 @@ class MoneyTest extends \PHPUnit_Framework_TestCase
         $this->assertSame(
             $column->filterValue($value),
             array(
-                'value' => '10.00 PLN'
+                'value' => '10.00 PLN',
             )
         );
 
@@ -38,7 +38,7 @@ class MoneyTest extends \PHPUnit_Framework_TestCase
     public function testCurrencySeparatorOption()
     {
         $value = array(
-            'value' => 10
+            'value' => 10,
         );
 
         $column = new Money();
@@ -48,7 +48,7 @@ class MoneyTest extends \PHPUnit_Framework_TestCase
         $this->assertSame(
             $column->filterValue($value),
             array(
-                'value' => '10.00$ PLN'
+                'value' => '10.00$ PLN',
             )
         );
     }
@@ -56,7 +56,7 @@ class MoneyTest extends \PHPUnit_Framework_TestCase
     public function testCurrencyDecPointOption()
     {
         $value = array(
-            'value' => 10
+            'value' => 10,
         );
 
         $column = new Money();
@@ -66,7 +66,7 @@ class MoneyTest extends \PHPUnit_Framework_TestCase
         $this->assertSame(
             $column->filterValue($value),
             array(
-                'value' => '10-00 PLN'
+                'value' => '10-00 PLN',
             )
         );
     }
@@ -74,7 +74,7 @@ class MoneyTest extends \PHPUnit_Framework_TestCase
     public function testCurrencyDecimalsOption()
     {
         $value = array(
-            'value' => 10
+            'value' => 10,
         );
 
         $column = new Money();
@@ -84,7 +84,7 @@ class MoneyTest extends \PHPUnit_Framework_TestCase
         $this->assertSame(
             $column->filterValue($value),
             array(
-                'value' => '10 PLN'
+                'value' => '10 PLN',
             )
         );
 
@@ -95,7 +95,7 @@ class MoneyTest extends \PHPUnit_Framework_TestCase
         $this->assertSame(
             $column->filterValue($value),
             array(
-                'value' => '10.00000 PLN'
+                'value' => '10.00000 PLN',
             )
         );
     }
@@ -113,17 +113,17 @@ class MoneyTest extends \PHPUnit_Framework_TestCase
         $this->assertSame(
             $column->filterValue($value),
             array(
-                'value' => '10.33 PLN'
+                'value' => '10.33 PLN',
             )
         );
 
         $value = array(
-            'value' => 10.324
+            'value' => 10.324,
         );
         $this->assertSame(
             $column->filterValue($value),
             array(
-                'value' => '10.32 PLN'
+                'value' => '10.32 PLN',
             )
         );
     }
@@ -131,7 +131,7 @@ class MoneyTest extends \PHPUnit_Framework_TestCase
     public function testCurrencyThousandsSepOption()
     {
         $value = array(
-            'value' => 10000
+            'value' => 10000,
         );
 
         $column = new Money();
@@ -141,7 +141,7 @@ class MoneyTest extends \PHPUnit_Framework_TestCase
         $this->assertSame(
             $column->filterValue($value),
             array(
-                'value' => '10.000.00 PLN'
+                'value' => '10.000.00 PLN',
             )
         );
     }

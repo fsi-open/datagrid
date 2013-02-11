@@ -23,7 +23,7 @@ use FSi\Component\DataGrid\Extension\Core\EventSubscriber;
 class CoreExtension extends DataGridAbstractExtension
 {
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     protected function loadColumnTypes()
     {
@@ -38,23 +38,23 @@ class CoreExtension extends DataGridAbstractExtension
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     protected function loadColumnTypesExtensions()
     {
         return array(
             new ColumnTypeExtension\DefaultColumnOptionsExtension(),
-            new ColumnTypeExtension\ValueFormatColumnOptionsExtension()
+            new ColumnTypeExtension\ValueFormatColumnOptionsExtension(),
         );
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     protected function loadSubscribers()
     {
         return array(
-            new EventSubscriber\ColumnOrder()
+            new EventSubscriber\ColumnOrder(),
         );
     }
 }

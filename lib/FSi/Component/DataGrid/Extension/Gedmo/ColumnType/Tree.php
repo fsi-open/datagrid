@@ -42,11 +42,17 @@ class Tree extends ColumnAbstractType
         $this->registry = $registry;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function getId()
     {
         return 'gedmo.tree';
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function getValue($object)
     {
         if (!is_object($object)) {
@@ -113,17 +119,23 @@ class Tree extends ColumnAbstractType
             'left' => $left,
             'right' => $right,
             'level' => $level,
-            'children' => $em->getRepository(get_class($object))->childCount($object)
+            'children' => $em->getRepository(get_class($object))->childCount($object),
         );
 
         return $value;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function filterValue($value)
     {
         return $value;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function buildCellView(CellViewInterface $view)
     {
         foreach ($this->getViewAttributes() as $attrName => $attrValue) {
@@ -131,18 +143,27 @@ class Tree extends ColumnAbstractType
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function getViewAttributes()
     {
         return $this->viewAttributes;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function getDefaultOptionsValues()
     {
         return array(
-            'em' => null
+            'em' => null,
         );
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function getAvailableOptions()
     {
         return array('em', 'mapping_fields');

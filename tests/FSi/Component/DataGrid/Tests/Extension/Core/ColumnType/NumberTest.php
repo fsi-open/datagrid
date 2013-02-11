@@ -17,7 +17,7 @@ class NumberTest extends \PHPUnit_Framework_TestCase
     public function testPrecision()
     {
         $value = array(
-            'number' => 10.123
+            'number' => 10.123,
         );
 
         $column = new Number();
@@ -27,7 +27,7 @@ class NumberTest extends \PHPUnit_Framework_TestCase
         $this->assertSame(
             $column->filterValue($value),
             array(
-                'number' => 10.12
+                'number' => 10.12,
             )
         );
     }
@@ -38,19 +38,19 @@ class NumberTest extends \PHPUnit_Framework_TestCase
         $column->setOption('round_mode', Number::ROUND_HALF_UP);
         $this->assertSame(
             $column->filterValue(array(
-                'number' => 10.123
+                'number' => 10.123,
             )),
             array(
-                'number' => 10.12
+                'number' => 10.12,
             )
         );
 
         $this->assertSame(
             $column->filterValue(array(
-                'number' => 10.126
+                'number' => 10.126,
             )),
             array(
-                'number' => 10.13
+                'number' => 10.13,
             )
         );
     }

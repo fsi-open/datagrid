@@ -17,11 +17,17 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class ColumnOrder implements EventSubscriberInterface
 {
+    /**
+     * {@inheritDoc}
+     */
     public static function getSubscribedEvents()
     {
         return array(DataGridEvents::POST_BUILD_VIEW => array('postBuildView', 128));
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function postBuildView(DataGridEventInterface $event)
     {
         $dataGrid = $event->getDataGrid();

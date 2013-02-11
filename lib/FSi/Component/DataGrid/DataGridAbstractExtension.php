@@ -54,7 +54,7 @@ abstract class DataGridAbstractExtension implements DataGridExtensionInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function hasColumnType($type)
     {
@@ -66,7 +66,7 @@ abstract class DataGridAbstractExtension implements DataGridExtensionInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function hasColumnTypeExtensions($type)
     {
@@ -78,7 +78,7 @@ abstract class DataGridAbstractExtension implements DataGridExtensionInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function getColumnTypeExtensions($type)
     {
@@ -94,7 +94,7 @@ abstract class DataGridAbstractExtension implements DataGridExtensionInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function registerSubscribers(DataGridInterface $dataGrid)
     {

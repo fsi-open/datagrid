@@ -16,11 +16,17 @@ use FSi\Component\DataGrid\Column\ColumnAbstractType;
 
 class Entity extends ColumnAbstractType
 {
+    /**
+     * {@inheritDoc}
+     */
     public function getId()
     {
         return 'entity';
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function getValue($object)
     {
         $value = null;
@@ -29,6 +35,9 @@ class Entity extends ColumnAbstractType
         return $value;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function filterValue($value)
     {
         if ($value instanceof Collection) {
@@ -60,6 +69,9 @@ class Entity extends ColumnAbstractType
         return $values;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function getDefaultOptionsValues()
     {
         return array(
@@ -68,11 +80,17 @@ class Entity extends ColumnAbstractType
         );
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function getRequiredOptions()
     {
         return array('mapping_fields', 'relation_field');
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function getAvailableOptions()
     {
         return array('label', 'mapping_fields', 'relation_field');

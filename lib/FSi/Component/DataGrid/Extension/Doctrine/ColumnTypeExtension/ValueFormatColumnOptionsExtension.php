@@ -18,6 +18,9 @@ use FSi\Component\DataGrid\Column\ColumnAbstractTypeExtension;
 
 class ValueFormatColumnOptionsExtension extends ColumnAbstractTypeExtension
 {
+    /**
+     * {@inheritDoc}
+     */
     public function buildCellView(ColumnTypeInterface $column, CellViewInterface $view)
     {
         $value = array();
@@ -53,23 +56,31 @@ class ValueFormatColumnOptionsExtension extends ColumnAbstractTypeExtension
         $view->setValue($value);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function getExtendedColumnTypes()
     {
         return array(
-            'entity'
+            'entity',
         );
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function getDefaultOptionsValues(ColumnTypeInterface $column)
     {
         return array(
-            'glue_multiple' => ' '
+            'glue_multiple' => ' ',
         );
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function getAvailableOptions(ColumnTypeInterface $column)
     {
         return array('glue', 'glue_multiple', 'format');
     }
-
 }

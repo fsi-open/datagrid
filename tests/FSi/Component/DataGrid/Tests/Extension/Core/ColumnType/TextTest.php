@@ -20,7 +20,7 @@ class TextTest extends \PHPUnit_Framework_TestCase
         $column->setOption('trim', true);
 
         $value = array(
-            ' VALUE '
+            ' VALUE ',
         );
 
         $this->assertSame(
