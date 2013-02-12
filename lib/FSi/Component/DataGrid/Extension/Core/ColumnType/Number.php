@@ -20,11 +20,17 @@ class Number extends ColumnAbstractType
     const ROUND_HALF_EVEN = PHP_ROUND_HALF_EVEN;
     const ROUND_HALF_ODD = PHP_ROUND_HALF_ODD;
 
+    /**
+     * {@inheritDoc}
+     */
     public function getId()
     {
         return 'number';
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function filterValue($value)
     {
         $precision = (int)$this->getOption('precision');
@@ -43,6 +49,9 @@ class Number extends ColumnAbstractType
         return $value;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function getDefaultOptionsValues()
     {
         return array(
@@ -50,10 +59,11 @@ class Number extends ColumnAbstractType
         );
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function getAvailableOptions()
     {
         return array('round_mode', 'precision');
     }
-
-
 }

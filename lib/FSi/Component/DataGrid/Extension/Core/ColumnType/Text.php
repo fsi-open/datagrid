@@ -15,11 +15,17 @@ use FSi\Component\DataGrid\Column\ColumnAbstractType;
 
 class Text extends ColumnAbstractType
 {
+    /**
+     * {@inheritDoc}
+     */
     public function getId()
     {
         return 'text';
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function filterValue($value)
     {
         $trim = (boolean)$this->getOption('trim');
@@ -36,6 +42,9 @@ class Text extends ColumnAbstractType
         return $value;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function getAvailableOptions()
     {
         return array('trim');

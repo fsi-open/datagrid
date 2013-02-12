@@ -101,7 +101,6 @@ class DataRowset implements DataRowsetInterface
      */
     public function valid()
     {
-
         return $this->key() !== null;
     }
 

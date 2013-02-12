@@ -23,7 +23,7 @@ interface DataGridFactoryInterface
 
     /**
      * @throws UnexpectedTypeException if column is not registered in factory.
-     * @param unknown_type $type
+     * @param string $type
      */
     public function getColumnType($type);
 

@@ -48,7 +48,6 @@ class ValueFormatColumnOptionsExtensionTest extends \PHPUnit_Framework_TestCase
         $extension->buildCellView($column, $view);
     }
 
-
     public function testBuildCellViewWithoutFormatAndGlue()
     {
         $extension = new ValueFormatColumnOptionsExtension();
@@ -82,7 +81,6 @@ class ValueFormatColumnOptionsExtensionTest extends \PHPUnit_Framework_TestCase
 
         $extension->buildCellView($column, $view);
     }
-
 
     public function testBuildCellViewWithFormatAndGlue()
     {
@@ -432,7 +430,7 @@ class ValueFormatColumnOptionsExtensionTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue(array(
                     'val',
                     '',
-                    null
+                    null,
                 )
             ));
 
@@ -544,7 +542,7 @@ class ValueFormatColumnOptionsExtensionTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue(array(
                     'fo' => '',
                     'ba' => '',
-                    'ca' => null
+                    'ca' => null,
                 )
             ));
 

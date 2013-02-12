@@ -19,7 +19,7 @@ use Symfony\Component\PropertyAccess\Exception\ExceptionInterface;
 class PropertyAccessorMapper implements DataMapperInterface
 {
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function getData($field, $object)
     {
@@ -35,7 +35,7 @@ class PropertyAccessorMapper implements DataMapperInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function setData($field, $object, $value)
     {
@@ -46,6 +46,5 @@ class PropertyAccessorMapper implements DataMapperInterface
         } catch (ExceptionInterface $e) {
             throw new DataMappingExteption($e->getMessage());
         }
-
     }
 }

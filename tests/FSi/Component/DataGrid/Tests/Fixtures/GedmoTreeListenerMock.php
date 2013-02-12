@@ -12,5 +12,4 @@ namespace FSi\Component\DataGrid\Tests\Fixtures;
 
 class GedmoTreeListenerMock
 {
-
 }

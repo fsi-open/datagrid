@@ -89,7 +89,6 @@ class BooleanTest extends \PHPUnit_Framework_TestCase
             'false');
     }
 
-
     public function testFilterValueWithMixedValuesAndFalseInArray()
     {
         $column = new Boolean();

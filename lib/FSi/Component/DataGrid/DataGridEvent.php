@@ -38,7 +38,7 @@ class DataGridEvent extends Event implements DataGridEventInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function getDataGrid()
     {
@@ -46,7 +46,7 @@ class DataGridEvent extends Event implements DataGridEventInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function getData()
     {
@@ -54,7 +54,7 @@ class DataGridEvent extends Event implements DataGridEventInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function setData($data)
     {

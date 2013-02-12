@@ -33,6 +33,9 @@ class DependencyInjectionExtension extends DataGridAbstractExtension
         $this->gridSubscriberServiceIds = $gridSubscriberServiceIds;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function hasColumnTypeExtensions($type)
     {
         foreach ($this->columnExtensionServiceIds as $alias => $extensionName) {
@@ -45,11 +48,17 @@ class DependencyInjectionExtension extends DataGridAbstractExtension
         return false;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function hasColumnType($type)
     {
         return isset($this->columnServiceIds[$type]);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function getColumnType($type)
     {
         if (!isset($this->columnServiceIds[$type])) {
@@ -61,6 +70,9 @@ class DependencyInjectionExtension extends DataGridAbstractExtension
         return $type;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function getColumnTypeExtensions($type)
     {
         $columnExtension = array();
@@ -76,6 +88,9 @@ class DependencyInjectionExtension extends DataGridAbstractExtension
         return $columnExtension;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function loadSubscribers()
     {
         $subscribers = array();

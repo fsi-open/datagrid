@@ -14,6 +14,9 @@ class RowType extends AbstractType
         $this->fields = $fields;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
         foreach ($this->fields as $field) {
@@ -21,6 +24,9 @@ class RowType extends AbstractType
         }
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function getName()
     {
         return 'row';

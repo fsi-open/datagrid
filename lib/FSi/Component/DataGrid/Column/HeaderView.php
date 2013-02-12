@@ -110,6 +110,9 @@ class HeaderView implements HeaderViewInterface
         return $this->name;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function getType()
     {
         return $this->type;

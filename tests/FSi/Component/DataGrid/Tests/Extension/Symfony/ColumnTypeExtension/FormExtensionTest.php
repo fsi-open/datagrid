@@ -20,7 +20,6 @@ use FSi\Component\DataGrid\Tests\Fixtures\Entity;
 
 class FormExtensionTest extends \PHPUnit_Framework_TestCase
 {
-
     private $formFactory;
 
     protected function setUp()
@@ -36,7 +35,6 @@ class FormExtensionTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->formFactory = new FormFactory($formRegistry, $resolvedTypeFactory);
-
     }
 
     public function testBindData()
@@ -113,7 +111,4 @@ class FormExtensionTest extends \PHPUnit_Framework_TestCase
         $this->assertSame($object->getAuthor(), 'norbert@fsi.pl');
         $this->assertSame($object->getName(), 'object');
     }
-
-
-
 }

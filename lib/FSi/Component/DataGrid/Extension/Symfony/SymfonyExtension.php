@@ -34,22 +34,22 @@ class SymfonyExtension extends DataGridAbstractExtension
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     protected function loadColumnTypes()
     {
         return array(
-            new ColumnType\Action($this->container)
+            new ColumnType\Action($this->container),
         );
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     protected function loadSubscribers()
     {
         return array(
-            new EventSubscriber\BindRequest()
+            new EventSubscriber\BindRequest(),
         );
     }
 }

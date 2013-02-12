@@ -19,12 +19,18 @@ use FSi\Component\DataGrid\Column\ColumnAbstractTypeExtension;
 class DefaultColumnOptionsExtension extends ColumnAbstractTypeExtension
 {
 
+    /**
+     * {@inheritDoc}
+     */
     public function buildHeaderView(ColumnTypeInterface $column, HeaderViewInterface $view)
     {
         $view->setLabel($column->getOption('label'));
         $view->setAttribute('order', $column->getOption('order'));
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function getExtendedColumnTypes()
     {
         return array(
@@ -35,24 +41,33 @@ class DefaultColumnOptionsExtension extends ColumnAbstractTypeExtension
             'money',
             'gedmo.tree',
             'entity',
-            'action'
+            'action',
         );
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function getDefaultOptionsValues(ColumnTypeInterface $column)
     {
         return array(
             'label' => $column->getName(),
             'mapping_fields' => array($column->getName()),
-            'order' => 0
+            'order' => 0,
         );
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function getRequiredOptions(ColumnTypeInterface $column)
     {
         return array('mapping_fields');
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function getAvailableOptions(ColumnTypeInterface $column)
     {
         return array('label', 'mapping_fields', 'order');

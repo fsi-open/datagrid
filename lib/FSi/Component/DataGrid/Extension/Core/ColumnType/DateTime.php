@@ -16,11 +16,17 @@ use FSi\Component\DataGrid\Exception\DataGridColumnException;
 
 class DateTime extends ColumnAbstractType
 {
+    /**
+     * {@inheritDoc}
+     */
     public function getId()
     {
         return 'datetime';
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function filterValue($value)
     {
         $format = $this->getOption('datetime_format');
@@ -50,6 +56,9 @@ class DateTime extends ColumnAbstractType
         return $return;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function getDefaultOptionsValues()
     {
         return array(
@@ -58,11 +67,17 @@ class DateTime extends ColumnAbstractType
         );
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function getRequiredOptions()
     {
         return array('datetime_format');
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function getAvailableOptions()
     {
         return array('datetime_format', 'input', 'mapping_fields', 'mapping_fields_format');

@@ -121,11 +121,11 @@ class ValueFormatColumnOptionsExtensionTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue(array(
                 0 => array(
                     'id' => 1,
-                    'name' => 'Foo'
+                    'name' => 'Foo',
                 ),
                 1 => array(
                     'id' => 2,
-                    'name' => 'Bar'
+                    'name' => 'Bar',
                 )
             )));
 
