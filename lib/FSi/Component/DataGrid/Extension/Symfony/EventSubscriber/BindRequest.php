@@ -19,11 +19,17 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class BindRequest implements EventSubscriberInterface
 {
+    /**
+     * {@inheritDoc}
+     */
     public static function getSubscribedEvents()
     {
         return array(DataGridEvents::PRE_BIND_DATA => array('preBindData', 128));
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function preBindData(DataGridEventInterface $event)
     {
         $dataGrid = $event->getDataGrid();

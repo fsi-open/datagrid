@@ -38,7 +38,7 @@ class EntityIndexingStrategy implements IndexingStrategyInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function getIndex($object, DataMapperInterface $dataMapper)
     {
@@ -66,7 +66,7 @@ class EntityIndexingStrategy implements IndexingStrategyInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function revertIndex($index, $dataType)
     {
@@ -101,7 +101,7 @@ class EntityIndexingStrategy implements IndexingStrategyInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function setSeparator($separator)
     {

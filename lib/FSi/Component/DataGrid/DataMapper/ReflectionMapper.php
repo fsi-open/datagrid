@@ -20,7 +20,7 @@ class ReflectionMapper implements DataMapperInterface
 
     /**
      * Method inspired by Symfony\Component\Form\Util\PropertyPath::readProperty(&$objectOrArray, $property, $isIndex)
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function getData($field, $object)
     {

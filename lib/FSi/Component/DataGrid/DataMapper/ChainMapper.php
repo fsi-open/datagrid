@@ -33,7 +33,7 @@ class ChainMapper implements DataMapperInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function getData($field, $object)
     {
@@ -64,7 +64,7 @@ class ChainMapper implements DataMapperInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function setData($field, $object, $value)
     {

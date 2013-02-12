@@ -86,7 +86,7 @@ class DataGrid implements DataGridInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function getName()
     {
@@ -94,7 +94,7 @@ class DataGrid implements DataGridInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function addColumn($name, $type = 'text', $options = array())
     {
@@ -124,7 +124,7 @@ class DataGrid implements DataGridInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function getColumn($name)
     {
@@ -136,7 +136,7 @@ class DataGrid implements DataGridInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function getColumns()
     {
@@ -144,7 +144,7 @@ class DataGrid implements DataGridInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function hasColumn($name)
     {
@@ -152,7 +152,7 @@ class DataGrid implements DataGridInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function removeColumn($name)
     {
@@ -166,7 +166,7 @@ class DataGrid implements DataGridInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function clearColumns()
     {
@@ -175,7 +175,7 @@ class DataGrid implements DataGridInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function getDataMapper()
     {
@@ -183,7 +183,7 @@ class DataGrid implements DataGridInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function getIndexingStrategy()
     {
@@ -191,7 +191,7 @@ class DataGrid implements DataGridInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function setData($data)
     {
@@ -222,7 +222,7 @@ class DataGrid implements DataGridInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function bindData($data)
     {
@@ -253,7 +253,7 @@ class DataGrid implements DataGridInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function addEventListener($eventName, $listener, $priority = 0)
     {
@@ -263,7 +263,7 @@ class DataGrid implements DataGridInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function addEventSubscriber(EventSubscriberInterface $subscriber)
     {
@@ -273,7 +273,7 @@ class DataGrid implements DataGridInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function createView()
     {

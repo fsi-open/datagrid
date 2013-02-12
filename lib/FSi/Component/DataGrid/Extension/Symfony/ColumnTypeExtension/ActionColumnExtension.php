@@ -30,13 +30,13 @@ class ActionColumnExtension extends ColumnAbstractTypeExtension
      * @var array
      */
     protected $actionOptionsDefault = array(
-        'absolute' => false
+        'absolute' => false,
     );
 
     /**
      * Available action options
      *
-     * @var unknown_type
+     * @var array
      */
     protected $actionOptionsAvailable = array(
         'parameters',
@@ -49,11 +49,11 @@ class ActionColumnExtension extends ColumnAbstractTypeExtension
     /**
      * Options required in action.
      *
-     * @var unknown_type
+     * @var array
      */
     protected $actionOptionsRequired = array(
         'anchor',
-        'route_name'
+        'route_name',
     );
 
     /**
@@ -64,6 +64,9 @@ class ActionColumnExtension extends ColumnAbstractTypeExtension
         $this->router = $router;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function filterValue(ColumnTypeInterface $column, $value)
     {
         $this->validateOptions($column);
@@ -98,16 +101,25 @@ class ActionColumnExtension extends ColumnAbstractTypeExtension
         return $return;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function getExtendedColumnTypes()
     {
         return array('action');
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function getRequiredOptions(ColumnTypeInterface $column)
     {
         return array('actions');
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function getAvailableOptions(ColumnTypeInterface $column)
     {
         return array('actions');
@@ -162,7 +174,7 @@ class ActionColumnExtension extends ColumnAbstractTypeExtension
 
                 foreach ($options['parameters'] as $mappingField => $routerParameter) {
                     if (!in_array($mappingField, $mappingFields, true)) {
-                        throw new \InvalidArgumentException(sprintf('Unknown mapping_field "%s". Maybe you should consider using option "parameters_values"?.', $mappingField));
+                        throw new \InvalidArgumentException(sprintf('Unknown mapping_field "%s". Maybe you should consider using option "parameters_values"?', $mappingField));
                     }
                 }
             }

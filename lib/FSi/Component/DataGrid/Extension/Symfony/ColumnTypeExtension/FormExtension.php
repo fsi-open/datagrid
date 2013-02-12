@@ -42,7 +42,7 @@ class FormExtension extends ColumnAbstractTypeExtension
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function setDataGrid(DataGridInterface $dataGrid)
     {
@@ -50,7 +50,7 @@ class FormExtension extends ColumnAbstractTypeExtension
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function bindData(ColumnTypeInterface $column, $data, $object, $index)
     {
@@ -93,7 +93,7 @@ class FormExtension extends ColumnAbstractTypeExtension
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function buildCellView(ColumnTypeInterface $column, CellViewInterface $view)
     {
@@ -109,7 +109,7 @@ class FormExtension extends ColumnAbstractTypeExtension
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function getExtendedColumnTypes()
     {
@@ -119,12 +119,12 @@ class FormExtension extends ColumnAbstractTypeExtension
             'number',
             'datetime',
             'entity',
-            'gedmo.tree'
+            'gedmo.tree',
         );
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function getDefaultOptionsValues(ColumnTypeInterface $column)
     {
@@ -132,7 +132,7 @@ class FormExtension extends ColumnAbstractTypeExtension
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function getRequiredOptions(ColumnTypeInterface $column)
     {
@@ -140,7 +140,7 @@ class FormExtension extends ColumnAbstractTypeExtension
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function getAvailableOptions(ColumnTypeInterface $column)
     {

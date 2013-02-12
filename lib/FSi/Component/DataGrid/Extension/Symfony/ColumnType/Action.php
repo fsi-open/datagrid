@@ -26,7 +26,7 @@ class Action extends ColumnAbstractType
     protected $router;
 
     /**
-     * Sercice container used to access current request.
+     * Service container used to access current request.
      *
      * @var Symfony\Component\DependencyInjection\ContainerInterface
      */
@@ -39,13 +39,13 @@ class Action extends ColumnAbstractType
      */
     protected $actionOptionsDefault = array(
         'absolute' => false,
-        'redirect_uri' => true
+        'redirect_uri' => true,
     );
 
     /**
      * Available action options
      *
-     * @var unknown_type
+     * @var array
      */
     protected $actionOptionsAvailable = array(
         'parameters',
@@ -53,17 +53,17 @@ class Action extends ColumnAbstractType
         'anchor',
         'route_name',
         'absolute',
-        'redirect_uri'
+        'redirect_uri',
     );
 
     /**
      * Options required in action.
      *
-     * @var unknown_type
+     * @var array
      */
     protected $actionOptionsRequired = array(
         'anchor',
-        'route_name'
+        'route_name',
     );
 
     public function __construct(ContainerInterface $container)
@@ -72,11 +72,17 @@ class Action extends ColumnAbstractType
         $this->router = $container->get('router');
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function getId()
     {
         return 'action';
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function filterValue($value)
     {
         $this->validateOptions();

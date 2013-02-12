@@ -130,7 +130,6 @@ abstract class ColumnAbstractType implements ColumnTypeInterface
         return $values;
     }
 
-
     /**
      * {@inheritdoc}
      */

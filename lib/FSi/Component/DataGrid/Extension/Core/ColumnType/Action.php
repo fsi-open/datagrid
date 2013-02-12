@@ -25,12 +25,12 @@ class Action extends ColumnAbstractType
         'protocole',
         'domain',
         'name',
-        'redirect_uri'
+        'redirect_uri',
     );
 
     protected $actionOptionsRequired = array(
         'uri_scheme',
-        'anchor'
+        'anchor',
     );
 
     public function getId()

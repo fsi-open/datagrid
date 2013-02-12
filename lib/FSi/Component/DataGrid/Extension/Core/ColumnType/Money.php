@@ -21,11 +21,17 @@ class Money extends ColumnAbstractType
     const ROUND_HALF_EVEN = PHP_ROUND_HALF_EVEN;
     const ROUND_HALF_ODD = PHP_ROUND_HALF_ODD;
 
+    /**
+     * {@inheritDoc}
+     */
     public function getId()
     {
         return 'money';
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function filterValue($value)
     {
         $precision = $this->getOption('precision');
@@ -70,6 +76,9 @@ class Money extends ColumnAbstractType
         return $value;
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function getDefaultOptionsValues()
     {
         return array(
@@ -82,6 +91,9 @@ class Money extends ColumnAbstractType
         );
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function getAvailableOptions()
     {
         return array(

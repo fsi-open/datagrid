@@ -17,6 +17,9 @@ use FSi\Component\DataGrid\Column\ColumnAbstractTypeExtension;
 
 class ValueFormatColumnOptionsExtension extends ColumnAbstractTypeExtension
 {
+    /**
+     * {@inheritDoc}
+     */
     public function buildCellView(ColumnTypeInterface $column, CellViewInterface $view)
     {
         $this->validateEmptyValueOption($column);
@@ -58,6 +61,9 @@ class ValueFormatColumnOptionsExtension extends ColumnAbstractTypeExtension
         $view->setValue($value);
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function getExtendedColumnTypes()
     {
         return array(
@@ -66,17 +72,23 @@ class ValueFormatColumnOptionsExtension extends ColumnAbstractTypeExtension
             'datetime',
             'number',
             'money',
-            'gedmo.tree'
+            'gedmo.tree',
         );
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function getDefaultOptionsValues(ColumnTypeInterface $column)
     {
         return array(
-            'empty_value' => ''
+            'empty_value' => '',
         );
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function getAvailableOptions(ColumnTypeInterface $column)
     {
         return array('glue', 'format', 'empty_value');

@@ -46,7 +46,6 @@ class BindRequestTest extends \PHPUnit_Framework_TestCase
              ->method('getName')
              ->will($this->returnValue('grid'));
 
-
         $event = $this->getMock('FSi\Component\DataGrid\DataGridEventInterface');
         $event->expects($this->once())
             ->method('getData')

@@ -32,12 +32,12 @@ class FormExtension extends DataGridAbstractExtension
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     protected function loadColumnTypesExtensions()
     {
         return array(
-            new ColumnTypeExtension\FormExtension($this->formFactory)
+            new ColumnTypeExtension\FormExtension($this->formFactory),
         );
     }
 }
