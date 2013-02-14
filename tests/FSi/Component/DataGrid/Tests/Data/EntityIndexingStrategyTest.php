@@ -143,4 +143,11 @@ class EntityIndexingStrategyTest extends \PHPUnit_Framework_TestCase
             $this->assertSame(array('id' => '1', 'name' => 'Foo' ), $strategy->revertIndex($index, 'Entity'));
         }
     }
+
+    public function testGetIndexForNonEntities()
+    {
+        $registry = $this->getMock('Doctrine\Common\Persistence\ManagerRegistry');
+        $strategy = new EntityIndexingStrategy($registry);
+        $this->assertSame(null, $strategy->getIndex(new \stdClass(), $this->dataMapper));
+    }
 }

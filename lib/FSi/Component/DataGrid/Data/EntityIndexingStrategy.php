@@ -48,6 +48,9 @@ class EntityIndexingStrategy implements IndexingStrategyInterface
 
         $class = get_class($object);
         $em = $this->registry->getManagerForClass($class);
+        if (!$em) {
+            return null;
+        }
         $metadataFactory = $em->getMetadataFactory();
         $metadata = $metadataFactory->getMetadataFor($class);
 
