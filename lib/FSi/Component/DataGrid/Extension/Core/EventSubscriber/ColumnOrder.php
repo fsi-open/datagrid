@@ -30,42 +30,42 @@ class ColumnOrder implements EventSubscriberInterface
      */
     public function postBuildView(DataGridEventInterface $event)
     {
-        $dataGrid = $event->getDataGrid();
         $view = $event->getData();
+        $columns = $view->getColumns();
 
-        if (count($view->getColumns())) {
-            $columns = $view->getColumns();
-            $sort = false;
+        if (count($columns)) {
+            $positive = array();
+            $negative = array();
+            $neutral = array();
 
-            /**
-             * Check if any of selected column have order attribute different than 0.
-             * Sorting columns without order attribute may give strange output columns order.
-             */
+            $indexedColumns = array();
             foreach ($columns as $column) {
                 if ($column->hasAttribute('order')) {
-                    if ((float) $column->getAttribute('order') != 0) {
-                        $sort = true;
-                        break;
+                    if (($order = $column->getAttribute('order')) >= 0) {
+                        $positive[$column->getName()] = $order;
+                    } else {
+                        $negative[$column->getName()] = $order;
                     }
+                    $indexedColumns[$column->getName()] = $column;
+                } else {
+                    $neutral[] = $column;
                 }
             }
+            asort($positive);
+            asort($negative);
+            $positive = array_reverse($positive, true);
+            $negative = array_reverse($negative, true);
 
-            if ($sort) {
-                uasort($columns, function($a, $b) {
-                    $orderA = $a->hasAttribute('order') ? (float) $a->getAttribute('order') : 0;
-                    $orderB = $b->hasAttribute('order') ? (float) $b->getAttribute('order') : 0;
-
-                    if ($orderA == $orderB) {
-                        return 1;
-                    }
-
-                    return ($orderA < $orderB) ? -1 : 1;
-                });
-
-                $view->setColumns($columns);
+            $columns = array();
+            foreach ($positive as $name => $order) {
+                $columns[] = $indexedColumns[$name];
             }
-        }
+            $columns = array_merge($columns, $neutral);
+            foreach ($negative as $name => $order) {
+                $columns[] = $indexedColumns[$name];
+            }
 
-        $event->setData($view);
+            $view->setColumns($columns);
+        }
     }
 }
