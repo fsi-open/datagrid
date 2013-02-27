@@ -37,15 +37,27 @@ class ValueFormatColumnOptionsExtension extends ColumnAbstractTypeExtension
                 if (isset($glue)) {
                     $formatedValues = array();
                     foreach ($value as $val) {
-                        $formatedValues[] = sprintf($format, $val);
+                        if ($format instanceof \Closure) {
+                            $formatedValues[] = $format($val);
+                        } else {
+                            $formatedValues[] = sprintf($format, $val);
+                        }
                     }
 
                     $value = implode($glue, $formatedValues);
                 } else {
-                    $value = vsprintf($format, $value);
+                    if ($format instanceof \Closure) {
+                        $value = $format($value);
+                    } else {
+                        $value = vsprintf($format, $value);
+                    }
                 }
             } else {
-                $value = sprintf($format, $value);
+                if ($format instanceof \Closure) {
+                    $value = $format($value);
+                } else {
+                    $value = sprintf($format, $value);
+                }
             }
         }
 
