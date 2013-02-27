@@ -46,8 +46,9 @@ Option is useful when you need to implode few fields from object in one column.
 
 **glue** Useful only when you need to implode data from few source object fields into one column.
 
-**format** Useful when you need to format value before passing it to view. Value is formatted with php ``sprintf`` function. There should be at least same count of ``mapping_fields`` option
-values as placeholders count in format string. This option can be used with ``glue`` option.
+**format** Useful when you need to format value before passing it to view. Value iformatteded with php ``sprintf`` function. There should be at least same count of ``mapping_fields`` option
+values as placeholders count in format string. This option can be used with ``glue`` option.  
+``format`` option also accept ``\Clousure`` function that should return valid formated string. 
 
 **empty_value** if value from mapping field is empty (null, !strlen) then it will be replaced with ``empty_value`` option value which by default is empty string. There is also possibility to pass ``empty_value`` to selected ``mapping_fields``.
 To do it you just need set ``empty_value`` as array where keys are ``mapping_fields`` keys. If mapping field value is empty and its not included in ``empty_value`` option it will be replaced with empty string.
