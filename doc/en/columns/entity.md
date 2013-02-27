@@ -23,8 +23,9 @@ Option is useful when you need to implode few fields from object in one column.
 
 **glue** Useful only when you need to implode data from few source object fields into one column.
 
-**format** Useful when you need to format value before passing it to view. Value is formatted with php ``sprintf`` function. There should be at least same count of ``mapping_fields`` option
-values as placeholders count in format string. This option can be used with ``glue`` option.
+**format** Useful when you need to format value before passing it to view. Value iformatteded with php ``sprintf`` function. There should be at least same count of ``mapping_fields`` option
+values as placeholders count in format string. This option can be used with ``glue`` option.  
+``format`` option also accept ``\Clousure`` function that should return valid formated string. 
 
 **glue_multiple** Glue between objects from relation. Should be used if you want to display relation with many objects and add some separator between them.
 

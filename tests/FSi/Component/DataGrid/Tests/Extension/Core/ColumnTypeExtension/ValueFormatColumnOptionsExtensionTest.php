@@ -552,4 +552,46 @@ class ValueFormatColumnOptionsExtensionTest extends \PHPUnit_Framework_TestCase
 
         $extension->buildCellView($column, $view);
     }
+
+    public function testBuildCellViewWithFormatWithClousure()
+    {
+        $extension = new ValueFormatColumnOptionsExtension();
+        $view = $this->getMock('FSi\Component\DataGrid\Column\CellViewInterface');
+        $column = $this->getMock('FSi\Component\DataGrid\Column\ColumnTypeInterface');
+
+        $column->expects($this->any())
+            ->method('getOption')
+            ->will($this->returnCallback(function($option) {
+                switch($option) {
+                    case 'format':
+                        return function($data) {
+                            return $data['fo'] . '-' . $data['ba'];
+                        };
+                        break;
+                    case 'glue':
+                        return null;
+                        break;
+                    case 'empty_value':
+                        return array();
+                        break;
+                    case 'mapping_fields':
+                        return array('fo', 'ba');
+                        break;
+                }
+            }));
+
+        $view->expects($this->at(0))
+            ->method('getValue')
+            ->will($this->returnValue(array(
+                'fo' => 'fo',
+                'ba' => 'ba',
+            )
+        ));
+
+        $view->expects($this->at(1))
+            ->method('setValue')
+            ->with('fo-ba');
+
+        $extension->buildCellView($column, $view);
+    }
 }
