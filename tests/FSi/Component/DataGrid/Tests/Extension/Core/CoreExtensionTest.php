@@ -65,6 +65,20 @@ class CoreExtensionTest extends \PHPUnit_Framework_TestCase
                     'negative1',
                     'negative2',
                 )
+            ),
+            array(
+                'columns' => array(
+                    'neutral1' => null,
+                    'neutral2' => null,
+                    'neutral3' => null,
+                    'neutral4' => null,
+                ),
+                'sorted' => array(
+                    'neutral1',
+                    'neutral2',
+                    'neutral3',
+                    'neutral4',
+                )
             )
         );
 
