@@ -25,7 +25,9 @@ class DefaultColumnOptionsExtension extends ColumnAbstractTypeExtension
     public function buildHeaderView(ColumnTypeInterface $column, HeaderViewInterface $view)
     {
         $view->setLabel($column->getOption('label'));
-        $view->setAttribute('order', $column->getOption('order'));
+        if ($column->hasOption('order')) {
+            $view->setAttribute('order', $column->getOption('order'));
+        }
     }
 
     /**
@@ -53,7 +55,6 @@ class DefaultColumnOptionsExtension extends ColumnAbstractTypeExtension
         return array(
             'label' => $column->getName(),
             'mapping_fields' => array($column->getName()),
-            'order' => 0,
         );
     }
 
