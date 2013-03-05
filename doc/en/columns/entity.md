@@ -9,7 +9,7 @@ Provided by ``DataGrid\Extension\Symfony\ColumnTypeExtension\ActionColumnExtensi
 * ``glue`` - string
 * ``glue_multiple`` - string, by default ``" "`` (space character)
 * ``relation_field`` - **required**, string
-* ``order`` - integer, by default ``0``
+* ``order`` - integer
 * ``editable`` - **required**, boolean, by default ``false``
 * ``fields_options`` - array, by default ``array()``
 
@@ -31,7 +31,9 @@ values as placeholders count in format string. This option can be used with ``gl
 
 **relation_field** Field that relates to other entity (entities).
 
-**order** Column order.
+**order** Optional integer value specifying order of column in grid. Columns in grid are sorted according
+  to ascending value of this option. Columns without this option will stay in their natural order (between columns with
+  positive and negative values of this option)  
 
 **editable** If enabled SymfonyForm object is automatically created and passed into view as attribute and you can easily use it to display quick edit.
 

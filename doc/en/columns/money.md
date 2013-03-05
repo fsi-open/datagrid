@@ -15,7 +15,7 @@ Provided by ``DataGrid\Extension\Core\CoreExtension``
 * ``label`` - string, by default ``[$field->getName()]``
 * ``mapping_fields`` - **required**, array, by default ``[$field->getName()]``
 * ``glue`` - string
-* ``order`` - integer, by default ``0``
+* ``order`` - integer
 * ``editable`` - **required**, boolean, by default ``false``
 * ``fields_options`` - array, by default ``array()``
 * ``empty_value`` - string|array, by default ``""`` (empty string)
@@ -52,6 +52,10 @@ values as placeholders count in format string. This option can be used with ``gl
 
 **empty_value** if value from mapping field is empty (null, !strlen) then it will be replaced with ``empty_value`` option value which by default is empty string. There is also possibility to pass ``empty_value`` to selected ``mapping_fields``.
 To do it you just need set ``empty_value`` as array where keys are ``mapping_fields`` keys. If mapping field value is empty and its not included in ``empty_value`` option it will be replaced with empty string.
+
+**order** Optional integer value specifying order of column in grid. Columns in grid are sorted according
+  to ascending value of this option. Columns without this option will stay in their natural order (between columns with
+  positive and negative values of this option)  
 
 ## Example Usage ##
 
