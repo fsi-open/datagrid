@@ -8,7 +8,7 @@ Provided by ``DataGrid\Extension\Gedmo\GedmoDoctrineExtension``
 * ``label`` - string, by default ``[$field->getName()]``
 * ``mapping_fields`` - **required**, array, by default ``[$field->getName()]``
 * ``glue`` - string
-* ``order`` - integer, by default ``0``
+* ``order`` - integer
 * ``editable`` - **required**, boolean, by default ``false``
 * ``fields_options`` - array, by default ``array()``
 * ``empty_value`` - string|array, by default ``""`` (empty string)
@@ -29,7 +29,9 @@ Option is useful when you need to implode few fields from object in one column.
 values as placeholders count in format string. This option can be used with ``glue`` option.  
 ``format`` option also accept ``\Clousure`` function that should return valid formated string. 
 
-**order** Column order.
+**order** Optional integer value specifying order of column in grid. Columns in grid are sorted according
+  to ascending value of this option. Columns without this option will stay in their natural order (between columns with
+  positive and negative values of this option)  
 
 **editable** If enabled SymfonyForm object is automatically created and passed into view as attribute and you can easily use it to display quick edit.
 
