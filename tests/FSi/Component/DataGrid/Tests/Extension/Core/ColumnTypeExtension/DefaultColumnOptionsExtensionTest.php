@@ -27,11 +27,6 @@ class DefaultColumnOptionsExtensionTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue('foo'));
 
         $column->expects($this->at(1))
-            ->method('hasOption')
-            ->with('order')
-            ->will($this->returnValue(true));
-
-        $column->expects($this->at(2))
             ->method('getOption')
             ->with('order')
             ->will($this->returnValue(100));

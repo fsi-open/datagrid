@@ -25,8 +25,8 @@ class DefaultColumnOptionsExtension extends ColumnAbstractTypeExtension
     public function buildHeaderView(ColumnTypeInterface $column, HeaderViewInterface $view)
     {
         $view->setLabel($column->getOption('label'));
-        if ($column->hasOption('order')) {
-            $view->setAttribute('order', $column->getOption('order'));
+        if (!is_null($order = $column->getOption('order'))) {
+            $view->setAttribute('order', $order);
         }
     }
 
