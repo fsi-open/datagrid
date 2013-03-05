@@ -6,7 +6,7 @@ Provided by ``DataGrid\Extension\Core\CoreExtension``
 
 * ``label`` - string, by default ``[$field->getName()]``
 * ``mapping_fields`` - **required**, array, by default ``[$field->getName()]``
-* ``order`` - integer, by default ``0``
+* ``order`` - integer
 * ``actions`` - **required**, array
 
 ## Options Description ##
@@ -17,7 +17,9 @@ Option is useful when you need to implode few fields from object in one column.
 
 **label** By default label value its taken from name under what column was registered in grid.
 
-**order** Column order.
+**order** Optional integer value specifying order of column in grid. Columns in grid are sorted according
+  to ascending value of this option. Columns without this option will stay in their natural order (between columns with
+  positive and negative values of this option)  
 
 **actions** Array of actions. This option is provided by two extensions and it's up to you to decide which one should be loaded. Each of extensions has defined own keys that are available/required/default inside of **actions** array (see example usage):
 
