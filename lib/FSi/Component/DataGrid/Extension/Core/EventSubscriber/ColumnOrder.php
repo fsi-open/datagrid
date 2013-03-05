@@ -51,17 +51,17 @@ class ColumnOrder implements EventSubscriberInterface
                     $neutral[] = $column;
                 }
             }
+
             asort($positive);
             asort($negative);
-            $positive = array_reverse($positive, true);
-            $negative = array_reverse($negative, true);
 
             $columns = array();
-            foreach ($positive as $name => $order) {
+            foreach ($negative as $name => $order) {
                 $columns[] = $indexedColumns[$name];
             }
+
             $columns = array_merge($columns, $neutral);
-            foreach ($negative as $name => $order) {
+            foreach ($positive as $name => $order) {
                 $columns[] = $indexedColumns[$name];
             }
 
