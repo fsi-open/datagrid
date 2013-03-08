@@ -79,33 +79,30 @@ class Money extends ColumnAbstractType
     /**
      * {@inheritDoc}
      */
-    public function getDefaultOptionsValues()
+    public function initOptions()
     {
-        return array(
-            'round_mode' => PHP_ROUND_HALF_UP,
+        $this->getOptionsResolver()->setDefaults(array(
+            'round_mode' => self::ROUND_HALF_UP,
             'precision' => 2,
             'decimals' => 2,
             'dec_point' => '.',
             'thousands_sep' => ',',
-            'value_currency_separator' => ' '
-        );
-    }
+            'value_currency_separator' => ' ',
+            'currency' => null,
+            'currency_field' => null
+        ));
 
-    /**
-     * {@inheritDoc}
-     */
-    public function getAvailableOptions()
-    {
-        return array(
-            'mapping_fields',
-            'round_mode',
-            'precision',
-            'decimals',
-            'dec_point',
-            'thousands_sep',
-            'value_currency_separator',
-            'currency_field',
-            'currency'
-        );
+        $this->getOptionsResolver()->setAllowedTypes(array(
+            'round_mode' => 'integer',
+            'precision' => 'integer',
+            'decimals' => 'integer',
+            'decimals' => 'integer',
+            'dec_point' => 'string',
+            'thousands_sep' => 'string',
+            'value_currency_separator' => 'string',
+            'currency' => array('null', 'string'),
+            'currency_field' => array('null', 'string'),
+        ));
+
     }
 }

@@ -50,25 +50,8 @@ abstract class ColumnAbstractTypeExtension implements ColumnTypeExtensionInterfa
     /**
      * {@inheritdoc}
      */
-    public function getRequiredOptions(ColumnTypeInterface $column)
+    public function initOptions(ColumnTypeInterface $column)
     {
-        return array();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getAvailableOptions(ColumnTypeInterface $column)
-    {
-        return array();
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getDefaultOptionsValues(ColumnTypeInterface $column)
-    {
-        return array();
     }
 
     /**

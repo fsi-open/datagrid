@@ -11,9 +11,27 @@
 namespace FSi\Component\DataGrid\Tests\Extension\Core\ColumnType;
 
 use FSi\Component\DataGrid\Extension\Core\ColumnType\DateTime;
+use FSi\Component\DataGrid\Extension\Core\ColumnTypeExtension\DefaultColumnOptionsExtension;
 
 class DateTimeTest extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * @var \FSi\Component\DataGrid\Extension\Core\ColumnType\Action
+     */
+    private $column;
+
+    public function setUp()
+    {
+        $column = new DateTime();
+        $column->setName('datetime');
+        $column->initOptions();
+
+        $extension = new DefaultColumnOptionsExtension();
+        $extension->initOptions($column);
+
+        $this->column = $column;
+    }
+
     public function testBasicFilterValue()
     {
         $dateTimeObject = new \DateTime('2012-05-03 12:41:11');
@@ -22,12 +40,10 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase
             'datetime' => $dateTimeObject
         );
 
-        $column = new DateTime();
-        $column->setName('datetime');
-        $column->setOption('mapping_fields', array('datetime'));
+        $this->column->setOption('mapping_fields', array('datetime'));
 
         $this->assertSame(
-            $column->filterValue($value),
+            $this->column->filterValue($value),
             array(
                 'datetime' => $dateTimeObject->format('Y-m-d H:i:s')
             )
@@ -42,23 +58,25 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase
             'datetime' => $dateTimeObject
         );
 
-        $column = new DateTime();
-        $column->setName('datetime');
-        $column->setOption('mapping_fields', array('datetime'));
-        $column->setOption('datetime_format', 'Y.d.m');
+        $this->column->setOptions(array(
+            'mapping_fields' => array('datetime'),
+            'datetime_format' => 'Y.d.m'
+        ));
 
         $this->assertSame(
-            $column->filterValue($value),
+            $this->column->filterValue($value),
             array(
                 'datetime' => $dateTimeObject->format('Y.d.m')
             )
         );
     }
 
+    /**
+     * @expectedException \InvalidArgumentException
+     */
     public function testMappingFieldsOptionInputTimestamp()
     {
         $dateTimeObject = new \DateTime('2012-05-03 12:41:11');
-
         $brokenValue = array(
             'datetime' => $dateTimeObject
         );
@@ -66,22 +84,24 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase
             'datetime' => $dateTimeObject->getTimestamp()
         );
 
-        $column = new DateTime();
-        $column->setName('datetime');
-        $column->setOption('input', 'timestamp');
+        $this->column->setOptions(array(
+            'input' => 'timestamp',
+        ));
 
-        $this->setExpectedException('InvalidArgumentException');
-        $column->filterValue($brokenValue);
-
-        $column->filterValue($value);
+        $this->column->filterValue($value);
         $this->assertSame(
-            $column->filterValue($value),
+            $this->column->filterValue($value),
             array(
                 'datetime' => $dateTimeObject->format('Y-m-d H:i:s')
             )
         );
+
+        $this->column->filterValue($brokenValue);
     }
 
+    /**
+     * @expectedException \FSi\Component\DataGrid\Exception\DataGridColumnException
+     */
     public function testMappingFieldsOptionInputStringMissingMappingFieldsFormat()
     {
         $dateTimeObject = new \DateTime('2012-05-03 12:41:11');
@@ -89,14 +109,14 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase
             'datetime' => $dateTimeObject->format('Y-m-d H:i:s')
         );
 
-        $column = new DateTime();
-        $column->setName('datetime');
-        $column->setOption('input', 'string');
+        $this->column->setOption('input', 'string');
 
-        $this->setExpectedException('FSi\Component\DataGrid\Exception\DataGridColumnException');
-        $column->filterValue($value);
+        $this->column->filterValue($value);
     }
 
+    /**
+     * @expectedException \FSi\Component\DataGrid\Exception\DataGridColumnException
+     */
     public function testMappingFieldsOptionInputString()
     {
         $dateTimeObject = new \DateTime('2012-05-03 12:41:11');
@@ -109,40 +129,41 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase
             'datetime' => $dateTimeObject->format('Y-m-d H:i:s')
         );
 
-        $column = new DateTime();
-        $column->setName('datetime');
-        $column->setOption('input', 'string');
-
-        $column->setOption('mapping_fields_format', 'Y-m-d H:i:s');
+        $this->column->setOptions(array(
+            'input' => 'string',
+            'mapping_fields_format' => 'Y-m-d H:i:s'
+        ));
 
         $this->assertSame(
-            $column->filterValue($value),
+            $this->column->filterValue($value),
             array(
                 'datetime' => $dateTimeObject->format('Y-m-d H:i:s')
             )
         );
 
-        $this->setExpectedException('FSi\Component\DataGrid\Exception\DataGridColumnException');
-        $column->filterValue($brokenValue);
+        $this->column->filterValue($brokenValue);
     }
 
+    /**
+     * @expectedException \FSi\Component\DataGrid\Exception\DataGridColumnException
+     */
     public function testMappingFieldsOptionInputArrayMissingMappingFieldsFormat()
     {
         $dateTimeObject = new \DateTime('2012-05-03 12:41:11');
         $dateObject = new \DateTime('2012-05-03');
+
         $value = array(
             'datetime' => $dateTimeObject->format('Y-m-d H:i:s'),
             'time' => $dateObject->format('Y-m-d H:i:s')
         );
 
-        $column = new DateTime();
-        $column->setName('datetime');
-        $column->setOption('input', 'array');
-
-        $this->setExpectedException('FSi\Component\DataGrid\Exception\DataGridColumnException');
-        $column->filterValue($value);
+        $this->column->setOption('input', 'array');
+        $this->column->filterValue($value);
     }
 
+    /**
+     * @expectedException \FSi\Component\DataGrid\Exception\DataGridColumnException
+     */
     public function testMappingFieldsOptionInputArrayWrongMappingFieldsFormat()
     {
         $dateTimeObject = new \DateTime('2012-05-03 12:41:11');
@@ -152,16 +173,15 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase
             'time' => $dateObject->format('Y-m-d H:i:s')
         );
 
-        $column = new DateTime();
-        $column->setName('datetime');
-        $column->setOption('input', 'array');
-        $column->setOption('mapping_fields_format', array(
-            'datetime' => 'string',
-            'time' => 'string'
+        $this->column->setOptions(array(
+            'input' => 'string',
+            'mapping_fields_format' => array(
+                'datetime' => 'string',
+                'time' => 'string'
+            )
         ));
 
-        $this->setExpectedException('FSi\Component\DataGrid\Exception\DataGridColumnException');
-        $column->filterValue($value);
+        $this->column->filterValue($value);
     }
 
     public function testMappingFieldsOptionInputArray()
@@ -175,18 +195,18 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase
             'timestamp' => $dateTimeObject->getTimestamp()
         );
 
-        $column = new DateTime();
-        $column->setName('datetime');
-        $column->setOption('input', 'array');
-        $column->setOption('mapping_fields_format', array(
-            'datetime' => array('input' => 'datetime'),
-            'time' => array('input' => 'datetime'),
-            'string' => array('input' => 'string', 'datetime_format' => 'Y-m-d H:i:s'),
-            'timestamp' => array('input' => 'timestamp')
+        $this->column->setOptions(array(
+            'input' => 'array',
+            'mapping_fields_format' => array(
+                'datetime' => array('input' => 'datetime'),
+                'time' => array('input' => 'datetime'),
+                'string' => array('input' => 'string', 'datetime_format' => 'Y-m-d H:i:s'),
+                'timestamp' => array('input' => 'timestamp')
+            )
         ));
 
         $this->assertSame(
-            $column->filterValue($value),
+            $this->column->filterValue($value),
             array(
                 'datetime' => $dateTimeObject->format('Y-m-d H:i:s'),
                 'time' => $dateObject->format('Y-m-d 00:00:00'),
@@ -207,19 +227,19 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase
             'timestamp' => $dateTimeObject->getTimestamp()
         );
 
-        $column = new DateTime();
-        $column->setName('datetime');
-        $column->setOption('input', 'array');
-        $column->setOption('datetime_format', 'Y.d.m');
-        $column->setOption('mapping_fields_format', array(
-            'datetime' => array('input' => 'datetime'),
-            'time' => array('input' => 'datetime'),
-            'string' => array('input' => 'string', 'datetime_format' => 'Y-m-d H:i:s'),
-            'timestamp' => array('input' => 'timestamp')
+        $this->column->setOptions(array(
+            'input' => 'array',
+            'datetime_format' => 'Y.d.m',
+            'mapping_fields_format' => array(
+                'datetime' => array('input' => 'datetime'),
+                'time' => array('input' => 'datetime'),
+                'string' => array('input' => 'string', 'datetime_format' => 'Y-m-d H:i:s'),
+                'timestamp' => array('input' => 'timestamp')
+            )
         ));
 
         $this->assertSame(
-            $column->filterValue($value),
+            $this->column->filterValue($value),
             array(
                 'datetime' => $dateTimeObject->format('Y.d.m'),
                 'time' => $dateObject->format('Y.d.m'),

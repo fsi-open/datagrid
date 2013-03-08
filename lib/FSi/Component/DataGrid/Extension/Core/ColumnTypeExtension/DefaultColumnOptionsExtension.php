@@ -50,27 +50,21 @@ class DefaultColumnOptionsExtension extends ColumnAbstractTypeExtension
     /**
      * {@inheritDoc}
      */
-    public function getDefaultOptionsValues(ColumnTypeInterface $column)
+    public function initOptions(ColumnTypeInterface $column)
     {
-        return array(
+        $column->getOptionsResolver()->setDefaults(array(
             'label' => $column->getName(),
+            'order' => null,
             'mapping_fields' => array($column->getName()),
-        );
-    }
+        ));
 
-    /**
-     * {@inheritDoc}
-     */
-    public function getRequiredOptions(ColumnTypeInterface $column)
-    {
-        return array('mapping_fields');
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getAvailableOptions(ColumnTypeInterface $column)
-    {
-        return array('label', 'mapping_fields', 'order');
+        $column->getOptionsResolver()->setAllowedTypes(array(
+            'label' => 'string',
+            'mapping_fields' => 'array',
+            'order' => array(
+                'integer',
+                'null'
+            ),
+        ));
     }
 }

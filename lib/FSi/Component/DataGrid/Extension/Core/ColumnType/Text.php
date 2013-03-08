@@ -45,8 +45,23 @@ class Text extends ColumnAbstractType
     /**
      * {@inheritDoc}
      */
+    public function initOptions()
+    {
+        $this->getOptionsResolver()->setDefaults(array(
+            'trim' => false
+        ));
+
+        $this->getOptionsResolver()->setAllowedTypes(array(
+            'trim' => 'bool'
+        ));
+    }
+
+    /**
+     * {@inheritDoc}
+
     public function getAvailableOptions()
     {
         return array('trim');
     }
+     */
 }

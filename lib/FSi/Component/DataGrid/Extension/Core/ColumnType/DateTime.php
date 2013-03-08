@@ -59,28 +59,30 @@ class DateTime extends ColumnAbstractType
     /**
      * {@inheritDoc}
      */
-    public function getDefaultOptionsValues()
+    public function initOptions()
     {
-        return array(
+        $this->getOptionsResolver()->setDefaults(array(
             'datetime_format' => 'Y-m-d H:i:s',
-            'mapping_fields' => array($this->getName()),
-        );
-    }
+            'input' => null,
+            'mapping_fields_format' => null
+        ));
 
-    /**
-     * {@inheritDoc}
-     */
-    public function getRequiredOptions()
-    {
-        return array('datetime_format');
-    }
+        $this->getOptionsResolver()->setAllowedTypes(array(
+            'mapping_fields_format' => array(
+                'null',
+                'array',
+                'string'
+            )
+        ));
 
-    /**
-     * {@inheritDoc}
-     */
-    public function getAvailableOptions()
-    {
-        return array('datetime_format', 'input', 'mapping_fields', 'mapping_fields_format');
+        $this->getOptionsResolver()->setAllowedValues(array(
+            'input' => array(
+                'string',
+                'timestamp',
+                'datetime',
+                'array'
+            )
+        ));
     }
 
     private function getInputData($value)

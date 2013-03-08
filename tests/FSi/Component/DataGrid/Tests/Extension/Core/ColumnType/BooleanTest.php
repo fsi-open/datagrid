@@ -14,105 +14,120 @@ use FSi\Component\DataGrid\Extension\Core\ColumnType\Boolean;
 
 class BooleanTest extends \PHPUnit_Framework_TestCase
 {
-    public function testBasicFilterValue()
+    /**
+     * @var \FSi\Component\DataGrid\Extension\Core\ColumnType\Boolean
+     */
+    private $column;
+
+    public function setUp()
     {
         $column = new Boolean();
         $column->setName('available');
+        $column->initOptions();
 
-        $column->setOption('true_value', 'true');
-        $column->setOption('false_value', 'false');
+        $this->column = $column;
+    }
 
-        $this->assertSame($column->filterValue(true), 'true');
-        $this->assertNotSame($column->filterValue(true), 'false');
+    public function testBasicFilterValue()
+    {
+        $this->column->setOptions(array(
+            'true_value' => 'true',
+            'false_value'=> 'false'
+        ));
+
+        $this->assertSame($this->column->filterValue(true), 'true');
+        $this->assertNotSame($this->column->filterValue(true), 'false');
     }
 
     public function testFilterValueWithTrueValuesInArray()
     {
-        $column = new Boolean();
-        $column->setName('available');
-
-        $column->setOption('true_value', 'true');
+        $this->column->setOption('true_value', 'true');
 
         $this->assertSame(
-            $column->filterValue(array(
+            $this->column->filterValue(array(
                 true,
                 true
             )),
-            'true');
+            'true'
+        );
     }
 
     public function testFilterValueWithMixedValuesInArray()
     {
-        $column = new Boolean();
-        $column->setName('available');
-
-        $column->setOption('true_value', 'true');
-        $column->setOption('false_value', 'false');
+        $this->column->setOptions(array(
+            'true_value' => 'true',
+            'false_value'=> 'false'
+        ));
 
         $this->assertSame(
-            $column->filterValue(array(
+            $this->column->filterValue(array(
                 true,
                 1,
                 new \DateTime()
             )),
-            'true');
+            'true'
+        );
 
         $this->assertNotSame(
-            $column->filterValue(array(
+            $this->column->filterValue(array(
                 true,
                 1,
                 new \DateTime()
             )),
-            'false');
+            'false'
+        );
     }
+
 
     public function testFilterValueWithFalseValuesInArray()
     {
-        $column = new Boolean();
-        $column->setName('available');
-
-        $column->setOption('true_value', 'true');
-        $column->setOption('false_value', 'false');
+        $this->column->setOptions(array(
+            'true_value' => 'true',
+            'false_value'=> 'false'
+        ));
 
         $this->assertNotSame(
-            $column->filterValue(array(
+            $this->column->filterValue(array(
                 false,
                 false
             )),
-            'true');
+            'true'
+        );
 
         $this->assertSame(
-            $column->filterValue(array(
+            $this->column->filterValue(array(
                 false,
                 false
             )),
-            'false');
+            'false'
+        );
     }
 
     public function testFilterValueWithMixedValuesAndFalseInArray()
     {
-        $column = new Boolean();
-        $column->setName('available');
-
-        $column->setOption('true_value', 'true');
-        $column->setOption('false_value', 'false');
+        $this->column->setOptions(array(
+            'true_value' => 'true',
+            'false_value'=> 'false'
+        ));
 
         $this->assertNotSame(
-            $column->filterValue(array(
+            $this->column->filterValue(array(
                 true,
                 1,
                 new \DateTime(),
                 false
             )),
-            'true');
+            'true'
+        );
 
         $this->assertSame(
-            $column->filterValue(array(
+            $this->column->filterValue(array(
                 true,
                 1,
                 new \DateTime(),
                 false
             )),
-            'false');
+            'false'
+        );
     }
 }

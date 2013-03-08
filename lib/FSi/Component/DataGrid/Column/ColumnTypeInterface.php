@@ -11,6 +11,7 @@
 
 namespace FSi\Component\DataGrid\Column;
 
+use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use FSi\Component\DataGrid\DataGridInterface;
 use FSi\Component\DataGrid\Column\CellViewInterface;
 use FSi\Component\DataGrid\Column\HeaderViewInterface;
@@ -108,11 +109,26 @@ interface ColumnTypeInterface
     public function bindData($data, $object, $index);
 
     /**
+     * Sets the default options for this type.
+     * To access OptionsResolver use $this->getOptionsResolver()
+     * initOptions is called in DataGrid after loading the column type
+     * from DataGridFactory.
+     *
+     * @param OptionsResolverInterface $resolver The resolver for the options.
+     */
+    public function initOptions();
+
+    /**
      * @param string $name
      * @param mixed $value
      * @return mixed
      */
     public function setOption($name, $value);
+
+    /**
+     * @param array $options
+     */
+    public function setOptions($options);
 
     /**
      * @param string $name
@@ -142,4 +158,11 @@ interface ColumnTypeInterface
      * @return array
      */
     public function getExtensions();
+
+    /**
+     * Returns the configured options resolver used for this type.
+     *
+     * @return \Symfony\Component\OptionsResolver\OptionsResolverInterface The options resolver.
+     */
+    public function getOptionsResolver();
 }

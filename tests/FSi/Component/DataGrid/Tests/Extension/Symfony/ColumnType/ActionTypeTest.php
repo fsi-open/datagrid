@@ -11,13 +11,15 @@
 
 namespace FSi\Component\DataGrid\Tests\Extension\Symfony\ColumnType;
 
-use FSi\Component\DataGrid\Extension\Symfony\ColumnType\Action;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\HttpFoundation\Request;
+use FSi\Component\DataGrid\Extension\Symfony\ColumnType\Action;
+use FSi\Component\DataGrid\Extension\Core\ColumnTypeExtension\DefaultColumnOptionsExtension;
 
 class ActionTypeTest extends \PHPUnit_Framework_TestCase
 {
     private $container;
+    private $column;
 
     protected function setUp()
     {
@@ -28,34 +30,38 @@ class ActionTypeTest extends \PHPUnit_Framework_TestCase
         }
 
         $this->container = $this->getMock('Symfony\Component\DependencyInjection\ContainerInterface');
+
+        $column = new Action($this->container);
+        $column->setName('action');
+        $column->initOptions();
+
+        $extension = new DefaultColumnOptionsExtension();
+        $extension->initOptions($column);
+
+        $this->column = $column;
     }
 
     public function testFilterValueWrongActionsOptionType()
     {
-        $column = new Action($this->container);
-
-        $column->setOption('actions', 'boo');
+        $this->column->setOption('actions', 'boo');
 
         $this->setExpectedException('InvalidArgumentException');
-        $column->filterValue(array());
+        $this->column->filterValue(array());
     }
 
     public function testFilterValueEmptyActionsOptionType()
     {
-        $column = new Action($this->container);
-
-        $column->setOption('actions', array());
+        $this->column->setOption('actions', array());
 
         $this->setExpectedException('InvalidArgumentException');
-        $column->filterValue(array());
+        $this->column->filterValue(array());
     }
 
     public function testFilterValueInvalidActionInActionsOption()
     {
-        $column = new Action($this->container);
-        $column->setOption('actions', array('edit' => 'asdasd'));
+        $this->column->setOption('actions', array('edit' => 'asdasd'));
         $this->setExpectedException('InvalidArgumentException');
-        $column->filterValue(array());
+        $this->column->filterValue(array());
     }
 
     public function testFilterValueRequiredActionInActionsOption()
@@ -82,6 +88,13 @@ class ActionTypeTest extends \PHPUnit_Framework_TestCase
             }));
 
         $column = new Action($this->container);
+        $column->setName('action');
+        $column->initOptions();
+
+        $extension = new DefaultColumnOptionsExtension();
+        $extension->initOptions($column);
+
+
         $column->setOption('actions', array(
             'edit' => array(
                 'route_name' => 'foo',
@@ -127,6 +140,11 @@ class ActionTypeTest extends \PHPUnit_Framework_TestCase
             }));
 
         $column = new Action($this->container);
+        $column->setName('action');
+        $column->initOptions();
+
+        $extension = new DefaultColumnOptionsExtension();
+        $extension->initOptions($column);
 
         $column->setOption('mapping_fields', array('foo'));
         $column->setOption('actions', array(
@@ -177,6 +195,12 @@ class ActionTypeTest extends \PHPUnit_Framework_TestCase
             }));
 
         $column = new Action($this->container);
+        $column->setName('action');
+        $column->initOptions();
+
+        $extension = new DefaultColumnOptionsExtension();
+        $extension->initOptions($column);
+
         $column->setOption('actions', array(
             'edit' => array(
                 'route_name' => 'foo',

@@ -91,21 +91,29 @@ class ValueFormatColumnOptionsExtension extends ColumnAbstractTypeExtension
     /**
      * {@inheritDoc}
      */
-    public function getDefaultOptionsValues(ColumnTypeInterface $column)
+    public function initOptions(ColumnTypeInterface $column)
     {
-        return array(
+        $column->getOptionsResolver()->setDefaults(array(
+            'glue' => null,
+            'format' => null,
             'empty_value' => '',
-        );
+        ));
+
+        $column->getOptionsResolver()->setAllowedTypes(array(
+            'glue' => array('string', 'null'),
+            'format' => array(
+                'string',
+                'function',
+                'null'
+            ),
+            'empty_value' => 'string'
+        ));
     }
 
     /**
-     * {@inheritDoc}
+     * @param ColumnTypeInterface $column
+     * @throws \InvalidArgumentException
      */
-    public function getAvailableOptions(ColumnTypeInterface $column)
-    {
-        return array('glue', 'format', 'empty_value');
-    }
-
     private function validateEmptyValueOption(ColumnTypeInterface $column)
     {
         $emptyValue = $column->getOption('empty_value');
@@ -144,6 +152,10 @@ class ValueFormatColumnOptionsExtension extends ColumnAbstractTypeExtension
         }
     }
 
+    /**
+     * @param mixed $value
+     * @param string $emptyValue
+     */
     private function populateValue($value, $emptyValue)
     {
         if (is_string($emptyValue)) {
