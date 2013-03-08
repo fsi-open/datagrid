@@ -266,7 +266,7 @@ To run tests for DataGrid you should install dev packages and run tests with com
 
 ```
     $ php composer.phar install --dev
-    $ phpunit -c tests
+    $ phpunit
 ```
 
 ## Extensions ##
