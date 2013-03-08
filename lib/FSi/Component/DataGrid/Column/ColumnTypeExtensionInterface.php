@@ -52,40 +52,11 @@ interface ColumnTypeExtensionInterface
     public function filterValue(ColumnTypeInterface $column, $value);
 
     /**
-     * Return required options for all column types options registered in extension.
+     * Sets the default options for this type.
      *
-     * return array(
-     *     'trim',
-     *     'empty_value'
-     * );
-     *
-     * @return array
+     * @param OptionsResolverInterface $column.
      */
-    public function getRequiredOptions(ColumnTypeInterface $column);
-
-    /**
-     * Return available options for all column types options registered in extension.
-     *
-     * return array(
-     *     'trim',
-     *     'empty_value'
-     * );
-     *
-     * @return array
-     */
-    public function getAvailableOptions(ColumnTypeInterface $column);
-
-    /**
-     * Return default values for all column types options registered in extension.
-     * Example return:
-     *
-     * return array(
-     *     'trim' => true,
-     * );
-     *
-     * @return array
-     */
-    public function getDefaultOptionsValues(ColumnTypeInterface $column);
+    public function initOptions(ColumnTypeInterface $column);
 
     /**
      * Return array with extended column types.

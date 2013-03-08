@@ -58,29 +58,29 @@ class ValueFormatColumnOptionsExtension extends ColumnAbstractTypeExtension
 
     /**
      * {@inheritDoc}
-     */
-    public function getExtendedColumnTypes()
-    {
-        return array(
-            'entity',
-        );
-    }
+     **/
+     public function getExtendedColumnTypes()
+     {
+         return array(
+             'entity',
+         );
+     }
 
     /**
      * {@inheritDoc}
      */
-    public function getDefaultOptionsValues(ColumnTypeInterface $column)
+    public function initOptions(ColumnTypeInterface $column)
     {
-        return array(
+        $column->getOptionsResolver()->setDefaults(array(
             'glue_multiple' => ' ',
-        );
-    }
+            'glue' => null,
+            'format' => null
+        ));
 
-    /**
-     * {@inheritDoc}
-     */
-    public function getAvailableOptions(ColumnTypeInterface $column)
-    {
-        return array('glue', 'glue_multiple', 'format');
+        $column->getOptionsResolver()->setAllowedTypes(array(
+            'glue_multiple' => array('string'),
+            'glue' => array('string', 'null'),
+            'format' => array('string', 'null'),
+        ));
     }
 }

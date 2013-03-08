@@ -154,18 +154,10 @@ class Tree extends ColumnAbstractType
     /**
      * {@inheritDoc}
      */
-    public function getDefaultOptionsValues()
+    public function initOptions()
     {
-        return array(
+        $this->getOptionsResolver()->setDefaults(array(
             'em' => null,
-        );
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getAvailableOptions()
-    {
-        return array('em', 'mapping_fields');
+        ));
     }
 }

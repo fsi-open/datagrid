@@ -15,10 +15,16 @@ use FSi\Component\DataGrid\Column\ColumnAbstractType;
 
 class Action extends ColumnAbstractType
 {
+    /**
+     * @var array
+     */
     protected $actionOptionsDefault = array(
         'protocole' => 'http://',
     );
 
+    /**
+     * @var array
+     */
     protected $actionOptionsAvailable = array(
         'uri_scheme',
         'anchor',
@@ -28,16 +34,25 @@ class Action extends ColumnAbstractType
         'redirect_uri',
     );
 
+    /**
+     * @var array
+     */
     protected $actionOptionsRequired = array(
         'uri_scheme',
         'anchor',
     );
 
+    /**
+     * {@inheritDoc}
+     */
     public function getId()
     {
         return 'action';
     }
 
+    /**
+     * {@inheritDoc}
+     */
     public function filterValue($value)
     {
         $this->validateOptions();
@@ -67,16 +82,21 @@ class Action extends ColumnAbstractType
         return $return;
     }
 
-    protected function getRequiredOptions()
+    /**
+     * {@inheritDoc}
+     */
+    public function initOptions()
     {
-        return array('actions');
+        $this->getOptionsResolver()->setDefaults(array(
+            'actions' => array(),
+        ));
     }
 
-    protected function getAvailableOptions()
-    {
-        return array('actions');
-    }
-
+    /**
+     * Validate options for each action.
+     *
+     * @throws \InvalidArgumentException
+     */
     private function validateOptions()
     {
         $actions = $this->getOption('actions');

@@ -45,19 +45,11 @@ class Boolean extends ColumnAbstractType
     /**
      * {@inheritDoc}
      */
-    public function getDefaultOptionsValues()
+    public function initOptions()
     {
-        return array(
+        $this->getOptionsResolver()->setDefaults(array(
             'true_value' => '',
-            'false_value' => '',
-        );
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getAvailableOptions()
-    {
-        return array('true_value', 'false_value');
+            'false_value' => ''
+        ));
     }
 }

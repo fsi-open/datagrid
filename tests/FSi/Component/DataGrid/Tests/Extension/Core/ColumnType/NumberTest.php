@@ -11,21 +11,38 @@
 namespace FSi\Component\DataGrid\Tests\Extension\Core\ColumnType;
 
 use FSi\Component\DataGrid\Extension\Core\ColumnType\Number;
+use FSi\Component\DataGrid\Extension\Core\ColumnTypeExtension\DefaultColumnOptionsExtension;
 
 class NumberTest extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * @var \FSi\Component\DataGrid\Extension\Core\ColumnType\Money
+     */
+    private $column;
+
+    public function setUp()
+    {
+        $column = new Number();
+        $column->setName('number');
+        $column->initOptions();
+
+        $extension = new DefaultColumnOptionsExtension();
+        $extension->initOptions($column);
+
+        $this->column = $column;
+    }
+
     public function testPrecision()
     {
         $value = array(
             'number' => 10.123,
         );
 
-        $column = new Number();
-        $column->setOption('precision', 2);
-        $column->setOption('round_mode', Number::ROUND_HALF_UP);
+        $this->column->setOption('precision', 2);
+        $this->column->setOption('round_mode', Number::ROUND_HALF_UP);
 
         $this->assertSame(
-            $column->filterValue($value),
+            $this->column->filterValue($value),
             array(
                 'number' => 10.12,
             )
@@ -34,10 +51,9 @@ class NumberTest extends \PHPUnit_Framework_TestCase
 
     public function testRoundMode()
     {
-        $column = new Number();
-        $column->setOption('round_mode', Number::ROUND_HALF_UP);
+        $this->column->setOption('round_mode', Number::ROUND_HALF_UP);
         $this->assertSame(
-            $column->filterValue(array(
+            $this->column->filterValue(array(
                 'number' => 10.123,
             )),
             array(
@@ -46,7 +62,7 @@ class NumberTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->assertSame(
-            $column->filterValue(array(
+            $this->column->filterValue(array(
                 'number' => 10.126,
             )),
             array(

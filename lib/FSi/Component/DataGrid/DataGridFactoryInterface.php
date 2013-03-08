@@ -24,6 +24,7 @@ interface DataGridFactoryInterface
     /**
      * @throws UnexpectedTypeException if column is not registered in factory.
      * @param string $type
+     * @return \FSi\Component\DataGrid\Column\ColumnTypeInterface
      */
     public function getColumnType($type);
 

@@ -126,25 +126,17 @@ class FormExtension extends ColumnAbstractTypeExtension
     /**
      * {@inheritDoc}
      */
-    public function getDefaultOptionsValues(ColumnTypeInterface $column)
+    public function initOptions(ColumnTypeInterface $column)
     {
-        return array('editable' => false, 'fields_options' => array());
-    }
+        $column->getOptionsResolver()->setDefaults(array(
+            'editable' => false,
+            'fields_options' => array(),
+        ));
 
-    /**
-     * {@inheritDoc}
-     */
-    public function getRequiredOptions(ColumnTypeInterface $column)
-    {
-        return array('editable');
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getAvailableOptions(ColumnTypeInterface $column)
-    {
-        return array('editable', 'fields_options');
+        $column->getOptionsResolver()->setAllowedTypes(array(
+            'editable' => 'bool',
+            'fields_options' => 'array'
+        ));
     }
 
     /**

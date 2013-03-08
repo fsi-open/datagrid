@@ -126,16 +126,21 @@ class Action extends ColumnAbstractType
         return $return;
     }
 
-    protected function getRequiredOptions()
+    /**
+     * {@inheritDoc}
+     */
+    public function initOptions()
     {
-        return array('actions');
+        $this->getOptionsResolver()->setDefaults(array(
+            'actions' => array(),
+        ));
     }
 
-    protected function getAvailableOptions()
-    {
-        return array('actions', 'mapping_fields');
-    }
-
+    /**
+     * Validate options for each action.
+     *
+     * @throws \InvalidArgumentException
+     */
     private function validateOptions()
     {
         $actions = $this->getOption('actions');

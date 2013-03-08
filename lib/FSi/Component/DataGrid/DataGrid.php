@@ -112,11 +112,14 @@ class DataGrid implements DataGridInterface
 
         $column = $this->dataGridFactory->getColumnType($type);
         $column->setName($name)
-               ->setDataGrid($this);
+            ->setDataGrid($this);
 
-        foreach ($options as $key => $value) {
-            $column->setOption($key, $value);
+        $column->initOptions();
+        foreach ($column->getExtensions() as $extension) {
+            $extension->initOptions($column);
         }
+
+        $column->setOptions($options);
 
         $this->columns[$name] = $column;
 
