@@ -14,6 +14,7 @@ use FSi\Component\DataGrid\Tests\Fixtures\EntityTree;
 use FSi\Component\DataGrid\Tests\Fixtures\EntityManagerMock;
 use FSi\Component\DataGrid\Tests\Fixtures\EventManagerMock;
 use FSi\Component\DataGrid\Extension\Gedmo\ColumnType\Tree;
+use FSi\Component\DataGrid\Extension\Core\ColumnTypeExtension\DefaultColumnOptionsExtension;
 
 class TreeTypeTest extends \PHPUnit_Framework_TestCase
 {
@@ -25,6 +26,12 @@ class TreeTypeTest extends \PHPUnit_Framework_TestCase
 
         $registry = $this->getMock('Doctrine\Common\Persistence\ManagerRegistry');
         $column = new Tree($registry);
+        $column->setName('tree');
+        $column->initOptions();
+
+        $extension = new DefaultColumnOptionsExtension();
+        $extension->initOptions($column);
+
         $object = 'This is string, not object';
 
         $this->setExpectedException('InvalidArgumentException');
@@ -91,6 +98,11 @@ class TreeTypeTest extends \PHPUnit_Framework_TestCase
 
         $column = new Tree($registry);
         $column->setName('tree');
+        $column->initOptions();
+
+        $extension = new DefaultColumnOptionsExtension();
+        $extension->initOptions($column);
+
         $column->setDataMapper($dataMapper);
         $column->setOption('mapping_fields', array('foo'));
         $column->setDataGrid($dataGrid);

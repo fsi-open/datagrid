@@ -52,18 +52,25 @@ class Number extends ColumnAbstractType
     /**
      * {@inheritDoc}
      */
-    public function getDefaultOptionsValues()
+    public function initOptions()
     {
-        return array(
+        $this->getOptionsResolver()->setDefaults(array(
+            'round_mode' => null,
             'precision' => 2
-        );
-    }
+        ));
 
-    /**
-     * {@inheritDoc}
-     */
-    public function getAvailableOptions()
-    {
-        return array('round_mode', 'precision');
+        $this->getOptionsResolver()->setAllowedTypes(array(
+            'precision' => 'integer',
+        ));
+
+        $this->getOptionsResolver()->setAllowedValues(array(
+            'round_mode' => array(
+                null,
+                self::ROUND_HALF_UP,
+                self::ROUND_HALF_DOWN,
+                self::ROUND_HALF_EVEN,
+                self::ROUND_HALF_ODD,
+            )
+        ));
     }
 }

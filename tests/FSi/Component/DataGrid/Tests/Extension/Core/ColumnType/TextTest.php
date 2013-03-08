@@ -17,6 +17,7 @@ class TextTest extends \PHPUnit_Framework_TestCase
     public function testTrimOption()
     {
         $column = new Text();
+        $column->initOptions();
         $column->setOption('trim', true);
 
         $value = array(

@@ -12,40 +12,48 @@
 namespace FSi\Component\DataGrid\Tests\Extension\Core;
 
 use FSi\Component\DataGrid\Extension\Core\ColumnType\Action;
+use FSi\Component\DataGrid\Extension\Core\ColumnTypeExtension\DefaultColumnOptionsExtension;
 
 class ActionTest extends \PHPUnit_Framework_TestCase
 {
-    public function testFilterValueWrongActionsOptionType()
+    /**
+     * @var \FSi\Component\DataGrid\Extension\Core\ColumnType\Action
+     */
+    private $column;
+
+    public function setUp()
     {
         $column = new Action();
-        $column->setOption('actions', 'boo');
-        $this->setExpectedException('InvalidArgumentException');
-        $column->filterValue(array());
+        $column->setName('action');
+        $column->initOptions();
+
+        $extension = new DefaultColumnOptionsExtension();
+        $extension->initOptions($column);
+
+        $this->column = $column;
     }
 
+    /**
+     * @expectedException \InvalidArgumentException
+     */
     public function testFilterValueEmptyActionsOptionType()
     {
-        $column = new Action();
-        $column->setOption('actions', array());
-
-        $this->setExpectedException('InvalidArgumentException');
-        $column->filterValue(array());
+        $this->column->setOption('actions', array());
+        $this->column->filterValue(array());
     }
 
-
+    /**
+     * @expectedException \InvalidArgumentException
+     */
     public function testFilterValueInvalidActionInActionsOption()
     {
-        $column = new Action();
-        $column->setOption('actions', array('edit' => array()));
-        $this->setExpectedException('InvalidArgumentException');
-        $column->filterValue(array());
+        $this->column->setOption('actions', array('edit' => array()));
+        $this->column->filterValue(array());
     }
-
 
     public function testFilterValueRequiredActionInActionsOption()
     {
-        $column = new Action();
-        $column->setOption('actions', array(
+        $this->column->setOption('actions', array(
             'edit' => array(
                 'uri_scheme' => '/test/%s',
                 'anchor' => 'test'
@@ -60,7 +68,7 @@ class ActionTest extends \PHPUnit_Framework_TestCase
                    'url' => '/test/bar'
                )
             ),
-            $column->filterValue(array(
+            $this->column->filterValue(array(
                'foo' => 'bar'
             ))
         );
@@ -68,8 +76,7 @@ class ActionTest extends \PHPUnit_Framework_TestCase
 
     public function testFilterValueAvailableActionInActionsOption()
     {
-        $column = new Action();
-        $column->setOption('actions', array(
+        $this->column->setOption('actions', array(
             'edit' => array(
                 'uri_scheme' => '/test/%s',
                 'anchor' => 'test',
@@ -87,7 +94,7 @@ class ActionTest extends \PHPUnit_Framework_TestCase
                    'url' => 'https://fsi.pl/test/bar?redirect_uri=' . urlencode('http://onet.pl/')
                )
             ),
-            $column->filterValue(array(
+            $this->column->filterValue(array(
                'foo' => 'bar'
             ))
         );

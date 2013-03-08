@@ -72,27 +72,14 @@ class Entity extends ColumnAbstractType
     /**
      * {@inheritDoc}
      */
-    public function getDefaultOptionsValues()
+    public function initOptions()
     {
-        return array(
-            'label' => $this->getName(),
-            'relation_field' => $this->getName()
-        );
-    }
+        $this->getOptionsResolver()->setDefaults(array(
+            'relation_field' => $this->getName(),
+        ));
 
-    /**
-     * {@inheritDoc}
-     */
-    public function getRequiredOptions()
-    {
-        return array('mapping_fields', 'relation_field');
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    public function getAvailableOptions()
-    {
-        return array('label', 'mapping_fields', 'relation_field');
+        $this->getOptionsResolver()->setAllowedTypes(array(
+            'relation_field' => 'string'
+        ));
     }
 }

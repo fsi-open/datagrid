@@ -11,6 +11,8 @@
 
 namespace FSi\Component\DataGrid\Column;
 
+use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 use FSi\Component\DataGrid\DataGridInterface;
 use FSi\Component\DataGrid\Column\CellView;
 use FSi\Component\DataGrid\Column\HeaderView;
@@ -50,6 +52,11 @@ abstract class ColumnAbstractType implements ColumnTypeInterface
     protected $dataGrid;
 
     /**
+     * @var OptionsResolver
+     */
+    private $optionsResolver;
+
+    /**
      * {@inheritdoc}
      */
     public function getName()
@@ -69,6 +76,7 @@ abstract class ColumnAbstractType implements ColumnTypeInterface
     public function setName($name)
     {
         $this->name = (string)$name;
+
         return $this;
     }
 
@@ -82,6 +90,8 @@ abstract class ColumnAbstractType implements ColumnTypeInterface
         foreach ($this->extensions as $extension) {
             $extension->setDataGrid($this->dataGrid);
         }
+
+        return $this;
     }
 
     /**
@@ -117,13 +127,13 @@ abstract class ColumnAbstractType implements ColumnTypeInterface
     public function getValue($object)
     {
         $values = array();
-        if (!$this->hasOption('mapping_fields')) {
+        if (!$this->hasOption('mapping_fields') || !count($this->getOption('mapping_fields'))) {
             throw new DataGridColumnException(
                 sprintf('"mapping_fields" option is missing in column "%s"', $this->getName())
             );
         }
 
-        foreach ($this->options['mapping_fields'] as $field) {
+        foreach ($this->getOption('mapping_fields') as $field) {
             $values[$field] = $this->getDataMapper()->getData($field, $object);
         }
 
@@ -135,8 +145,6 @@ abstract class ColumnAbstractType implements ColumnTypeInterface
      */
     public function createCellView($object, $index)
     {
-        $this->validateOptions();
-
         $view = new CellView($this->getName(), $this->getId());
         $view->setSource($object);
         $view->setAttribute('row', $index);
@@ -153,7 +161,6 @@ abstract class ColumnAbstractType implements ColumnTypeInterface
         }
 
         $value = $this->filterValue($values);
-
         $view->setValue($value);
 
         foreach ($this->getExtensions() as $extension) {
@@ -200,15 +207,23 @@ abstract class ColumnAbstractType implements ColumnTypeInterface
      */
     public function setOption($name, $value)
     {
-        if (!isset($this->options)) {
-            $this->loadAvailableOptions();
-        }
+        $this->options = $this->getOptionsResolver()->resolve(array_merge(
+            is_array($this->options)
+                ? $this->options
+                : array(),
+            array($name => $value)
+        ));
 
-        if (!array_key_exists($name, $this->options)) {
-            throw new UnknownOptionException(sprintf('Option "%s" is not available in column type "%s".', $name, $this->getId()));
-        }
+        return $this;
+    }
 
-        $this->options[$name] = $value;
+    /**
+     * {@inheritdoc}
+     */
+    public function setOptions($options)
+    {
+        $this->options = $this->getOptionsResolver()->resolve($options);
+
         return $this;
     }
 
@@ -218,7 +233,7 @@ abstract class ColumnAbstractType implements ColumnTypeInterface
     public function getOption($name)
     {
         if (!isset($this->options)) {
-            $this->loadAvailableOptions();
+            $this->options = array();
         }
 
         if (!array_key_exists($name, $this->options)) {
@@ -233,10 +248,6 @@ abstract class ColumnAbstractType implements ColumnTypeInterface
      */
     public function hasOption($name)
     {
-        if (!isset($this->options)) {
-            $this->loadAvailableOptions();
-        }
-
         return array_key_exists($name, $this->options);
     }
 
@@ -267,14 +278,6 @@ abstract class ColumnAbstractType implements ColumnTypeInterface
     /**
      * {@inheritdoc}
      */
-    public function getExtensions()
-    {
-        return $this->extensions;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
     public function addExtension(ColumnTypeExtensionInterface $extension)
     {
         if (!($extension instanceof ColumnTypeExtensionInterface)) {
@@ -286,92 +289,29 @@ abstract class ColumnAbstractType implements ColumnTypeInterface
     }
 
     /**
-     * Method returns array of required by column type options names.
-     * Required means not null option value.
+     * {@inheritdoc}
      */
-    protected function getRequiredOptions()
+    public function getExtensions()
     {
-        return array();
+        return $this->extensions;
     }
 
     /**
-     * Method returns array of available options for column type.
+     * {@inheritdoc}
      */
-    protected function getAvailableOptions()
+    public function getOptionsResolver()
     {
-        return array();
+        if (null === $this->optionsResolver) {
+            $this->optionsResolver = new OptionsResolver();
+        }
+
+        return $this->optionsResolver;
     }
 
     /**
-     * Method return default options values for column type.
-     * Method should return array where key is option name and value
-     * is option value.
-     * Option must available in column to set default value.
+     * {@inheritdoc}
      */
-    protected function getDefaultOptionsValues()
+    public function initOptions()
     {
-        return array();
-    }
-
-    /**
-     * @throws \FSi\Component\DataGrid\Exception\UnexpectedTypeException
-     */
-    private function loadAvailableOptions()
-    {
-        // Load options from column type
-        $options = $this->getAvailableOptions();
-        // Load options from column type extensions
-        foreach ($this->extensions as $extension) {
-            $options = array_unique(array_merge($options, $extension->getAvailableOptions($this)));
-        }
-
-        if (!is_array($options)) {
-            throw new UnexpectedTypeException($options, 'array');
-        }
-
-        $this->options = array();
-
-        // Set options values to null
-        foreach ($options as $option) {
-            $this->options[strtolower($option)] = null;
-        }
-
-        // Load options default values from column type
-        $defaultValues = $this->getDefaultOptionsValues();
-        // Load options default values from column type extensions
-        foreach ($this->extensions as $extension) {
-            $defaultValues = (array_merge($defaultValues, $extension->getDefaultOptionsValues($this)));
-        }
-
-        if (!is_array($defaultValues)) {
-            throw new UnexpectedTypeException($defaultValues, 'array');
-        }
-
-        // Set column default options values;
-        foreach ($defaultValues as $option => $value) {
-            $this->setOption($option, $value);
-        }
-    }
-
-    /**
-     * Check if required options values exists.
-     */
-    private function validateOptions()
-    {
-        $required = $this->getRequiredOptions();
-        foreach ($this->extensions as $extension) {
-            $required = array_unique(array_merge($required, $extension->getRequiredOptions($this)));
-        }
-
-        foreach ($required as $option) {
-            if (!$this->hasOption($option)) {
-                throw new DataGridColumnException(sprintf('Option "%s" is required in column "%s".', $option, $this->getId()));
-            }
-
-            $value = $this->getOption($option);
-            if ($value === null) {
-                throw new DataGridColumnException(sprintf('Option "%s" is required in column "%s" and cant be null.', $option, $this->getId()));
-            }
-        }
     }
 }
