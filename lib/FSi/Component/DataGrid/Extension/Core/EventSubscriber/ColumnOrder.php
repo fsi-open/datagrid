@@ -40,8 +40,8 @@ class ColumnOrder implements EventSubscriberInterface
 
             $indexedColumns = array();
             foreach ($columns as $column) {
-                if ($column->hasAttribute('order')) {
-                    if (($order = $column->getAttribute('order')) >= 0) {
+                if ($column->hasAttribute('display_order')) {
+                    if (($order = $column->getAttribute('display_order')) >= 0) {
                         $positive[$column->getName()] = $order;
                     } else {
                         $negative[$column->getName()] = $order;

@@ -97,7 +97,7 @@ class CoreExtensionTest extends \PHPUnit_Framework_TestCase
                     ->expects($this->atLeastOnce())
                     ->method('hasAttribute')
                     ->will($this->returnCallback(function ($attribute) use ($order) {
-                        if (($attribute == 'order') && isset($order)) {
+                        if (($attribute == 'display_order') && isset($order)) {
                             return true;
                         } else {
                             return false;
@@ -108,7 +108,7 @@ class CoreExtensionTest extends \PHPUnit_Framework_TestCase
                     ->expects($this->any())
                     ->method('getAttribute')
                     ->will($this->returnCallback(function ($attribute) use ($order) {
-                        if (($attribute == 'order') && isset($order)) {
+                        if (($attribute == 'display_order') && isset($order)) {
                             return $order;
                         } else {
                             return null;

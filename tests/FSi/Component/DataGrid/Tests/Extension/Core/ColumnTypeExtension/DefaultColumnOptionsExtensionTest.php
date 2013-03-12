@@ -28,7 +28,7 @@ class DefaultColumnOptionsExtensionTest extends \PHPUnit_Framework_TestCase
 
         $column->expects($this->at(1))
             ->method('getOption')
-            ->with('order')
+            ->with('display_order')
             ->will($this->returnValue(100));
 
         $view->expects($this->at(0))
@@ -37,7 +37,7 @@ class DefaultColumnOptionsExtensionTest extends \PHPUnit_Framework_TestCase
 
         $view->expects($this->at(1))
             ->method('setAttribute')
-            ->with('order', 100);
+            ->with('display_order', 100);
 
         $extension->buildHeaderView($column, $view);
     }

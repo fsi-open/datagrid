@@ -170,7 +170,7 @@ class ActionColumnExtension extends ColumnAbstractTypeExtension
                     throw new \InvalidArgumentException(sprintf('Action "%s" require option "parameters" as array.', $actionName, $optionName));
                 }
 
-                $mappingFields = $column->getOption('mapping_fields');
+                $mappingFields = $column->getOption('field_mapping');
 
                 foreach ($options['parameters'] as $mappingField => $routerParameter) {
                     if (!in_array($mappingField, $mappingFields, true)) {

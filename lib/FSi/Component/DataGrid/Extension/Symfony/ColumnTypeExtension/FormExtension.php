@@ -69,8 +69,8 @@ class FormExtension extends ColumnAbstractTypeExtension
                 $formData[$relationField] = $data[$relationField];
                 break;
             default:
-                $mapping_fields = $column->getOption('mapping_fields');
-                foreach ($mapping_fields as $field) {
+                $fieldMapping = $column->getOption('field_mapping');
+                foreach ($fieldMapping as $field) {
                     if (!isset($data[$field])) {
                         return;
                     }
@@ -130,12 +130,14 @@ class FormExtension extends ColumnAbstractTypeExtension
     {
         $column->getOptionsResolver()->setDefaults(array(
             'editable' => false,
-            'fields_options' => array(),
+            'form_options' => array(),
+            'form_type' => array()
         ));
 
         $column->getOptionsResolver()->setAllowedTypes(array(
             'editable' => 'bool',
-            'fields_options' => 'array'
+            'form_options' => 'array',
+            'form_type' => 'array'
         ));
     }
 
@@ -153,7 +155,7 @@ class FormExtension extends ColumnAbstractTypeExtension
             return $this->forms[$formId];
         }
 
-        // Create fields array. There are column types like entity where mapping_fields
+        // Create fields array. There are column types like entity where field_mapping
         // should not be used to build field array.
         $fields = array();
         switch ($column->getId()) {
@@ -167,7 +169,7 @@ class FormExtension extends ColumnAbstractTypeExtension
                     $fields[$column->getOption('relation_field')] = $field;
                 break;
             default:
-                foreach ($column->getOption('mapping_fields') as $fieldName) {
+                foreach ($column->getOption('field_mapping') as $fieldName) {
                     $field = array(
                         'name' => $fieldName,
                         'type' => null,
@@ -178,19 +180,22 @@ class FormExtension extends ColumnAbstractTypeExtension
             break;
         }
 
-        // Pass fields options from column into $fields array.
-        $fieldsOptions = $column->getOption('fields_options');
-        foreach ($fieldsOptions as $fieldNameOptions => $fieldOptions) {
-            if (array_key_exists($fieldNameOptions, $fields)) {
+        // Pass fields form options from column into $fields array.
+        $fieldsOptions = $column->getOption('form_options');
+        foreach ($fieldsOptions as $fieldName => $fieldOptions) {
+            if (array_key_exists($fieldName, $fields)) {
                 if (is_array($fieldOptions)) {
-                    if (array_key_exists('type', $fieldOptions)) {
-                        $fields[$fieldNameOptions]['type'] = $fieldOptions['type'];
-                    }
-                    if (array_key_exists('options', $fieldOptions)) {
-                        if (is_array($fieldOptions['options'])) {
-                            $fields[$fieldNameOptions]['options'] = $fieldOptions['options'];
-                        }
-                    }
+                    $fields[$fieldName]['options'] = $fieldOptions;
+                }
+            }
+        }
+
+        // Pass fields form type from column into $fields array.
+        $fieldsTypes = $column->getOption('form_type');
+        foreach ($fieldsTypes as $fieldName => $fieldType) {
+            if (array_key_exists($fieldName, $fields)) {
+                if (is_string($fieldType)) {
+                    $fields[$fieldName]['type'] = $fieldType;
                 }
             }
         }

@@ -80,13 +80,16 @@ class FormExtensionTest extends \PHPUnit_Framework_TestCase
             ->method('getOption')
              ->will($this->returnCallback(function($option){
                  switch($option) {
-                     case 'mapping_fields':
+                     case 'field_mapping':
                         return array('name', 'author');
                      break;
                      case 'editable':
                          return true;
                      break;
-                     case 'fields_options':
+                     case 'form_options':
+                         return array();
+                     break;
+                     case 'form_type':
                          return array(
                              'name' => array(
                                  'type' => 'text'

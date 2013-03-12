@@ -15,6 +15,7 @@ use FSi\Component\DataGrid\Column\ColumnAbstractType;
 use FSi\Component\DataGrid\Column\ColumnTypeInterface;
 use FSi\Component\DataGrid\Column\ColumnAbstractTypeExtension;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class Action extends ColumnAbstractType
 {
@@ -33,43 +34,18 @@ class Action extends ColumnAbstractType
     protected $container;
 
     /**
-     * Default values for action options if not passed in column configuration.
-     *
-     * @var array
+     * @var OptionsResolver
      */
-    protected $actionOptionsDefault = array(
-        'absolute' => false,
-        'redirect_uri' => true,
-    );
+    protected $actionOptionsResolver;
 
     /**
-     * Available action options
-     *
-     * @var array
+     * @param ContainerInterface $container
      */
-    protected $actionOptionsAvailable = array(
-        'parameters',
-        'parameters_values',
-        'anchor',
-        'route_name',
-        'absolute',
-        'redirect_uri',
-    );
-
-    /**
-     * Options required in action.
-     *
-     * @var array
-     */
-    protected $actionOptionsRequired = array(
-        'anchor',
-        'route_name',
-    );
-
     public function __construct(ContainerInterface $container)
     {
         $this->container = $container;
         $this->router = $container->get('router');
+        $this->actionOptionsResolver = new OptionsResolver();
     }
 
     /**
@@ -85,26 +61,25 @@ class Action extends ColumnAbstractType
      */
     public function filterValue($value)
     {
-        $this->validateOptions();
+        //$this->validateOptions();
 
         $return = array();
         $actions = $this->getOption('actions');
 
         foreach ($actions as $name => $options) {
-            $return[$name] = array(
-                'name' => $name,
-                'anchor' => $options['anchor'],
-            );
+            $options = $this->actionOptionsResolver->resolve((array) $options);
+
+            $return[$name] = array();
 
             $parameters = array();
-            if (isset($options['parameters'])) {
-                foreach ($options['parameters'] as $mappingField => $parameterName) {
+            if (isset($options['parameters_field_mapping'])) {
+                foreach ($options['parameters_field_mapping'] as $mappingField => $parameterName) {
                     $parameters[$parameterName] = $value[$mappingField];
                 }
             }
 
-            if (isset($options['parameters_values'])) {
-                foreach ($options['parameters_values'] as $parameterValueName => $parameterValue) {
+            if (isset($options['additional_parameters'])) {
+                foreach ($options['additional_parameters'] as $parameterValueName => $parameterValue) {
                     $parameters[$parameterValueName] = $parameterValue;
                 }
             }
@@ -121,6 +96,7 @@ class Action extends ColumnAbstractType
 
             $url = $this->router->generate($options['route_name'], $parameters, $options['absolute']);
             $return[$name]['url'] = $url;
+            $return[$name]['field_mapping_values'] = $value;
         }
 
         return $return;
@@ -134,68 +110,20 @@ class Action extends ColumnAbstractType
         $this->getOptionsResolver()->setDefaults(array(
             'actions' => array(),
         ));
-    }
 
-    /**
-     * Validate options for each action.
-     *
-     * @throws \InvalidArgumentException
-     */
-    private function validateOptions()
-    {
-        $actions = $this->getOption('actions');
-        if (!is_array($actions)) {
-            throw new \InvalidArgumentException('Option "actions" must be an array.');
-        }
+        $this->getOptionsResolver()->setAllowedTypes(array(
+            'actions' => 'array',
+        ));
 
-        if (!count($actions)) {
-            throw new \InvalidArgumentException('Option actions can\'t be empty.');
-        }
+        $this->actionOptionsResolver->setDefaults(array(
+            'redirect_uri' => true,
+            'absolute' => false,
+            'parameters_field_mapping' => array(),
+            'additional_parameters' => array(),
+        ));
 
-        foreach ($actions as $actionName => &$options) {
-            if (!is_array($options)) {
-                throw new \InvalidArgumentException(sprintf('Options for action "%s" must be an array.', $actionName));
-            }
-
-            foreach ($options as $optionName => $value) {
-                if (!in_array($optionName, $this->actionOptionsAvailable)) {
-                    throw new \InvalidArgumentException(sprintf('Unknown option "%s" in action "%s".', $optionName, $actionName));
-                }
-            }
-
-            foreach ($this->actionOptionsRequired as $optionName) {
-                if (!array_key_exists($optionName, $options)) {
-                    throw new \InvalidArgumentException(sprintf('Action "%s" require option "%s".', $actionName, $optionName));
-                }
-            }
-
-            foreach ($this->actionOptionsDefault as $optionName => $value) {
-                if (!array_key_exists($optionName, $options)) {
-                    $options[$optionName] = $value;
-                }
-            }
-
-            if (isset($options['parameters_values'])) {
-                if (!is_array($options['parameters_values'])) {
-                    throw new \InvalidArgumentException(sprintf('Action "%s" require option "parameters_values" as array.', $actionName, $optionName));
-                }
-            }
-
-            if (isset($options['parameters'])) {
-                if (!is_array($options['parameters'])) {
-                    throw new \InvalidArgumentException(sprintf('Action "%s" require option "parameters" as array.', $actionName, $optionName));
-                }
-
-                $mappingFields = $this->getOption('mapping_fields');
-
-                foreach ($options['parameters'] as $mappingField => $routerParameter) {
-                    if (!in_array($mappingField, $mappingFields, true)) {
-                        throw new \InvalidArgumentException(sprintf('Unknown mapping_field "%s". Maybe you should consider using option "parameters_values"?.', $mappingField));
-                    }
-                }
-            }
-        }
-
-        $this->setOption('actions', $actions);
+        $this->actionOptionsResolver->setRequired(array(
+            'route_name'
+        ));
     }
 }
