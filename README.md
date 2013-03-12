@@ -252,7 +252,7 @@ You can also add ``fsi/datagrid`` into composer.json and run ``composer.phar upd
 ``` json
 {
     "require": {
-        "fsi/datagrid": "0.9.*"
+        "fsi/datagrid": "1.0.*"
     }
 }
 ```
