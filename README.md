@@ -137,34 +137,32 @@ DataGrid::addColumn($name, $type = 'text', $options = array());
 $grid->addColumn('id', 'number', array('label' => 'Id'))
      ->addColumn('title', 'text', array('label' => 'News Title'))
      ->addColumn('author', 'text', array(
-            'mapping_fields' => array(
+            'field_mapping' => array(
                 'author_name',
                 'author_surname',
                 'author_email'
             ),
-            'glue' => '<br/>',
+            'value_glue' => '<br/>',
             'label' => 'Author'
         )
     )
     ->addColumn('publication', 'datetime', array(
-            'mapping_fields' => array('publication_date'),
-            'format' => 'Y.m.d H:i:s',
+            'field_mapping' => array('publication_date'),
+            'value_format' => 'Y.m.d H:i:s',
             'label' => 'Author'
         )
     )
     ->addColumn('action', 'action', array(
             'label' => 'Actions',
-            'mapping_fields' => array('id'),
+            'field_mapping' => array('id'),
             'actions' => array(
                 'edit' => array(
-                    'anchor' => 'Edit',
                     'route_name' => '_edit_news',
-                    'parameters' => array('id' => 'id'),
+                    'parameters_field_mapping' => array('id' => 'id'),
                 ),
                 'delete' => array(
-                    'anchor' => 'Delete',
                     'route_name' => '_delete_news',
-                    'parameters' => array('id' => 'id'),
+                    'parameters_field_mapping' => array('id' => 'id'),
                 )
             )
         )
@@ -265,7 +263,7 @@ Install PHPUnit 3.5.11.
 To run tests for DataGrid you should install dev packages and run tests with commands:
 
 ```
-    $ php composer.phar install --dev
+    $ php composer.phar update
     $ phpunit
 ```
 
@@ -288,7 +286,7 @@ types.
 Each DataGrid Column Extension must be loaded by DataGrid Extension. Loading extension
 into DataGrid is nothing more than registering it in DataGridFactory.
 
-## Built-in Extension Types ##
+## Built-in extension types ##
 
 (You can find documentation for some of these extensions in ``doc/en/extensions`` folder.)
 
@@ -298,15 +296,52 @@ into DataGrid is nothing more than registering it in DataGridFactory.
 - Docrtine
 - Gedmo
 
-## Built-in Column Types ##
+## Built-in column types ##
 
 (You can find documentation for types in ``doc/en/columns`` folder.)
 
-- text
-- boolean
-- number
-- money
-- datetime
-- action
-- entity
-- tree
+- [text](doc/en/columns/text.md)
+- [boolean](doc/en/columns/boolean.md)
+- [number](doc/en/columns/number.md)
+- [money](doc/en/columns/money.md)
+- [datetime](doc/en/columns/datetime.md)
+- [action](doc/en/columns/action.md)
+- [entity](doc/en/columns/entity.md)
+- [tree](doc/en/columns/tree.md)
+
+## Built-in available columns options ##
+
+Action          | Action Symfony | Boolean        | Text                  | Number                   |
+--------------- | -------------- | -------------- | --------------------- | ------------------------ |
+label           | label          | label          | label                 | label                    |
+field_mapping   | field_mapping  | field_mapping  | field_mapping         | field_mapping            |
+display_order   | display_order  | value_glue     | value_glue            | value_glue               |
+actions         | actions        | display_order  | display_order         | display_order            |
+                |                | value_format   | value_format          | value_format             |
+                |                | editable       | editable              | editable                 |
+                |                | form_otpions   | form_otpions          | form_otpions             |
+                |                | form_type      | form_type   form_type | form_type                |
+                |                | empty_value    | empty_value           | empty_value              |
+                |                | true_value     | datetime_format       | value_glue_multiple      |
+                |                | false_value    | input_type            | relation_field           |
+                |                |                | field_mapping_format  | decimals                 |
+                |                |                |                       | dec_point                |
+                |                |                |                       | thousands_sep            |
+                |                |                |                       | value_currency_separator |
+                |                |                |                       | currency_field           |
+                |                |                |                       | currency                 |
+                
+                
+| DateTime       | Money         | Entity        | Tree          |
+|--------------- | ------------- | ------------- | ------------- |
+| label          | label         | label         | label         |
+| field_mapping  | field_mapping | field_mapping | field_mapping |
+| value_glue     | value_glue    | value_glue    | value_glue    |
+| display_order  | display_order | display_order | display_order |
+| value_format   | value_format  | value_format  | value_format  |
+| editable       | editable      | editable      | editable      |
+| form_otpions   | form_otpions  | form_otpions  | form_otpions  |
+| form_type      | form_type     | empty_value   | empty_value   |
+| empty_value    | empty_value   | trim          | em            |
+| round_mode     | round_mode    |               |               |
+| precision      | precision     |               |               |
