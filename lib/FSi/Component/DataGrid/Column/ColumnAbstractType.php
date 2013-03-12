@@ -127,13 +127,13 @@ abstract class ColumnAbstractType implements ColumnTypeInterface
     public function getValue($object)
     {
         $values = array();
-        if (!$this->hasOption('mapping_fields') || !count($this->getOption('mapping_fields'))) {
+        if (!$this->hasOption('field_mapping') || !count($this->getOption('field_mapping'))) {
             throw new DataGridColumnException(
-                sprintf('"mapping_fields" option is missing in column "%s"', $this->getName())
+                sprintf('"field_mapping" option is missing in column "%s"', $this->getName())
             );
         }
 
-        foreach ($this->getOption('mapping_fields') as $field) {
+        foreach ($this->getOption('field_mapping') as $field) {
             $values[$field] = $this->getDataMapper()->getData($field, $object);
         }
 

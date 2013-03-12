@@ -16,7 +16,7 @@ use Symfony\Component\HttpFoundation\Request;
 use FSi\Component\DataGrid\Extension\Symfony\ColumnType\Action;
 use FSi\Component\DataGrid\Extension\Core\ColumnTypeExtension\DefaultColumnOptionsExtension;
 
-class ActionTypeTest extends \PHPUnit_Framework_TestCase
+class ActionTest extends \PHPUnit_Framework_TestCase
 {
     private $container;
     private $column;
@@ -41,26 +41,21 @@ class ActionTypeTest extends \PHPUnit_Framework_TestCase
         $this->column = $column;
     }
 
+    /**
+     * @expectedException \Symfony\Component\OptionsResolver\Exception\InvalidOptionsException
+     */
     public function testFilterValueWrongActionsOptionType()
     {
         $this->column->setOption('actions', 'boo');
-
-        $this->setExpectedException('InvalidArgumentException');
         $this->column->filterValue(array());
     }
 
-    public function testFilterValueEmptyActionsOptionType()
-    {
-        $this->column->setOption('actions', array());
-
-        $this->setExpectedException('InvalidArgumentException');
-        $this->column->filterValue(array());
-    }
-
+    /**
+     * @expectedException \Symfony\Component\OptionsResolver\Exception\InvalidOptionsException
+     */
     public function testFilterValueInvalidActionInActionsOption()
     {
         $this->column->setOption('actions', array('edit' => 'asdasd'));
-        $this->setExpectedException('InvalidArgumentException');
         $this->column->filterValue(array());
     }
 
@@ -98,7 +93,6 @@ class ActionTypeTest extends \PHPUnit_Framework_TestCase
         $column->setOption('actions', array(
             'edit' => array(
                 'route_name' => 'foo',
-                'anchor' => 'test',
                 'absolute' => false
             )
         ));
@@ -106,9 +100,10 @@ class ActionTypeTest extends \PHPUnit_Framework_TestCase
        $this->assertSame(
            array(
                'edit' => array(
-                   'name' => 'edit',
-                   'anchor' => 'test',
                    'url' => '/test/bar?redirect_uri=' . urlencode(MyRequest::URI),
+                   'field_mapping_values' => array(
+                           'foo' => 'bar'
+                   )
                )
            ),
            $column->filterValue(array(
@@ -146,12 +141,11 @@ class ActionTypeTest extends \PHPUnit_Framework_TestCase
         $extension = new DefaultColumnOptionsExtension();
         $extension->initOptions($column);
 
-        $column->setOption('mapping_fields', array('foo'));
+        $column->setOption('field_mapping', array('foo'));
         $column->setOption('actions', array(
             'edit' => array(
                 'route_name' => 'foo',
-                'parameters' => array('foo' => 'foo'),
-                'anchor' => 'test',
+                'parameters_field_mapping' => array('foo' => 'foo'),
                 'absolute' => true
             )
         ));
@@ -159,9 +153,10 @@ class ActionTypeTest extends \PHPUnit_Framework_TestCase
        $this->assertSame(
            array(
                'edit' => array(
-                   'name' => 'edit',
-                   'anchor' => 'test',
-                   'url' => 'https://fsi.pl/test/bar?redirect_uri=' . urlencode(MyRequest::URI)
+                   'url' => 'https://fsi.pl/test/bar?redirect_uri=' . urlencode(MyRequest::URI),
+                   'field_mapping_values' => array(
+                           'foo' => 'bar'
+                   )
                )
            ),
            $column->filterValue(array(
@@ -204,7 +199,6 @@ class ActionTypeTest extends \PHPUnit_Framework_TestCase
         $column->setOption('actions', array(
             'edit' => array(
                 'route_name' => 'foo',
-                'anchor' => 'test',
                 'absolute' => false,
                 'redirect_uri' => false
             )
@@ -213,9 +207,10 @@ class ActionTypeTest extends \PHPUnit_Framework_TestCase
        $this->assertSame(
            array(
                'edit' => array(
-                   'name' => 'edit',
-                   'anchor' => 'test',
-                   'url' => '/test/bar'
+                   'url' => '/test/bar',
+                   'field_mapping_values' => array(
+                       'foo' => 'bar'
+                   )
                )
            ),
            $column->filterValue(array(

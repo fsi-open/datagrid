@@ -12,6 +12,7 @@
 namespace FSi\Component\DataGrid\Extension\Core\ColumnType;
 
 use FSi\Component\DataGrid\Column\ColumnAbstractType;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class Action extends ColumnAbstractType
 {
@@ -43,6 +44,16 @@ class Action extends ColumnAbstractType
     );
 
     /**
+     * @var OptionsResolver
+     */
+    protected $actionOptionsResolver;
+
+    public function __construct()
+    {
+        $this->actionOptionsResolver = new OptionsResolver();
+    }
+
+    /**
      * {@inheritDoc}
      */
     public function getId()
@@ -55,15 +66,12 @@ class Action extends ColumnAbstractType
      */
     public function filterValue($value)
     {
-        $this->validateOptions();
-
         $return = array();
         $actions = $this->getOption('actions');
+
         foreach ($actions as $name => $options) {
-            $return[$name] = array(
-                'name' => $name,
-                'anchor' => $options['anchor'],
-            );
+            $options = $this->actionOptionsResolver->resolve((array) $options);
+            $return[$name] = array();
 
             $url = (isset($options['protocole'], $options['domain'])) ? $options['protocole'] . $options['domain'] : '';
             $url .= vsprintf ($options['uri_scheme'], $value);
@@ -77,6 +85,7 @@ class Action extends ColumnAbstractType
             }
 
             $return[$name]['url'] = $url;
+            $return[$name]['field_mapping_values'] = $value;
         }
 
         return $return;
@@ -90,48 +99,31 @@ class Action extends ColumnAbstractType
         $this->getOptionsResolver()->setDefaults(array(
             'actions' => array(),
         ));
-    }
 
-    /**
-     * Validate options for each action.
-     *
-     * @throws \InvalidArgumentException
-     */
-    private function validateOptions()
-    {
-        $actions = $this->getOption('actions');
-        if (!is_array($actions)) {
-            throw new \InvalidArgumentException('Option actions must be an array.');
-        }
+        $this->getOptionsResolver()->setAllowedTypes(array(
+            'actions' => 'array',
+        ));
 
-        if (!count($actions)) {
-            throw new \InvalidArgumentException('Option actions can\'t be empty.');
-        }
+        $this->actionOptionsResolver->setDefaults(array(
+            'redirect_uri' => null,
+            'domain' => null,
+            'protocole' => 'http://'
+        ));
 
-        foreach ($actions as $actionName => &$options) {
-            if (!is_array($options)) {
-                throw new \InvalidArgumentException(sprinf('Options for action "%s" must be an array.', $actionName));
-            }
+        $this->actionOptionsResolver->setRequired(array(
+            'uri_scheme'
+        ));
 
-            foreach ($options as $optionName => $value) {
-                if (!in_array($optionName, $this->actionOptionsAvailable)) {
-                    throw new \InvalidArgumentException(sprintf('Unknown option "%s" in action "%s".', $optionName, $actionName));
-                }
-            }
+        $this->actionOptionsResolver->setAllowedTypes(array(
+            'redirect_uri' => array('string', 'null'),
+            'uri_scheme' => 'string',
+        ));
 
-            foreach ($this->actionOptionsRequired as $optionName) {
-                if (!array_key_exists($optionName, $options)) {
-                    throw new \InvalidArgumentException(sprintf('Action "%s" require option "%s".', $actionName, $optionName));
-                }
-            }
-
-            foreach ($this->actionOptionsDefault as $optionName => $value) {
-                if (!array_key_exists($optionName, $options)) {
-                    $options[$optionName] = $value;
-                }
-            }
-        }
-
-        $this->setOption('actions', $actions);
+        $this->actionOptionsResolver->addAllowedValues(array(
+            'protocole' => array(
+                'http://',
+                'https://'
+            )
+        ));
     }
 }

@@ -32,12 +32,12 @@ class ValueFormatColumnOptionsExtensionTest extends \PHPUnit_Framework_TestCase
 
         $column->expects($this->at(0))
             ->method('getOption')
-            ->with('glue')
+            ->with('value_glue')
             ->will($this->returnValue(null));
 
         $column->expects($this->at(1))
             ->method('getOption')
-            ->with('format')
+            ->with('value_format')
             ->will($this->returnValue(null));
 
         $view->expects($this->at(1))
@@ -64,12 +64,12 @@ class ValueFormatColumnOptionsExtensionTest extends \PHPUnit_Framework_TestCase
 
         $column->expects($this->at(0))
             ->method('getOption')
-            ->with('glue')
+            ->with('value_glue')
             ->will($this->returnValue('<br/>'));
 
         $column->expects($this->at(1))
             ->method('getOption')
-            ->with('format')
+            ->with('value_format')
             ->will($this->returnValue('(%s)'));
 
         $view->expects($this->at(1))
@@ -99,12 +99,12 @@ class ValueFormatColumnOptionsExtensionTest extends \PHPUnit_Framework_TestCase
 
         $column->expects($this->at(0))
             ->method('getOption')
-            ->with('glue')
+            ->with('value_glue')
             ->will($this->returnValue('<br/>'));
 
         $column->expects($this->at(1))
             ->method('getOption')
-            ->with('format')
+            ->with('value_format')
             ->will($this->returnValue('(%s) (%s)'));
 
         $extension->buildCellView($column, $view);
@@ -131,12 +131,12 @@ class ValueFormatColumnOptionsExtensionTest extends \PHPUnit_Framework_TestCase
 
         $column->expects($this->at(0))
             ->method('getOption')
-            ->with('glue')
+            ->with('value_glue')
             ->will($this->returnValue(' '));
 
         $column->expects($this->at(1))
             ->method('getOption')
-            ->with('format')
+            ->with('value_format')
             ->will($this->returnValue('(%s)'));
 
         $column->expects($this->at(2))
