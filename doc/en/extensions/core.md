@@ -2,22 +2,27 @@
 
 ## Column Types provided by extension ##
 
-- text ``doc/en/columns/text.md``
-- number ``doc/en/columns/number.md``
-- money ``doc/en/columns/money.md``
-- datetime ``doc/en/columns/datetime.md``
-- action ``doc/en/columns/action.md``
-- boolean ``doc/en/columns/boolean.md``
+``FSi\Component\DataGrid\Extension\Core\ColumnType\Bollean``  
+``FSi\Component\DataGrid\Extension\Core\ColumnType\Text``  
+``FSi\Component\DataGrid\Extension\Core\ColumnType\Number``  
+``FSi\Component\DataGrid\Extension\Core\ColumnType\Money``  
+``FSi\Component\DataGrid\Extension\Core\ColumnType\DateTime``  
+``FSi\Component\DataGrid\Extension\Core\ColumnType\Action``  
+
+## Event Subscribers provided by extension ##
+
+``FSi\Component\DataGrid\Extension\Core\EventSubscriber\ColumnOrder``
 
 ## Column Type Extensions provided by extension ##
 
-### Action Column Extension ###
+``FSi\Component\DataGrid\Extension\Core\ColumnTypeExtension\ValueFormatColumnOptionsExtension``  
+Options added by this extension:  
+* ``value_glue``
+* ``value_format``
+* ``empty_value``
 
-Column Type Action by default is empty, this extensions add basic column behavior
-used to create urls.
-
-### Default Column Options Extension ###
-
-This extension add options like ``mapping_fields``, ``glue`` or ``label`` to almost
-every single column type. It also helps in column view building by imploding
-array values with ``glue`` option value.
+``FSi\Component\DataGrid\Extension\Core\ColumnTypeExtension\DefaultColumnOptionsExtension``  
+Options added by this extension:  
+* ``label``
+* ``display_order``
+* ``field_mapping``

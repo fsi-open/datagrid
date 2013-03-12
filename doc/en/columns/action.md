@@ -5,19 +5,18 @@ Provided by ``DataGrid\Extension\Core\CoreExtension``
 ## Available Options ##
 
 * ``label`` - string, by default ``[$field->getName()]``
-* ``mapping_fields`` - **required**, array, by default ``[$field->getName()]``
-* ``order`` - integer
+* ``field_mapping`` - **required**, array, by default ``[$field->getName()]``
+* ``display_order`` - integer
 * ``actions`` - **required**, array
 
 ## Options Description ##
 
-**mapping_fields** Fields that should be used when data is retrieved from the source. By default there is only one mapping
-field and its taken from name under what column was registered in grid.
-Option is useful when you need to implode few fields from object in one column.
+**field_mapping** Fields that should be used when data is retrieved from the source. By default there is only one field 
+and its taken from the name under what column was registered in grid.
 
 **label** By default label value its taken from name under what column was registered in grid.
 
-**order** Optional integer value specifying order of column in grid. Columns in grid are sorted according
+**display_order** Optional integer value specifying order of column in grid. Columns in grid are sorted according
   to ascending value of this option. Columns without this option will stay in their natural order (between columns with
   positive and negative values of this option)  
 
@@ -26,38 +25,50 @@ Option is useful when you need to implode few fields from object in one column.
 For standalone datagrid use ``FSi\Component\DataGrid\Extension\Core\ColumnTypeExtension\ActionColumnExtension``, it provides:
 
  * ``uri_scheme`` - **required**, string, scheme of an uri
- * ``anchor`` - **required**, string, name of an anchor
  * ``protocole`` - string, by default ``'http://``
  * ``domain`` - string, domain for an anchor
- * ``name`` - string, name for an anchor
+ * ``redirect_uri`` - string, optional parameter in uri, might be usefull to create return from actions. 
 
 If used with **Symfony**, you should load ``FSi\Component\DataGrid\Extension\Symfony\ColumnTypeExtension\ActionColumnExtension``, it provides:
 
- * ``parameters`` - array, parameters for route
- * ``parameters_values`` - array, parameters values for route
- * ``anchor`` - **required**, string, anchor name
  * ``route_name`` - **required**, string, route name
- * ``absolute`` - boolean, whether to generate an absolute URL
+ * ``parameters_field_mapping`` - array, parameters for route, related with field_mapping
+ * ``additional_parameters`` - array, additional parameters values for route not related with field_mapping
+ * ``absolute`` - boolean, generate an absolute or relative URL
 
 ## Example Usage ##
 
 ``` php
 <?php
 
-//Shows column with date in 'Y-m-d H:i:s' format.
 $datagrid->addColumn('actions', 'action', array(
     'label' => 'Actions',
-    'mapping_fields' => array('id'),
+    'mapping_fields' => array('identity'),
     'actions' => array(
         'edit' => array(
-            'anchor' => 'Edit',
             'route_name' => '_edit_news',
-            'parameters' => array('id' => 'id'),
+            'parameters_field_mapping' => array('id' => 'identity'),
         ),
         'delete' => array(
-            'anchor' => 'Delete',
             'route_name' => '_delete_news',
-            'parameters' => array('id' => 'id'),
+            'parameters_field_mapping' => array('id' => 'identity'),
+        )
+    )
+));
+
+$datagrid->addColumn('action', 'action', array(
+    'label' => 'Actions',
+    'field_mapping' => array('id', 'title'),
+    'actions' => array(
+        'edit' => array(
+            'route_name' => '_news_edit',
+            'parameters_field_mapping' => array('id' => 'id'),
+            'additional_parameters' => array('const_param' => 1)
+        ),
+        'delete' => array(
+            'route_name' => '_news_delete',
+            'parameters_field_mapping' => array('id' => 'id'),
+            'additional_parameters' => array('const_param' => 1)
         )
     )
 ));
