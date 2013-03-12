@@ -34,20 +34,20 @@ class ActionTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \InvalidArgumentException
+     * @expectedException \Symfony\Component\OptionsResolver\Exception\InvalidOptionsException
      */
     public function testFilterValueEmptyActionsOptionType()
     {
-        $this->column->setOption('actions', array());
+        $this->column->setOption('actions', 'boo');
         $this->column->filterValue(array());
     }
 
     /**
-     * @expectedException \InvalidArgumentException
+     * @expectedException \Symfony\Component\OptionsResolver\Exception\InvalidOptionsException
      */
     public function testFilterValueInvalidActionInActionsOption()
     {
-        $this->column->setOption('actions', array('edit' => array()));
+        $this->column->setOption('actions', array('edit' => 'asasdas'));
         $this->column->filterValue(array());
     }
 
@@ -56,16 +56,16 @@ class ActionTest extends \PHPUnit_Framework_TestCase
         $this->column->setOption('actions', array(
             'edit' => array(
                 'uri_scheme' => '/test/%s',
-                'anchor' => 'test'
             )
         ));
 
         $this->assertSame(
             array(
                'edit' => array(
-                   'name' => 'edit',
-                   'anchor' => 'test',
-                   'url' => '/test/bar'
+                   'url' => '/test/bar',
+                   'field_mapping_values' => array(
+                       'foo' => 'bar'
+                   )
                )
             ),
             $this->column->filterValue(array(
@@ -79,7 +79,6 @@ class ActionTest extends \PHPUnit_Framework_TestCase
         $this->column->setOption('actions', array(
             'edit' => array(
                 'uri_scheme' => '/test/%s',
-                'anchor' => 'test',
                 'domain' => 'fsi.pl',
                 'protocole' => 'https://',
                 'redirect_uri' => 'http://onet.pl/'
@@ -89,9 +88,10 @@ class ActionTest extends \PHPUnit_Framework_TestCase
         $this->assertSame(
             array(
                'edit' => array(
-                   'name' => 'edit',
-                   'anchor' => 'test',
-                   'url' => 'https://fsi.pl/test/bar?redirect_uri=' . urlencode('http://onet.pl/')
+                   'url' => 'https://fsi.pl/test/bar?redirect_uri=' . urlencode('http://onet.pl/'),
+                   'field_mapping_values' => array(
+                           'foo' => 'bar'
+                   )
                )
             ),
             $this->column->filterValue(array(

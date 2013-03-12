@@ -25,8 +25,8 @@ class ValueFormatColumnOptionsExtension extends ColumnAbstractTypeExtension
     {
         $value = array();
         $values = $view->getValue();
-        $glue = $column->getOption('glue');
-        $format = $column->getOption('format');
+        $glue = $column->getOption('value_glue');
+        $format = $column->getOption('value_format');
 
         foreach ($values as $val) {
             $objectValue = null;
@@ -73,14 +73,14 @@ class ValueFormatColumnOptionsExtension extends ColumnAbstractTypeExtension
     {
         $column->getOptionsResolver()->setDefaults(array(
             'glue_multiple' => ' ',
-            'glue' => null,
-            'format' => null
+            'value_glue' => null,
+            'value_format' => null
         ));
 
         $column->getOptionsResolver()->setAllowedTypes(array(
             'glue_multiple' => array('string'),
-            'glue' => array('string', 'null'),
-            'format' => array('string', 'null'),
+            'value_glue' => array('string', 'null'),
+            'value_format' => array('string', 'null'),
         ));
     }
 }

@@ -46,7 +46,7 @@ class Entity extends ColumnAbstractType
 
         $values = array();
         $objectValues = array();
-        $mappingFields = $this->getOption('mapping_fields');
+        $mappingFields = $this->getOption('field_mapping');
 
         if (is_array($value)) {
             foreach ($value as $object) {

@@ -104,7 +104,7 @@ class TreeTypeTest extends \PHPUnit_Framework_TestCase
         $extension->initOptions($column);
 
         $column->setDataMapper($dataMapper);
-        $column->setOption('mapping_fields', array('foo'));
+        $column->setOption('field_mapping', array('foo'));
         $column->setDataGrid($dataGrid);
         $object = new EntityTree();
 

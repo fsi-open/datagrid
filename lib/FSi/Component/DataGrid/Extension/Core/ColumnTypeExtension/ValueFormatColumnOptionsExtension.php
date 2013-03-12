@@ -25,8 +25,8 @@ class ValueFormatColumnOptionsExtension extends ColumnAbstractTypeExtension
         $this->validateEmptyValueOption($column);
 
         $value = $this->populateValue($view->getValue(), $column->getOption('empty_value'));
-        $glue = $column->getOption('glue');
-        $format = $column->getOption('format');
+        $glue = $column->getOption('value_glue');
+        $format = $column->getOption('value_format');
 
         if (is_array($value) && isset($glue) && !isset($format)) {
             $value = implode($glue, $value);
@@ -94,14 +94,14 @@ class ValueFormatColumnOptionsExtension extends ColumnAbstractTypeExtension
     public function initOptions(ColumnTypeInterface $column)
     {
         $column->getOptionsResolver()->setDefaults(array(
-            'glue' => null,
-            'format' => null,
+            'value_glue' => null,
+            'value_format' => null,
             'empty_value' => '',
         ));
 
         $column->getOptionsResolver()->setAllowedTypes(array(
-            'glue' => array('string', 'null'),
-            'format' => array(
+            'value_glue' => array('string', 'null'),
+            'value_format' => array(
                 'string',
                 'function',
                 'null'
@@ -117,7 +117,7 @@ class ValueFormatColumnOptionsExtension extends ColumnAbstractTypeExtension
     private function validateEmptyValueOption(ColumnTypeInterface $column)
     {
         $emptyValue = $column->getOption('empty_value');
-        $mappingFields = $column->getOption('mapping_fields');
+        $mappingFields = $column->getOption('field_mapping');
 
         if (is_string($emptyValue)) {
             return;

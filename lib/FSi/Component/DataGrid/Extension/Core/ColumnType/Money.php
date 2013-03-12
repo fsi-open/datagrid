@@ -41,7 +41,7 @@ class Money extends ColumnAbstractType
         $thousands = $this->getOption('thousands_sep');
         $currencyField = $this->getOption('currency_field');
         $currencyValue = $this->getOption('currency');
-        $mappingFields = $this->getOption('mapping_fields');
+        $mappingFields = $this->getOption('field_mapping');
         $currencySeparator = $this->getOption('value_currency_separator');
 
         if (!isset($currencyField) && !isset($currencyValue)) {

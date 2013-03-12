@@ -40,7 +40,7 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase
             'datetime' => $dateTimeObject
         );
 
-        $this->column->setOption('mapping_fields', array('datetime'));
+        $this->column->setOption('field_mapping', array('datetime'));
 
         $this->assertSame(
             $this->column->filterValue($value),
@@ -59,7 +59,7 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->column->setOptions(array(
-            'mapping_fields' => array('datetime'),
+            'field_mapping' => array('datetime'),
             'datetime_format' => 'Y.d.m'
         ));
 
@@ -85,7 +85,7 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->column->setOptions(array(
-            'input' => 'timestamp',
+            'input_type' => 'timestamp',
         ));
 
         $this->column->filterValue($value);
@@ -109,7 +109,7 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase
             'datetime' => $dateTimeObject->format('Y-m-d H:i:s')
         );
 
-        $this->column->setOption('input', 'string');
+        $this->column->setOption('input_type', 'string');
 
         $this->column->filterValue($value);
     }
@@ -130,8 +130,8 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->column->setOptions(array(
-            'input' => 'string',
-            'mapping_fields_format' => 'Y-m-d H:i:s'
+            'input_type' => 'string',
+            'input_field_format' => 'Y-m-d H:i:s'
         ));
 
         $this->assertSame(
@@ -157,7 +157,7 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase
             'time' => $dateObject->format('Y-m-d H:i:s')
         );
 
-        $this->column->setOption('input', 'array');
+        $this->column->setOption('input_type', 'array');
         $this->column->filterValue($value);
     }
 
@@ -174,8 +174,8 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->column->setOptions(array(
-            'input' => 'string',
-            'mapping_fields_format' => array(
+            'input_type' => 'string',
+            'input_field_format' => array(
                 'datetime' => 'string',
                 'time' => 'string'
             )
@@ -196,12 +196,12 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->column->setOptions(array(
-            'input' => 'array',
-            'mapping_fields_format' => array(
-                'datetime' => array('input' => 'datetime'),
-                'time' => array('input' => 'datetime'),
-                'string' => array('input' => 'string', 'datetime_format' => 'Y-m-d H:i:s'),
-                'timestamp' => array('input' => 'timestamp')
+            'input_type' => 'array',
+            'input_field_format' => array(
+                'datetime' => array('input_type' => 'datetime'),
+                'time' => array('input_type' => 'datetime'),
+                'string' => array('input_type' => 'string', 'datetime_format' => 'Y-m-d H:i:s'),
+                'timestamp' => array('input_type' => 'timestamp')
             )
         ));
 
@@ -228,13 +228,13 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase
         );
 
         $this->column->setOptions(array(
-            'input' => 'array',
+            'input_type' => 'array',
             'datetime_format' => 'Y.d.m',
-            'mapping_fields_format' => array(
-                'datetime' => array('input' => 'datetime'),
-                'time' => array('input' => 'datetime'),
-                'string' => array('input' => 'string', 'datetime_format' => 'Y-m-d H:i:s'),
-                'timestamp' => array('input' => 'timestamp')
+            'input_field_format' => array(
+                'datetime' => array('input_type' => 'datetime'),
+                'time' => array('input_type' => 'datetime'),
+                'string' => array('input_type' => 'string', 'datetime_format' => 'Y-m-d H:i:s'),
+                'timestamp' => array('input_type' => 'timestamp')
             )
         ));
 

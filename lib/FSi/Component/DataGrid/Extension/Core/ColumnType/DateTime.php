@@ -63,12 +63,12 @@ class DateTime extends ColumnAbstractType
     {
         $this->getOptionsResolver()->setDefaults(array(
             'datetime_format' => 'Y-m-d H:i:s',
-            'input' => null,
-            'mapping_fields_format' => null
+            'input_type' => null,
+            'input_field_format' => null
         ));
 
         $this->getOptionsResolver()->setAllowedTypes(array(
-            'mapping_fields_format' => array(
+            'input_field_format' => array(
                 'null',
                 'array',
                 'string'
@@ -76,7 +76,7 @@ class DateTime extends ColumnAbstractType
         ));
 
         $this->getOptionsResolver()->setAllowedValues(array(
-            'input' => array(
+            'input_type' => array(
                 'string',
                 'timestamp',
                 'datetime',
@@ -87,8 +87,8 @@ class DateTime extends ColumnAbstractType
 
     private function getInputData($value)
     {
-        $input = $this->getOption('input');
-        $mappingFormat = $this->getOption('mapping_fields_format');
+        $input = $this->getOption('input_type');
+        $mappingFormat = $this->getOption('input_field_format');
 
         if (!isset($input)) $input = $this->guessInput($value);
 
@@ -96,7 +96,7 @@ class DateTime extends ColumnAbstractType
             throw new DataGridColumnException('"input" option must be a string.');
         }
 
-        $mappingFields = $this->getOption('mapping_fields');
+        $mappingFields = $this->getOption('field_mapping');
         $inputData = array();
         foreach ($mappingFields as $field) {
             $inputData[$field] = null;
@@ -131,7 +131,7 @@ class DateTime extends ColumnAbstractType
                             sprintf('"%s" should be an array.', $field)
                         );
                     }
-                    $fieldInput = (array_key_exists('input', $input)) ? $input['input'] : $this->guessInput($value[$field]);
+                    $fieldInput = (array_key_exists('input_type', $input)) ? $input['input_type'] : $this->guessInput($value[$field]);
 
                     switch (strtolower($fieldInput)) {
                         case 'string':
