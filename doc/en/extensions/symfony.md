@@ -2,17 +2,21 @@
 
 ## Column Types provided by extension ##
 
-none
+``FSi\Component\DataGrid\Extension\Symfony\ColumnType\Action``
+
+## Event Subscribers provided by extension ##
+
+``FSi\Component\DataGrid\Extension\Symfony\EventSubscriber\BindRequest``
 
 ## Column Type Extensions provided by extension ##
 
-### Form Extension ###
+``FSi\Component\DataGrid\Extension\Symfony\ColumnTypeExtension\FormExtension``
 
 This extensions is loaded into almost all column types. It allows you to set 
 ``editable`` otpion in column type.
 
 If ``editable`` option value is ``true`` the SymfonyForm is being created from
-column ``mapping_fields``.
+column ``field_mapping``.
 
 **Usage example**
 
@@ -20,9 +24,8 @@ column ``mapping_fields``.
 <?php
 
 $grid->addColumn('email', 'text', array(
-            'editable' => true  
-        )
-    )
+    'editable' => true  
+))
 ```
 
 Symfony Form View object is available as ColumnView attribute. 
@@ -55,32 +58,34 @@ if ($request->getMethod() == 'POST') {
 
 In most cases this is enough to create grid with some editable fields. 
 But sometimes there are situations when you need to pass additional options to form elements. 
-This can be achieved with ``fields_options`` option that pass options into 
-form elements. 
+This can be achieved with ``form_options`` option that pass options into 
+form elements.  
+You can also specify form type by ``form_type`` option. 
 
 **Example**
 ```php
 <?php
 
 $grid->addColumn('user_email', 'text', array(
-            'mapping_fields' => array('user_email'), //in this case this parameter is optional because column name is same as mapping_field
-            'editable' => true,
-            'fields_options' => array(
-                'user_email' => array( //each array key must exist in mapping_fields
-                    'type' => 'email',
-                    'options => array(
-                        'required' => true
-                    )
-                )
+    'mapping_fields' => array('user_email'), //in this case this parameter is optional because column name is same as mapping_field
+    'editable' => true,
+    'fields_options' => array(
+        'user_email' => array( //each array key must exist in mapping_fields
+            'attr' => array(
+                'placeholder' => 'Email..'
             )
         )
+    ),
+    'form_type' => array(
+        'user_email' => 'email'
     )
+))
 ```
 
-This will add column into form with ``type`` email and addition option ``required``
+This will add column into form with ``type`` email and addition option ``attr``
 
 ```php
 <?php
 
-$form->add('user_email', 'email', array('required' => true));
+$form->add('user_email', 'email', array('attr' => array('placeholder' => ''Email..')));
 ```
