@@ -16,7 +16,7 @@
         "symfony/property-access": "2.2.*",
         "symfony/options-resolver": "2.2.*",
         "fsi/reflection" : "0.9.*",
-        "fsi/data-indexer" : "1.0.*@dev"
+        "fsi/data-indexer" : "0.9.*"
     },
     "require-dev": {
         "doctrine/orm": "~2.2,>=2.2.3",
