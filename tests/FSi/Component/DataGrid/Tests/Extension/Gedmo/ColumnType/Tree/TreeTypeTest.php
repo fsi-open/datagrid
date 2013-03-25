@@ -89,18 +89,17 @@ class TreeTypeTest extends \PHPUnit_Framework_TestCase
         $managerRegistry = $this->getMock("Doctrine\\Common\\Persistence\\ManagerRegistry");
         $managerRegistry->expects($this->any())
             ->method('getManagerForClass')
-            //->with("FSi\\Component\\DataIndexer\\Tests\\Fixtures\\News")
             ->will($this->returnCallback(function() use ($self){
 
                 $manager = $self->getMock("Doctrine\\Common\\Persistence\\ObjectManager");
                 $manager->expects($self->any())
                     ->method('getMetadataFactory')
-                    ->will($this->returnCallback(function() use ($self) {
+                    ->will($self->returnCallback(function() use ($self) {
                         $metadataFactory = $self->getMock("Doctrine\\Common\\Persistence\\Mapping\\ClassMetadataFactory");
 
                         $metadataFactory->expects($self->any())
                             ->method('getMetadataFor')
-                            ->will($this->returnCallback(function($class) use ($self) {
+                            ->will($self->returnCallback(function($class) use ($self) {
                                 switch ($class) {
                                     case "FSi\\Component\\DataGrid\\Tests\\Fixtures\\EntityTree" :
                                         $metadata = $self->getMock('Doctrine\\Common\\Persistence\\Mapping\\ClassMetadata');
