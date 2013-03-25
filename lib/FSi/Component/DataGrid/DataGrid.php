@@ -76,7 +76,7 @@ class DataGrid implements DataGridInterface
      * @param DataMapperInterface $dataMapper
      * @param IndexingStrategyInterface $strategy - deprecated and will be removed in 1.2
      */
-    public function __construct($name, DataGridFactoryInterface $dataGridFactory, DataMapperInterface $dataMapper, IndexingStrategyInterface $strategy)
+    public function __construct($name, DataGridFactoryInterface $dataGridFactory, DataMapperInterface $dataMapper, IndexingStrategyInterface $strategy = null)
     {
         $this->name = $name;
         $this->dataGridFactory = $dataGridFactory;
