@@ -31,6 +31,7 @@ interface DataGridInterface
     /**
      * Return Indexing Strategy
      *
+     * @deprecated This method is deprecated and it will removed in version 1.2
      * @return IndexingStrategy
      */
     public function getIndexingStrategy();

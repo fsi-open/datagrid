@@ -46,6 +46,7 @@ class DataGridFactory implements DataGridFactoryInterface
 
     /**
      * @var IndexingStrategyInterface
+     * @deprecated this field is deprecated and it will be removed in version 1.2
      */
     protected $strategy;
 
@@ -53,8 +54,9 @@ class DataGridFactory implements DataGridFactoryInterface
      * @param array $extensions
      * @param DataMapperInterface $dataMapper
      * @param IndexingStrategyInterface $strategy
+     * @throws \InvalidArgumentException
      */
-    public function __construct(array $extensions, DataMapperInterface $dataMapper, IndexingStrategyInterface $strategy)
+    public function __construct(array $extensions, DataMapperInterface $dataMapper, IndexingStrategyInterface $strategy = null)
     {
         foreach ($extensions as $extension) {
             if (!($extension instanceof DataGridExtensionInterface)) {

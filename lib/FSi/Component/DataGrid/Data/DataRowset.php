@@ -30,7 +30,9 @@ class DataRowset implements DataRowsetInterface
             }
         }
 
-        $this->data  = $data;
+        foreach ($data as $id => $element) {
+            $this->data[$id] = $element;
+        }
     }
 
     /**
@@ -121,6 +123,7 @@ class DataRowset implements DataRowsetInterface
      * Required by the ArrayAccess implementation
      *
      * @param int $offset
+     * @throws \InvalidArgumentException
      * @return DataGridRowView
      */
     public function offsetGet($offset)
