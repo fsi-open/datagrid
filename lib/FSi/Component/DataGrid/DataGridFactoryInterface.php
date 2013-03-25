@@ -49,6 +49,7 @@ interface DataGridFactoryInterface
     public function getDataMapper();
 
     /**
+     * @deprecated This method is deprecated and it will removed in version 1.2
      * @return IndexingStrategyInterface
      */
     public function getIndexingStrategy();
