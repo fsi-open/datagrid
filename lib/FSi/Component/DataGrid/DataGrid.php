@@ -64,6 +64,7 @@ class DataGrid implements DataGridInterface
     /**
      * Indexing strategy used to index rowset original data under unique indexes.
      * @var IndexingStrategyInterface
+     * @deprecated this field is deprecated and it will be removed in version 1.2
      */
     protected $strategy;
 
@@ -73,7 +74,7 @@ class DataGrid implements DataGridInterface
      * @param string $name
      * @param DataGridFactoryInterface $dataGridFactory
      * @param DataMapperInterface $dataMapper
-     * @param IndexingStrategyInterface $strategy
+     * @param IndexingStrategyInterface $strategy - deprecated and will be removed in 1.2
      */
     public function __construct($name, DataGridFactoryInterface $dataGridFactory, DataMapperInterface $dataMapper, IndexingStrategyInterface $strategy)
     {
@@ -208,17 +209,9 @@ class DataGrid implements DataGridInterface
             }
         }
 
-        $indexedData = array();
+        $this->rowset = new DataRowset($data);
 
-        foreach ($data as $defIndex => $object) {
-            $index = $this->getIndexingStrategy()->getIndex($object, $this->getDataMapper());
-            $index = $index ? : $defIndex;
-            $indexedData[$index] = $object;
-        }
-
-        $this->rowset = new DataRowset($indexedData);
-
-        $event = new DataGridEvent($this, $indexedData);
+        $event = new DataGridEvent($this, $this->rowset);
         $this->eventDispatcher->dispatch(DataGridEvents::POST_SET_DATA, $event);
 
         return $this;

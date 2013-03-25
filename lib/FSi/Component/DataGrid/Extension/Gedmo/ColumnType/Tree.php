@@ -11,13 +11,14 @@
 
 namespace FSi\Component\DataGrid\Extension\Gedmo\ColumnType;
 
-use Gedmo\Tree\TreeListener;
-use Gedmo\Tree\Strategy;
 use Doctrine\Common\Persistence\ManagerRegistry;
-use FSi\Component\Reflection\ReflectionClass;
-use FSi\Component\DataGrid\Exception\DataGridColumnException;
 use FSi\Component\DataGrid\Column\CellViewInterface;
 use FSi\Component\DataGrid\Column\ColumnAbstractType;
+use FSi\Component\DataGrid\Exception\DataGridColumnException;
+use FSi\Component\DataIndexer\DoctrineDataIndexer;
+use Gedmo\Tree\Strategy;
+use Gedmo\Tree\TreeListener;
+use Symfony\Component\PropertyAccess\PropertyAccess;
 
 class Tree extends ColumnAbstractType
 {
@@ -97,19 +98,19 @@ class Tree extends ColumnAbstractType
         }
 
         $config = $treeListener->getConfiguration($em, get_class($object));
-        $reflection = ReflectionClass::factory(get_class($object));
 
-        $indexingStrategy = $this->getDataGrid()->getIndexingStrategy();
+        $doctrineDataIndexer = new DoctrineDataIndexer($this->registry, get_class($object));
+        $propertyAccessor = PropertyAccess::getPropertyAccessor();
 
-        $id = $indexingStrategy->getIndex($object, $this->getDataMapper());
-        $left = $reflection->getProperty($config['left'])->getValue($object);
-        $right = $reflection->getProperty($config['right'])->getValue($object);
-        $root = isset($config['root']) ? $reflection->getProperty($config['root'])->getValue($object) : null;
-        $level = (isset($config['level'])) ? $reflection->getProperty($config['level'])->getValue($object) : null;
-        $parent = $reflection->getProperty($config['parent'])->getValue($object);
+        $id = $doctrineDataIndexer->getIndex($object);
+        $left = $propertyAccessor->getValue($object, $config['left']);
+        $right = $propertyAccessor->getValue($object, $config['right']);
+        $root = isset($config['root']) ? $propertyAccessor->getValue($object, $config['root']) : null;
+        $level = (isset($config['level'])) ? $propertyAccessor->getValue($object, $config['level']) : null;
+        $parent = $propertyAccessor->getValue($object, $config['parent']);
         $parentId = null;
         if (isset($parent)) {
-            $parentId = $indexingStrategy->getIndex($parent, $this->getDataMapper());
+            $parentId = $doctrineDataIndexer->getIndex($parent);
         }
 
         $this->viewAttributes = array(
