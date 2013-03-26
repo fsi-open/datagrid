@@ -11,18 +11,17 @@
 
 namespace FSi\Component\DataGrid\Column;
 
-use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
-use FSi\Component\DataGrid\DataGridInterface;
 use FSi\Component\DataGrid\Column\CellView;
+use FSi\Component\DataGrid\Column\ColumnTypeExtensionInterface;
+use FSi\Component\DataGrid\Column\ColumnTypeInterface;
 use FSi\Component\DataGrid\Column\HeaderView;
 use FSi\Component\DataGrid\Column\HeaderViewInterface;
-use FSi\Component\DataGrid\Column\ColumnTypeInterface;
-use FSi\Component\DataGrid\Column\ColumnTypeExtensionInterface;
-use FSi\Component\DataGrid\Exception\DataGridColumnException;
+use FSi\Component\DataGrid\DataGridInterface;
 use FSi\Component\DataGrid\DataMapper\DataMapperInterface;
+use FSi\Component\DataGrid\Exception\DataGridColumnException;
 use FSi\Component\DataGrid\Exception\UnexpectedTypeException;
 use FSi\Component\DataGrid\Exception\UnknownOptionException;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 abstract class ColumnAbstractType implements ColumnTypeInterface
 {
@@ -40,6 +39,11 @@ abstract class ColumnAbstractType implements ColumnTypeInterface
      * @var string
      */
     protected $name;
+
+    /**
+     * @var string
+     */
+    protected $index;
 
     /**
      * @var DataMapper
@@ -78,6 +82,25 @@ abstract class ColumnAbstractType implements ColumnTypeInterface
         $this->name = (string)$name;
 
         return $this;
+    }
+
+    /**
+     * @param null|string $index
+     */
+    public function setIndex($index)
+    {
+        $this->index = $index;
+    }
+
+    /**
+     * This method should be used when creating column view.
+     * After ColumnView is created index is nulled.
+     *
+     * @return null|string
+     */
+    public function getIndex()
+    {
+        return $this->index;
     }
 
     /**
@@ -145,6 +168,7 @@ abstract class ColumnAbstractType implements ColumnTypeInterface
      */
     public function createCellView($object, $index)
     {
+        $this->setIndex($index);
         $view = new CellView($this->getName(), $this->getId());
         $view->setSource($object);
         $view->setAttribute('row', $index);
@@ -168,7 +192,7 @@ abstract class ColumnAbstractType implements ColumnTypeInterface
         }
 
         $this->buildCellView($view);
-
+        $this->setIndex(null);
         return $view;
     }
 

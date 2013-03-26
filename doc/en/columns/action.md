@@ -32,7 +32,7 @@ For standalone datagrid use ``FSi\Component\DataGrid\Extension\Core\ColumnTypeEx
 If used with **Symfony**, you should load ``FSi\Component\DataGrid\Extension\Symfony\ColumnTypeExtension\ActionColumnExtension``, it provides:
 
  * ``route_name`` - **required**, string, route name
- * ``parameters_field_mapping`` - array, parameters for route, related with field_mapping
+ * ``parameters_field_mapping`` - array, parameters for route array('parameter_name' => 'mapping_field_name');
  * ``additional_parameters`` - array, additional parameters values for route not related with field_mapping
  * ``absolute`` - boolean, generate an absolute or relative URL
 
@@ -74,3 +74,8 @@ $datagrid->addColumn('action', 'action', array(
 ));
 
 ```
+
+**Important** - ``parameters_field_mapping`` alows each array value to be an Closure function. It can be used to format
+router parameter value in specific way. Closure function will be called with 2 arguments:
+
+``function($fieldMappingValues, $rowIndex)``

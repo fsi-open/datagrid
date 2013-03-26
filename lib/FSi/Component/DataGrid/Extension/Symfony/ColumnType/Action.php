@@ -61,8 +61,6 @@ class Action extends ColumnAbstractType
      */
     public function filterValue($value)
     {
-        //$this->validateOptions();
-
         $return = array();
         $actions = $this->getOption('actions');
 
@@ -73,8 +71,12 @@ class Action extends ColumnAbstractType
 
             $parameters = array();
             if (isset($options['parameters_field_mapping'])) {
-                foreach ($options['parameters_field_mapping'] as $mappingField => $parameterName) {
-                    $parameters[$parameterName] = $value[$mappingField];
+                foreach ($options['parameters_field_mapping'] as $parameterName => $mappingField) {
+                    if ($mappingField instanceof \Closure) {
+                        $parameters[$parameterName] = $mappingField($value, $this->getIndex());
+                    } else {
+                        $parameters[$parameterName] = $value[$mappingField];
+                    }
                 }
             }
 
