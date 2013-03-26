@@ -320,7 +320,7 @@ actions         | actions        | display_order  | display_order         | 
                 |                | value_format   | value_format          | value_format             |
                 |                | editable       | editable              | editable                 |
                 |                | form_otpions   | form_otpions          | form_otpions             |
-                |                | form_type      | form_type   form_type | form_type                |
+                |                | form_type      | form_type             | form_type                |
                 |                | empty_value    | empty_value           | empty_value              |
                 |                | true_value     | datetime_format       | value_glue_multiple      |
                 |                | false_value    | input_type            | relation_field           |
@@ -332,16 +332,16 @@ actions         | actions        | display_order  | display_order         | 
                 |                |                |                       | currency                 |
                 
                 
-| DateTime       | Money         | Entity        | Tree          |
-|--------------- | ------------- | ------------- | ------------- |
-| label          | label         | label         | label         |
-| field_mapping  | field_mapping | field_mapping | field_mapping |
-| value_glue     | value_glue    | value_glue    | value_glue    |
-| display_order  | display_order | display_order | display_order |
-| value_format   | value_format  | value_format  | value_format  |
-| editable       | editable      | editable      | editable      |
-| form_otpions   | form_otpions  | form_otpions  | form_otpions  |
-| form_type      | form_type     | empty_value   | empty_value   |
-| empty_value    | empty_value   | trim          | em            |
-| round_mode     | round_mode    |               |               |
-| precision      | precision     |               |               |
+| DateTime       | Money         | Entity         | Tree          |
+|--------------- | ------------- | -------------- | ------------- |
+| label          | label         | label          | label         |
+| field_mapping  | field_mapping | field_mapping  | field_mapping |
+| value_glue     | value_glue    | value_glue     | value_glue    |
+| display_order  | display_order | display_order  | display_order |
+| value_format   | value_format  | value_format   | value_format  |
+| editable       | editable      | editable       | editable      |
+| form_otpions   | form_otpions  | form_otpions   | form_otpions  |
+| form_type      | form_type     | empty_value    | empty_value   |
+| empty_value    | empty_value   | relation_field | em            |
+| round_mode     | round_mode    | glue_multiple  |               |
+| precision      | precision     |                |               |

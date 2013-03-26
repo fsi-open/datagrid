@@ -13,7 +13,7 @@ Provided by ``FSi\Component\DataGrid\Extension\Doctrine\DoctrineExtension``
 * ``editable`` - **required**, boolean, by default ``false``
 * ``form_options`` - array, by default ``array()``
 * ``form_type`` - array, by default ``array()``
-* 
+
 ## Options Description ##
 
 **label** By default label value its taken from name under what column was registered in grid.
