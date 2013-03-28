@@ -119,7 +119,7 @@ class FormExtension extends ColumnAbstractTypeExtension
             'number',
             'datetime',
             'entity',
-            'gedmo.tree',
+            'gedmo_tree',
         );
     }
 
