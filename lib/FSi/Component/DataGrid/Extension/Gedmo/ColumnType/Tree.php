@@ -12,6 +12,7 @@
 namespace FSi\Component\DataGrid\Extension\Gedmo\ColumnType;
 
 use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\Common\Persistence\ObjectManager;
 use FSi\Component\DataGrid\Column\CellViewInterface;
 use FSi\Component\DataGrid\Column\ColumnAbstractType;
 use FSi\Component\DataGrid\Exception\DataGridColumnException;
@@ -32,15 +33,32 @@ class Tree extends ColumnAbstractType
      */
     protected $strategy;
 
-    protected $allowedStrategies = array(
-        'nested'
-    );
+    /**
+     * @var array
+     */
+    protected $allowedStrategies;
 
-    protected $viewAttributes = array();
+    /**
+     * @var array
+     */
+    protected $viewAttributes;
 
+    /**
+     * @var array
+     */
+    protected $classStrategies;
+
+    /**
+     * @param ManagerRegistry $registry
+     */
     public function __construct(ManagerRegistry $registry)
     {
         $this->registry = $registry;
+        $this->viewAttributes = array();
+        $this->classStrategies = array();
+        $this->allowedStrategies = array(
+            'nested',
+        );
     }
 
     /**
@@ -48,7 +66,7 @@ class Tree extends ColumnAbstractType
      */
     public function getId()
     {
-        return 'gedmo.tree';
+        return 'gedmo_tree';
     }
 
     /**
@@ -57,35 +75,21 @@ class Tree extends ColumnAbstractType
     public function getValue($object)
     {
         if (!is_object($object)) {
-            throw new \InvalidArgumentException('Column "gedmo.tree" must read value from object.');
+            throw new \InvalidArgumentException('Column "gedmo_tree" must read value from object.');
         }
 
         $value = parent::getValue($object);
         $em = $this->registry->getManager($this->getOption('em'));
 
         // Check if tree listener is registred.
-        $treeListener = null;
-
-        foreach ($em->getEventManager()->getListeners() as $listeners) {
-            foreach ($listeners as $listener) {
-                if ($listener instanceof TreeListener) {
-                    $treeListener = $listener;
-                    break;
-                }
-            }
-            if ($treeListener) {
-                break;
-            }
-        }
-
+        $treeListener = $this->getTreeListener($em);
         if (is_null($treeListener)) {
-            throw new DataGridColumnException('Gedmo Tree listener was not found on your entity manager, it must be hooked into the event manager');
+            throw new DataGridColumnException('Gedmo TreeListener was not found in your entity manager.');
         }
 
         // Get Tree strategy
-        try {
-            $this->strategy = $treeListener->getStrategy($em, get_class($object));
-        } catch (\Exception $e) {
+        $this->strategy = $this->getClassStrategy($em, $treeListener, get_class($object));
+        if (!isset($this->strategy )) {
             throw new DataGridColumnException(
                 sprintf('"%s" is not implementing gedmo tree strategy. Maybe you should consider using a different column type?', get_class($object))
             );
@@ -98,20 +102,20 @@ class Tree extends ColumnAbstractType
         }
 
         $config = $treeListener->getConfiguration($em, get_class($object));
-
         $doctrineDataIndexer = new DoctrineDataIndexer($this->registry, get_class($object));
         $propertyAccessor = PropertyAccess::getPropertyAccessor();
 
         $id = $doctrineDataIndexer->getIndex($object);
-        $left = $propertyAccessor->getValue($object, $config['left']);
-        $right = $propertyAccessor->getValue($object, $config['right']);
+        $left = isset($config['left']) ? $propertyAccessor->getValue($object, $config['left']) : null;
+        $right = isset($config['right']) ? $propertyAccessor->getValue($object, $config['right']) : null;
         $root = isset($config['root']) ? $propertyAccessor->getValue($object, $config['root']) : null;
         $level = (isset($config['level'])) ? $propertyAccessor->getValue($object, $config['level']) : null;
-        $parent = $propertyAccessor->getValue($object, $config['parent']);
+        $parent = (isset($config['parent'])) ? $propertyAccessor->getValue($object, $config['parent']) : null;
         $parentId = null;
         if (isset($parent)) {
             $parentId = $doctrineDataIndexer->getIndex($parent);
         }
+
 
         $this->viewAttributes = array(
             'id' => $id,
@@ -147,18 +151,70 @@ class Tree extends ColumnAbstractType
     /**
      * {@inheritDoc}
      */
+    public function initOptions()
+    {
+        $this->getOptionsResolver()->setDefaults(array(
+            'em' => null,
+        ));
+    }
+
+    /**
+     * @return array
+     */
     public function getViewAttributes()
     {
         return $this->viewAttributes;
     }
 
     /**
-     * {@inheritDoc}
+     * @param ObjectManager $om
+     * @param TreeListener $listener
+     * @param string $class
+     * @return string|null
      */
-    public function initOptions()
+    private function getClassStrategy(ObjectManager $om, TreeListener $listener, $class)
     {
-        $this->getOptionsResolver()->setDefaults(array(
-            'em' => null,
-        ));
+        if (array_key_exists($class, $this->classStrategies)) {
+            return $this->classStrategies[$class];
+        }
+
+        $this->classStrategies[$class] = null;
+        $classParents = array_merge(
+            array($class),
+            class_parents($class)
+        );
+
+        foreach ($classParents as $parent) {
+            try {
+                $this->classStrategies[$class] = $listener->getStrategy($om, $parent);
+                break;
+            } catch (\Exception $e) {
+            }
+        }
+
+        return $this->classStrategies[$class];
+    }
+
+    /**
+     * @param ObjectManager $om
+     * @return TreeListener|null
+     */
+    private function getTreeListener(ObjectManager $om)
+    {
+        $treeListener = null;
+
+        foreach ($om->getEventManager()->getListeners() as $listeners) {
+            foreach ($listeners as $listener) {
+                if ($listener instanceof TreeListener) {
+                    $treeListener = $listener;
+                    break;
+                }
+            }
+            if ($treeListener) {
+                break;
+            }
+        }
+
+        return $treeListener;
     }
 }

@@ -46,9 +46,45 @@ options passed to form.
 ``` php
 <?php
 
-$dataGrid->addColumn('item', 'gedmo.tree', array(
+$dataGrid->addColumn('item', 'gedmo_tree', array(
     'label' => 'Item',
     'editable' => true,
 ));
 
+```
+
+Difference between ``tree`` and ``text`` column is that cellView of ``tree`` column type has few additional
+attributes.
+List of attributes and example of usage below:
+
+**Attributes**
+* **id** - element id
+* **parent** - (optional) parent id
+* **root** - (optional) root id of element
+* **left** - element left position
+* **right** - element right position
+* **level** - element nesting level
+* **children** - element children count
+
+**Usage** (in Twig)
+
+```
+{# datagrid_column_type_{column_type}_cell #}
+{% block datagrid_column_type_gedmo_tree_cell %}
+    <td>
+        <div>
+            {% spaceless %}
+            <div
+                {% if cell.getAttribute('parent') is not null %} data-parent="{{ cell.getAttribute('parent') }}"{% endif %}
+                {% if cell.getAttribute('root') is not null %} data-root="{{ cell.getAttribute('root') }}"{% endif %}
+                {% if cell.getAttribute('level') is not null %} data-level="{{ cell.getAttribute('level') }}" class="tree-level-{{ cell.getAttribute('level') }}"{% endif %}
+                data-children="{{ cell.getAttribute('children') }}"
+            >
+            {% endspaceless %}
+            {{ cell.value|raw }}
+            </div>
+            {{ datagrid_column_cell_form_widget(cell) }}
+        </div>
+    </td>
+{% endblock %}
 ```

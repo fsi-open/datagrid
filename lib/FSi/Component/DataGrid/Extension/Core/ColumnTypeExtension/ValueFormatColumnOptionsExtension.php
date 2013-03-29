@@ -84,7 +84,7 @@ class ValueFormatColumnOptionsExtension extends ColumnAbstractTypeExtension
             'datetime',
             'number',
             'money',
-            'gedmo.tree',
+            'gedmo_tree',
         );
     }
 

@@ -37,7 +37,7 @@ class CoreExtensionTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($extension->hasColumnTypeExtensions('datetime'));
         $this->assertTrue($extension->hasColumnTypeExtensions('action'));
         $this->assertTrue($extension->hasColumnTypeExtensions('money'));
-        $this->assertTrue($extension->hasColumnTypeExtensions('gedmo.tree'));
+        $this->assertTrue($extension->hasColumnTypeExtensions('gedmo_tree'));
         $this->assertTrue($extension->hasColumnTypeExtensions('entity'));
     }
 
