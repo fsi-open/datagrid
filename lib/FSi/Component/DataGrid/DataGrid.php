@@ -158,6 +158,20 @@ class DataGrid implements DataGridInterface
     /**
      * {@inheritDoc}
      */
+    public function hasColumnType($type)
+    {
+        foreach ($this->columns as $column) {
+            if ($column->getId() == $type) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
     public function removeColumn($name)
     {
         if (!$this->hasColumn($name)) {

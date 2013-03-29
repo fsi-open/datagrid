@@ -19,7 +19,7 @@ class GedmoDoctrineExtensionTest extends \PHPUnit_Framework_TestCase
         $registry = $this->getMock('Doctrine\Common\Persistence\ManagerRegistry');
         $extension = new GedmoDoctrineExtension($registry);
 
-        $this->assertTrue($extension->hasColumnType('gedmo.tree'));
+        $this->assertTrue($extension->hasColumnType('gedmo_tree'));
         $this->assertFalse($extension->hasColumnType('foo'));
     }
 }

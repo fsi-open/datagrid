@@ -102,6 +102,8 @@ class DataGridTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($this->datagrid->hasColumn('foo1'));
         $this->datagrid->addColumn('foo1', 'foo');
         $this->assertTrue($this->datagrid->hasColumn('foo1'));
+        $this->assertTrue($this->datagrid->hasColumnType('foo'));
+        $this->assertFalse($this->datagrid->hasColumnType('this_type_cant_exists'));
 
         $this->assertInstanceOf('FSi\Component\DataGrid\Tests\Fixtures\ColumnType\FooType', $this->datagrid->getColumn('foo1'));
 

@@ -84,6 +84,14 @@ interface DataGridInterface
     public function hasColumn($name);
 
     /**
+     * Checks if column with specific type was added to grid.
+     *
+     * @param string $type
+     * @return boolean
+     */
+    public function hasColumnType($type);
+
+    /**
      * Create DataGridView object that should be used to render data grid.
      *
      * @return DataGridView
