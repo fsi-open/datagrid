@@ -67,6 +67,14 @@ class DataGridRowView implements DataGridRowViewInterface
     }
 
     /**
+     * {@inheritdoc}
+     */
+    public function getSource()
+    {
+        return $this->source;
+    }
+
+    /**
      * Returns the number of cells in the row.
      * Implements Countable::count()
      *
