@@ -34,5 +34,7 @@ class DataGridRowViewTest extends \PHPUnit_Framework_TestCase
 
         $gridRow = new DataGridRowView($dataGridView, $columns, $source, 0);
         $this->assertSame($gridRow->current(), $cellView);
+
+        $this->assertSame($gridRow->getSource(), $source);
     }
 }
