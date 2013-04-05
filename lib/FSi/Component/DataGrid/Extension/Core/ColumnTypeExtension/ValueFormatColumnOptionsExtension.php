@@ -153,19 +153,20 @@ class ValueFormatColumnOptionsExtension extends ColumnAbstractTypeExtension
     }
 
     /**
-     * @param mixed $value
-     * @param string $emptyValue
+     * @param $value
+     * @param $emptyValue
+     * @return array|string
      */
     private function populateValue($value, $emptyValue)
     {
         if (is_string($emptyValue)) {
-            if (empty($value)) {
+            if (!isset($value) || (is_string($value) && !strlen($value))) {
                 return $emptyValue;
             }
 
             if (is_array($value)) {
                 foreach ($value as &$val) {
-                    if (empty($val)) {
+                    if (!isset($val) || (is_string($val) && !strlen($val))) {
                         $val = $emptyValue;
                     }
                 }

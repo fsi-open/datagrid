@@ -594,4 +594,40 @@ class ValueFormatColumnOptionsExtensionTest extends \PHPUnit_Framework_TestCase
 
         $extension->buildCellView($column, $view);
     }
+
+    public function testBuildCellViewWhenValueIsZero()
+    {
+        $extension = new ValueFormatColumnOptionsExtension();
+        $view = $this->getMock('FSi\Component\DataGrid\Column\CellViewInterface');
+        $column = $this->getMock('FSi\Component\DataGrid\Column\ColumnTypeInterface');
+
+        $column->expects($this->any())
+            ->method('getOption')
+            ->will($this->returnCallback(function($option) {
+                switch($option) {
+                    case 'value_glue':
+                        return '';
+                        break;
+                    case 'empty_value':
+                        return 'This should not be used.';
+                        break;
+                    case 'field_mapping':
+                        return array('fo');
+                        break;
+                }
+            }));
+
+        $view->expects($this->at(0))
+            ->method('getValue')
+            ->will($this->returnValue(array(
+                    'fo' => 0,
+                )
+            ));
+
+        $view->expects($this->at(1))
+            ->method('setValue')
+            ->with(0);
+
+        $extension->buildCellView($column, $view);
+    }
 }
