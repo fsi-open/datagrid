@@ -11,6 +11,7 @@
 namespace FSi\Component\DataGrid\Tests\Extension\Core\ColumntypeExtension;
 
 use FSi\Component\DataGrid\Extension\Core\ColumnTypeExtension\ValueFormatColumnOptionsExtension;
+use FSi\Component\DataGrid\Extension\Core\ColumnType\Text;
 
 class ValueFormatColumnOptionsExtensionTest extends \PHPUnit_Framework_TestCase
 {
@@ -629,5 +630,23 @@ class ValueFormatColumnOptionsExtensionTest extends \PHPUnit_Framework_TestCase
             ->with(0);
 
         $extension->buildCellView($column, $view);
+    }
+
+    public function testValueFormatOptionResolverWithClousure()
+    {
+        $column = new Text();
+        $extension = new ValueFormatColumnOptionsExtension();
+        $column->addExtension($extension);
+
+        $column->initOptions();
+        $extension->initOptions($column);
+
+        $column->setOptions(array(
+            'value_format' => function($data) {
+                return (string)$data;
+            }
+        ));
+
+        $extension->filterValue($column, array('for' => 'bar'));
     }
 }
