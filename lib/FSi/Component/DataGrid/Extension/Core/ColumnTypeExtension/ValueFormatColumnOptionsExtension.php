@@ -103,7 +103,7 @@ class ValueFormatColumnOptionsExtension extends ColumnAbstractTypeExtension
             'value_glue' => array('string', 'null'),
             'value_format' => array(
                 'string',
-                'function',
+                'Closure',
                 'null'
             ),
             'empty_value' => 'string'

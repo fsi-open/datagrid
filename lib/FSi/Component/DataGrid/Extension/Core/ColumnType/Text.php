@@ -55,13 +55,4 @@ class Text extends ColumnAbstractType
             'trim' => 'bool'
         ));
     }
-
-    /**
-     * {@inheritDoc}
-
-    public function getAvailableOptions()
-    {
-        return array('trim');
-    }
-     */
 }
