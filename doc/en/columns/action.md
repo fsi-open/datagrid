@@ -61,11 +61,21 @@ $datagrid->addColumn('action', 'action', array(
     'field_mapping' => array('id', 'title'),
     'actions' => array(
         'edit' => array(
+            'url_attr' => array(
+                'class' => 'btn btn-warning btn-small-horizontal',
+                'title' => 'datagrid.action.edit'
+            ),
+            'content' => '<span class="icon-eject icon-white"></span>',
             'route_name' => '_news_edit',
             'parameters_field_mapping' => array('id' => 'id'),
             'additional_parameters' => array('const_param' => 1)
         ),
         'delete' => array(
+            'url_attr' => array(
+                'class' => 'btn btn-danger btn-small-horizontal',
+                'title' => 'crud.list.datagrid.action.delete'
+            ),
+            'content' => '<span class="icon-trash icon-white"></span>',
             'route_name' => '_news_delete',
             'parameters_field_mapping' => array('id' => 'id'),
             'additional_parameters' => array('const_param' => 1)
@@ -75,7 +85,7 @@ $datagrid->addColumn('action', 'action', array(
 
 ```
 
-**Important** - ``parameters_field_mapping`` alows each array value to be an Closure function. It can be used to format
-router parameter value in specific way. Closure function will be called with 2 arguments:
+**Important** - ``parameters_field_mapping``, ``url_attr`` and ``content`` alows \Closure function as value. It can be used to format
+option value depending on the field_mapping values. Closure function will be called with 2 arguments:
 
 ``function($fieldMappingValues, $rowIndex)``
