@@ -32,6 +32,8 @@ For standalone datagrid use ``FSi\Component\DataGrid\Extension\Core\ColumnTypeEx
 If used with **Symfony**, you should load ``FSi\Component\DataGrid\Extension\Symfony\ColumnTypeExtension\ActionColumnExtension``, it provides:
 
  * ``route_name`` - **required**, string, route name
+ * ``url_attr`` - array, attributes with values passed to url tag <a %url_attr%>%content%</a>, href is also inside of url_attr and you can change it.
+ * ``content`` - string, content of url <a href="#">%content%</a>
  * ``parameters_field_mapping`` - array, parameters for route array('parameter_name' => 'mapping_field_name');
  * ``additional_parameters`` - array, additional parameters values for route not related with field_mapping
  * ``absolute`` - boolean, generate an absolute or relative URL
@@ -58,24 +60,60 @@ $datagrid->addColumn('actions', 'action', array(
 
 $datagrid->addColumn('action', 'action', array(
     'label' => 'Actions',
-    'field_mapping' => array('id', 'title'),
+    'field_mapping' => array('id', 'title', 'active'),
     'actions' => array(
         'edit' => array(
+            'url_attr' => array(
+                'class' => 'btn btn-warning btn-small-horizontal',
+                'title' => 'datagrid.action.edit'
+            ),
+            'content' => '<span class="icon-eject icon-white"></span>',
             'route_name' => '_news_edit',
             'parameters_field_mapping' => array('id' => 'id'),
             'additional_parameters' => array('const_param' => 1)
         ),
         'delete' => array(
+            'url_attr' => array(
+                'class' => 'btn btn-danger btn-small-horizontal',
+                'title' => 'crud.list.datagrid.action.delete'
+            ),
+            'content' => '<span class="icon-trash icon-white"></span>',
             'route_name' => '_news_delete',
             'parameters_field_mapping' => array('id' => 'id'),
             'additional_parameters' => array('const_param' => 1)
+        ),
+        'activation' => array(
+            'url_attr' => function($values, $index) {
+                return array(
+                    'class' => $values['active']
+                        ? 'btn btn-small-horizontal'
+                        : 'btn btn-success btn-small-horizontal',
+                    'title' => $values['active']
+                        ? 'crud.list.datagrid.action.disable'
+                        : 'crud.list.datagrid.action.active'
+                );
+            },
+            'content' => function($values, $index) {
+                return $values['active']
+                    ? '<span class="icon-off"></span>'
+                    : '<span class="icon-ok icon-white"></span>';
+            },
+            'route_name' => '_news_activation',
+            'parameters_field_mapping' => array(
+                'id' => function($values, $index) {
+                    return $index;
+                }
+            ),
+            'additional_parameters' => array(
+                'element' => $this->getId()
+            )
         )
     )
 ));
 
 ```
 
-**Important** - ``parameters_field_mapping`` alows each array value to be an Closure function. It can be used to format
-router parameter value in specific way. Closure function will be called with 2 arguments:
+**Important** - ``parameters_field_mapping``, ``url_attr`` and ``content`` alows \Closure function as value. It can be used to format
+option value depending on the field_mapping values. Closure function will be called with 2 arguments:
 
 ``function($fieldMappingValues, $rowIndex)``
