@@ -12,8 +12,7 @@
 namespace FSi\Component\DataGrid\Extension\Symfony\ColumnType;
 
 use FSi\Component\DataGrid\Column\ColumnAbstractType;
-use FSi\Component\DataGrid\Column\ColumnTypeInterface;
-use FSi\Component\DataGrid\Column\ColumnAbstractTypeExtension;
+use FSi\Component\DataGrid\Exception\UnexpectedTypeException;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -66,10 +65,11 @@ class Action extends ColumnAbstractType
 
         foreach ($actions as $name => $options) {
             $options = $this->actionOptionsResolver->resolve((array) $options);
-
             $return[$name] = array();
-
             $parameters = array();
+            $urlAttributes = $options['url_attr'];
+            $content = $options['content'];
+
             if (isset($options['parameters_field_mapping'])) {
                 foreach ($options['parameters_field_mapping'] as $parameterName => $mappingField) {
                     if ($mappingField instanceof \Closure) {
@@ -96,9 +96,29 @@ class Action extends ColumnAbstractType
                 }
             }
 
+            if ($urlAttributes instanceof \Closure) {
+                $urlAttributes = $urlAttributes($value, $this->getIndex());
+
+                if (!is_array($urlAttributes)) {
+                    throw new UnexpectedTypeException('url_attr option Clousure must return new array with url attributes.');
+                }
+            }
+
             $url = $this->router->generate($options['route_name'], $parameters, $options['absolute']);
+
+            if (!isset($urlAttributes['href'])) {
+                $urlAttributes['href'] = $url;
+            }
+
+            if (isset($content) && $content instanceof \Closure) {
+                $content = (string) $content($value, $this->getIndex());
+            }
+
+            // $return[$name]['url'] is deprecated since 1.0 and will be removed in version 1.2
             $return[$name]['url'] = $url;
+            $return[$name]['content']  = isset($content) ? $content : $name;
             $return[$name]['field_mapping_values'] = $value;
+            $return[$name]['url_attr'] = $urlAttributes;
         }
 
         return $return;
@@ -120,12 +140,19 @@ class Action extends ColumnAbstractType
         $this->actionOptionsResolver->setDefaults(array(
             'redirect_uri' => true,
             'absolute' => false,
+            'url_attr' => array(),
+            'content' => null,
             'parameters_field_mapping' => array(),
             'additional_parameters' => array(),
         ));
 
+        $this->actionOptionsResolver->setAllowedTypes(array(
+            'url_attr' => array('array', 'Closure'),
+            'content' => array('null', 'string', 'Closure')
+        ));
+
         $this->actionOptionsResolver->setRequired(array(
-            'route_name'
+            'route_name',
         ));
     }
 }

@@ -101,8 +101,12 @@ class ActionTest extends \PHPUnit_Framework_TestCase
            array(
                'edit' => array(
                    'url' => '/test/bar?redirect_uri=' . urlencode(MyRequest::URI),
+                   'content' => 'edit',
                    'field_mapping_values' => array(
                            'foo' => 'bar'
+                   ),
+                   'url_attr' => Array (
+                       'href' => '/test/bar?redirect_uri=http%3A%2F%2Fexample.com%2F%3Ftest%3D1%26test%3D2'
                    )
                )
            ),
@@ -154,8 +158,12 @@ class ActionTest extends \PHPUnit_Framework_TestCase
            array(
                'edit' => array(
                    'url' => 'https://fsi.pl/test/bar?redirect_uri=' . urlencode(MyRequest::URI),
+                    'content' => 'edit',
                    'field_mapping_values' => array(
                            'foo' => 'bar'
+                   ),
+                   'url_attr' => array (
+                       'href' => 'https://fsi.pl/test/bar?redirect_uri=http%3A%2F%2Fexample.com%2F%3Ftest%3D1%26test%3D2'
                    )
                )
            ),
@@ -208,8 +216,12 @@ class ActionTest extends \PHPUnit_Framework_TestCase
            array(
                'edit' => array(
                    'url' => '/test/bar',
+                   'content' => 'edit',
                    'field_mapping_values' => array(
                        'foo' => 'bar'
+                   ),
+                   'url_attr' => array (
+                       'href' => '/test/bar'
                    )
                )
            ),
