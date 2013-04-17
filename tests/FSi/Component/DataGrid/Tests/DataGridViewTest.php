@@ -37,6 +37,10 @@ class DataGridViewTest extends \PHPUnit_Framework_TestCase
                     ->method('getName')
                     ->will($self->returnValue('ColumnHeaderView'));
 
+                $headerView->expects($self->any())
+                    ->method('getType')
+                    ->will($self->returnValue('foo-type'));
+
                 return $headerView;
             }));
 
@@ -50,6 +54,10 @@ class DataGridViewTest extends \PHPUnit_Framework_TestCase
                 ->will($this->returnValue('foo'));
 
         $columnHeader->expects($this->any())
+            ->method('getType')
+            ->will($this->returnValue('foo-type'));
+
+        $columnHeader->expects($this->any())
             ->method('setDataGridView');
 
         $this->rowset = $this->getMock('FSi\Component\DataGrid\Data\DataRowsetInterface');
@@ -58,6 +66,7 @@ class DataGridViewTest extends \PHPUnit_Framework_TestCase
         $this->assertSame('test-grid-view', $this->gridView->getName());
 
         $this->assertTrue($this->gridView->hasColumn('foo'));
+        $this->assertTrue($this->gridView->hasColumnType('foo-type'));
         $this->assertSame(1, count($this->gridView->getColumns()));
         $this->assertSame($this->gridView->getColumn('foo')->getName(), 'ColumnHeaderView');
         $this->gridView->removeColumn('foo');
