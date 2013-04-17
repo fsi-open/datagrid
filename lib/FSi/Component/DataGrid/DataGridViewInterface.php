@@ -33,6 +33,14 @@ interface DataGridViewInterface extends \Iterator, \Countable, \ArrayAccess
     public function hasColumn($name);
 
     /**
+     * Checks if column with specific type was added to grid.
+     *
+     * @param string $type
+     * @return boolean
+     */
+    public function hasColumnType($type);
+
+    /**
      * Removes column from view.
      *
      * @param string $name
