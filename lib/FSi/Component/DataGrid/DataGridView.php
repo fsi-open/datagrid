@@ -174,6 +174,21 @@ class DataGridView implements DataGridViewInterface
     }
 
     /**
+     *  Return rowset indexes as array.
+     *
+     *  @return array
+     */
+    public function getIndexes()
+    {
+        $indexes = array();
+        foreach ($this->rowset as $index => $row) {
+            $indexes[] = $index;
+        }
+
+        return $indexes;
+    }
+
+    /**
      * Returns the number of elements in the collection.
      *
      * Implements Countable::count()
