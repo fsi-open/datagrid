@@ -48,6 +48,7 @@ class DataGridView implements DataGridViewInterface
      * @param string $name
      * @param array $columns
      * @param Data\DataRowsetInterface $rowset
+     * @throws \InvalidArgumentException
      */
     public function __construct($name, array $columns = array(), DataRowsetInterface $rowset)
     {
@@ -80,6 +81,20 @@ class DataGridView implements DataGridViewInterface
     public function hasColumn($name)
     {
         return array_key_exists($name, $this->columnsHeaders);
+    }
+
+    /**
+     * {@inhritdoc}
+     */
+    public function hasColumnType($type)
+    {
+        foreach ($this->columnsHeaders as $header) {
+            if ($header->getType() == $type) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     /**
