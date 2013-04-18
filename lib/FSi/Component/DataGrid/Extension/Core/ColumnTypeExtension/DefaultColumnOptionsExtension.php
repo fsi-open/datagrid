@@ -36,6 +36,7 @@ class DefaultColumnOptionsExtension extends ColumnAbstractTypeExtension
     public function getExtendedColumnTypes()
     {
         return array(
+            'batch',
             'text',
             'boolean',
             'datetime',
