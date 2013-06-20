@@ -7,6 +7,7 @@ Provided by ``FSi\Component\DataGrid\Extension\Doctrine\DoctrineExtension``
 * ``label`` - string, by default ``[$field->getName()]``
 * ``field_mapping`` - **required**, array, by default ``[$field->getName()]``
 * ``value_glue`` - string
+* ``empty_value`` - string|array|null, by default ``null``
 * ``glue_multiple`` - string, by default ``" "`` (space character)
 * ``relation_field`` - **required**, string
 * ``display_order`` - integer
@@ -25,6 +26,8 @@ Option is useful when you need to implode few fields from object in one column.
 **value_format** Useful when you need to format value before passing it to view. Value iformatteded with php ``sprintf`` function. There should be at least same count of ``mapping_fields`` option
 values as placeholders count in format string. This option can be used with ``value_glue`` option.  
 ``format`` option also accept ``\Clousure`` function that should return valid formated string. 
+
+**empty_value** Useful when value is empty and you want override this value.
 
 **display_order** Optional integer value specifying order of column in grid. Columns in grid are sorted according
   to ascending value of this option. Columns without this option will stay in their natural order (between columns with
@@ -59,6 +62,17 @@ $dataGrid->addColumn('category', 'entity', array(
 
 //Output: "1 Foo"
 
+//Input Data: Object (category => Object('id' => null, 'name' => null))
+
+$dataGrid->addColumn('category', 'entity', array(
+    'label' => 'News category',
+    'relation_field' => 'category',
+    'value_glue' => ' ',
+    'empty_value' => array('id' => 'no', 'name' => 'no'),
+    'field_mapping' => array('id', 'name')
+));
+
+//Output: "no no"
 
 //Input Data: Object (newses => array(0 => Object('id' => 1, 'name' => 'Foo'), 1 => Object('id' => 2, 'name' => 'Bar')))
 
