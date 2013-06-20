@@ -15,6 +15,7 @@ use FSi\Component\DataGrid\Column\ColumnTypeInterface;
 use FSi\Component\DataGrid\Column\CellViewInterface;
 use FSi\Component\DataGrid\Column\HeaderViewInterface;
 use FSi\Component\DataGrid\Column\ColumnAbstractTypeExtension;
+use FSi\Component\DataGrid\Exception\DataGridException;
 
 class ValueFormatColumnOptionsExtension extends ColumnAbstractTypeExtension
 {
@@ -25,6 +26,9 @@ class ValueFormatColumnOptionsExtension extends ColumnAbstractTypeExtension
     {
         $value = array();
         $values = $view->getValue();
+        if (($emptyValue = $column->getOption('empty_value')) !== null) { 
+            $values = $this->populateValues($values, $emptyValue); 
+        }
         $glue = $column->getOption('value_glue');
         $format = $column->getOption('value_format');
 
@@ -74,13 +78,58 @@ class ValueFormatColumnOptionsExtension extends ColumnAbstractTypeExtension
         $column->getOptionsResolver()->setDefaults(array(
             'glue_multiple' => ' ',
             'value_glue' => null,
-            'value_format' => null
+            'value_format' => null,
+            'empty_value' => null
         ));
 
         $column->getOptionsResolver()->setAllowedTypes(array(
             'glue_multiple' => array('string'),
             'value_glue' => array('string', 'null'),
             'value_format' => array('string', 'null'),
+            'empty_value' => array('array', 'string', 'null')
         ));
+    }
+    
+    /**
+     * @param $values
+     * @param $emptyValue
+     * @return array
+     */
+    private function populateValues($values, $emptyValue)
+    {
+        foreach ($values as &$val) {
+            foreach ($val as $fieldKey => &$fieldValue) {
+                if (!isset($fieldValue)) {
+                    $fieldValue = $this->populateValue($fieldKey, $fieldValue, $emptyValue);
+                }
+            }
+        }
+        
+        return $values;
+    }
+    
+    /**
+     * @param $key
+     * @param $value
+     * @param $emptyValue
+     * @return string
+     */
+    private function populateValue($key, $value, $emptyValue)
+    {
+        if (is_string($emptyValue)) {
+            $value = $emptyValue;
+        }
+        
+        if (is_array($emptyValue)) {
+            if (isset($emptyValue[$key])) {
+                $value = $emptyValue[$key];
+            } else {
+                throw new DataGridException(
+                    sprintf('Not found key "%s" in empty_value array', $key)
+                );
+            } 
+        }
+        
+        return $value;
     }
 }
