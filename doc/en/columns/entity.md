@@ -62,6 +62,18 @@ $dataGrid->addColumn('category', 'entity', array(
 
 //Output: "1 Foo"
 
+//Input Data: Object (category => Object('id' => null, 'name' => 'Foo'))
+
+$dataGrid->addColumn('category', 'entity', array(
+    'label' => 'News category',
+    'relation_field' => 'category',
+    'value_glue' => ' ',
+    'empty_value' => 'no',
+    'field_mapping' => array('id', 'name')
+));
+
+//Output: "no Foo"
+
 //Input Data: Object (category => Object('id' => null, 'name' => null))
 
 $dataGrid->addColumn('category', 'entity', array(

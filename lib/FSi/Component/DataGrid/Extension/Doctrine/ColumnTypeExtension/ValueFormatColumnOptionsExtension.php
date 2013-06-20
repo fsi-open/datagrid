@@ -27,7 +27,7 @@ class ValueFormatColumnOptionsExtension extends ColumnAbstractTypeExtension
         $value = array();
         $values = $view->getValue();
         if (($emptyValue = $column->getOption('empty_value')) !== null) { 
-            $this->populateValues($values, $emptyValue); 
+            $values = $this->populateValues($values, $emptyValue); 
         }
         $glue = $column->getOption('value_glue');
         $format = $column->getOption('value_format');
@@ -93,28 +93,34 @@ class ValueFormatColumnOptionsExtension extends ColumnAbstractTypeExtension
     /**
      * @param $values
      * @param $emptyValue
+     * @return array
      */
-    private function populateValues(&$values, $emptyValue)
+    private function populateValues($values, $emptyValue)
     {
         foreach ($values as &$val) {
             foreach ($val as $fieldKey => &$fieldValue) {
                 if (!isset($fieldValue)) {
-                    $this->populateValue($fieldKey, $fieldValue, $emptyValue);
+                    $fieldValue = $this->populateValue($fieldKey, $fieldValue, $emptyValue);
                 }
             }
         }
+        
+        return $values;
     }
     
     /**
      * @param $key
      * @param $value
      * @param $emptyValue
+     * @return string
      */
-    private function populateValue($key, &$value, $emptyValue)
+    private function populateValue($key, $value, $emptyValue)
     {
         if (is_string($emptyValue)) {
             $value = $emptyValue;
-        } elseif (is_array($emptyValue)) {
+        }
+        
+        if (is_array($emptyValue)) {
             if (isset($emptyValue[$key])) {
                 $value = $emptyValue[$key];
             } else {
@@ -123,5 +129,7 @@ class ValueFormatColumnOptionsExtension extends ColumnAbstractTypeExtension
                 );
             } 
         }
+        
+        return $value;
     }
 }
