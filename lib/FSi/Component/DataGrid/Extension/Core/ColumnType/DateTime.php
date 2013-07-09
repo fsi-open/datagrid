@@ -92,10 +92,6 @@ class DateTime extends ColumnAbstractType
 
         if (!isset($input)) $input = $this->guessInput($value);
 
-        if (!is_string($input)) {
-            throw new DataGridColumnException('"input" option must be a string.');
-        }
-
         $mappingFields = $this->getOption('field_mapping');
         $inputData = array();
         foreach ($mappingFields as $field) {
@@ -245,7 +241,7 @@ class DateTime extends ColumnAbstractType
             return 'timestamp';
         }
 
-        if (is_string($value)) {
+        if (is_string($value) || empty($value)) {
             return 'string';
         }
 

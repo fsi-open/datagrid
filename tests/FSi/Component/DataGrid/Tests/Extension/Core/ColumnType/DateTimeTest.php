@@ -50,6 +50,37 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase
         );
     }
 
+    public function testFilterValueWithNull()
+    {
+        $value = array(
+            'datetime' => null
+        );
+
+        $this->column->setOptions(array(
+        ));
+
+        $this->assertSame(
+            $this->column->filterValue($value),
+            array(
+                'datetime' => null
+            )
+        );
+
+        foreach (array('datetime', 'string', 'timestamp') as $input_type) {
+
+            $this->column->setOptions(array(
+                'input_type' => $input_type
+            ));
+
+            $this->assertSame(
+                $this->column->filterValue($value),
+                array(
+                    'datetime' => null
+                )
+            );
+        }
+    }
+
     public function testFormatOption()
     {
         $dateTimeObject = new \DateTime('2012-05-03 12:41:11');
