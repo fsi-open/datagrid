@@ -68,4 +68,91 @@ class NumberTest extends \PHPUnit_Framework_TestCase
             )
         );
     }
+
+    public function testNumberFormat()
+    {
+        $this->assertEquals(
+            array(
+                'number' => 12345678.1,
+            ),
+            $this->column->filterValue(array(
+                'number' => 12345678.1,
+            ))
+        );
+
+        $this->column->setOption('format', true);
+
+        $this->assertEquals(
+            array(
+                'number' => '12,345,678.10',
+            ),
+            $this->column->filterValue(array(
+                'number' => 12345678.1,
+            ))
+        );
+
+        $this->column->setOption('format_decimals', 0);
+
+        $this->assertEquals(
+            array(
+                'number' => '12,345,678',
+            ),
+            $this->column->filterValue(array(
+                'number' => 12345678.1,
+            ))
+        );
+
+        $this->column->setOption('format_decimals', 2);
+
+        $this->assertEquals(
+            array(
+                'number' => '12,345,678.10',
+            ),
+            $this->column->filterValue(array(
+                'number' => 12345678.1,
+            ))
+        );
+
+        $this->column->setOption('format_dec_point', ',');
+        $this->column->setOption('format_thousands_sep', ' ');
+
+        $this->assertEquals(
+            array(
+                'number' => '12 345 678,10',
+            ),
+            $this->column->filterValue(array(
+                'number' => 12345678.1,
+            ))
+        );
+
+        $this->assertEquals(
+            array(
+                'number' => '1 000,00',
+            ),
+            $this->column->filterValue(array(
+                'number' => 1000,
+            ))
+        );
+
+        $this->column->setOption('format_decimals', 0);
+
+        $this->assertEquals(
+            array(
+                'number' => '1 000',
+            ),
+            $this->column->filterValue(array(
+                'number' => 1000,
+            ))
+        );
+
+        $this->column->setOption('format', false);
+        $this->assertEquals(
+            array(
+                'number' => '1000',
+            ),
+            $this->column->filterValue(array(
+                'number' => 1000,
+            ))
+        );
+    }
 }
