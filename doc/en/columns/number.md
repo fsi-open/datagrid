@@ -14,7 +14,11 @@ Provided by ``DataGrid\Extension\Core\CoreExtension``
 * ``empty_value`` - string|array, by default ``""`` (empty string)
 * ``form_otpions`` - array, by default ``array()``
 * ``form_type`` - array, by default ``array()``
-* 
+* ``format`` - boolean, by default ``false``
+* ``format_decimals`` - integer, by default ``0``
+* ``format_dec_point`` - string, by default ``.``
+* ``format_thousands_sep`` - string, by default ``,``
+
 ## Options Description ##
 
 **round_mode** One of ``Number::ROUND_HALF_UP``, ``Number::ROUND_HALF_DOWN``, ``Number::ROUND_HALF_EVEN`` or ``Number::ROUND_HALF_ODD``.
@@ -44,6 +48,13 @@ options passed to form.
 
 **form_type** Array of types for forms, where key is name of field (one of field_mapping) and value is form type.
 
+**format** If set to true, number will be formatted using options ``format_decimals``, ``format_dec_point`` and ``format_thousands_sep`` according to http://php.net/manual/en/function.number-format.php By default ``format`` option is disabled, so value will not be formatted in case it is phone number or some id number.
+
+**format_decimals** By default ``2``. See **format** option for description.
+
+**format_dec_point** By default ``.``. See **format** option for description.
+
+**format_thousands_sep** By default ``,``. See **format** option for description.
 
 ## Example Usage ##
 
