@@ -1,4 +1,5 @@
 <?php
+
 /**
  * (c) Fabryka Stron Internetowych sp. z o.o <info@fsi.pl>
  *
@@ -87,8 +88,7 @@ class TreeTypeTest extends \PHPUnit_Framework_TestCase
         $managerRegistry = $this->getMock("Doctrine\\Common\\Persistence\\ManagerRegistry");
         $managerRegistry->expects($this->any())
             ->method('getManagerForClass')
-            ->will($this->returnCallback(function() use ($self){
-
+            ->will($this->returnCallback(function() use ($self) {
                 $manager = $self->getMock("Doctrine\\Common\\Persistence\\ObjectManager");
                 $manager->expects($self->any())
                     ->method('getMetadataFactory')
@@ -112,7 +112,32 @@ class TreeTypeTest extends \PHPUnit_Framework_TestCase
                                 return $metadata;
                             }));
 
+                        $metadataFactory->expects($self->any())
+                            ->method('getClassMetadata')
+                            ->will($self->returnCallback(function($class) {
+                                return $metadataFactory->getMetadataFor($class);
+                            }));
+
                         return $metadataFactory;
+                    }));
+
+                $manager->expects($self->any())
+                    ->method('getClassMetadata')
+                    ->will($self->returnCallback(function($class) use ($self) {
+                        switch ($class) {
+                            case "FSi\\Component\\DataGrid\\Tests\\Fixtures\\EntityTree" :
+                                $metadata = $self->getMock('Doctrine\\Common\\Persistence\\Mapping\\ClassMetadata');
+                                $metadata->expects($self->any())
+                                    ->method('getIdentifierFieldNames')
+                                    ->will($self->returnValue(array(
+                                        'id'
+                                    )));
+                                $metadata->isMappedSuperclass = false;
+                                $metadata->rootEntityName = $class;
+                                break;
+                        }
+
+                        return $metadata;
                     }));
 
                 return $manager;

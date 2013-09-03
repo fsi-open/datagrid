@@ -34,13 +34,22 @@ class Number extends ColumnAbstractType
         $precision = (int)$this->getOption('precision');
         $roundmode = $this->getOption('round_mode');
 
-        if (isset($roundmode)) {
-            foreach ($value as &$val) {
-                if (empty($val)) {
-                    continue;
-                }
+        $format = $this->getOption('format');
+        $format_decimals = $this->getOption('format_decimals');
+        $format_dec_point = $this->getOption('format_dec_point');
+        $format_thousands_sep = $this->getOption('format_thousands_sep');
 
+        foreach ($value as &$val) {
+            if (empty($val)) {
+                continue;
+            }
+
+            if (isset($roundmode)) {
                 $val = round($val, $precision, $roundmode);
+            }
+
+            if ($format) {
+                $val = number_format($val, $format_decimals, $format_dec_point, $format_thousands_sep);
             }
         }
 
@@ -52,13 +61,21 @@ class Number extends ColumnAbstractType
      */
     public function initOptions()
     {
-        $this->getOptionsResolver()->setDefaults(array(
+        $this->options = array(
             'round_mode' => null,
-            'precision' => 2
-        ));
+            'precision' => 2,
+            'format' => false,
+            'format_decimals' => 2,
+            'format_dec_point' => '.',
+            'format_thousands_sep' => ',',
+        );
+
+        $this->getOptionsResolver()->setDefaults($this->options);
 
         $this->getOptionsResolver()->setAllowedTypes(array(
             'precision' => 'integer',
+            'format' => 'bool',
+            'format_decimals' => 'integer',
         ));
 
         $this->getOptionsResolver()->setAllowedValues(array(
