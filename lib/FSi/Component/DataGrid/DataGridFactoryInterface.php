@@ -20,7 +20,7 @@ interface DataGridFactoryInterface
     public function hasColumnType($type);
 
     /**
-     * @throws UnexpectedTypeException if column is not registered in factory.
+     * @throws FSi\Component\DataGrid\Exception\UnexpectedTypeException if column is not registered in factory.
      * @param string $type
      * @return \FSi\Component\DataGrid\Column\ColumnTypeInterface
      */
@@ -37,18 +37,18 @@ interface DataGridFactoryInterface
      * Create data grid with unique name.
      *
      * @param string $name
-     * @throws DataGridColumnException
+     * @throws FSi\Component\DataGrid\Exception\DataGridColumnException
      */
     public function createDataGrid($name = 'grid');
 
     /**
-     * @return DataMapper\DataMapperInterface
+     * @return FSi\Component\DataGrid\DataMapper\DataMapperInterface
      */
     public function getDataMapper();
 
     /**
      * @deprecated This method is deprecated and it will removed in version 1.2
-     * @return IndexingStrategyInterface
+     * @return FSi\Component\DataGrid\Data\IndexingStrategyInterface
      */
     public function getIndexingStrategy();
 }

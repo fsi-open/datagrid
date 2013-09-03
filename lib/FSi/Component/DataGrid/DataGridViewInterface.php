@@ -67,11 +67,15 @@ interface DataGridViewInterface extends \Iterator, \Countable, \ArrayAccess
 
     /**
      * Add new column to view.
+     *
+     * @param FSi\Component\DataGrid\Column\HeaderViewInterface $column
      */
     public function addColumn(HeaderViewInterface $column);
 
     /**
      * Set new column list set to view.
+     *
+     * @param array $columns
      */
     public function setColumns(array $columns);
 }

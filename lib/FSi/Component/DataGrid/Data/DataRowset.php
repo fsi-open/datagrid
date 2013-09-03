@@ -17,13 +17,13 @@ class DataRowset implements DataRowsetInterface
     protected $data = array();
 
     /**
-     * @param array|\Traversable $data
-     * @throws \InvalidArgumentException
+     * @param array|Traversable $data
+     * @throws InvalidArgumentException
      */
     public function __construct($data)
     {
         if (!is_array($data)) {
-            if (!($data instanceof \Traversable)) {
+            if (!$data instanceof \Traversable) {
                 throw new \InvalidArgumentException('array or Iterator is expected as data.');
             }
         }
@@ -37,7 +37,7 @@ class DataRowset implements DataRowsetInterface
      * Return rowsets count.
      * Required by interface Countable.
      *
-     * @return DataGridView
+     * @return int
      */
     public function count()
     {
@@ -49,7 +49,7 @@ class DataRowset implements DataRowsetInterface
      * Similar to the current() function for arrays in PHP
      * Required by interface Iterator.
      *
-     * @return DataGridRowView current element from the rowset
+     * @return FSi\Component\DataGrid\DataGridRowViewInterface current element from the rowset
      */
     public function current()
     {
@@ -73,7 +73,7 @@ class DataRowset implements DataRowsetInterface
      * Similar to the next() function for arrays in PHP.
      * Required by interface Iterator.
      *
-     * @return void
+     * @return FSi\Component\DataGrid\DataGridRowViewInterface|boolean
      */
     public function next()
     {
@@ -84,8 +84,6 @@ class DataRowset implements DataRowsetInterface
      * Rewind the Iterator to the first element.
      * Similar to the reset() function for arrays in PHP.
      * Required by interface Iterator.
-     *
-     * @return DataGridView
      */
     public function rewind()
     {
@@ -105,8 +103,8 @@ class DataRowset implements DataRowsetInterface
     }
 
     /**
-     * Check if an offset exists
-     * Required by the ArrayAccess implementation
+     * Check if an offset exists.
+     * Required by the ArrayAccess interface.
      *
      * @param string $offset
      * @return boolean
@@ -117,12 +115,12 @@ class DataRowset implements DataRowsetInterface
     }
 
     /**
-     * Get the row for the given offset
-     * Required by the ArrayAccess implementation
+     * Get the row for the given offset.
+     * Required by the ArrayAccess implementation.
      *
      * @param int $offset
-     * @throws \InvalidArgumentException
-     * @return DataGridRowView
+     * @throws InvalidArgumentException
+     * @return FSi\Component\DataGrid\DataGridRowViewInterface
      */
     public function offsetGet($offset)
     {
@@ -134,8 +132,8 @@ class DataRowset implements DataRowsetInterface
     }
 
     /**
-     * Does nothing
-     * Required by the ArrayAccess implementation
+     * Does nothing.
+     * Required by the ArrayAccess implementation.
      *
      * @param string $offset
      * @param mixed $value
@@ -145,8 +143,8 @@ class DataRowset implements DataRowsetInterface
     }
 
     /**
-     * Does nothing
-     * Required by the ArrayAccess implementation
+     * Does nothing.
+     * Required by the ArrayAccess implementation.
      *
      * @param string $offset
      */

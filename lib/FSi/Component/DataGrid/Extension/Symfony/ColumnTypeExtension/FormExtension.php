@@ -24,16 +24,20 @@ class FormExtension extends ColumnAbstractTypeExtension
     protected $formName;
 
     /**
-     * @var FormFactory
+     * @var Symfony\Component\Form\FormFactoryInterface
      */
     protected $formFactory;
 
     /**
      * Form Objects instances created by method CreateForm.
+     *
      * @var array
      */
     protected $forms = array();
 
+    /**
+     * @param Symfony\Component\Form\FormFactoryInterface $formFactory
+     */
     public function __construct(FormFactoryInterface $formFactory)
     {
         $this->formFactory = $formFactory;
@@ -129,20 +133,20 @@ class FormExtension extends ColumnAbstractTypeExtension
         $column->getOptionsResolver()->setDefaults(array(
             'editable' => false,
             'form_options' => array(),
-            'form_type' => array()
+            'form_type' => array(),
         ));
 
         $column->getOptionsResolver()->setAllowedTypes(array(
             'editable' => 'bool',
             'form_options' => 'array',
-            'form_type' => 'array'
+            'form_type' => 'array',
         ));
     }
 
     /**
      * Create Form Objects for column and rowset index.
      *
-     * @param ColumnTypeInterface $column
+     * @param FSi\Component\DataGrid\Column\ColumnTypeInterface $column
      * @param mixed $index
      * @param mixed $data
      */
@@ -158,24 +162,24 @@ class FormExtension extends ColumnAbstractTypeExtension
         $fields = array();
         switch ($column->getId()) {
             case 'entity':
-                    $field = array(
-                        'name' => $column->getOption('relation_field'),
-                        'type' => 'entity',
-                        'options' => array()
-                    );
+                $field = array(
+                    'name' => $column->getOption('relation_field'),
+                    'type' => 'entity',
+                    'options' => array(),
+                );
 
-                    $fields[$column->getOption('relation_field')] = $field;
+                $fields[$column->getOption('relation_field')] = $field;
                 break;
+
             default:
                 foreach ($column->getOption('field_mapping') as $fieldName) {
                     $field = array(
                         'name' => $fieldName,
                         'type' => null,
-                        'options' => array()
+                        'options' => array(),
                     );
                     $fields[$fieldName] = $field;
                 }
-            break;
         }
 
         // Pass fields form options from column into $fields array.
@@ -199,7 +203,7 @@ class FormExtension extends ColumnAbstractTypeExtension
         }
 
         // Build data array, the data array holds data that should be passed into
-        // form elements
+        // form elements.
         $dataArray = array();
         switch ($column->getId()) {
             case 'datetime':
@@ -220,19 +224,20 @@ class FormExtension extends ColumnAbstractTypeExtension
                     $dataArray[$field['name']] = $value;
                 }
                 break;
+
             case 'entity':
                     $value = $column->getDataMapper()->getData($column->getOption('relation_field'), $data);
                     $dataArray[$column->getOption('relation_field')] = $value;
                 break;
+
             default:
                 foreach ($fields as &$field) {
                     $value = $column->getDataMapper()->getData($field['name'], $data);
                     $dataArray[$field['name']] = $value;
                 }
-                break;
         }
 
-        // Create form builder
+        // Create form builder.
         try {
             $formBuilder = $this->formFactory->createNamedBuilder(
                 $this->formName,
@@ -240,7 +245,7 @@ class FormExtension extends ColumnAbstractTypeExtension
                 array($index => $dataArray),
                 array(
                     'type' => new RowType($fields),
-                    'csrf_protection' => false
+                    'csrf_protection' => false,
                 )
             );
         //Exception throwed when csrf_protection is not loaded.

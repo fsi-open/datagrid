@@ -23,7 +23,7 @@ class DataGridRowView implements DataGridRowViewInterface
     protected $cellViews = array();
 
     /**
-     * The source object for which view is created
+     * The source object for which view is created.
      *
      * @var mixed
      */
@@ -35,6 +35,7 @@ class DataGridRowView implements DataGridRowViewInterface
     protected $index;
 
     /**
+     * @param FSi\Component\DataGrid\DataGridViewInterface $dataGridView
      * @param array $columns
      * @param mixed $source
      * @param int $index
@@ -45,7 +46,7 @@ class DataGridRowView implements DataGridRowViewInterface
         $this->source = $source;
         $this->index = $index;
         foreach ($columns as $name => $column) {
-            if (!($column instanceof ColumnTypeInterface)) {
+            if (!$column instanceof ColumnTypeInterface) {
                 throw new UnexpectedTypeException('Column object must implement FSi\Component\DataGrid\Column\ColumnTypeInterface');
             }
 
@@ -57,7 +58,7 @@ class DataGridRowView implements DataGridRowViewInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function getIndex()
     {
@@ -65,7 +66,7 @@ class DataGridRowView implements DataGridRowViewInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function getSource()
     {
@@ -74,7 +75,7 @@ class DataGridRowView implements DataGridRowViewInterface
 
     /**
      * Returns the number of cells in the row.
-     * Implements Countable::count()
+     * Implementation of Countable::count()
      *
      * @return int
      */
@@ -85,10 +86,10 @@ class DataGridRowView implements DataGridRowViewInterface
 
     /**
      * Return the current cell view.
-     * Similar to the current() function for arrays in PHP
+     * Similar to the current() function for arrays in PHP.
      * Required by interface Iterator.
      *
-     * @return DataGridCellView current element from the rowset
+     * @return FSi\Component\DataGrid\Column\CellViewInterface current element from the rowset
      */
     public function current()
     {
@@ -112,7 +113,7 @@ class DataGridRowView implements DataGridRowViewInterface
      * Similar to the next() function for arrays in PHP.
      * Required by interface Iterator.
      *
-     * @return void
+     * @return string
      */
     public function next()
     {
@@ -123,8 +124,6 @@ class DataGridRowView implements DataGridRowViewInterface
      * Rewind the Iterator to the first element.
      * Similar to the reset() function for arrays in PHP.
      * Required by interface Iterator.
-     *
-     * @return DataGridRowView
      */
     public function rewind()
     {
@@ -133,7 +132,9 @@ class DataGridRowView implements DataGridRowViewInterface
 
     /**
      * Checks if current position is valid
-     * Required by the SeekableIterator implementation
+     * Required by the SeekableIterator implementation.
+     *
+     * @return bool
      */
     public function valid()
     {
@@ -141,8 +142,10 @@ class DataGridRowView implements DataGridRowViewInterface
     }
 
     /**
-     * Required by the ArrayAccess implementation
+     * Required by the ArrayAccess implementation.
+     *
      * @param string $offset
+     * @return bool
      */
     public function offsetExists($offset)
     {
@@ -151,8 +154,9 @@ class DataGridRowView implements DataGridRowViewInterface
 
     /**
      * Required by the ArrayAccess implementation
+     *
      * @param string $offset
-     * @return mixed false|ColumnTypeInterface
+     * @return mixed false|FSi\Component\DataGrid\Column\ColumnTypeInterface
      */
     public function offsetGet($offset)
     {
@@ -164,8 +168,8 @@ class DataGridRowView implements DataGridRowViewInterface
     }
 
     /**
-     * Does nothing
-     * Required by the ArrayAccess implementation
+     * Does nothing.
+     * Required by the ArrayAccess implementation.
      *
      * @param string $offset
      * @param mixed $value
@@ -175,8 +179,8 @@ class DataGridRowView implements DataGridRowViewInterface
     }
 
     /**
-     * Does nothing
-     * Required by the ArrayAccess implementation
+     * Does nothing.
+     * Required by the ArrayAccess implementation.
      *
      * @param string $offset
      */

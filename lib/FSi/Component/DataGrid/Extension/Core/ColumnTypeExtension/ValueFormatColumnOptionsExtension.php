@@ -109,8 +109,8 @@ class ValueFormatColumnOptionsExtension extends ColumnAbstractTypeExtension
     }
 
     /**
-     * @param ColumnTypeInterface $column
-     * @throws \InvalidArgumentException
+     * @param FSi\Component\DataGrid\Column\ColumnTypeInterface $column
+     * @throws InvalidArgumentException
      */
     private function validateEmptyValueOption(ColumnTypeInterface $column)
     {

@@ -35,14 +35,14 @@ class CellView implements CellViewInterface
     protected $attributes = array();
 
     /**
-     * Cell name
+     * Cell name.
      *
      * @var string
      */
     protected $name;
 
     /**
-     * Cell type
+     * Cell type.
      *
      * @var string
      */
@@ -58,7 +58,7 @@ class CellView implements CellViewInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function getName()
     {
@@ -66,7 +66,7 @@ class CellView implements CellViewInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function getType()
     {
@@ -74,7 +74,7 @@ class CellView implements CellViewInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function setValue($value)
     {
@@ -82,7 +82,7 @@ class CellView implements CellViewInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function getValue()
     {
@@ -90,28 +90,27 @@ class CellView implements CellViewInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function setAttribute($name, $value)
     {
         $this->attributes[$name] = $value;
+
         return $this;
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function getAttribute($name)
     {
         if (isset($this->attributes[$name])) {
             return $this->attributes[$name];
         }
-
-        return null;
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function getAttributes()
     {
@@ -119,7 +118,7 @@ class CellView implements CellViewInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function hasAttribute($name)
     {
@@ -127,16 +126,17 @@ class CellView implements CellViewInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function setSource($source)
     {
         $this->source = $source;
+
         return $this;
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function getSource()
     {
@@ -144,7 +144,7 @@ class CellView implements CellViewInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function setDataGridView(DataGridViewInterface $dataGrid)
     {
@@ -154,7 +154,7 @@ class CellView implements CellViewInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function getDataGridView()
     {

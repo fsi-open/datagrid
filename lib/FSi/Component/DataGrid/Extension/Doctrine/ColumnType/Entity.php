@@ -27,7 +27,6 @@ class Entity extends ColumnAbstractType
      */
     public function getValue($object)
     {
-        $value = null;
         $value = $this->getDataMapper()->getData($this->getOption('relation_field'), $object);
 
         return $value;

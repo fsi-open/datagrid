@@ -15,19 +15,18 @@ use FSi\Component\DataGrid\Column\CellViewInterface;
 use FSi\Component\DataGrid\Column\ColumnAbstractType;
 use FSi\Component\DataGrid\Exception\DataGridColumnException;
 use FSi\Component\DataIndexer\DoctrineDataIndexer;
-use Gedmo\Tree\Strategy;
 use Gedmo\Tree\TreeListener;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 
 class Tree extends ColumnAbstractType
 {
     /**
-     * @var ManagerRegistry
+     * @var Doctrine\Common\Persistence\ManagerRegistry
      */
     protected $registry;
 
     /**
-     * @var Strategy
+     * @var Gedmo\Tree\Strategy
      */
     protected $strategy;
 
@@ -47,16 +46,14 @@ class Tree extends ColumnAbstractType
     protected $classStrategies;
 
     /**
-     * @param ManagerRegistry $registry
+     * @param Doctrine\Common\Persistence\ManagerRegistry $registry
      */
     public function __construct(ManagerRegistry $registry)
     {
         $this->registry = $registry;
         $this->viewAttributes = array();
         $this->classStrategies = array();
-        $this->allowedStrategies = array(
-            'nested',
-        );
+        $this->allowedStrategies = array('nested');
     }
 
     /**
@@ -85,7 +82,7 @@ class Tree extends ColumnAbstractType
             throw new DataGridColumnException('Gedmo TreeListener was not found in your entity manager.');
         }
 
-        // Get Tree strategy
+        // Get Tree strategy.
         $this->strategy = $this->getClassStrategy($em, $treeListener, get_class($object));
         if (!isset($this->strategy )) {
             throw new DataGridColumnException(
@@ -165,8 +162,8 @@ class Tree extends ColumnAbstractType
     }
 
     /**
-     * @param ObjectManager $om
-     * @param TreeListener $listener
+     * @param Doctrine\Common\Persistence\ObjectManager $om
+     * @param Gedmo\Tree\TreeListener $listener
      * @param string $class
      * @return string|null
      */
@@ -195,7 +192,7 @@ class Tree extends ColumnAbstractType
 
     /**
      * @param ObjectManager $om
-     * @return TreeListener|null
+     * @return Gedmo\Tree\TreeListener|null
      */
     private function getTreeListener(ObjectManager $om)
     {

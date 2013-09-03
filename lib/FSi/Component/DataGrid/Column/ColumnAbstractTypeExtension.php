@@ -18,42 +18,42 @@ use FSi\Component\DataGrid\Column\ColumnTypeExtensionInterface;
 abstract class ColumnAbstractTypeExtension implements ColumnTypeExtensionInterface
 {
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function setDataGrid(DataGridInterface $dataGrid)
     {
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function bindData(ColumnTypeInterface $column, $data, $object, $index)
     {
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function buildCellView(ColumnTypeInterface $column, CellViewInterface $view)
     {
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function buildHeaderView(ColumnTypeInterface $column, HeaderViewInterface $view)
     {
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function initOptions(ColumnTypeInterface $column)
     {
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function filterValue(ColumnTypeInterface $column, $value)
     {

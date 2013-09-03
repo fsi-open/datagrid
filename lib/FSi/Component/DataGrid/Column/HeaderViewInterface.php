@@ -14,7 +14,7 @@ use FSi\Component\DataGrid\DataGridViewInterface;
 interface HeaderViewInterface
 {
     /**
-     * Set view attribute
+     * Set view attribute.
      *
      * @param string $name
      * @param mixed $value
@@ -22,7 +22,7 @@ interface HeaderViewInterface
     public function setAttribute($name, $value);
 
     /**
-     * Get view attribute
+     * Get view attribute.
      *
      * @param string $name
      * @return mixed
@@ -73,17 +73,17 @@ interface HeaderViewInterface
     public function getType();
 
     /**
-     * Set DataGridView
+     * Set DataGridView.
      *
-     * @param DataGridViewInterface $dataGrid
+     * @param FSi\Component\DataGrid\DataGridViewInterface $dataGrid
      * @return mixed
      */
     public function setDataGridView(DataGridViewInterface $dataGrid);
 
     /**
-     * Get DataGridView
+     * Get DataGridView.
      *
-     * @return mixed
+     * @return FSi\Component\DataGrid\DataGridViewInterface
      */
     public function getDataGridView();
 }

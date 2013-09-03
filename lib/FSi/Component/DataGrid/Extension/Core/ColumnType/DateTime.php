@@ -262,7 +262,7 @@ class DateTime extends ColumnAbstractType
 
         $dateTime = \DateTime::CreateFromFormat($mappingFormat, $value);
 
-        if (!($dateTime instanceof \DateTime)) {
+        if (!$dateTime instanceof \DateTime) {
             throw new DataGridColumnException(
                 sprintf('value "%s" does not fit into format "%s" ', $value, $mappingFormat)
             );
@@ -283,7 +283,7 @@ class DateTime extends ColumnAbstractType
         $dateTime = new \DateTime();
         $dateTime->setTimestamp($value);
 
-        if (!($dateTime instanceof \DateTime)) {
+        if (!$dateTime instanceof \DateTime) {
             throw new DataGridColumnException(
                 sprintf('value "%s" is not a valid timestamp', $value)
             );

@@ -27,7 +27,7 @@ class EntityIndexingStrategy implements IndexingStrategyInterface
     protected $registry;
 
     /**
-     * @param Doctrine\Common\Persistence\ObjectManager $em
+     * @param Doctrine\Common\Persistence\ManagerRegistry $registry
      */
     public function __construct(ManagerRegistry $registry)
     {
@@ -40,7 +40,7 @@ class EntityIndexingStrategy implements IndexingStrategyInterface
      */
     public function getIndex($object, DataMapperInterface $dataMapper)
     {
-        if (!is_object($object)){
+        if (!is_object($object)) {
             return null;
         }
 

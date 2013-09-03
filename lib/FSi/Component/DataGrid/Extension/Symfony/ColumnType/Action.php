@@ -31,12 +31,12 @@ class Action extends ColumnAbstractType
     protected $container;
 
     /**
-     * @var OptionsResolver
+     * @var Symfony\Component\OptionsResolver\OptionsResolver
      */
     protected $actionOptionsResolver;
 
     /**
-     * @param ContainerInterface $container
+     * @param Symfony\Component\DependencyInjection\ContainerInterface $container
      */
     public function __construct(ContainerInterface $container)
     {

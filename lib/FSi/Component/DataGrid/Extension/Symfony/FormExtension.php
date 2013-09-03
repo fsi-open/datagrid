@@ -10,19 +10,19 @@
 namespace FSi\Component\DataGrid\Extension\Symfony;
 
 use FSi\Component\DataGrid\DataGridAbstractExtension;
-use FSi\Component\DataGrid\Extension\Symfony\ColumnTypeExtension;
 use Symfony\Component\Form\FormFactoryInterface;
 
 class FormExtension extends DataGridAbstractExtension
 {
     /**
      * FormFactory used by extension to build forms.
-     * @var FormFactory
+     *
+     * @var Symfony\Component\Form\FormFactoryInterface
      */
     protected $formFactory;
 
     /**
-     * @param FormFactory $formFactory
+     * @param Symfony\Component\Form\FormFactoryInterface $formFactory
      */
     public function __construct(FormFactoryInterface $formFactory)
     {

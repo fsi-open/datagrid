@@ -15,6 +15,7 @@ interface DataGridInterface
 {
     /**
      * Get DataGrid name. Name must be unique inside of factory.
+	 *
      * @return string
      */
     public function getName();
@@ -22,15 +23,15 @@ interface DataGridInterface
     /**
      * Return data mapper.
      *
-     * @return DataMapper
+     * @return FSi\Component\DataGrid\DataMapper\DataMapperInterface
      */
     public function getDataMapper();
 
     /**
-     * Return Indexing Strategy
+     * Return Indexing Strategy.
      *
      * @deprecated This method is deprecated and it will removed in version 1.2
-     * @return IndexingStrategy
+     * @return FSi\Component\DataGrid\Data\IndexingStrategyInterface
      */
     public function getIndexingStrategy();
 
@@ -38,10 +39,10 @@ interface DataGridInterface
      * Add new column to DataGrid. Remember that column type must be registered in
      * DataGridFactory that was used to create current DataGrid.
      *
-     * @param string|ColumnTypeInterface $name
+     * @param string|FSi\Component\DataGrid\Column\ColumnTypeInterface $name
      * @param string $type
      * @param array $options
-     * @return DataGridInterface
+     * @return FSi\Component\DataGrid\DataGridInterface
      */
     public function addColumn($name, $type = 'text', $options = array());
 
@@ -62,7 +63,7 @@ interface DataGridInterface
      * Return column with $name
      *
      * @throws InvalidArgumentException when column with $name not exists in grid.
-     * @return ColumnTypeInterface
+     * @return FSi\Component\DataGrid\Column\ColumnTypeInterface
      */
     public function getColumn($name);
 
@@ -92,13 +93,13 @@ interface DataGridInterface
     /**
      * Create DataGridView object that should be used to render data grid.
      *
-     * @return DataGridView
+     * @return FSi\Component\DataGrid\DataGridView
      */
     public function createView();
 
     /**
      * Set data collection. This method is different from bind data and
-     * should not be used to update date.
+     * should not be used to update data.
      * Data should be passed as array or object that implements
      * \ArrayAccess, \Countable and \IteratorAggregate interfaces.
      *
@@ -113,7 +114,15 @@ interface DataGridInterface
      */
     public function bindData($data);
 
+    /**
+     * @param string $eventName
+     * @param object|array $listener
+     * @param int $priority
+     */
     public function addEventListener($eventName, $listener, $priority = 0);
 
+    /**
+     * @param Symfony\Component\EventDispatcher\EventSubscriberInterface $subscriber
+     */
     public function addEventSubscriber(EventSubscriberInterface $subscriber);
 }

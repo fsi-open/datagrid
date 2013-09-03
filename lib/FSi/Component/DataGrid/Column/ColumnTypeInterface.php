@@ -33,25 +33,26 @@ interface ColumnTypeInterface
     public function getName();
 
     /**
-     * @param DataGridInterface $dataGrid
+     * @param FSi\Component\DataGrid\DataGridInterface $dataGrid
+     * @return FSi\Component\DataGrid\Column\ColumnTypeInterface
      */
     public function setDataGrid(DataGridInterface $dataGrid);
 
     /**
-     * @return DataGridInterface $dataGrid
+     * @return FSi\Component\DataGrid\DataGridInterface $dataGrid
      */
     public function getDataGrid();
 
     /**
-     * @param DataMapperInterface $dataMapper
-     * @return ColumnTypeInterface
+     * @param FSi\Component\DataGrid\DataMapper\DataMapperInterface $dataMapper
+     * @return FSi\Component\DataGrid\Column\ColumnTypeInterface
      */
     public function setDataMapper(DataMapperInterface $dataMapper);
 
     /**
-     * Return DataMapper
+     * Return DataMapper.
      *
-     * @return DataMapperInterface
+     * @return FSi\Component\DataGrid\DataMapper\DataMapperInterface
      */
     public function getDataMapper();
 
@@ -74,26 +75,25 @@ interface ColumnTypeInterface
      *
      * @param mixed $object
      * @param string $index
-     * @return CellView
-     * @throws UnexpectedTypeException
+     * @return FSi\Component\DataGrid\Column\CellViewInterface
+     * @throws FSi\Component\DataGrid\Exception\UnexpectedTypeException
      */
     public function createCellView($object, $index);
 
     /**
-     * @param CellViewInterface $view
+     * @param FSi\Component\DataGrid\Column\CellViewInterface $view
      */
     public function buildCellView(CellViewInterface $view);
 
     /**
      * Create HeaderView object for column.
      *
-     * @param mixed $name
+     * @return FSi\Component\DataGrid\Column\HeaderViewInterface
      */
     public function createHeaderView();
 
     /**
-     * @param HeaderViewInterface $view
-     * @return mixed
+     * @param FSi\Component\DataGrid\Column\HeaderViewInterface $view
      */
     public function buildHeaderView(HeaderViewInterface $view);
 
@@ -119,12 +119,13 @@ interface ColumnTypeInterface
     /**
      * @param string $name
      * @param mixed $value
-     * @return mixed
+     * @return FSi\Component\DataGrid\Column\ColumnTypeInterface
      */
     public function setOption($name, $value);
 
     /**
      * @param array $options
+     * @return FSi\Component\DataGrid\Column\ColumnTypeInterface
      */
     public function setOptions($options);
 
@@ -135,7 +136,7 @@ interface ColumnTypeInterface
     public function getOption($name);
 
     /**
-     * @param $name
+     * @param string $name
      * @return boolean
      */
     public function hasOption($name);
@@ -148,7 +149,7 @@ interface ColumnTypeInterface
 
     /**
      * @param ColumnTypeExtensionInterface $extension
-     * @return ColumnTypeInterface
+     * @return FSi\Component\DataGrid\Column\ColumnTypeExtensionInterface
      */
     public function addExtension(ColumnTypeExtensionInterface $extension);
 

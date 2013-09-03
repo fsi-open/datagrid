@@ -32,7 +32,7 @@ class Batch extends ColumnAbstractType
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function getValue($object)
     {
@@ -40,7 +40,7 @@ class Batch extends ColumnAbstractType
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function buildCellView(CellViewInterface $view)
     {
@@ -48,7 +48,7 @@ class Batch extends ColumnAbstractType
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function buildHeaderView(HeaderViewInterface $view)
     {

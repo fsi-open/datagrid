@@ -34,7 +34,7 @@ class HeaderView implements HeaderViewInterface
     protected $attributes = array();
 
     /**
-     * @var DataGridViewInterface
+     * @var FSi\Component\DataGrid\DataGridViewInterface
      */
     protected $datagrid;
 
@@ -48,28 +48,27 @@ class HeaderView implements HeaderViewInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function setAttribute($name, $value)
     {
         $this->attributes[$name] = $value;
+
         return $this;
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function getAttribute($name)
     {
         if (isset($this->attributes[$name])) {
             return $this->attributes[$name];
         }
-
-        return null;
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function hasAttribute($name)
     {
@@ -77,7 +76,7 @@ class HeaderView implements HeaderViewInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function getAttributes()
     {
@@ -85,7 +84,7 @@ class HeaderView implements HeaderViewInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function setLabel($label)
     {
@@ -93,7 +92,7 @@ class HeaderView implements HeaderViewInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function getLabel()
     {
@@ -101,7 +100,7 @@ class HeaderView implements HeaderViewInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function getName()
     {
@@ -117,7 +116,7 @@ class HeaderView implements HeaderViewInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function setDataGridView(DataGridViewInterface $dataGrid)
     {
@@ -127,7 +126,7 @@ class HeaderView implements HeaderViewInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function getDataGridView()
     {

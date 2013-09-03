@@ -101,6 +101,5 @@ class Money extends ColumnAbstractType
             'currency' => array('null', 'string'),
             'currency_field' => array('null', 'string'),
         ));
-
     }
 }

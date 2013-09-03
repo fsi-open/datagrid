@@ -55,7 +55,7 @@ class ActionColumnExtension extends ColumnAbstractTypeExtension
     );
 
     /**
-     * @param Router $router
+     * @param Symfony\Component\Routing\RouterInterface $router
      */
     public function __construct(RouterInterface $router)
     {
@@ -123,6 +123,9 @@ class ActionColumnExtension extends ColumnAbstractTypeExtension
         return array('actions');
     }
 
+    /**
+     * @param FSi\Component\DataGrid\Column\ColumnTypeInterface $column
+     */
     private function validateOptions(ColumnTypeInterface $column)
     {
         $actions = $column->getOption('actions');

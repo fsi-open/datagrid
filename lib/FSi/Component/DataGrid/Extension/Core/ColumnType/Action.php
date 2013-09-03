@@ -42,7 +42,7 @@ class Action extends ColumnAbstractType
     );
 
     /**
-     * @var OptionsResolver
+     * @var Symfony\Component\OptionsResolver\OptionsResolver
      */
     protected $actionOptionsResolver;
 

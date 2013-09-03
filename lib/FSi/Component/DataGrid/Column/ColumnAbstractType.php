@@ -44,22 +44,22 @@ abstract class ColumnAbstractType implements ColumnTypeInterface
     protected $index;
 
     /**
-     * @var DataMapper
+     * @var FSi\Component\DataGrid\DataMapper\DataMapperInterface
      */
     protected $dataMapper;
 
     /**
-     * @var DataGrid
+     * @var FSi\Component\DataGrid\DataGridInterface
      */
     protected $dataGrid;
 
     /**
-     * @var OptionsResolver
+     * @var Symfony\Component\OptionsResolver\OptionsResolver
      */
     private $optionsResolver;
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function getName()
     {
@@ -74,6 +74,7 @@ abstract class ColumnAbstractType implements ColumnTypeInterface
      * Set column registered name.
      *
      * @param string $name
+     * @return FSi\Component\DataGrid\Column\ColumnTypeInterface
      */
     public function setName($name)
     {
@@ -102,7 +103,7 @@ abstract class ColumnAbstractType implements ColumnTypeInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function setDataGrid(DataGridInterface $dataGrid)
     {
@@ -116,7 +117,7 @@ abstract class ColumnAbstractType implements ColumnTypeInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function getDataGrid()
     {
@@ -124,7 +125,7 @@ abstract class ColumnAbstractType implements ColumnTypeInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function setDataMapper(DataMapperInterface $dataMapper)
     {
@@ -132,7 +133,7 @@ abstract class ColumnAbstractType implements ColumnTypeInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function getDataMapper()
     {
@@ -143,7 +144,7 @@ abstract class ColumnAbstractType implements ColumnTypeInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function getValue($object)
     {
@@ -162,7 +163,7 @@ abstract class ColumnAbstractType implements ColumnTypeInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function createCellView($object, $index)
     {
@@ -172,7 +173,7 @@ abstract class ColumnAbstractType implements ColumnTypeInterface
         $view->setAttribute('row', $index);
         $dataMapper = $this->getDataMapper();
 
-        if (!($dataMapper instanceof DataMapperInterface)) {
+        if (!$dataMapper instanceof DataMapperInterface) {
             throw new UnexpectedTypeException($dataMapper, 'FSi\Component\DataGrid\DataMapper\DataMapperInterface');
         }
 
@@ -195,14 +196,14 @@ abstract class ColumnAbstractType implements ColumnTypeInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function buildCellView(CellViewInterface $view)
     {
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function createHeaderView()
     {
@@ -218,14 +219,14 @@ abstract class ColumnAbstractType implements ColumnTypeInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function buildHeaderView(HeaderViewInterface $view)
     {
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function setOption($name, $value)
     {
@@ -240,7 +241,7 @@ abstract class ColumnAbstractType implements ColumnTypeInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function setOptions($options)
     {
@@ -250,7 +251,7 @@ abstract class ColumnAbstractType implements ColumnTypeInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function getOption($name)
     {
@@ -266,7 +267,7 @@ abstract class ColumnAbstractType implements ColumnTypeInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function hasOption($name)
     {
@@ -274,7 +275,7 @@ abstract class ColumnAbstractType implements ColumnTypeInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function bindData($data, $object, $index)
     {
@@ -284,12 +285,12 @@ abstract class ColumnAbstractType implements ColumnTypeInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function setExtensions(array $extensions)
     {
         foreach ($extensions as $extension) {
-            if (!($extension instanceof ColumnTypeExtensionInterface)) {
+            if (!$extension instanceof ColumnTypeExtensionInterface) {
                 throw new UnexpectedTypeException($extension, 'FSi\Component\DataGrid\Column\ColumnTypeExtensionInterface');
             }
         }
@@ -298,11 +299,11 @@ abstract class ColumnAbstractType implements ColumnTypeInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function addExtension(ColumnTypeExtensionInterface $extension)
     {
-        if (!($extension instanceof ColumnTypeExtensionInterface)) {
+        if (!$extension instanceof ColumnTypeExtensionInterface) {
             throw new UnexpectedTypeException('Column extension must implement FSi\Component\DataGrid\Column\ColumnTypeExtensionInterface');
         }
 
@@ -311,7 +312,7 @@ abstract class ColumnAbstractType implements ColumnTypeInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function getExtensions()
     {
@@ -319,7 +320,7 @@ abstract class ColumnAbstractType implements ColumnTypeInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function getOptionsResolver()
     {
@@ -331,7 +332,7 @@ abstract class ColumnAbstractType implements ColumnTypeInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function initOptions()
     {

@@ -33,7 +33,7 @@ class BindRequest implements EventSubscriberInterface
         $dataGrid = $event->getDataGrid();
         $request = $event->getData();
 
-        if (!($request instanceof Request)) {
+        if (!$request instanceof Request) {
             return;
         }
 
@@ -54,7 +54,6 @@ class BindRequest implements EventSubscriberInterface
                     'The request method "%s" is not supported',
                     $request->getMethod()
                 ));
-                break;
         }
 
         $event->setData($data);

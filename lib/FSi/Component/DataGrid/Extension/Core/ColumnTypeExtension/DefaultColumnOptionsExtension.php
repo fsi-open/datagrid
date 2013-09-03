@@ -16,7 +16,6 @@ use FSi\Component\DataGrid\Column\ColumnAbstractTypeExtension;
 
 class DefaultColumnOptionsExtension extends ColumnAbstractTypeExtension
 {
-
     /**
      * {@inheritDoc}
      */

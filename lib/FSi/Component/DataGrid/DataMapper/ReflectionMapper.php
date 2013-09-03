@@ -68,7 +68,7 @@ class ReflectionMapper implements DataMapperInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function setData($field, $object, $value)
     {
@@ -110,10 +110,9 @@ class ReflectionMapper implements DataMapperInterface
 
     /**
      * Camelizes a given string.
-     * Method copied from Symfony\Component\Form\Util\PropertyPath
+     * Method copied from Symfony\Component\Form\Util\PropertyPath.
      *
      * @param  string $string Some string.
-     *
      * @return string The camelized version of the string.
      */
     private function camelize($string)

@@ -20,18 +20,20 @@ class DataGridFactory implements DataGridFactoryInterface
 {
     /**
      * Already registered data grids.
+	 *
      * @var array
      */
     protected $dataGrids = array();
 
     /**
      * Currently loaded column types.
+	 *
      * @var array
      */
     protected $columnTypes = array();
 
     /**
-     * @var DataMapperInterface
+     * @var FSi\Component\DataGrid\DataMapper\DataMapperInterface
      */
     protected $dataMapper;
 
@@ -43,21 +45,21 @@ class DataGridFactory implements DataGridFactoryInterface
     protected $extensions = array();
 
     /**
-     * @var IndexingStrategyInterface
+     * @var FSi\Component\DataGrid\Data\IndexingStrategyInterface
      * @deprecated this field is deprecated and it will be removed in version 1.2
      */
     protected $strategy;
 
     /**
      * @param array $extensions
-     * @param DataMapperInterface $dataMapper
-     * @param IndexingStrategyInterface $strategy
-     * @throws \InvalidArgumentException
+     * @param FSi\Component\DataGrid\DataMapper\DataMapperInterface $dataMapper
+     * @param FSi\Component\DataGrid\Data\IndexingStrategyInterface $strategy
+     * @throws InvalidArgumentException
      */
     public function __construct(array $extensions, DataMapperInterface $dataMapper, IndexingStrategyInterface $strategy = null)
     {
         foreach ($extensions as $extension) {
-            if (!($extension instanceof DataGridExtensionInterface)) {
+            if (!$extension instanceof DataGridExtensionInterface) {
                 throw new \InvalidArgumentException('Each extension must implement FSi\Component\DataGrid\DataGridExtensionInterface');
             }
         }
@@ -68,7 +70,7 @@ class DataGridFactory implements DataGridFactoryInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function createDataGrid($name = 'grid')
     {
@@ -82,7 +84,7 @@ class DataGridFactory implements DataGridFactoryInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function hasColumnType($type)
     {
@@ -100,7 +102,7 @@ class DataGridFactory implements DataGridFactoryInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function getColumnType($type)
     {
@@ -114,7 +116,7 @@ class DataGridFactory implements DataGridFactoryInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function getExtensions()
     {
@@ -122,7 +124,7 @@ class DataGridFactory implements DataGridFactoryInterface
     }
 
     /**
-     * {@inheritdoc}
+     * {@inheritDoc}
      */
     public function getDataMapper()
     {
@@ -130,7 +132,7 @@ class DataGridFactory implements DataGridFactoryInterface
     }
 
     /**
-     * {@inhritdoc}
+     * {@inhritDoc}
      */
     public function getIndexingStrategy()
     {
@@ -141,7 +143,7 @@ class DataGridFactory implements DataGridFactoryInterface
      * Try to load column type from extensions registered in factory.
      *
      * @param string $type
-     * @throws UnexpectedTypeException
+     * @throws FSi\Component\DataGrid\Exception\UnexpectedTypeException
      */
     private function loadColumnType($type)
     {
