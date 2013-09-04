@@ -17,12 +17,12 @@ class FormExtension extends DataGridAbstractExtension
     /**
      * FormFactory used by extension to build forms.
      *
-     * @var Symfony\Component\Form\FormFactoryInterface
+     * @var \Symfony\Component\Form\FormFactoryInterface
      */
     protected $formFactory;
 
     /**
-     * @param Symfony\Component\Form\FormFactoryInterface $formFactory
+     * @param \Symfony\Component\Form\FormFactoryInterface $formFactory
      */
     public function __construct(FormFactoryInterface $formFactory)
     {
@@ -30,7 +30,7 @@ class FormExtension extends DataGridAbstractExtension
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     protected function loadColumnTypesExtensions()
     {

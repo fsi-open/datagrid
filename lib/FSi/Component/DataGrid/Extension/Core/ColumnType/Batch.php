@@ -16,7 +16,7 @@ use FSi\Component\DataGrid\Column\HeaderViewInterface;
 class Batch extends ColumnAbstractType
 {
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getId()
     {
@@ -24,7 +24,7 @@ class Batch extends ColumnAbstractType
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function filterValue($value)
     {
@@ -32,7 +32,7 @@ class Batch extends ColumnAbstractType
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getValue($object)
     {
@@ -40,7 +40,7 @@ class Batch extends ColumnAbstractType
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function buildCellView(CellViewInterface $view)
     {
@@ -48,7 +48,7 @@ class Batch extends ColumnAbstractType
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function buildHeaderView(HeaderViewInterface $view)
     {

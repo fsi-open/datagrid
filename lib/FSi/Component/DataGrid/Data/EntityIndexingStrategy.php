@@ -22,12 +22,12 @@ class EntityIndexingStrategy implements IndexingStrategyInterface
     protected $separator;
 
     /**
-     * @var Doctrine\Common\Persistence\ManagerRegistry
+     * @var \Doctrine\Common\Persistence\ManagerRegistry
      */
     protected $registry;
 
     /**
-     * @param Doctrine\Common\Persistence\ManagerRegistry $registry
+     * @param \Doctrine\Common\Persistence\ManagerRegistry $registry
      */
     public function __construct(ManagerRegistry $registry)
     {
@@ -36,7 +36,7 @@ class EntityIndexingStrategy implements IndexingStrategyInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getIndex($object, DataMapperInterface $dataMapper)
     {
@@ -67,7 +67,7 @@ class EntityIndexingStrategy implements IndexingStrategyInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function revertIndex($index, $dataType)
     {
@@ -102,7 +102,7 @@ class EntityIndexingStrategy implements IndexingStrategyInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function setSeparator($separator)
     {

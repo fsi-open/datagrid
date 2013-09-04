@@ -20,7 +20,7 @@ class ChainMapper implements DataMapperInterface
 
     /**
      * @param array $mappers
-     * @throws InvalidArgumentException
+     * @throws \InvalidArgumentException
      */
     public function __construct(array $mappers)
     {
@@ -37,7 +37,7 @@ class ChainMapper implements DataMapperInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getData($field, $object)
     {
@@ -68,7 +68,7 @@ class ChainMapper implements DataMapperInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function setData($field, $object, $value)
     {

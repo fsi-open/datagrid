@@ -17,7 +17,7 @@ use FSi\Component\DataGrid\Exception\DataGridException;
 class ValueFormatColumnOptionsExtension extends ColumnAbstractTypeExtension
 {
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function buildCellView(ColumnTypeInterface $column, CellViewInterface $view)
     {
@@ -58,7 +58,7 @@ class ValueFormatColumnOptionsExtension extends ColumnAbstractTypeExtension
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      **/
      public function getExtendedColumnTypes()
      {
@@ -68,7 +68,7 @@ class ValueFormatColumnOptionsExtension extends ColumnAbstractTypeExtension
      }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function initOptions(ColumnTypeInterface $column)
     {
@@ -88,8 +88,8 @@ class ValueFormatColumnOptionsExtension extends ColumnAbstractTypeExtension
     }
 
     /**
-     * @param $values
-     * @param $emptyValue
+     * @param mixed $values
+     * @param mixed $emptyValue
      * @return array
      */
     private function populateValues($values, $emptyValue)
@@ -106,11 +106,11 @@ class ValueFormatColumnOptionsExtension extends ColumnAbstractTypeExtension
     }
 
     /**
-     * @param $key
-     * @param $value
-     * @param $emptyValue
+     * @param string $key
+     * @param mixed $value
+     * @param mixed $emptyValue
      * @return string
-     * @throws FSi\Component\DataGrid\Exception\DataGridException
+     * @throws \FSi\Component\DataGrid\Exception\DataGridException
      */
     private function populateValue($key, $value, $emptyValue)
     {

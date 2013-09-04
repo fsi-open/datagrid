@@ -21,12 +21,12 @@ use Symfony\Component\PropertyAccess\PropertyAccess;
 class Tree extends ColumnAbstractType
 {
     /**
-     * @var Doctrine\Common\Persistence\ManagerRegistry
+     * @var \Doctrine\Common\Persistence\ManagerRegistry
      */
     protected $registry;
 
     /**
-     * @var Gedmo\Tree\Strategy
+     * @var \Gedmo\Tree\Strategy
      */
     protected $strategy;
 
@@ -46,7 +46,7 @@ class Tree extends ColumnAbstractType
     protected $classStrategies;
 
     /**
-     * @param Doctrine\Common\Persistence\ManagerRegistry $registry
+     * @param \Doctrine\Common\Persistence\ManagerRegistry $registry
      */
     public function __construct(ManagerRegistry $registry)
     {
@@ -57,7 +57,7 @@ class Tree extends ColumnAbstractType
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getId()
     {
@@ -65,7 +65,7 @@ class Tree extends ColumnAbstractType
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getValue($object)
     {
@@ -126,7 +126,7 @@ class Tree extends ColumnAbstractType
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function filterValue($value)
     {
@@ -134,7 +134,7 @@ class Tree extends ColumnAbstractType
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function buildCellView(CellViewInterface $view)
     {
@@ -144,7 +144,7 @@ class Tree extends ColumnAbstractType
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function initOptions()
     {
@@ -162,8 +162,8 @@ class Tree extends ColumnAbstractType
     }
 
     /**
-     * @param Doctrine\Common\Persistence\ObjectManager $om
-     * @param Gedmo\Tree\TreeListener $listener
+     * @param \Doctrine\Common\Persistence\ObjectManager $om
+     * @param \Gedmo\Tree\TreeListener $listener
      * @param string $class
      * @return string|null
      */
@@ -191,8 +191,8 @@ class Tree extends ColumnAbstractType
     }
 
     /**
-     * @param ObjectManager $om
-     * @return Gedmo\Tree\TreeListener|null
+     * @param \Doctrine\Common\Persistence\ObjectManager $om
+     * @return \Gedmo\Tree\TreeListener|null
      */
     private function getTreeListener(ObjectManager $om)
     {

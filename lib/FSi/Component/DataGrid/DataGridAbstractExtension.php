@@ -37,8 +37,8 @@ abstract class DataGridAbstractExtension implements DataGridExtensionInterface
      * Returns a column type by id (all column types mush have unique id).
      *
      * @param string $id The identity of the column type
-     * @return FSi\Component\DataGrid\Column\ColumnTypeInterface The column type
-     * @throws FSi\Component\DataGrid\Exception\DataGridException if the given column type is not a part of this extension
+     * @return \FSi\Component\DataGrid\Column\ColumnTypeInterface The column type
+     * @throws \FSi\Component\DataGrid\Exception\DataGridException if the given column type is not a part of this extension
      */
     public function getColumnType($type)
     {
@@ -54,7 +54,7 @@ abstract class DataGridAbstractExtension implements DataGridExtensionInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function hasColumnType($type)
     {
@@ -66,7 +66,7 @@ abstract class DataGridAbstractExtension implements DataGridExtensionInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function hasColumnTypeExtensions($type)
     {
@@ -78,7 +78,7 @@ abstract class DataGridAbstractExtension implements DataGridExtensionInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getColumnTypeExtensions($type)
     {
@@ -94,7 +94,7 @@ abstract class DataGridAbstractExtension implements DataGridExtensionInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function registerSubscribers(DataGridInterface $dataGrid)
     {
@@ -148,7 +148,7 @@ abstract class DataGridAbstractExtension implements DataGridExtensionInterface
     }
 
     /**
-     * @throws FSi\Component\DataGrid\Exception\UnexpectedTypeException
+     * @throws \FSi\Component\DataGrid\Exception\UnexpectedTypeException
      */
     private function initColumnTypes()
     {
@@ -166,7 +166,7 @@ abstract class DataGridAbstractExtension implements DataGridExtensionInterface
     }
 
     /**
-     * @throws UnexpectedTypeExceptionFSi\Component\DataGrid\Exception\UnexpectedTypeException
+     * @throws \FSi\Component\DataGrid\Exception\UnexpectedTypeException
      */
     private function initColumnTypesExtensions()
     {

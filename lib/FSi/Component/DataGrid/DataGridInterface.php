@@ -31,7 +31,7 @@ interface DataGridInterface
      * Return Indexing Strategy.
      *
      * @deprecated This method is deprecated and it will removed in version 1.2
-     * @return FSi\Component\DataGrid\Data\IndexingStrategyInterface
+     * @return \FSi\Component\DataGrid\Data\IndexingStrategyInterface
      */
     public function getIndexingStrategy();
 
@@ -39,10 +39,10 @@ interface DataGridInterface
      * Add new column to DataGrid. Remember that column type must be registered in
      * DataGridFactory that was used to create current DataGrid.
      *
-     * @param string|FSi\Component\DataGrid\Column\ColumnTypeInterface $name
+     * @param string|\FSi\Component\DataGrid\Column\ColumnTypeInterface $name
      * @param string $type
      * @param array $options
-     * @return FSi\Component\DataGrid\DataGridInterface
+     * @return \FSi\Component\DataGrid\DataGridInterface
      */
     public function addColumn($name, $type = 'text', $options = array());
 
@@ -50,7 +50,7 @@ interface DataGridInterface
      * Remove column from DataGrid.
      *
      * @param string $name
-     * @throws InvalidArgumentException when column with $name not exists in grid.
+     * @throws \InvalidArgumentException when column with $name not exists in grid.
      */
     public function removeColumn($name);
 
@@ -62,8 +62,8 @@ interface DataGridInterface
     /**
      * Return column with $name
      *
-     * @throws InvalidArgumentException when column with $name not exists in grid.
-     * @return FSi\Component\DataGrid\Column\ColumnTypeInterface
+     * @throws \InvalidArgumentException when column with $name not exists in grid.
+     * @return \FSi\Component\DataGrid\Column\ColumnTypeInterface
      */
     public function getColumn($name);
 
@@ -93,7 +93,7 @@ interface DataGridInterface
     /**
      * Create DataGridView object that should be used to render data grid.
      *
-     * @return FSi\Component\DataGrid\DataGridView
+     * @return \FSi\Component\DataGrid\DataGridView
      */
     public function createView();
 
@@ -122,7 +122,7 @@ interface DataGridInterface
     public function addEventListener($eventName, $listener, $priority = 0);
 
     /**
-     * @param Symfony\Component\EventDispatcher\EventSubscriberInterface $subscriber
+     * @param \Symfony\Component\EventDispatcher\EventSubscriberInterface $subscriber
      */
     public function addEventSubscriber(EventSubscriberInterface $subscriber);
 }

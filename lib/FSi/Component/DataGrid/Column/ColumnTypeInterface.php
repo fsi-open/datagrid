@@ -33,26 +33,26 @@ interface ColumnTypeInterface
     public function getName();
 
     /**
-     * @param FSi\Component\DataGrid\DataGridInterface $dataGrid
-     * @return FSi\Component\DataGrid\Column\ColumnTypeInterface
+     * @param \FSi\Component\DataGrid\DataGridInterface $dataGrid
+     * @return \FSi\Component\DataGrid\Column\ColumnTypeInterface
      */
     public function setDataGrid(DataGridInterface $dataGrid);
 
     /**
-     * @return FSi\Component\DataGrid\DataGridInterface $dataGrid
+     * @return \FSi\Component\DataGrid\DataGridInterface $dataGrid
      */
     public function getDataGrid();
 
     /**
-     * @param FSi\Component\DataGrid\DataMapper\DataMapperInterface $dataMapper
-     * @return FSi\Component\DataGrid\Column\ColumnTypeInterface
+     * @param \FSi\Component\DataGrid\DataMapper\DataMapperInterface $dataMapper
+     * @return \FSi\Component\DataGrid\Column\ColumnTypeInterface
      */
     public function setDataMapper(DataMapperInterface $dataMapper);
 
     /**
      * Return DataMapper.
      *
-     * @return FSi\Component\DataGrid\DataMapper\DataMapperInterface
+     * @return \FSi\Component\DataGrid\DataMapper\DataMapperInterface
      */
     public function getDataMapper();
 
@@ -75,8 +75,8 @@ interface ColumnTypeInterface
      *
      * @param mixed $object
      * @param string $index
-     * @return FSi\Component\DataGrid\Column\CellViewInterface
-     * @throws FSi\Component\DataGrid\Exception\UnexpectedTypeException
+     * @return \FSi\Component\DataGrid\Column\CellViewInterface
+     * @throws \FSi\Component\DataGrid\Exception\UnexpectedTypeException
      */
     public function createCellView($object, $index);
 
@@ -88,12 +88,12 @@ interface ColumnTypeInterface
     /**
      * Create HeaderView object for column.
      *
-     * @return FSi\Component\DataGrid\Column\HeaderViewInterface
+     * @return \FSi\Component\DataGrid\Column\HeaderViewInterface
      */
     public function createHeaderView();
 
     /**
-     * @param FSi\Component\DataGrid\Column\HeaderViewInterface $view
+     * @param \FSi\Component\DataGrid\Column\HeaderViewInterface $view
      */
     public function buildHeaderView(HeaderViewInterface $view);
 
@@ -111,21 +111,19 @@ interface ColumnTypeInterface
      * To access OptionsResolver use $this->getOptionsResolver()
      * initOptions is called in DataGrid after loading the column type
      * from DataGridFactory.
-     *
-     * @param OptionsResolverInterface $resolver The resolver for the options.
      */
     public function initOptions();
 
     /**
      * @param string $name
      * @param mixed $value
-     * @return FSi\Component\DataGrid\Column\ColumnTypeInterface
+     * @return \FSi\Component\DataGrid\Column\ColumnTypeInterface
      */
     public function setOption($name, $value);
 
     /**
      * @param array $options
-     * @return FSi\Component\DataGrid\Column\ColumnTypeInterface
+     * @return \FSi\Component\DataGrid\Column\ColumnTypeInterface
      */
     public function setOptions($options);
 
@@ -148,8 +146,8 @@ interface ColumnTypeInterface
     public function setExtensions(array $extensions);
 
     /**
-     * @param ColumnTypeExtensionInterface $extension
-     * @return FSi\Component\DataGrid\Column\ColumnTypeExtensionInterface
+     * @param \FSi\Component\DataGrid\Column\ColumnTypeExtensionInterface $extension
+     * @return \FSi\Component\DataGrid\Column\ColumnTypeExtensionInterface
      */
     public function addExtension(ColumnTypeExtensionInterface $extension);
 

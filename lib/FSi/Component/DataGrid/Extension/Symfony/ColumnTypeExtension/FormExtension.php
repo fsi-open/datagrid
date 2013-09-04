@@ -24,7 +24,7 @@ class FormExtension extends ColumnAbstractTypeExtension
     protected $formName;
 
     /**
-     * @var Symfony\Component\Form\FormFactoryInterface
+     * @var \Symfony\Component\Form\FormFactoryInterface
      */
     protected $formFactory;
 
@@ -36,7 +36,7 @@ class FormExtension extends ColumnAbstractTypeExtension
     protected $forms = array();
 
     /**
-     * @param Symfony\Component\Form\FormFactoryInterface $formFactory
+     * @param \Symfony\Component\Form\FormFactoryInterface $formFactory
      */
     public function __construct(FormFactoryInterface $formFactory)
     {
@@ -44,7 +44,7 @@ class FormExtension extends ColumnAbstractTypeExtension
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function setDataGrid(DataGridInterface $dataGrid)
     {
@@ -52,7 +52,7 @@ class FormExtension extends ColumnAbstractTypeExtension
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function bindData(ColumnTypeInterface $column, $data, $object, $index)
     {
@@ -70,6 +70,7 @@ class FormExtension extends ColumnAbstractTypeExtension
 
                 $formData[$relationField] = $data[$relationField];
                 break;
+
             default:
                 $fieldMapping = $column->getOption('field_mapping');
                 foreach ($fieldMapping as $field) {
@@ -79,7 +80,6 @@ class FormExtension extends ColumnAbstractTypeExtension
 
                     $formData[$field] = $data[$field];
                 }
-                break;
         }
 
         $form = $this->createForm($column, $index, $object);
@@ -95,7 +95,7 @@ class FormExtension extends ColumnAbstractTypeExtension
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function buildCellView(ColumnTypeInterface $column, CellViewInterface $view)
     {
@@ -111,7 +111,7 @@ class FormExtension extends ColumnAbstractTypeExtension
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getExtendedColumnTypes()
     {
@@ -126,7 +126,7 @@ class FormExtension extends ColumnAbstractTypeExtension
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function initOptions(ColumnTypeInterface $column)
     {
@@ -146,7 +146,7 @@ class FormExtension extends ColumnAbstractTypeExtension
     /**
      * Create Form Objects for column and rowset index.
      *
-     * @param FSi\Component\DataGrid\Column\ColumnTypeInterface $column
+     * @param \FSi\Component\DataGrid\Column\ColumnTypeInterface $column
      * @param mixed $index
      * @param mixed $data
      */
@@ -157,8 +157,8 @@ class FormExtension extends ColumnAbstractTypeExtension
             return $this->forms[$formId];
         }
 
-        // Create fields array. There are column types like entity where field_mapping
-        // should not be used to build field array.
+        //Create fields array. There are column types like entity where field_mapping
+        //should not be used to build field array.
         $fields = array();
         switch ($column->getId()) {
             case 'entity':
@@ -182,7 +182,7 @@ class FormExtension extends ColumnAbstractTypeExtension
                 }
         }
 
-        // Pass fields form options from column into $fields array.
+        //Pass fields form options from column into $fields array.
         $fieldsOptions = $column->getOption('form_options');
         foreach ($fieldsOptions as $fieldName => $fieldOptions) {
             if (array_key_exists($fieldName, $fields)) {
@@ -192,7 +192,7 @@ class FormExtension extends ColumnAbstractTypeExtension
             }
         }
 
-        // Pass fields form type from column into $fields array.
+        //Pass fields form type from column into $fields array.
         $fieldsTypes = $column->getOption('form_type');
         foreach ($fieldsTypes as $fieldName => $fieldType) {
             if (array_key_exists($fieldName, $fields)) {
@@ -202,8 +202,8 @@ class FormExtension extends ColumnAbstractTypeExtension
             }
         }
 
-        // Build data array, the data array holds data that should be passed into
-        // form elements.
+        //Build data array, the data array holds data that should be passed into
+        //form elements.
         $dataArray = array();
         switch ($column->getId()) {
             case 'datetime':
@@ -237,7 +237,7 @@ class FormExtension extends ColumnAbstractTypeExtension
                 }
         }
 
-        // Create form builder.
+        //Create form builder.
         try {
             $formBuilder = $this->formFactory->createNamedBuilder(
                 $this->formName,
@@ -258,7 +258,7 @@ class FormExtension extends ColumnAbstractTypeExtension
             );
         }
 
-        // Create Form
+        //Create Form.
         $this->forms[$formId] = $formBuilder->getForm();
 
         return $this->forms[$formId];

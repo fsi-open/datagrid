@@ -58,7 +58,7 @@ class CellView implements CellViewInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getName()
     {
@@ -66,7 +66,7 @@ class CellView implements CellViewInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getType()
     {
@@ -74,7 +74,7 @@ class CellView implements CellViewInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function setValue($value)
     {
@@ -82,7 +82,7 @@ class CellView implements CellViewInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getValue()
     {
@@ -90,7 +90,7 @@ class CellView implements CellViewInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function setAttribute($name, $value)
     {
@@ -100,7 +100,7 @@ class CellView implements CellViewInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getAttribute($name)
     {
@@ -110,7 +110,7 @@ class CellView implements CellViewInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getAttributes()
     {
@@ -118,7 +118,7 @@ class CellView implements CellViewInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function hasAttribute($name)
     {
@@ -126,7 +126,7 @@ class CellView implements CellViewInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function setSource($source)
     {
@@ -136,7 +136,7 @@ class CellView implements CellViewInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getSource()
     {
@@ -144,7 +144,7 @@ class CellView implements CellViewInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function setDataGridView(DataGridViewInterface $dataGrid)
     {
@@ -154,7 +154,7 @@ class CellView implements CellViewInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getDataGridView()
     {

@@ -44,22 +44,22 @@ abstract class ColumnAbstractType implements ColumnTypeInterface
     protected $index;
 
     /**
-     * @var FSi\Component\DataGrid\DataMapper\DataMapperInterface
+     * @var \FSi\Component\DataGrid\DataMapper\DataMapperInterface
      */
     protected $dataMapper;
 
     /**
-     * @var FSi\Component\DataGrid\DataGridInterface
+     * @var \FSi\Component\DataGrid\DataGridInterface
      */
     protected $dataGrid;
 
     /**
-     * @var Symfony\Component\OptionsResolver\OptionsResolver
+     * @var \Symfony\Component\OptionsResolver\OptionsResolver
      */
     private $optionsResolver;
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getName()
     {
@@ -74,11 +74,11 @@ abstract class ColumnAbstractType implements ColumnTypeInterface
      * Set column registered name.
      *
      * @param string $name
-     * @return FSi\Component\DataGrid\Column\ColumnTypeInterface
+     * @return \FSi\Component\DataGrid\Column\ColumnTypeInterface
      */
     public function setName($name)
     {
-        $this->name = (string)$name;
+        $this->name = (string) $name;
 
         return $this;
     }
@@ -103,7 +103,7 @@ abstract class ColumnAbstractType implements ColumnTypeInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function setDataGrid(DataGridInterface $dataGrid)
     {
@@ -117,7 +117,7 @@ abstract class ColumnAbstractType implements ColumnTypeInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getDataGrid()
     {
@@ -125,7 +125,7 @@ abstract class ColumnAbstractType implements ColumnTypeInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function setDataMapper(DataMapperInterface $dataMapper)
     {
@@ -133,7 +133,7 @@ abstract class ColumnAbstractType implements ColumnTypeInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getDataMapper()
     {
@@ -144,7 +144,7 @@ abstract class ColumnAbstractType implements ColumnTypeInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getValue($object)
     {
@@ -163,7 +163,7 @@ abstract class ColumnAbstractType implements ColumnTypeInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function createCellView($object, $index)
     {
@@ -196,14 +196,14 @@ abstract class ColumnAbstractType implements ColumnTypeInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function buildCellView(CellViewInterface $view)
     {
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function createHeaderView()
     {
@@ -219,14 +219,14 @@ abstract class ColumnAbstractType implements ColumnTypeInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function buildHeaderView(HeaderViewInterface $view)
     {
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function setOption($name, $value)
     {
@@ -241,7 +241,7 @@ abstract class ColumnAbstractType implements ColumnTypeInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function setOptions($options)
     {
@@ -251,7 +251,7 @@ abstract class ColumnAbstractType implements ColumnTypeInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getOption($name)
     {
@@ -267,7 +267,7 @@ abstract class ColumnAbstractType implements ColumnTypeInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function hasOption($name)
     {
@@ -275,7 +275,7 @@ abstract class ColumnAbstractType implements ColumnTypeInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function bindData($data, $object, $index)
     {
@@ -285,7 +285,7 @@ abstract class ColumnAbstractType implements ColumnTypeInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function setExtensions(array $extensions)
     {
@@ -299,7 +299,7 @@ abstract class ColumnAbstractType implements ColumnTypeInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function addExtension(ColumnTypeExtensionInterface $extension)
     {
@@ -312,7 +312,7 @@ abstract class ColumnAbstractType implements ColumnTypeInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getExtensions()
     {
@@ -320,7 +320,7 @@ abstract class ColumnAbstractType implements ColumnTypeInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getOptionsResolver()
     {
@@ -332,7 +332,7 @@ abstract class ColumnAbstractType implements ColumnTypeInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function initOptions()
     {

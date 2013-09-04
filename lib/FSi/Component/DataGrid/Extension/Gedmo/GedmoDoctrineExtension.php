@@ -16,12 +16,12 @@ use FSi\Component\DataGrid\Extension\Gedmo\ColumnType;
 class GedmoDoctrineExtension extends DataGridAbstractExtension
 {
     /**
-     * @var Doctrine\Common\Persistence\ManagerRegistry
+     * @var \Doctrine\Common\Persistence\ManagerRegistry
      */
     protected $registry;
 
     /**
-     * @param Doctrine\Common\Persistence\ManagerRegistry $registry
+     * @param \Doctrine\Common\Persistence\ManagerRegistry $registry
      */
     public function __construct(ManagerRegistry $registry)
     {
@@ -29,7 +29,7 @@ class GedmoDoctrineExtension extends DataGridAbstractExtension
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     protected function loadColumnTypes()
     {

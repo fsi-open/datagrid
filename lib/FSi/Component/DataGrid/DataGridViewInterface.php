@@ -48,7 +48,7 @@ interface DataGridViewInterface extends \Iterator, \Countable, \ArrayAccess
     /**
      * Get column.
      *
-     * @throw InvalidArgumentException
+     * @throw \InvalidArgumentException
      * @param string $name
      */
     public function getColumn($name);
@@ -68,7 +68,7 @@ interface DataGridViewInterface extends \Iterator, \Countable, \ArrayAccess
     /**
      * Add new column to view.
      *
-     * @param FSi\Component\DataGrid\Column\HeaderViewInterface $column
+     * @param \FSi\Component\DataGrid\Column\HeaderViewInterface $column
      */
     public function addColumn(HeaderViewInterface $column);
 

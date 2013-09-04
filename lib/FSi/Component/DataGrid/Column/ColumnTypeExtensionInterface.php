@@ -14,13 +14,13 @@ use FSi\Component\DataGrid\DataGridInterface;
 interface ColumnTypeExtensionInterface
 {
     /**
-     * @param FSi\Component\DataGrid\DataGridInterface $dataGrid
+     * @param \FSi\Component\DataGrid\DataGridInterface $dataGrid
      * @return mixed
      */
     public function setDataGrid(DataGridInterface $dataGrid);
 
     /**
-     * @param FSi\Component\DataGrid\Column\ColumnTypeInterface $column
+     * @param \FSi\Component\DataGrid\Column\ColumnTypeInterface $column
      * @param mixed $data
      * @param mixed $object
      * @param string $index
@@ -28,19 +28,19 @@ interface ColumnTypeExtensionInterface
     public function bindData(ColumnTypeInterface $column, $data, $object, $index);
 
     /**
-     * @param FSi\Component\DataGrid\Column\ColumnTypeInterface $column
-     * @param FSi\Component\DataGrid\Column\CellViewInterface $view
+     * @param \FSi\Component\DataGrid\Column\ColumnTypeInterface $column
+     * @param \FSi\Component\DataGrid\Column\CellViewInterface $view
      */
     public function buildCellView(ColumnTypeInterface $column, CellViewInterface $view);
 
     /**
-     * @param FSi\Component\DataGrid\Column\ColumnTypeInterface $column
-     * @param FSi\Component\DataGrid\Column\HeaderViewInterface $view
+     * @param \FSi\Component\DataGrid\Column\ColumnTypeInterface $column
+     * @param \FSi\Component\DataGrid\Column\HeaderViewInterface $view
      */
     public function buildHeaderView(ColumnTypeInterface $column, HeaderViewInterface $view);
 
     /**
-     * @param FSi\Component\DataGrid\Column\ColumnTypeInterface $column
+     * @param \FSi\Component\DataGrid\Column\ColumnTypeInterface $column
      * @param mixed $value
      * @return mixed
      */
@@ -49,7 +49,7 @@ interface ColumnTypeExtensionInterface
     /**
      * Sets the default options for this type.
      *
-     * @param FSi\Component\DataGrid\Column\ColumnTypeInterface $column.
+     * @param \FSi\Component\DataGrid\Column\ColumnTypeInterface $column.
      */
     public function initOptions(ColumnTypeInterface $column);
 

@@ -36,7 +36,7 @@ class DataGridView implements DataGridViewInterface
     protected $name;
 
     /**
-     * @var FSi\Component\DataGrid\Data\DataRowsetInterface\DataRowsetInterface
+     * @var \FSi\Component\DataGrid\Data\DataRowsetInterface\DataRowsetInterface
      */
     protected $rowset;
 
@@ -45,8 +45,8 @@ class DataGridView implements DataGridViewInterface
      *
      * @param string $name
      * @param array $columns
-     * @param FSi\Component\DataGrid\Data\DataRowsetInterface $rowset
-     * @throws InvalidArgumentException
+     * @param \FSi\Component\DataGrid\Data\DataRowsetInterface $rowset
+     * @throws \InvalidArgumentException
      */
     public function __construct($name, array $columns = array(), DataRowsetInterface $rowset)
     {
@@ -66,7 +66,7 @@ class DataGridView implements DataGridViewInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getName()
     {
@@ -74,7 +74,7 @@ class DataGridView implements DataGridViewInterface
     }
 
     /**
-     * {@inhritDoc}
+     * {@inheritdoc}
      */
     public function hasColumn($name)
     {
@@ -82,7 +82,7 @@ class DataGridView implements DataGridViewInterface
     }
 
     /**
-     * {@inhritDoc}
+     * {@inheritdoc}
      */
     public function hasColumnType($type)
     {
@@ -96,7 +96,7 @@ class DataGridView implements DataGridViewInterface
     }
 
     /**
-     * {@inhritDoc}
+     * {@inheritdoc}
      */
     public function removeColumn($name)
     {
@@ -109,7 +109,7 @@ class DataGridView implements DataGridViewInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getColumn($name)
     {
@@ -121,7 +121,7 @@ class DataGridView implements DataGridViewInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getColumns()
     {
@@ -129,7 +129,7 @@ class DataGridView implements DataGridViewInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function clearColumns()
     {
@@ -138,7 +138,7 @@ class DataGridView implements DataGridViewInterface
     }
 
     /**
-     * {@inheritdOc}
+     * {@inheritdoc}
      */
     public function addColumn(HeaderViewInterface $column)
     {
@@ -151,7 +151,7 @@ class DataGridView implements DataGridViewInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function setColumns(array $columns)
     {
@@ -203,7 +203,7 @@ class DataGridView implements DataGridViewInterface
      * Similar to the current() function for arrays in PHP
      * Required by interface Iterator.
      *
-     * @return FSi\Component\DataGrid\DataGridRowView current element from the rowset
+     * @return \FSi\Component\DataGrid\DataGridRowView current element from the rowset
      */
     public function current()
     {
@@ -238,7 +238,7 @@ class DataGridView implements DataGridViewInterface
      * Similar to the reset() function for arrays in PHP.
      * Required by interface Iterator.
      *
-     * @return FSi\Component\DataGrid\DataGridViewInterface
+     * @return \FSi\Component\DataGrid\DataGridViewInterface
      */
     public function rewind()
     {
@@ -274,8 +274,8 @@ class DataGridView implements DataGridViewInterface
      * Required by the ArrayAccess implementation.
      *
      * @param int $offset
-     * @return FSi\Component\DataGrid\DataGridRowViewInterface
-     * @throws InvalidArgumentException
+     * @return \FSi\Component\DataGrid\DataGridRowViewInterface
+     * @throws \InvalidArgumentException
      */
     public function offsetGet($offset)
     {

@@ -75,7 +75,7 @@ interface HeaderViewInterface
     /**
      * Set DataGridView.
      *
-     * @param FSi\Component\DataGrid\DataGridViewInterface $dataGrid
+     * @param \FSi\Component\DataGrid\DataGridViewInterface $dataGrid
      * @return mixed
      */
     public function setDataGridView(DataGridViewInterface $dataGrid);
@@ -83,7 +83,7 @@ interface HeaderViewInterface
     /**
      * Get DataGridView.
      *
-     * @return FSi\Component\DataGrid\DataGridViewInterface
+     * @return \FSi\Component\DataGrid\DataGridViewInterface
      */
     public function getDataGridView();
 }

@@ -34,7 +34,7 @@ class HeaderView implements HeaderViewInterface
     protected $attributes = array();
 
     /**
-     * @var FSi\Component\DataGrid\DataGridViewInterface
+     * @var \FSi\Component\DataGrid\DataGridViewInterface
      */
     protected $datagrid;
 
@@ -48,7 +48,7 @@ class HeaderView implements HeaderViewInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function setAttribute($name, $value)
     {
@@ -58,7 +58,7 @@ class HeaderView implements HeaderViewInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getAttribute($name)
     {
@@ -68,7 +68,7 @@ class HeaderView implements HeaderViewInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function hasAttribute($name)
     {
@@ -76,7 +76,7 @@ class HeaderView implements HeaderViewInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getAttributes()
     {
@@ -84,7 +84,7 @@ class HeaderView implements HeaderViewInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function setLabel($label)
     {
@@ -92,7 +92,7 @@ class HeaderView implements HeaderViewInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getLabel()
     {
@@ -100,7 +100,7 @@ class HeaderView implements HeaderViewInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getName()
     {
@@ -108,7 +108,7 @@ class HeaderView implements HeaderViewInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getType()
     {
@@ -116,7 +116,7 @@ class HeaderView implements HeaderViewInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function setDataGridView(DataGridViewInterface $dataGrid)
     {
@@ -126,7 +126,7 @@ class HeaderView implements HeaderViewInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getDataGridView()
     {

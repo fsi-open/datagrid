@@ -18,7 +18,7 @@ class ActionColumnExtension extends ColumnAbstractTypeExtension
     /**
      * Symfony Router to generate urls.
      *
-     * @var Symfony\Component\Routing\Router;
+     * @var \Symfony\Component\Routing\Router;
      */
     protected $router;
 
@@ -32,7 +32,7 @@ class ActionColumnExtension extends ColumnAbstractTypeExtension
     );
 
     /**
-     * Available action options
+     * Available action options.
      *
      * @var array
      */
@@ -55,7 +55,7 @@ class ActionColumnExtension extends ColumnAbstractTypeExtension
     );
 
     /**
-     * @param Symfony\Component\Routing\RouterInterface $router
+     * @param \Symfony\Component\Routing\RouterInterface $router
      */
     public function __construct(RouterInterface $router)
     {
@@ -63,7 +63,7 @@ class ActionColumnExtension extends ColumnAbstractTypeExtension
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function filterValue(ColumnTypeInterface $column, $value)
     {
@@ -100,7 +100,7 @@ class ActionColumnExtension extends ColumnAbstractTypeExtension
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getExtendedColumnTypes()
     {
@@ -108,7 +108,7 @@ class ActionColumnExtension extends ColumnAbstractTypeExtension
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getRequiredOptions(ColumnTypeInterface $column)
     {
@@ -116,7 +116,7 @@ class ActionColumnExtension extends ColumnAbstractTypeExtension
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getAvailableOptions(ColumnTypeInterface $column)
     {
@@ -124,7 +124,7 @@ class ActionColumnExtension extends ColumnAbstractTypeExtension
     }
 
     /**
-     * @param FSi\Component\DataGrid\Column\ColumnTypeInterface $column
+     * @param \FSi\Component\DataGrid\Column\ColumnTypeInterface $column
      */
     private function validateOptions(ColumnTypeInterface $column)
     {

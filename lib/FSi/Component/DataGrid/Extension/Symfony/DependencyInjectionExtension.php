@@ -15,7 +15,7 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 class DependencyInjectionExtension extends DataGridAbstractExtension
 {
     /**
-     * @var Symfony\Component\DependencyInjection\ContainerInterface
+     * @var \Symfony\Component\DependencyInjection\ContainerInterface
      */
     protected $container;
 
@@ -35,7 +35,7 @@ class DependencyInjectionExtension extends DataGridAbstractExtension
     protected $gridSubscriberServiceIds;
 
     /**
-     * @param Symfony\Component\DependencyInjection\ContainerInterface $container
+     * @param \Symfony\Component\DependencyInjection\ContainerInterface $container
      * @param array $columnServiceIds
      * @param array $columnExtensionsServiceIds
      * @param array $gridSubscriberServiceIds
@@ -50,7 +50,7 @@ class DependencyInjectionExtension extends DataGridAbstractExtension
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function hasColumnTypeExtensions($type)
     {
@@ -65,7 +65,7 @@ class DependencyInjectionExtension extends DataGridAbstractExtension
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function hasColumnType($type)
     {
@@ -73,7 +73,7 @@ class DependencyInjectionExtension extends DataGridAbstractExtension
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getColumnType($type)
     {
@@ -87,7 +87,7 @@ class DependencyInjectionExtension extends DataGridAbstractExtension
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getColumnTypeExtensions($type)
     {
@@ -105,7 +105,7 @@ class DependencyInjectionExtension extends DataGridAbstractExtension
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function loadSubscribers()
     {

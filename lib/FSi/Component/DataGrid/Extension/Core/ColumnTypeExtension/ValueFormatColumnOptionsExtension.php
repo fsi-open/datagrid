@@ -16,7 +16,7 @@ use FSi\Component\DataGrid\Column\ColumnAbstractTypeExtension;
 class ValueFormatColumnOptionsExtension extends ColumnAbstractTypeExtension
 {
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function buildCellView(ColumnTypeInterface $column, CellViewInterface $view)
     {
@@ -72,7 +72,7 @@ class ValueFormatColumnOptionsExtension extends ColumnAbstractTypeExtension
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getExtendedColumnTypes()
     {
@@ -87,7 +87,7 @@ class ValueFormatColumnOptionsExtension extends ColumnAbstractTypeExtension
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function initOptions(ColumnTypeInterface $column)
     {
@@ -102,9 +102,9 @@ class ValueFormatColumnOptionsExtension extends ColumnAbstractTypeExtension
             'value_format' => array(
                 'string',
                 'Closure',
-                'null'
+                'null',
             ),
-            'empty_value' => 'string'
+            'empty_value' => 'string',
         ));
     }
 
@@ -151,8 +151,8 @@ class ValueFormatColumnOptionsExtension extends ColumnAbstractTypeExtension
     }
 
     /**
-     * @param $value
-     * @param $emptyValue
+     * @param mixed $value
+     * @param mixed $emptyValue
      * @return array|string
      */
     private function populateValue($value, $emptyValue)

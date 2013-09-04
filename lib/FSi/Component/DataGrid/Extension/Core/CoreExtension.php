@@ -19,7 +19,7 @@ use FSi\Component\DataGrid\Extension\Core\EventSubscriber;
 class CoreExtension extends DataGridAbstractExtension
 {
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     protected function loadColumnTypes()
     {
@@ -29,12 +29,12 @@ class CoreExtension extends DataGridAbstractExtension
             new ColumnType\DateTime(),
             new ColumnType\Action(),
             new ColumnType\Money(),
-            new ColumnType\Action()
+            new ColumnType\Action(),
         );
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     protected function loadColumnTypesExtensions()
     {
@@ -45,7 +45,7 @@ class CoreExtension extends DataGridAbstractExtension
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     protected function loadSubscribers()
     {

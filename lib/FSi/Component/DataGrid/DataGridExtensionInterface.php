@@ -14,7 +14,7 @@ interface DataGridExtensionInterface
     /**
      * Register event subscribers.
      *
-     * @param FSi\Component\DataGrid\DataGridInterface\DataGridInterface $dataGrid
+     * @param \FSi\Component\DataGrid\DataGridInterface\DataGridInterface $dataGrid
      */
     public function registerSubscribers(DataGridInterface $dataGrid);
 

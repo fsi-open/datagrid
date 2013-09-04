@@ -35,7 +35,7 @@ class DataGridRowView implements DataGridRowViewInterface
     protected $index;
 
     /**
-     * @param FSi\Component\DataGrid\DataGridViewInterface $dataGridView
+     * @param \FSi\Component\DataGrid\DataGridViewInterface $dataGridView
      * @param array $columns
      * @param mixed $source
      * @param int $index
@@ -58,7 +58,7 @@ class DataGridRowView implements DataGridRowViewInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getIndex()
     {
@@ -66,7 +66,7 @@ class DataGridRowView implements DataGridRowViewInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getSource()
     {
@@ -89,7 +89,7 @@ class DataGridRowView implements DataGridRowViewInterface
      * Similar to the current() function for arrays in PHP.
      * Required by interface Iterator.
      *
-     * @return FSi\Component\DataGrid\Column\CellViewInterface current element from the rowset
+     * @return \FSi\Component\DataGrid\Column\CellViewInterface current element from the rowset
      */
     public function current()
     {

@@ -14,7 +14,7 @@ interface DataGridEventInterface
     /**
      * Returns the form at the source of the event.
      *
-     * @return FSi\Component\DataGrid\DataGridInterface
+     * @return \FSi\Component\DataGrid\DataGridInterface
      */
     public function getDataGrid();
 

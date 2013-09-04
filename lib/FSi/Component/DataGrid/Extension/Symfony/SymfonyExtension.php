@@ -19,7 +19,7 @@ class SymfonyExtension extends DataGridAbstractExtension
     /**
      * FormFactory used by extension to build forms.
      *
-     * @var Symfony\Component\DependencyInjection\ContainerInterface
+     * @var \Symfony\Component\DependencyInjection\ContainerInterface
      */
     protected $container;
 
@@ -32,7 +32,7 @@ class SymfonyExtension extends DataGridAbstractExtension
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     protected function loadColumnTypes()
     {
@@ -42,7 +42,7 @@ class SymfonyExtension extends DataGridAbstractExtension
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     protected function loadSubscribers()
     {
