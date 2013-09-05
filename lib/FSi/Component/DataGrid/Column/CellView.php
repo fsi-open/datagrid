@@ -35,14 +35,14 @@ class CellView implements CellViewInterface
     protected $attributes = array();
 
     /**
-     * Cell name
+     * Cell name.
      *
      * @var string
      */
     protected $name;
 
     /**
-     * Cell type
+     * Cell type.
      *
      * @var string
      */
@@ -95,6 +95,7 @@ class CellView implements CellViewInterface
     public function setAttribute($name, $value)
     {
         $this->attributes[$name] = $value;
+
         return $this;
     }
 
@@ -106,8 +107,6 @@ class CellView implements CellViewInterface
         if (isset($this->attributes[$name])) {
             return $this->attributes[$name];
         }
-
-        return null;
     }
 
     /**
@@ -132,6 +131,7 @@ class CellView implements CellViewInterface
     public function setSource($source)
     {
         $this->source = $source;
+
         return $this;
     }
 

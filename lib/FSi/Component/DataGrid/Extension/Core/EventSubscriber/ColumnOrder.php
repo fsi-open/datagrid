@@ -16,7 +16,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 class ColumnOrder implements EventSubscriberInterface
 {
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public static function getSubscribedEvents()
     {
@@ -24,7 +24,7 @@ class ColumnOrder implements EventSubscriberInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function postBuildView(DataGridEventInterface $event)
     {

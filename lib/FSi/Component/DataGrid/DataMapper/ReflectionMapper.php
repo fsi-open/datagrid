@@ -15,10 +15,9 @@ use FSi\Component\DataGrid\DataMapper\DataMapperInterface;
 
 class ReflectionMapper implements DataMapperInterface
 {
-
     /**
      * Method inspired by Symfony\Component\Form\Util\PropertyPath::readProperty(&$objectOrArray, $property, $isIndex)
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getData($field, $object)
     {
@@ -110,10 +109,9 @@ class ReflectionMapper implements DataMapperInterface
 
     /**
      * Camelizes a given string.
-     * Method copied from Symfony\Component\Form\Util\PropertyPath
+     * Method copied from Symfony\Component\Form\Util\PropertyPath.
      *
-     * @param  string $string Some string.
-     *
+     * @param string $string Some string.
      * @return string The camelized version of the string.
      */
     private function camelize($string)

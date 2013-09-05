@@ -15,7 +15,7 @@ use FSi\Component\DataGrid\Column\ColumnAbstractType;
 class Entity extends ColumnAbstractType
 {
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getId()
     {
@@ -23,18 +23,17 @@ class Entity extends ColumnAbstractType
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getValue($object)
     {
-        $value = null;
         $value = $this->getDataMapper()->getData($this->getOption('relation_field'), $object);
 
         return $value;
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function filterValue($value)
     {
@@ -68,7 +67,7 @@ class Entity extends ColumnAbstractType
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function initOptions()
     {

@@ -11,21 +11,20 @@ namespace FSi\Component\DataGrid\Extension\Doctrine\ColumnTypeExtension;
 
 use FSi\Component\DataGrid\Column\ColumnTypeInterface;
 use FSi\Component\DataGrid\Column\CellViewInterface;
-use FSi\Component\DataGrid\Column\HeaderViewInterface;
 use FSi\Component\DataGrid\Column\ColumnAbstractTypeExtension;
 use FSi\Component\DataGrid\Exception\DataGridException;
 
 class ValueFormatColumnOptionsExtension extends ColumnAbstractTypeExtension
 {
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function buildCellView(ColumnTypeInterface $column, CellViewInterface $view)
     {
         $value = array();
         $values = $view->getValue();
-        if (($emptyValue = $column->getOption('empty_value')) !== null) { 
-            $values = $this->populateValues($values, $emptyValue); 
+        if (($emptyValue = $column->getOption('empty_value')) !== null) {
+            $values = $this->populateValues($values, $emptyValue);
         }
         $glue = $column->getOption('value_glue');
         $format = $column->getOption('value_format');
@@ -59,7 +58,7 @@ class ValueFormatColumnOptionsExtension extends ColumnAbstractTypeExtension
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      **/
      public function getExtendedColumnTypes()
      {
@@ -69,7 +68,7 @@ class ValueFormatColumnOptionsExtension extends ColumnAbstractTypeExtension
      }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function initOptions(ColumnTypeInterface $column)
     {
@@ -87,10 +86,10 @@ class ValueFormatColumnOptionsExtension extends ColumnAbstractTypeExtension
             'empty_value' => array('array', 'string', 'null')
         ));
     }
-    
+
     /**
-     * @param $values
-     * @param $emptyValue
+     * @param mixed $values
+     * @param mixed $emptyValue
      * @return array
      */
     private function populateValues($values, $emptyValue)
@@ -102,22 +101,23 @@ class ValueFormatColumnOptionsExtension extends ColumnAbstractTypeExtension
                 }
             }
         }
-        
+
         return $values;
     }
-    
+
     /**
-     * @param $key
-     * @param $value
-     * @param $emptyValue
+     * @param string $key
+     * @param mixed $value
+     * @param mixed $emptyValue
      * @return string
+     * @throws \FSi\Component\DataGrid\Exception\DataGridException
      */
     private function populateValue($key, $value, $emptyValue)
     {
         if (is_string($emptyValue)) {
             $value = $emptyValue;
         }
-        
+
         if (is_array($emptyValue)) {
             if (isset($emptyValue[$key])) {
                 $value = $emptyValue[$key];
@@ -125,9 +125,9 @@ class ValueFormatColumnOptionsExtension extends ColumnAbstractTypeExtension
                 throw new DataGridException(
                     sprintf('Not found key "%s" in empty_value array', $key)
                 );
-            } 
+            }
         }
-        
+
         return $value;
     }
 }

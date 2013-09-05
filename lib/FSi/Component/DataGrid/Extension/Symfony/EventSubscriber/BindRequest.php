@@ -18,7 +18,7 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 class BindRequest implements EventSubscriberInterface
 {
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public static function getSubscribedEvents()
     {
@@ -26,14 +26,14 @@ class BindRequest implements EventSubscriberInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function preBindData(DataGridEventInterface $event)
     {
         $dataGrid = $event->getDataGrid();
         $request = $event->getData();
 
-        if (!($request instanceof Request)) {
+        if (!$request instanceof Request) {
             return;
         }
 
@@ -49,12 +49,12 @@ class BindRequest implements EventSubscriberInterface
             case 'GET':
                 $data = $request->get($name, $default);
                 break;
+
             default:
                 throw new DataGridException(sprintf(
                     'The request method "%s" is not supported',
                     $request->getMethod()
                 ));
-                break;
         }
 
         $event->setData($data);

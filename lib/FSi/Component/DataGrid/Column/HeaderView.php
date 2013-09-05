@@ -34,7 +34,7 @@ class HeaderView implements HeaderViewInterface
     protected $attributes = array();
 
     /**
-     * @var DataGridViewInterface
+     * @var \FSi\Component\DataGrid\DataGridViewInterface
      */
     protected $datagrid;
 
@@ -53,6 +53,7 @@ class HeaderView implements HeaderViewInterface
     public function setAttribute($name, $value)
     {
         $this->attributes[$name] = $value;
+
         return $this;
     }
 
@@ -64,8 +65,6 @@ class HeaderView implements HeaderViewInterface
         if (isset($this->attributes[$name])) {
             return $this->attributes[$name];
         }
-
-        return null;
     }
 
     /**
@@ -109,7 +108,7 @@ class HeaderView implements HeaderViewInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getType()
     {

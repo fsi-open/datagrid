@@ -20,7 +20,7 @@ class Money extends ColumnAbstractType
     const ROUND_HALF_ODD = PHP_ROUND_HALF_ODD;
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getId()
     {
@@ -28,7 +28,7 @@ class Money extends ColumnAbstractType
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function filterValue($value)
     {
@@ -75,7 +75,7 @@ class Money extends ColumnAbstractType
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function initOptions()
     {
@@ -87,7 +87,7 @@ class Money extends ColumnAbstractType
             'thousands_sep' => ',',
             'value_currency_separator' => ' ',
             'currency' => null,
-            'currency_field' => null
+            'currency_field' => null,
         ));
 
         $this->getOptionsResolver()->setAllowedTypes(array(
@@ -101,6 +101,5 @@ class Money extends ColumnAbstractType
             'currency' => array('null', 'string'),
             'currency_field' => array('null', 'string'),
         ));
-
     }
 }

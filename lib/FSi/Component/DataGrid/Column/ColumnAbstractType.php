@@ -44,17 +44,17 @@ abstract class ColumnAbstractType implements ColumnTypeInterface
     protected $index;
 
     /**
-     * @var DataMapper
+     * @var \FSi\Component\DataGrid\DataMapper\DataMapperInterface
      */
     protected $dataMapper;
 
     /**
-     * @var DataGrid
+     * @var \FSi\Component\DataGrid\DataGridInterface
      */
     protected $dataGrid;
 
     /**
-     * @var OptionsResolver
+     * @var \Symfony\Component\OptionsResolver\OptionsResolver
      */
     private $optionsResolver;
 
@@ -74,10 +74,11 @@ abstract class ColumnAbstractType implements ColumnTypeInterface
      * Set column registered name.
      *
      * @param string $name
+     * @return \FSi\Component\DataGrid\Column\ColumnTypeInterface
      */
     public function setName($name)
     {
-        $this->name = (string)$name;
+        $this->name = (string) $name;
 
         return $this;
     }
@@ -172,7 +173,7 @@ abstract class ColumnAbstractType implements ColumnTypeInterface
         $view->setAttribute('row', $index);
         $dataMapper = $this->getDataMapper();
 
-        if (!($dataMapper instanceof DataMapperInterface)) {
+        if (!$dataMapper instanceof DataMapperInterface) {
             throw new UnexpectedTypeException($dataMapper, 'FSi\Component\DataGrid\DataMapper\DataMapperInterface');
         }
 
@@ -289,7 +290,7 @@ abstract class ColumnAbstractType implements ColumnTypeInterface
     public function setExtensions(array $extensions)
     {
         foreach ($extensions as $extension) {
-            if (!($extension instanceof ColumnTypeExtensionInterface)) {
+            if (!$extension instanceof ColumnTypeExtensionInterface) {
                 throw new UnexpectedTypeException($extension, 'FSi\Component\DataGrid\Column\ColumnTypeExtensionInterface');
             }
         }
@@ -302,7 +303,7 @@ abstract class ColumnAbstractType implements ColumnTypeInterface
      */
     public function addExtension(ColumnTypeExtensionInterface $extension)
     {
-        if (!($extension instanceof ColumnTypeExtensionInterface)) {
+        if (!$extension instanceof ColumnTypeExtensionInterface) {
             throw new UnexpectedTypeException('Column extension must implement FSi\Component\DataGrid\Column\ColumnTypeExtensionInterface');
         }
 

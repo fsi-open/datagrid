@@ -19,7 +19,7 @@ class Number extends ColumnAbstractType
     const ROUND_HALF_ODD = PHP_ROUND_HALF_ODD;
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getId()
     {
@@ -27,11 +27,11 @@ class Number extends ColumnAbstractType
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function filterValue($value)
     {
-        $precision = (int)$this->getOption('precision');
+        $precision = (int) $this->getOption('precision');
         $roundmode = $this->getOption('round_mode');
 
         $format = $this->getOption('format');
@@ -57,7 +57,7 @@ class Number extends ColumnAbstractType
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function initOptions()
     {

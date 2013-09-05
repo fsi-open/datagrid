@@ -42,7 +42,7 @@ class Action extends ColumnAbstractType
     );
 
     /**
-     * @var OptionsResolver
+     * @var \Symfony\Component\OptionsResolver\OptionsResolver
      */
     protected $actionOptionsResolver;
 
@@ -52,7 +52,7 @@ class Action extends ColumnAbstractType
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getId()
     {
@@ -60,7 +60,7 @@ class Action extends ColumnAbstractType
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function filterValue($value)
     {
@@ -90,7 +90,7 @@ class Action extends ColumnAbstractType
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function initOptions()
     {

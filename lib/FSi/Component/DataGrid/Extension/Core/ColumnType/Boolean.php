@@ -14,7 +14,7 @@ use FSi\Component\DataGrid\Column\ColumnAbstractType;
 class Boolean extends ColumnAbstractType
 {
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getId()
     {
@@ -22,7 +22,7 @@ class Boolean extends ColumnAbstractType
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function filterValue($value)
     {
@@ -41,7 +41,7 @@ class Boolean extends ColumnAbstractType
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function initOptions()
     {

@@ -7,15 +7,21 @@ use Symfony\Component\Form\FormBuilderInterface;
 
 class RowType extends AbstractType
 {
+    /**
+     * @var array
+     */
     protected $fields;
 
+    /**
+     * @param array $fields
+     */
     public function __construct($fields = array())
     {
         $this->fields = $fields;
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
@@ -25,7 +31,7 @@ class RowType extends AbstractType
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getName()
     {

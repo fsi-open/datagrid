@@ -15,7 +15,7 @@ use FSi\Component\DataGrid\Extension\Doctrine\ColumnType;
 class DoctrineExtension extends DataGridAbstractExtension
 {
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     protected function loadColumnTypes()
     {
@@ -25,7 +25,7 @@ class DoctrineExtension extends DataGridAbstractExtension
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     protected function loadColumnTypesExtensions()
     {
