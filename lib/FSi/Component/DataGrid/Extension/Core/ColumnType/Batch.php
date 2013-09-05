@@ -16,7 +16,7 @@ use FSi\Component\DataGrid\Column\HeaderViewInterface;
 class Batch extends ColumnAbstractType
 {
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getId()
     {
@@ -24,7 +24,7 @@ class Batch extends ColumnAbstractType
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function filterValue($value)
     {

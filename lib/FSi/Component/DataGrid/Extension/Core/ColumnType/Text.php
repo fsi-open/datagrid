@@ -14,7 +14,7 @@ use FSi\Component\DataGrid\Column\ColumnAbstractType;
 class Text extends ColumnAbstractType
 {
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getId()
     {
@@ -22,11 +22,11 @@ class Text extends ColumnAbstractType
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function filterValue($value)
     {
-        $trim = (boolean)$this->getOption('trim');
+        $trim = (boolean) $this->getOption('trim');
         if (isset($trim) && $trim == true) {
             foreach ($value as &$val) {
                 if (empty($val)) {
@@ -41,7 +41,7 @@ class Text extends ColumnAbstractType
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function initOptions()
     {

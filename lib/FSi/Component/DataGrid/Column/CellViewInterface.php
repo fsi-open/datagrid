@@ -22,15 +22,16 @@ interface CellViewInterface
     public function hasAttribute($name);
 
     /**
-     * Set view attribute
+     * Set view attribute.
      *
      * @param string $name
      * @param mixed $value
+     * @return \FSi\Component\DataGrid\Column\CellViewInterface
      */
     public function setAttribute($name, $value);
 
     /**
-     * Get view attribute
+     * Get view attribute.
      *
      * @param string $name
      * @return mixed
@@ -48,6 +49,7 @@ interface CellViewInterface
      * Set the source object.
      *
      * @param mixed $source
+     * @return \FSi\Component\DataGrid\Column\CellViewInterface
      */
     public function setSource($source);
 
@@ -89,15 +91,15 @@ interface CellViewInterface
     /**
      * Set DataGridView
      *
-     * @param DataGridViewInterface $dataGrid
-     * @return mixed
+     * @param \FSi\Component\DataGrid\DataGridViewInterface $dataGrid
+     * @return \FSi\Component\DataGrid\Column\CellViewInterface
      */
     public function setDataGridView(DataGridViewInterface $dataGrid);
 
     /**
-     * Get DataGridView
+     * Get DataGridView.
      *
-     * @return mixed
+     * @return \FSi\Component\DataGrid\DataGridViewInterface
      */
     public function getDataGridView();
 }

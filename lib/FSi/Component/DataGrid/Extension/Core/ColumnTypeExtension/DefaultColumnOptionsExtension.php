@@ -16,9 +16,8 @@ use FSi\Component\DataGrid\Column\ColumnAbstractTypeExtension;
 
 class DefaultColumnOptionsExtension extends ColumnAbstractTypeExtension
 {
-
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function buildHeaderView(ColumnTypeInterface $column, HeaderViewInterface $view)
     {
@@ -29,7 +28,7 @@ class DefaultColumnOptionsExtension extends ColumnAbstractTypeExtension
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getExtendedColumnTypes()
     {
@@ -47,7 +46,7 @@ class DefaultColumnOptionsExtension extends ColumnAbstractTypeExtension
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function initOptions(ColumnTypeInterface $column)
     {
@@ -62,7 +61,7 @@ class DefaultColumnOptionsExtension extends ColumnAbstractTypeExtension
             'field_mapping' => 'array',
             'display_order' => array(
                 'integer',
-                'null'
+                'null',
             ),
         ));
     }

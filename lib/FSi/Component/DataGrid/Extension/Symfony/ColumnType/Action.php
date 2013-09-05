@@ -19,24 +19,24 @@ class Action extends ColumnAbstractType
     /**
      * Symfony Router to generate urls.
      *
-     * @var Symfony\Component\Routing\Router;
+     * @var \Symfony\Component\Routing\Router;
      */
     protected $router;
 
     /**
      * Service container used to access current request.
      *
-     * @var Symfony\Component\DependencyInjection\ContainerInterface
+     * @var \Symfony\Component\DependencyInjection\ContainerInterface
      */
     protected $container;
 
     /**
-     * @var OptionsResolver
+     * @var \Symfony\Component\OptionsResolver\OptionsResolver
      */
     protected $actionOptionsResolver;
 
     /**
-     * @param ContainerInterface $container
+     * @param \Symfony\Component\DependencyInjection\ContainerInterface $container
      */
     public function __construct(ContainerInterface $container)
     {
@@ -46,7 +46,7 @@ class Action extends ColumnAbstractType
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getId()
     {
@@ -54,7 +54,7 @@ class Action extends ColumnAbstractType
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function filterValue($value)
     {
@@ -123,7 +123,7 @@ class Action extends ColumnAbstractType
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function initOptions()
     {

@@ -15,7 +15,7 @@ use FSi\Component\DataGrid\Exception\DataGridColumnException;
 class DateTime extends ColumnAbstractType
 {
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getId()
     {
@@ -23,7 +23,7 @@ class DateTime extends ColumnAbstractType
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function filterValue($value)
     {
@@ -55,7 +55,7 @@ class DateTime extends ColumnAbstractType
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function initOptions()
     {
@@ -246,6 +246,11 @@ class DateTime extends ColumnAbstractType
         return null;
     }
 
+    /**
+     * @param string $value
+     * @param string $mappingFormat
+     * @return \DateTime
+     */
     private function transformStringToDateTime($value, $mappingFormat)
     {
         if (!isset($mappingFormat)) {
@@ -262,7 +267,7 @@ class DateTime extends ColumnAbstractType
 
         $dateTime = \DateTime::CreateFromFormat($mappingFormat, $value);
 
-        if (!($dateTime instanceof \DateTime)) {
+        if (!$dateTime instanceof \DateTime) {
             throw new DataGridColumnException(
                 sprintf('value "%s" does not fit into format "%s" ', $value, $mappingFormat)
             );
@@ -271,9 +276,12 @@ class DateTime extends ColumnAbstractType
         return $dateTime;
     }
 
+    /**
+     * @param int
+     * @return \DateTime
+     */
     private function transformTimestampToDateTime($value)
     {
-
         if (!is_numeric($value)) {
             throw new \InvalidArgumentException(
                 sprintf('Value in column "%s" should be timestamp but "%s" type was detected. Maybe you should consider using different "input" opition value?', $this->getName(), gettype($value))
@@ -283,7 +291,7 @@ class DateTime extends ColumnAbstractType
         $dateTime = new \DateTime();
         $dateTime->setTimestamp($value);
 
-        if (!($dateTime instanceof \DateTime)) {
+        if (!$dateTime instanceof \DateTime) {
             throw new DataGridColumnException(
                 sprintf('value "%s" is not a valid timestamp', $value)
             );

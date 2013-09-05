@@ -9,33 +9,31 @@
 
 namespace FSi\Component\DataGrid;
 
-use FSi\Component\DataGrid\DataGridInterface;
-
 interface DataGridExtensionInterface
 {
     /**
-     * Register event subscribers
+     * Register event subscribers.
      *
-     * @param DataGridInterface $dataGrid
+     * @param \FSi\Component\DataGrid\DataGridInterface\DataGridInterface $dataGrid
      */
     public function registerSubscribers(DataGridInterface $dataGrid);
 
     /**
-     * Check if extension has column type of $type
+     * Check if extension has column type of $type.
      *
      * @param string $type
      */
     public function hasColumnType($type);
 
     /**
-     * Get column type
+     * Get column type.
      *
      * @param string $type
      */
     public function getColumnType($type);
 
     /**
-     * Check if extension has any column type extension for column of $type
+     * Check if extension has any column type extension for column of $type.
      *
      * @param string $type
      */

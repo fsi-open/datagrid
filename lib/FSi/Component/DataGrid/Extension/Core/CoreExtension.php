@@ -11,8 +11,6 @@ namespace FSi\Component\DataGrid\Extension\Core;
 
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 
-use FSi\Component\DataGrid\DataGridViewInterface;
-use FSi\Component\DataGrid\DataGridInterface;
 use FSi\Component\DataGrid\DataGridAbstractExtension;
 use FSi\Component\DataGrid\Extension\Core\ColumnType;
 use FSi\Component\DataGrid\Extension\Core\ColumnTypeExtension;
@@ -21,7 +19,7 @@ use FSi\Component\DataGrid\Extension\Core\EventSubscriber;
 class CoreExtension extends DataGridAbstractExtension
 {
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     protected function loadColumnTypes()
     {
@@ -31,12 +29,12 @@ class CoreExtension extends DataGridAbstractExtension
             new ColumnType\DateTime(),
             new ColumnType\Action(),
             new ColumnType\Money(),
-            new ColumnType\Action()
+            new ColumnType\Action(),
         );
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     protected function loadColumnTypesExtensions()
     {
@@ -47,7 +45,7 @@ class CoreExtension extends DataGridAbstractExtension
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     protected function loadSubscribers()
     {

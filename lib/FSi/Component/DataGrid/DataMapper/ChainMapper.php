@@ -10,12 +10,18 @@
 namespace FSi\Component\DataGrid\DataMapper;
 
 use FSi\Component\DataGrid\Exception\DataMappingExteption;
-use FSi\Component\DataGrid\DataMapper\DataMapperInterface;
 
 class ChainMapper implements DataMapperInterface
 {
+    /**
+     * @var array
+     */
     protected $mappers = array();
 
+    /**
+     * @param array $mappers
+     * @throws \InvalidArgumentException
+     */
     public function __construct(array $mappers)
     {
         if (!count($mappers)) {
@@ -23,7 +29,7 @@ class ChainMapper implements DataMapperInterface
         }
 
         foreach ($mappers as $mapper) {
-            if (!($mapper instanceof DataMapperInterface)) {
+            if (!$mapper instanceof DataMapperInterface) {
                 throw new \InvalidArgumentException('Mapper needs to implement FSi\Component\DataGrid\DataMapper\DataMapperInterface');
             }
             $this->mappers[] = $mapper;
@@ -31,7 +37,7 @@ class ChainMapper implements DataMapperInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getData($field, $object)
     {
@@ -62,7 +68,7 @@ class ChainMapper implements DataMapperInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function setData($field, $object, $value)
     {

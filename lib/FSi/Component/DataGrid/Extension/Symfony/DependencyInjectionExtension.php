@@ -14,14 +14,32 @@ use Symfony\Component\DependencyInjection\ContainerInterface;
 
 class DependencyInjectionExtension extends DataGridAbstractExtension
 {
+    /**
+     * @var \Symfony\Component\DependencyInjection\ContainerInterface
+     */
     protected $container;
 
+    /**
+     * @var array
+     */
     protected $columnServiceIds;
 
+    /**
+     * @var array
+     */
     protected $columnExtensionServiceIds;
 
+    /**
+     * @var array
+     */
     protected $gridSubscriberServiceIds;
 
+    /**
+     * @param \Symfony\Component\DependencyInjection\ContainerInterface $container
+     * @param array $columnServiceIds
+     * @param array $columnExtensionsServiceIds
+     * @param array $gridSubscriberServiceIds
+     */
     public function __construct(ContainerInterface $container, array $columnServiceIds,
             array $columnExtensionServiceIds, array $gridSubscriberServiceIds)
     {
@@ -32,7 +50,7 @@ class DependencyInjectionExtension extends DataGridAbstractExtension
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function hasColumnTypeExtensions($type)
     {
@@ -47,7 +65,7 @@ class DependencyInjectionExtension extends DataGridAbstractExtension
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function hasColumnType($type)
     {
@@ -55,7 +73,7 @@ class DependencyInjectionExtension extends DataGridAbstractExtension
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getColumnType($type)
     {
@@ -69,7 +87,7 @@ class DependencyInjectionExtension extends DataGridAbstractExtension
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getColumnTypeExtensions($type)
     {
@@ -79,7 +97,7 @@ class DependencyInjectionExtension extends DataGridAbstractExtension
             $extension = $this->container->get($this->columnExtensionServiceIds[$alias]);
             $types = $extension->getExtendedColumnTypes();
             if (in_array($type, $types)) {
-                $columnExtension[] = $extension;;
+                $columnExtension[] = $extension;
             }
         }
 
@@ -87,7 +105,7 @@ class DependencyInjectionExtension extends DataGridAbstractExtension
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function loadSubscribers()
     {

@@ -24,9 +24,9 @@ interface IndexingStrategyInterface
      * Method should return unique index for passed object.
      *
      * @param mixed $object
-     * @param DataMapperInterface $dataMapper
-     * @return string|null - if method can't return index for object it returns null value
-     * in other case it should return string imploded with separator value.
+     * @param \FSi\Component\DataGrid\DataMapper\DataMapperInterface $dataMapper
+     * @return string|null if method can't return index for object it returns null value
+     *                     in other case it should return string imploded with separator value.
      */
     public function getIndex($object, DataMapperInterface $dataMapper);
 

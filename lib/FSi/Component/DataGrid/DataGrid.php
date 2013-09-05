@@ -25,43 +25,50 @@ class DataGrid implements DataGridInterface
 {
     /**
      * Unique data grid name. With this name grid is registered in factory.
+     *
      * @var string
      */
     protected $name;
 
     /**
      * DataCollection used to render view.
-     * @var DataRowset
+     *
+     * @var \FSi\Component\DataGrid\Data\DataRowset
      */
     protected $rowset;
 
     /**
      * DataMapper used by all columns to retrieve data from rowset objects.
-     * @var DataMapperInterface
+     *
+     * @var \FSi\Component\DataGrid\DataMapper\DataMapperInterface
      */
     protected $dataMapper;
 
     /**
      * Factory that holds all column types and column types extensions.
-     * @var DataGridFactoryInterface
+     *
+     * @var \FSi\Component\DataGrid\DataGridFactoryInterface
      */
     protected $dataGridFactory;
 
     /**
      * Columns cloned from $dataGridFactory and used to render rowset view.
+     *
      * @var array
      */
     protected $columns = array();
 
     /**
      * Symfony EventDispatcher mechanism that allow users to register listeners and subscribers.
-     * @var EventDispatcher
+     *
+     * @var \Symfony\Component\EventDispatcher\EventDispatcher
      */
     protected $eventDispatcher;
 
     /**
      * Indexing strategy used to index rowset original data under unique indexes.
-     * @var IndexingStrategyInterface
+     *
+     * @var FSi\Component\DataGrid\Data\IndexingStrategyInterface
      * @deprecated this field is deprecated and it will be removed in version 1.2
      */
     protected $strategy;
@@ -70,9 +77,9 @@ class DataGrid implements DataGridInterface
      * Constructs new DataGrid instance. Should be called only from DataGridFactory.
      *
      * @param string $name
-     * @param DataGridFactoryInterface $dataGridFactory
-     * @param DataMapperInterface $dataMapper
-     * @param IndexingStrategyInterface $strategy - deprecated and will be removed in 1.2
+     * @param \FSi\Component\DataGrid\DataGridFactoryInterface $dataGridFactory
+     * @param \FSi\Component\DataGrid\DataMapper\DataMapperInterface $dataMapper
+     * @param \FSi\Component\DataGrid\Data\IndexingStrategyInterface $strategy - deprecated and will be removed in 1.2
      */
     public function __construct($name, DataGridFactoryInterface $dataGridFactory, DataMapperInterface $dataMapper, IndexingStrategyInterface $strategy = null)
     {
@@ -85,7 +92,7 @@ class DataGrid implements DataGridInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getName()
     {
@@ -93,7 +100,7 @@ class DataGrid implements DataGridInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function addColumn($name, $type = 'text', $options = array())
     {
@@ -126,7 +133,7 @@ class DataGrid implements DataGridInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getColumn($name)
     {
@@ -138,7 +145,7 @@ class DataGrid implements DataGridInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getColumns()
     {
@@ -146,7 +153,7 @@ class DataGrid implements DataGridInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function hasColumn($name)
     {
@@ -154,7 +161,7 @@ class DataGrid implements DataGridInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function hasColumnType($type)
     {
@@ -168,7 +175,7 @@ class DataGrid implements DataGridInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function removeColumn($name)
     {
@@ -182,7 +189,7 @@ class DataGrid implements DataGridInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function clearColumns()
     {
@@ -191,7 +198,7 @@ class DataGrid implements DataGridInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getDataMapper()
     {
@@ -199,7 +206,7 @@ class DataGrid implements DataGridInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function getIndexingStrategy()
     {
@@ -207,7 +214,7 @@ class DataGrid implements DataGridInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function setData($data)
     {
@@ -216,7 +223,7 @@ class DataGrid implements DataGridInterface
         $data = $event->getData();
 
         if (!is_array($data)) {
-            if (!($data instanceof \Traversable)) {
+            if (!$data instanceof \Traversable) {
                 throw new \InvalidArgumentException('Array or Traversable object is expected in setData method.');
             }
         }
@@ -230,7 +237,7 @@ class DataGrid implements DataGridInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function bindData($data)
     {
@@ -239,7 +246,7 @@ class DataGrid implements DataGridInterface
         $data = $event->getData();
 
         if (!is_array($data)) {
-            if (!($data instanceof \ArrayIterator)) {
+            if (!$data instanceof \ArrayIterator) {
                 throw new \InvalidArgumentException('array or Traversable object is expected as data in bindData method.');
             }
         }
@@ -261,7 +268,7 @@ class DataGrid implements DataGridInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function addEventListener($eventName, $listener, $priority = 0)
     {
@@ -271,7 +278,7 @@ class DataGrid implements DataGridInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function addEventSubscriber(EventSubscriberInterface $subscriber)
     {
@@ -281,7 +288,7 @@ class DataGrid implements DataGridInterface
     }
 
     /**
-     * {@inheritDoc}
+     * {@inheritdoc}
      */
     public function createView()
     {
@@ -300,8 +307,8 @@ class DataGrid implements DataGridInterface
     /**
      * Returns data grid rowset that contains source data.
      *
-     * @throws DataGridException thrown when getRowset is called before setData
-     * @return DataRowset
+     * @throws \FSi\Component\DataGrid\Exception\DataGridException thrown when getRowset is called before setData
+     * @return \FSi\Component\DataGrid\Data\DataRowset
      */
     private function getRowset()
     {
