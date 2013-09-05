@@ -24,7 +24,7 @@ class SymfonyExtension extends DataGridAbstractExtension
     protected $container;
 
     /**
-     * @param Symfony\Component\DependencyInjection\ContainerInterface $formFactory
+     * @param \Symfony\Component\DependencyInjection\ContainerInterface $formFactory
      */
     public function __construct(ContainerInterface $container)
     {
