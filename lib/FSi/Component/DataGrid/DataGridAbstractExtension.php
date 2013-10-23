@@ -1,7 +1,7 @@
 <?php
 
 /**
- * (c) Fabryka Stron Internetowych sp. z o.o <info@fsi.pl>
+ * (c) FSi sp. z o.o. <info@fsi.pl>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -20,15 +20,15 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 abstract class DataGridAbstractExtension implements DataGridExtensionInterface
 {
     /**
-	 * All column types extensions provided by data grid extension.
-	 *
+     * All column types extensions provided by data grid extension.
+     *
      * @var array
      */
     protected $columnTypesExtensions;
 
     /**
-	 * All column types provided by extension.
-	 *
+     * All column types provided by extension.
+     *
      * @var array
      */
     protected $columnTypes;
@@ -127,8 +127,8 @@ abstract class DataGridAbstractExtension implements DataGridExtensionInterface
     /**
      * If extension needs to load event subscribers this method should be overloaded in
      * child class and return array event subscribers.
-	 *
-	 * @return array
+     *
+     * @return array
      */
     protected function loadSubscribers()
     {

@@ -1,6 +1,7 @@
 <?php
+
 /**
- * (c) Fabryka Stron Internetowych sp. z o.o <info@fsi.pl>
+ * (c) FSi sp. z o.o. <info@fsi.pl>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -13,12 +14,12 @@ use FSi\Component\DataGrid\DataGridView;
 class DataGridViewTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var DataRowsetInterface
+     * @var \FSi\Component\DataGrid\Data\DataRowsetInterface
      */
     private $rowset;
 
     /**
-     * @var DataGridView
+     * @var \FSi\Component\DataGrid\DataGridView
      */
     private $gridView;
 

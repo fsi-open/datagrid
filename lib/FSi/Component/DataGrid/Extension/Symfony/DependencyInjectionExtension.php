@@ -1,7 +1,7 @@
 <?php
 
 /**
- * (c) Fabryka Stron Internetowych sp. z o.o <info@fsi.pl>
+ * (c) FSi sp. z o.o. <info@fsi.pl>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -40,9 +40,12 @@ class DependencyInjectionExtension extends DataGridAbstractExtension
      * @param array $columnExtensionsServiceIds
      * @param array $gridSubscriberServiceIds
      */
-    public function __construct(ContainerInterface $container, array $columnServiceIds,
-            array $columnExtensionServiceIds, array $gridSubscriberServiceIds)
-    {
+    public function __construct(
+        ContainerInterface $container,
+        array $columnServiceIds,
+        array $columnExtensionServiceIds,
+        array $gridSubscriberServiceIds
+    ) {
         $this->container = $container;
         $this->columnServiceIds = $columnServiceIds;
         $this->columnExtensionServiceIds = $columnExtensionServiceIds;

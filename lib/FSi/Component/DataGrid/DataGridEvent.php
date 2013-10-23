@@ -1,7 +1,7 @@
 <?php
 
 /**
- * (c) Fabryka Stron Internetowych sp. z o.o <info@fsi.pl>
+ * (c) FSi sp. z o.o. <info@fsi.pl>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -26,7 +26,7 @@ class DataGridEvent extends Event implements DataGridEventInterface
     protected $data;
 
     /**
-     * @param FSi\Component\DataGrid\DataGridInterface $dataGrid
+     * @param \FSi\Component\DataGrid\DataGridInterface $dataGrid
      * @param mixed $data
      */
     public function __construct(DataGridInterface $dataGrid, $data)
