@@ -1,7 +1,7 @@
 <?php
 
 /**
- * (c) Fabryka Stron Internetowych sp. z o.o <info@fsi.pl>
+ * (c) FSi sp. z o.o. <info@fsi.pl>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -59,15 +59,15 @@ class ActionTest extends \PHPUnit_Framework_TestCase
 
         $this->assertSame(
             array(
-               'edit' => array(
-                   'url' => '/test/bar',
-                   'field_mapping_values' => array(
-                       'foo' => 'bar'
-                   )
-               )
+                'edit' => array(
+                    'url' => '/test/bar',
+                    'field_mapping_values' => array(
+                        'foo' => 'bar'
+                    )
+                )
             ),
             $this->column->filterValue(array(
-               'foo' => 'bar'
+                'foo' => 'bar'
             ))
         );
     }
@@ -85,15 +85,15 @@ class ActionTest extends \PHPUnit_Framework_TestCase
 
         $this->assertSame(
             array(
-               'edit' => array(
-                   'url' => 'https://fsi.pl/test/bar?redirect_uri=' . urlencode('http://onet.pl/'),
-                   'field_mapping_values' => array(
-                           'foo' => 'bar'
-                   )
-               )
+                'edit' => array(
+                    'url' => 'https://fsi.pl/test/bar?redirect_uri=' . urlencode('http://onet.pl/'),
+                    'field_mapping_values' => array(
+                        'foo' => 'bar'
+                    )
+                )
             ),
             $this->column->filterValue(array(
-               'foo' => 'bar'
+                'foo' => 'bar'
             ))
         );
     }

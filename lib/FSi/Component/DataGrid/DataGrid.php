@@ -1,7 +1,7 @@
 <?php
 
 /**
- * (c) Fabryka Stron Internetowych sp. z o.o <info@fsi.pl>
+ * (c) FSi sp. z o.o. <info@fsi.pl>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -68,7 +68,7 @@ class DataGrid implements DataGridInterface
     /**
      * Indexing strategy used to index rowset original data under unique indexes.
      *
-     * @var FSi\Component\DataGrid\Data\IndexingStrategyInterface
+     * @var \FSi\Component\DataGrid\Data\IndexingStrategyInterface
      * @deprecated this field is deprecated and it will be removed in version 1.2
      */
     protected $strategy;

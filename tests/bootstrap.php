@@ -12,9 +12,8 @@ if (!class_exists('PHPUnit_Framework_MockObject_MockBuilder')) {
     die('PHPUnit MockObject plugin is required, at least 1.0.8 version');
 }
 if (!file_exists(__DIR__.'/../vendor/autoload.php')) {
-    die('Install vendors using command: composer.phar install');    
+    die('Install vendors using command: composer.phar install');
 }
 
 $loader = require_once __DIR__.'/../vendor/autoload.php';
 $loader->add('FSi\\Component\\DataGrid\\Tests', __DIR__);
-

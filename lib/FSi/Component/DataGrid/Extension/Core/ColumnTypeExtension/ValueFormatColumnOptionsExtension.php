@@ -1,7 +1,7 @@
 <?php
 
 /**
- * (c) Fabryka Stron Internetowych sp. z o.o <info@fsi.pl>
+ * (c) FSi sp. z o.o. <info@fsi.pl>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -109,8 +109,8 @@ class ValueFormatColumnOptionsExtension extends ColumnAbstractTypeExtension
     }
 
     /**
-     * @param FSi\Component\DataGrid\Column\ColumnTypeInterface $column
-     * @throws InvalidArgumentException
+     * @param \FSi\Component\DataGrid\Column\ColumnTypeInterface $column
+     * @throws \InvalidArgumentException
      */
     private function validateEmptyValueOption(ColumnTypeInterface $column)
     {

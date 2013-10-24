@@ -1,7 +1,7 @@
 <?php
 
 /**
- * (c) Fabryka Stron Internetowych sp. z o.o <info@fsi.pl>
+ * (c) FSi sp. z o.o. <info@fsi.pl>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -88,7 +88,9 @@ class DateTime extends ColumnAbstractType
         $input = $this->getOption('input_type');
         $mappingFormat = $this->getOption('input_field_format');
 
-        if (!isset($input)) $input = $this->guessInput($value);
+        if (!isset($input)) {
+            $input = $this->guessInput($value);
+        }
 
         $mappingFields = $this->getOption('field_mapping');
         $inputData = array();
@@ -166,6 +168,7 @@ class DateTime extends ColumnAbstractType
                     }
                 }
                 break;
+
             case 'string':
                 $field = key($value);
                 $value = current($value);
@@ -182,6 +185,7 @@ class DateTime extends ColumnAbstractType
                         $inputData[$field] = $this->transformStringToDateTime($value, $mappingFormat);
                     }
                 break;
+
             case 'datetime':
                 $field = key($value);
                 $value = current($value);
@@ -194,6 +198,7 @@ class DateTime extends ColumnAbstractType
 
                 $inputData[$field] = $value;
                 break;
+
             case 'timestamp':
                 $field = key($value);
                 $value = current($value);
@@ -204,6 +209,7 @@ class DateTime extends ColumnAbstractType
                     $inputData[$field] = $this->transformTimestampToDateTime($value);
                 }
                 break;
+
             default:
                 throw new DataGridColumnException(
                     sprintf('"%s" is not valid input option value. '.
@@ -216,7 +222,7 @@ class DateTime extends ColumnAbstractType
 
     /**
      * If input option value is not passed into column this method should
-     * be called to guess input type from column $value
+     * be called to guess input type from column $value.
      *
      * @param array $value
      */

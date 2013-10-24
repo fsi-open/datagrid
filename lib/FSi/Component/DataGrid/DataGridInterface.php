@@ -1,7 +1,7 @@
 <?php
 
 /**
- * (c) Fabryka Stron Internetowych sp. z o.o <info@fsi.pl>
+ * (c) FSi sp. z o.o. <info@fsi.pl>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -15,7 +15,7 @@ interface DataGridInterface
 {
     /**
      * Get DataGrid name. Name must be unique inside of factory.
-	 *
+     *
      * @return string
      */
     public function getName();
@@ -23,7 +23,7 @@ interface DataGridInterface
     /**
      * Return data mapper.
      *
-     * @return FSi\Component\DataGrid\DataMapper\DataMapperInterface
+     * @return \FSi\Component\DataGrid\DataMapper\DataMapperInterface
      */
     public function getDataMapper();
 

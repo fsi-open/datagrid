@@ -1,7 +1,7 @@
 <?php
 
 /**
- * (c) Fabryka Stron Internetowych sp. z o.o <info@fsi.pl>
+ * (c) FSi sp. z o.o. <info@fsi.pl>
  *
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
@@ -75,7 +75,7 @@ class DataGridRowView implements DataGridRowViewInterface
 
     /**
      * Returns the number of cells in the row.
-     * Implementation of Countable::count()
+     * Implementation of Countable::count().
      *
      * @return int
      */
@@ -131,7 +131,7 @@ class DataGridRowView implements DataGridRowViewInterface
     }
 
     /**
-     * Checks if current position is valid
+     * Checks if current position is valid.
      * Required by the SeekableIterator implementation.
      *
      * @return bool
@@ -156,7 +156,7 @@ class DataGridRowView implements DataGridRowViewInterface
      * Required by the ArrayAccess implementation
      *
      * @param string $offset
-     * @return mixed false|FSi\Component\DataGrid\Column\ColumnTypeInterface
+     * @return mixed false|\FSi\Component\DataGrid\Column\ColumnTypeInterface
      */
     public function offsetGet($offset)
     {
