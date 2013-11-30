@@ -35,10 +35,13 @@ class BindRequestTest extends \PHPUnit_Framework_TestCase
              ->method('getMethod')
              ->will($this->returnValue('POST'));
 
-        $request->expects($this->once())
+        $requestBag = $this->getMock('Symfony\Component\HttpFoundation\ParameterBag');
+        $requestBag->expects($this->once())
             ->method('get')
             ->with('grid', array())
             ->will($this->returnValue(array('foo' => 'bar')));
+
+        $request->request = $requestBag;
 
         $grid = $this->getMock('FSi\Component\DataGrid\DataGridInterface');
         $grid->expects($this->once())
@@ -74,10 +77,13 @@ class BindRequestTest extends \PHPUnit_Framework_TestCase
              ->method('getMethod')
              ->will($this->returnValue('GET'));
 
-        $request->expects($this->once())
+        $queryBag = $this->getMock('Symfony\Component\HttpFoundation\ParameterBag');
+        $queryBag->expects($this->once())
             ->method('get')
             ->with('grid', array())
             ->will($this->returnValue(array('foo' => 'bar')));
+
+        $request->query = $queryBag;
 
         $grid = $this->getMock('FSi\Component\DataGrid\DataGridInterface');
         $grid->expects($this->once())

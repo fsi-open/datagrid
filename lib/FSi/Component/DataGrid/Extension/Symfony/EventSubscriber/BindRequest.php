@@ -46,8 +46,10 @@ class BindRequest implements EventSubscriberInterface
             case 'PUT':
             case 'DELETE':
             case 'PATCH':
+                $data = $request->request->get($name, $default);
+                break;
             case 'GET':
-                $data = $request->get($name, $default);
+                $data = $request->query->get($name, $default);
                 break;
 
             default:
