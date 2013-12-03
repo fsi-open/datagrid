@@ -319,7 +319,7 @@ display_order   | display_order  | value_glue     | value_glue            | v
 actions         | actions        | display_order  | display_order         | display_order            |
                 |                | value_format   | value_format          | value_format             |
                 |                | editable       | editable              | editable                 |
-                |                | form_otpions   | form_otpions          | form_otpions             |
+                |                | form_options   | form_options          | form_options             |
                 |                | form_type      | form_type             | form_type                |
                 |                | empty_value    | empty_value           | empty_value              |
                 |                | true_value     | datetime_format       | value_glue_multiple      |
@@ -340,7 +340,7 @@ actions         | actions        | display_order  | display_order         | 
 | display_order  | display_order | display_order  | display_order |
 | value_format   | value_format  | value_format   | value_format  |
 | editable       | editable      | editable       | editable      |
-| form_otpions   | form_otpions  | form_otpions   | form_otpions  |
+| form_options   | form_options  | form_options   | form_options  |
 | form_type      | form_type     | empty_value    | empty_value   |
 | empty_value    | empty_value   | relation_field | em            |
 | round_mode     | round_mode    | glue_multiple  |               |
