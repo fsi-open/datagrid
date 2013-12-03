@@ -69,7 +69,7 @@ You can also specify form type by ``form_type`` option.
 $grid->addColumn('user_email', 'text', array(
     'mapping_fields' => array('user_email'), //in this case this parameter is optional because column name is same as mapping_field
     'editable' => true,
-    'fields_options' => array(
+    'form_options' => array(
         'user_email' => array( //each array key must exist in mapping_fields
             'attr' => array(
                 'placeholder' => 'Email..'
