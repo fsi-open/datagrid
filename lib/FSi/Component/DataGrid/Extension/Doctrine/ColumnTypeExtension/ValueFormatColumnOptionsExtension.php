@@ -74,8 +74,8 @@ class ValueFormatColumnOptionsExtension extends ColumnAbstractTypeExtension
     {
         $column->getOptionsResolver()->setDefaults(array(
             'glue_multiple' => ' ',
-            'value_glue' => null,
-            'value_format' => null,
+            'value_glue' => ' ',
+            'value_format' => '%s',
             'empty_value' => null
         ));
 
