@@ -54,7 +54,7 @@ class DefaultColumnOptionsExtension extends ColumnAbstractTypeExtension
         $column->getOptionsResolver()->setDefaults(array(
             'label' => $column->getName(),
             'display_order' => null,
-            'field_mapping' => array($column->getName()),
+            'field_mapping' => array($column->getName())
         ));
 
         $column->getOptionsResolver()->setAllowedTypes(array(
@@ -63,7 +63,7 @@ class DefaultColumnOptionsExtension extends ColumnAbstractTypeExtension
             'display_order' => array(
                 'integer',
                 'null',
-            ),
+            )
         ));
     }
 }

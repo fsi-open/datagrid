@@ -18,7 +18,7 @@ class Action extends ColumnAbstractType
      * @var array
      */
     protected $actionOptionsDefault = array(
-        'protocole' => 'http://',
+        'protocol' => 'http://',
     );
 
     /**
@@ -27,7 +27,7 @@ class Action extends ColumnAbstractType
     protected $actionOptionsAvailable = array(
         'uri_scheme',
         'anchor',
-        'protocole',
+        'protocol',
         'domain',
         'name',
         'redirect_uri',
@@ -71,7 +71,7 @@ class Action extends ColumnAbstractType
             $options = $this->actionOptionsResolver->resolve((array) $options);
             $return[$name] = array();
 
-            $url = (isset($options['protocole'], $options['domain'])) ? $options['protocole'] . $options['domain'] : '';
+            $url = (isset($options['protocol'], $options['domain'])) ? $options['protocol'] . $options['domain'] : '';
             $url .= vsprintf ($options['uri_scheme'], $value);
 
             if (isset($options['redirect_uri']) && is_string($options['redirect_uri'])) {
@@ -105,7 +105,7 @@ class Action extends ColumnAbstractType
         $this->actionOptionsResolver->setDefaults(array(
             'redirect_uri' => null,
             'domain' => null,
-            'protocole' => 'http://'
+            'protocol' => 'http://'
         ));
 
         $this->actionOptionsResolver->setRequired(array(
@@ -118,7 +118,7 @@ class Action extends ColumnAbstractType
         ));
 
         $this->actionOptionsResolver->addAllowedValues(array(
-            'protocole' => array(
+            'protocol' => array(
                 'http://',
                 'https://'
             )
