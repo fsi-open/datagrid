@@ -66,14 +66,14 @@ interface ColumnTypeInterface
     /**
      * Get value from object using DataMapper
      *
-     * @param mixed $value
+     * @param mixed $object
      */
     public function getValue($object);
 
     /**
      * Create CellView object set source value on it.
      *
-     * @param mixed $object
+     * @param mixed  $object
      * @param string $index
      * @return \FSi\Component\DataGrid\Column\CellViewInterface
      * @throws \FSi\Component\DataGrid\Exception\UnexpectedTypeException

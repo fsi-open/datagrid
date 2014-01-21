@@ -78,7 +78,7 @@ class ActionTest extends \PHPUnit_Framework_TestCase
             'edit' => array(
                 'uri_scheme' => '/test/%s',
                 'domain' => 'fsi.pl',
-                'protocole' => 'https://',
+                'protocol' => 'https://',
                 'redirect_uri' => 'http://onet.pl/'
             )
         ));
