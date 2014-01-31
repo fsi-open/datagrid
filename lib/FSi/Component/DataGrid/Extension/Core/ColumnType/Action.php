@@ -11,6 +11,7 @@ namespace FSi\Component\DataGrid\Extension\Core\ColumnType;
 
 use FSi\Component\DataGrid\Column\ColumnAbstractType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\OptionsResolver\Options;
 
 class Action extends ColumnAbstractType
 {
@@ -19,6 +20,7 @@ class Action extends ColumnAbstractType
      */
     protected $actionOptionsDefault = array(
         'protocol' => 'http://',
+        'protocole' => 'http://'
     );
 
     /**
@@ -27,6 +29,7 @@ class Action extends ColumnAbstractType
     protected $actionOptionsAvailable = array(
         'uri_scheme',
         'anchor',
+        'protocole',
         'protocol',
         'domain',
         'name',
@@ -105,6 +108,7 @@ class Action extends ColumnAbstractType
         $this->actionOptionsResolver->setDefaults(array(
             'redirect_uri' => null,
             'domain' => null,
+            'protocole' => 'http://',
             'protocol' => 'http://'
         ));
 
@@ -123,5 +127,15 @@ class Action extends ColumnAbstractType
                 'https://'
             )
         ));
+
+        $this->actionOptionsResolver->setNormalizers(array(
+                'protocol' => function (Options $options, $value) {
+                        if (isset($options['protocole']) && $options['protocole'] !== $this->actionOptionsDefault['protocole']) {
+                            $value = $options['protocole'];
+                        }
+
+                        return $value;
+                    },
+            ));
     }
 }
