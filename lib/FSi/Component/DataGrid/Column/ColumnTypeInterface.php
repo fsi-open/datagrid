@@ -66,7 +66,7 @@ interface ColumnTypeInterface
     /**
      * Get value from object using DataMapper
      *
-     * @param mixed $object
+     * @param mixed $value
      */
     public function getValue($object);
 
