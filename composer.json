@@ -25,12 +25,17 @@
         "symfony/form" : "~2.2",
         "symfony/routing" : "~2.2",
         "symfony/http-foundation": "~2.2",
-        "symfony/dependency-injection" : "~2.2"
+        "symfony/dependency-injection" : "~2.2",
+        "phpunit/phpunit": "3.7.*"
     },
     "autoload": {
         "psr-0": {
-            "FSi\\Component\\DataGrid": "lib/"
+            "FSi\\Component\\DataGrid": "lib/",
+            "FSi\\Component\\DataGrid\\Tests": "tests/"
         }
+    },
+    "config": {
+        "bin-dir": "bin"
     },
     "extra": {
         "branch-alias": {

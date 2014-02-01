@@ -16,4 +16,3 @@ if (!file_exists(__DIR__.'/../vendor/autoload.php')) {
 }
 
 $loader = require_once __DIR__.'/../vendor/autoload.php';
-$loader->add('FSi\\Component\\DataGrid\\Tests', __DIR__);

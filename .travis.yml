@@ -4,8 +4,13 @@ php:
   - 5.3
   - 5.4
   - 5.5
+  - hhvm
+
+matrix:
+  allow_failures:
+    - php: hhvm
 
 before_script:
-    - composer update
+  - composer update --no-interaction
 
-script: phpunit
+script: bin/phpunit
