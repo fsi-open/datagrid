@@ -26,3 +26,5 @@ Options added by this extension:
 * ``label``
 * ``display_order``
 * ``field_mapping``
+* ``header_attr``
+* ``attr``

@@ -25,6 +25,15 @@ class DefaultColumnOptionsExtension extends ColumnAbstractTypeExtension
         if (!is_null($order = $column->getOption('display_order'))) {
             $view->setAttribute('display_order', $order);
         }
+        $view->setAttribute('header_attr', $column->getOption('header_attr'));
+    }
+
+    /**
+     * {@inheritdoc}
+     */
+    public function buildCellView(ColumnTypeInterface $column, CellViewInterface $view)
+    {
+        $view->setAttribute('attr', $column->getOption('attr'));
     }
 
     /**
@@ -54,6 +63,8 @@ class DefaultColumnOptionsExtension extends ColumnAbstractTypeExtension
             'label' => $column->getName(),
             'display_order' => null,
             'field_mapping' => array($column->getName()),
+            'header_attr' => array(),
+            'attr' => array()
         ));
 
         $column->getOptionsResolver()->setAllowedTypes(array(
@@ -63,6 +74,8 @@ class DefaultColumnOptionsExtension extends ColumnAbstractTypeExtension
                 'integer',
                 'null',
             ),
+            'header_attr' => 'array',
+            'attr' => 'array'
         ));
     }
 }
