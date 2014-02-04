@@ -37,7 +37,7 @@ class DataGridView implements DataGridViewInterface
     protected $name;
 
     /**
-     * @var \FSi\Component\DataGrid\Data\DataRowsetInterface\DataRowsetInterface
+     * @var \FSi\Component\DataGrid\Data\DataRowsetInterface
      */
     protected $rowset;
 

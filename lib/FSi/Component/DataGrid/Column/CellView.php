@@ -49,6 +49,7 @@ class CellView implements CellViewInterface
     protected $type;
 
     /**
+     * @param string $name
      * @param string $type
      */
     public function __construct($name, $type)

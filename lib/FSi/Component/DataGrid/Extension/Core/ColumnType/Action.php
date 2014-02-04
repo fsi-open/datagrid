@@ -11,6 +11,7 @@ namespace FSi\Component\DataGrid\Extension\Core\ColumnType;
 
 use FSi\Component\DataGrid\Column\ColumnAbstractType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\OptionsResolver\Options;
 
 class Action extends ColumnAbstractType
 {
@@ -18,7 +19,8 @@ class Action extends ColumnAbstractType
      * @var array
      */
     protected $actionOptionsDefault = array(
-        'protocole' => 'http://',
+        'protocol' => 'http://',
+        'protocole' => 'http://'
     );
 
     /**
@@ -28,6 +30,7 @@ class Action extends ColumnAbstractType
         'uri_scheme',
         'anchor',
         'protocole',
+        'protocol',
         'domain',
         'name',
         'redirect_uri',
@@ -71,7 +74,7 @@ class Action extends ColumnAbstractType
             $options = $this->actionOptionsResolver->resolve((array) $options);
             $return[$name] = array();
 
-            $url = (isset($options['protocole'], $options['domain'])) ? $options['protocole'] . $options['domain'] : '';
+            $url = (isset($options['protocol'], $options['domain'])) ? $options['protocol'] . $options['domain'] : '';
             $url .= vsprintf ($options['uri_scheme'], $value);
 
             if (isset($options['redirect_uri']) && is_string($options['redirect_uri'])) {
@@ -105,7 +108,8 @@ class Action extends ColumnAbstractType
         $this->actionOptionsResolver->setDefaults(array(
             'redirect_uri' => null,
             'domain' => null,
-            'protocole' => 'http://'
+            'protocole' => 'http://',
+            'protocol' => 'http://'
         ));
 
         $this->actionOptionsResolver->setRequired(array(
@@ -118,10 +122,20 @@ class Action extends ColumnAbstractType
         ));
 
         $this->actionOptionsResolver->addAllowedValues(array(
-            'protocole' => array(
+            'protocol' => array(
                 'http://',
                 'https://'
             )
         ));
+
+        $this->actionOptionsResolver->setNormalizers(array(
+                'protocol' => function (Options $options, $value) {
+                        if (isset($options['protocole']) && $options['protocole'] !== $this->actionOptionsDefault['protocole']) {
+                            $value = $options['protocole'];
+                        }
+
+                        return $value;
+                    },
+            ));
     }
 }

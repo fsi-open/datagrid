@@ -40,6 +40,7 @@ class HeaderView implements HeaderViewInterface
 
     /**
      * @param string $name
+     * @param string $type
      */
     public function __construct($name, $type)
     {
