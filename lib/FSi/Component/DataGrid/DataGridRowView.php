@@ -9,7 +9,6 @@
 
 namespace FSi\Component\DataGrid;
 
-use FSi\Component\DataGrid\DataGridViewInterface;
 use FSi\Component\DataGrid\Column\ColumnTypeInterface;
 use FSi\Component\DataGrid\Exception\UnexpectedTypeException;
 
@@ -35,14 +34,14 @@ class DataGridRowView implements DataGridRowViewInterface
     protected $index;
 
     /**
-     * @param \FSi\Component\DataGrid\DataGridViewInterface $dataGridView
+     * @param DataGridViewInterface $dataGridView
      * @param array $columns
      * @param mixed $source
      * @param int $index
+     * @throws Exception\UnexpectedTypeException
      */
     public function __construct(DataGridViewInterface $dataGridView, array $columns, $source, $index)
     {
-        $this->count = count($columns);
         $this->source = $source;
         $this->index = $index;
         foreach ($columns as $name => $column) {
@@ -156,7 +155,8 @@ class DataGridRowView implements DataGridRowViewInterface
      * Required by the ArrayAccess implementation
      *
      * @param string $offset
-     * @return mixed false|\FSi\Component\DataGrid\Column\ColumnTypeInterface
+     * @throws \InvalidArgumentException
+     * @return ColumnTypeInterface
      */
     public function offsetGet($offset)
     {

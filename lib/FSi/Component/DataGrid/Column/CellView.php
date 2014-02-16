@@ -49,6 +49,12 @@ class CellView implements CellViewInterface
     protected $type;
 
     /**
+     * @var DataGridViewInterface
+     */
+    protected $datagrid;
+
+    /**
+     * @param $name
      * @param string $type
      */
     public function __construct($name, $type)

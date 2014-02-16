@@ -11,24 +11,22 @@ namespace FSi\Component\DataGrid\Extension\Gedmo\ColumnType;
 
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\ORM\EntityManager;
 use FSi\Component\DataGrid\Column\CellViewInterface;
 use FSi\Component\DataGrid\Column\ColumnAbstractType;
 use FSi\Component\DataGrid\Exception\DataGridColumnException;
 use FSi\Component\DataIndexer\DoctrineDataIndexer;
+use Gedmo\Tree\RepositoryInterface as TreeRepositoryInterface;
+use Gedmo\Tree\Strategy;
 use Gedmo\Tree\TreeListener;
 use Symfony\Component\PropertyAccess\PropertyAccess;
 
 class Tree extends ColumnAbstractType
 {
     /**
-     * @var \Doctrine\Common\Persistence\ManagerRegistry
+     * @var ManagerRegistry
      */
     protected $registry;
-
-    /**
-     * @var \Gedmo\Tree\Strategy
-     */
-    protected $strategy;
 
     /**
      * @var array
@@ -46,7 +44,7 @@ class Tree extends ColumnAbstractType
     protected $classStrategies;
 
     /**
-     * @param \Doctrine\Common\Persistence\ManagerRegistry $registry
+     * @param ManagerRegistry $registry
      */
     public function __construct(ManagerRegistry $registry)
     {
@@ -74,53 +72,34 @@ class Tree extends ColumnAbstractType
         }
 
         $value = parent::getValue($object);
-        $em = $this->registry->getManager($this->getOption('em'));
+        $objectManager = $this->registry->getManager($this->getOption('em'));
 
         // Check if tree listener is registred.
-        $treeListener = $this->getTreeListener($em);
-        if (is_null($treeListener)) {
-            throw new DataGridColumnException('Gedmo TreeListener was not found in your entity manager.');
-        }
+        $treeListener = $this->getTreeListener($objectManager);
 
         // Get Tree strategy.
-        $this->strategy = $this->getClassStrategy($em, $treeListener, get_class($object));
-        if (!isset($this->strategy )) {
-            throw new DataGridColumnException(
-                sprintf('"%s" is not implementing gedmo tree strategy. Maybe you should consider using a different column type?', get_class($object))
-            );
-        }
+        $strategy = $this->getClassStrategy($objectManager, $treeListener, get_class($object));
+        $this->validateStrategy($object, $strategy);
 
-        if (!in_array($this->strategy->getName(), $this->allowedStrategies)) {
-            throw new DataGridColumnException(
-                sprintf('Strategy "%s" is not supported by "%s" column.', $this->strategy->getName(), $this->getId())
-            );
-        }
-
-        $config = $treeListener->getConfiguration($em, get_class($object));
+        $config = $treeListener->getConfiguration($objectManager, get_class($object));
         $doctrineDataIndexer = new DoctrineDataIndexer($this->registry, get_class($object));
         $propertyAccessor = PropertyAccess::getPropertyAccessor();
 
-        $id = $doctrineDataIndexer->getIndex($object);
-        $left = isset($config['left']) ? $propertyAccessor->getValue($object, $config['left']) : null;
-        $right = isset($config['right']) ? $propertyAccessor->getValue($object, $config['right']) : null;
-        $root = isset($config['root']) ? $propertyAccessor->getValue($object, $config['root']) : null;
-        $level = (isset($config['level'])) ? $propertyAccessor->getValue($object, $config['level']) : null;
-        $parent = (isset($config['parent'])) ? $propertyAccessor->getValue($object, $config['parent']) : null;
-        $parentId = null;
-        if (isset($parent)) {
-            $parentId = $doctrineDataIndexer->getIndex($parent);
-        }
-
 
         $this->viewAttributes = array(
-            'id' => $id,
-            'root' => $root,
-            'parent' => $parentId,
-            'left' => $left,
-            'right' => $right,
-            'level' => $level,
-            'children' => $em->getRepository(get_class($object))->childCount($object),
+            'id' => $doctrineDataIndexer->getIndex($object),
+            'root' => isset($config['root']) ? $propertyAccessor->getValue($object, $config['root']) : null,
+            'left' => isset($config['left']) ? $propertyAccessor->getValue($object, $config['left']) : null,
+            'right' => isset($config['right']) ? $propertyAccessor->getValue($object, $config['right']) : null,
+            'level' => (isset($config['level'])) ? $propertyAccessor->getValue($object, $config['level']) : null,
+            'children' => $this->getTreeRepository(get_class($object), $objectManager)
+                    ->childCount($object),
         );
+
+        $parent = (isset($config['parent'])) ? $propertyAccessor->getValue($object, $config['parent']) : null;
+        if (isset($parent)) {
+            $this->viewAttributes['parent'] = $doctrineDataIndexer->getIndex($parent);
+        }
 
         return $value;
     }
@@ -162,10 +141,10 @@ class Tree extends ColumnAbstractType
     }
 
     /**
-     * @param \Doctrine\Common\Persistence\ObjectManager $om
-     * @param \Gedmo\Tree\TreeListener $listener
+     * @param ObjectManager $om
+     * @param TreeListener $listener
      * @param string $class
-     * @return string|null
+     * @return Strategy
      */
     private function getClassStrategy(ObjectManager $om, TreeListener $listener, $class)
     {
@@ -184,6 +163,7 @@ class Tree extends ColumnAbstractType
                 $this->classStrategies[$class] = $listener->getStrategy($om, $parent);
                 break;
             } catch (\Exception $e) {
+                // we don't like to throw exception because there might be a strategy for class parents
             }
         }
 
@@ -191,25 +171,70 @@ class Tree extends ColumnAbstractType
     }
 
     /**
-     * @param \Doctrine\Common\Persistence\ObjectManager $om
-     * @return \Gedmo\Tree\TreeListener|null
+     * @param ObjectManager $om
+     * @throws \FSi\Component\DataGrid\Exception\DataGridColumnException
+     * @return TreeListener
      */
     private function getTreeListener(ObjectManager $om)
     {
         $treeListener = null;
 
-        foreach ($om->getEventManager()->getListeners() as $listeners) {
-            foreach ($listeners as $listener) {
-                if ($listener instanceof TreeListener) {
-                    $treeListener = $listener;
+        if ($om instanceof EntityManager) {
+            foreach ($om->getEventManager()->getListeners() as $listeners) {
+                foreach ($listeners as $listener) {
+                    if ($listener instanceof TreeListener) {
+                        $treeListener = $listener;
+                        break;
+                    }
+                }
+                if ($treeListener) {
                     break;
                 }
             }
-            if ($treeListener) {
-                break;
-            }
+        }
+
+        if (!isset($treeListener)) {
+            throw new DataGridColumnException('Gedmo TreeListener was not found in your entity manager.');
         }
 
         return $treeListener;
+    }
+
+    /**
+     * @param $class
+     * @param \Doctrine\Common\Persistence\ObjectManager $em
+     * @throws \RuntimeException
+     * @return TreeRepositoryInterface
+     */
+    private function getTreeRepository($class, ObjectManager $em)
+    {
+        $repository = $em->getRepository($class);
+        if (!$repository instanceof TreeRepositoryInterface) {
+            throw new \RuntimeException(
+                sprintf("%s must be an instance of Gedmo tree repository", get_class($repository))
+            );
+        }
+
+        return $repository;
+    }
+
+    /**
+     * @param $object
+     * @param $strategy
+     * @throws \FSi\Component\DataGrid\Exception\DataGridColumnException
+     */
+    private function validateStrategy($object, $strategy)
+    {
+        if (!isset($strategy) && !$strategy instanceof Strategy) {
+            throw new DataGridColumnException(
+                sprintf('"%s" is not implementing gedmo tree strategy. Maybe you should consider using a different column type?', get_class($object))
+            );
+        }
+
+        if (!in_array($strategy->getName(), $this->allowedStrategies)) {
+            throw new DataGridColumnException(
+                sprintf('Strategy "%s" is not supported by "%s" column.', $strategy->getName(), $this->getId())
+            );
+        }
     }
 }

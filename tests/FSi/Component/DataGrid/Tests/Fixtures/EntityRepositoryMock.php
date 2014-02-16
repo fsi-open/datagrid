@@ -9,10 +9,44 @@
 
 namespace FSi\Component\DataGrid\Tests\Fixtures;
 
-class EntityRepositoryMock
+use Gedmo\Tree\RepositoryInterface;
+
+class EntityRepositoryMock implements RepositoryInterface
 {
-    public function childCount()
+    public function getRootNodes($sortByField = null, $direction = 'asc')
+    {
+    }
+
+    public function getNodesHierarchy($node = null, $direct = false, array $options = array(), $includeNode = false)
+    {
+    }
+
+    public function getChildren($node = null, $direct = false, $sortByField = null, $direction = 'ASC', $includeNode = false)
+    {
+    }
+
+    public function childCount($node = null, $direct = false)
     {
         return 2;
+    }
+
+    public function childrenHierarchy($node = null, $direct = false, array $options = array(), $includeNode = false)
+    {
+    }
+
+    public function buildTree(array $nodes, array $options = array())
+    {
+    }
+
+    public function buildTreeArray(array $nodes)
+    {
+    }
+
+    public function setChildrenIndex($childrenIndex)
+    {
+    }
+
+    public function getChildrenIndex()
+    {
     }
 }

@@ -11,7 +11,6 @@ namespace FSi\Component\DataGrid\DataMapper;
 
 use FSi\Component\Reflection\ReflectionClass;
 use FSi\Component\DataGrid\Exception\DataMappingExteption;
-use FSi\Component\DataGrid\DataMapper\DataMapperInterface;
 
 class ReflectionMapper implements DataMapperInterface
 {

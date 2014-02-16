@@ -125,6 +125,7 @@ class ActionColumnExtension extends ColumnAbstractTypeExtension
 
     /**
      * @param \FSi\Component\DataGrid\Column\ColumnTypeInterface $column
+     * @throws \InvalidArgumentException
      */
     private function validateOptions(ColumnTypeInterface $column)
     {
@@ -139,7 +140,7 @@ class ActionColumnExtension extends ColumnAbstractTypeExtension
 
         foreach ($actions as $actionName => &$options) {
             if (!is_array($options)) {
-                throw new \InvalidArgumentException(sprinf('Options for action "%s" must be an array.', $actionName));
+                throw new \InvalidArgumentException(sprintf('Options for action "%s" must be an array.', $actionName));
             }
 
             foreach ($options as $optionName => $value) {
