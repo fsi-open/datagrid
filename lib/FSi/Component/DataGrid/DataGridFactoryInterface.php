@@ -15,7 +15,8 @@ interface DataGridFactoryInterface
      * Check if column is registered in factory. Column types can be registered
      * only by extensions.
      *
-     * @param boolean $type
+     * @param string $type
+     * @return boolean
      */
     public function hasColumnType($type);
 

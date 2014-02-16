@@ -181,11 +181,13 @@ class ValueFormatColumnOptionsExtension extends ColumnAbstractTypeExtension
             return $value;
         }
 
-        foreach ($value as $field => &$fieldValue)  {
-            if (empty($fieldValue)) {
-                $fieldValue = array_key_exists($field, $emptyValue)
-                    ? $emptyValue[$field]
-                    : '';
+        if (is_array($value)) {
+            foreach ($value as $field => &$fieldValue)  {
+                if (empty($fieldValue)) {
+                    $fieldValue = array_key_exists($field, $emptyValue)
+                        ? $emptyValue[$field]
+                        : '';
+                }
             }
         }
 

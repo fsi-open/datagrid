@@ -10,9 +10,8 @@
 namespace FSi\Component\DataGrid\DataMapper;
 
 use FSi\Component\DataGrid\Exception\DataMappingExteption;
-use FSi\Component\DataGrid\DataMapper\DataMapperInterface;
+use Symfony\Component\PropertyAccess\Exception\RuntimeException;
 use Symfony\Component\PropertyAccess\PropertyAccess;
-use Symfony\Component\PropertyAccess\Exception\ExceptionInterface;
 
 class PropertyAccessorMapper implements DataMapperInterface
 {
@@ -25,7 +24,7 @@ class PropertyAccessorMapper implements DataMapperInterface
 
         try {
             $data = $accessor->getValue($object, $field);
-        } catch (ExceptionInterface $e) {
+        } catch (RuntimeException $e) {
             throw new DataMappingExteption($e->getMessage());
         }
 
@@ -41,7 +40,7 @@ class PropertyAccessorMapper implements DataMapperInterface
 
         try {
             $accessor->setValue($object, $field, $value);
-        } catch (ExceptionInterface $e) {
+        } catch (RuntimeException $e) {
             throw new DataMappingExteption($e->getMessage());
         }
     }

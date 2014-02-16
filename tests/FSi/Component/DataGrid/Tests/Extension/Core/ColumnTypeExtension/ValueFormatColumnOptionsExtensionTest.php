@@ -7,7 +7,7 @@
  * file that was distributed with this source code.
  */
 
-namespace FSi\Component\DataGrid\Tests\Extension\Core\ColumntypeExtension;
+namespace FSi\Component\DataGrid\Tests\Extension\Core\ColumnTypeExtension;
 
 use FSi\Component\DataGrid\Extension\Core\ColumnTypeExtension\ValueFormatColumnOptionsExtension;
 use FSi\Component\DataGrid\Extension\Core\ColumnType\Text;
