@@ -14,3 +14,6 @@ before_script:
   - composer update --no-interaction
 
 script: bin/phpunit
+
+notifications:
+  irc: "irc.freenode.org#fsi-open"
