@@ -21,48 +21,11 @@ class ValueFormatColumnOptionsExtension extends ColumnAbstractTypeExtension
     public function buildCellView(ColumnTypeInterface $column, CellViewInterface $view)
     {
         $this->validateEmptyValueOption($column);
-
         $value = $this->populateValue($view->getValue(), $column->getOption('empty_value'));
         $glue = $column->getOption('value_glue');
         $format = $column->getOption('value_format');
 
-        if (is_array($value) && isset($glue) && !isset($format)) {
-            $value = implode($glue, $value);
-        }
-
-        if (isset($format)) {
-            if (is_array($value)) {
-                if (isset($glue)) {
-                    $formatedValues = array();
-                    foreach ($value as $val) {
-                        if ($format instanceof \Closure) {
-                            $formatedValues[] = $format($val);
-                        } else {
-                            $formatedValues[] = sprintf($format, $val);
-                        }
-                    }
-
-                    $value = implode($glue, $formatedValues);
-                } else {
-                    if ($format instanceof \Closure) {
-                        $value = $format($value);
-                    } else {
-                        $value = vsprintf($format, $value);
-                    }
-                }
-            } else {
-                if ($format instanceof \Closure) {
-                    $value = $format($value);
-                } else {
-                    $value = sprintf($format, $value);
-                }
-            }
-        }
-
-        if (is_array($value) && count($value) == 1) {
-            reset($value);
-            $value = current($value);
-        }
+        $value = $this->formatValue($value, $format, $glue);
 
         if (!isset($glue, $format) && is_array($value)) {
             throw new \InvalidArgumentException(sprintf('At least one of "format" or "glue" option is missing in column: "%s".', $column->getName()));
@@ -192,5 +155,70 @@ class ValueFormatColumnOptionsExtension extends ColumnAbstractTypeExtension
         }
 
         return $value;
+    }
+
+    /**
+     * @param $value
+     * @param null $format
+     * @param null $glue
+     * @return array|mixed|string
+     */
+    private function formatValue($value, $format = null, $glue = null)
+    {
+        if (is_array($value) && isset($glue) && !isset($format)) {
+            $value = implode($glue, $value);
+        }
+
+        if (isset($format)) {
+            if (is_array($value)) {
+                if (isset($glue)) {
+                    $renderedValues = array();
+                    foreach ($value as $val) {
+                        $renderedValues[] = $this->formatSingleValue($val, $format);
+                    }
+
+                    $value = implode($glue, $renderedValues);
+                } else {
+                    $value = $this->formatMultipleValues($value, $format);
+                }
+            } else {
+                $value = $this->formatSingleValue($value, $format);
+            }
+        }
+
+        if (is_array($value) && count($value) == 1) {
+            reset($value);
+            $value = current($value);
+        }
+
+        return $value;
+    }
+
+    /**
+     * @param string $value
+     * @param string $template
+     * @return string
+     */
+    private function formatSingleValue($value, $template)
+    {
+        if ($template instanceof \Closure) {
+            return $template($value);
+        }
+
+        return sprintf($template, $value);
+    }
+
+    /**
+     * @param $value
+     * @param $template
+     * @return string
+     */
+    private function formatMultipleValues($value, $template)
+    {
+        if ($template instanceof \Closure) {
+            return $template($value);
+        }
+
+        return vsprintf($template, $value);
     }
 }
