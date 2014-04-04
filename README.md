@@ -311,37 +311,43 @@ into DataGrid is nothing more than registering it in DataGridFactory.
 
 ## Built-in available columns options ##
 
-Action          | Action Symfony | Boolean        | Text                  | Number                   |
---------------- | -------------- | -------------- | --------------------- | ------------------------ |
-label           | label          | label          | label                 | label                    |
-field_mapping   | field_mapping  | field_mapping  | field_mapping         | field_mapping            |
-display_order   | display_order  | value_glue     | value_glue            | value_glue               |
-actions         | actions        | display_order  | display_order         | display_order            |
-                |                | value_format   | value_format          | value_format             |
-                |                | editable       | editable              | editable                 |
-                |                | form_options   | form_options          | form_options             |
-                |                | form_type      | form_type             | form_type                |
-                |                | empty_value    | empty_value           | empty_value              |
-                |                | true_value     | datetime_format       | value_glue_multiple      |
-                |                | false_value    | input_type            | relation_field           |
-                |                |                | field_mapping_format  | decimals                 |
-                |                |                |                       | dec_point                |
-                |                |                |                       | thousands_sep            |
-                |                |                |                       | value_currency_separator |
-                |                |                |                       | currency_field           |
-                |                |                |                       | currency                 |
-                
-                
-| DateTime       | Money         | Entity         | Tree          |
-|--------------- | ------------- | -------------- | ------------- |
-| label          | label         | label          | label         |
-| field_mapping  | field_mapping | field_mapping  | field_mapping |
-| value_glue     | value_glue    | value_glue     | value_glue    |
-| display_order  | display_order | display_order  | display_order |
-| value_format   | value_format  | value_format   | value_format  |
-| editable       | editable      | editable       | editable      |
-| form_options   | form_options  | form_options   | form_options  |
-| form_type      | form_type     | empty_value    | empty_value   |
-| empty_value    | empty_value   | relation_field | em            |
-| round_mode     | round_mode    | glue_multiple  |               |
-| precision      | precision     |                |               |
+Action          | Action Symfony |Boolean        | Collection      | Text                  |
+--------------- | -------------- |-------------- | --------------- | --------------------- |
+label           | label          |label          | label           | label                 |
+field_mapping   | field_mapping  |field_mapping  | field_mapping   | field_mapping         |
+display_order   | display_order  |value_glue     | value_glue      | value_glue            |
+actions         | actions        |display_order  | display_order   | trim                  |
+                |                |value_format   | value_format    | value_format          |
+                |                |editable       | collection_glue | editable              |
+                |                |form_options   |                 | form_options          |
+                |                |form_type      |                 | form_type             |
+                |                |empty_value    |                 | empty_value           |
+                |                |true_value     |                 | datetime_format       |
+                |                |false_value    |                 | input_type            |
+                |                |               |                 | field_mapping_format  |
+                |                |               |                 | display_order         |
+                |                |               |                 |                       |
+                |                |               |                 |                       |
+                |                |               |                 |                       |
+                |                |               |                 |                       |
+
+
+ Number                   | DateTime       | Money         | Entity         | Tree          |
+ ------------------------ |--------------- | ------------- | -------------- | ------------- |
+ label                    | label          | label         | label          | label         |
+ field_mapping            | field_mapping  | field_mapping | field_mapping  | field_mapping |
+ value_glue               | value_glue     | value_glue    | value_glue     | value_glue    |
+ display_order            | display_order  | display_order | display_order  | display_order |
+ value_format             | value_format   | value_format  | value_format   | value_format  |
+ editable                 | editable       | editable      | editable       | editable      |
+ form_options             | form_options   | form_options  | form_options   | form_options  |
+ form_type                | form_type      | form_type     | empty_value    | empty_value   |
+ empty_value              | empty_value    | empty_value   | relation_field | em            |
+ value_glue_multiple      | round_mode     | round_mode    | glue_multiple  |               |
+ relation_field           | precision      | precision     |                |               |
+ currency                 |                |               |                |               |
+ currency_field           |                |               |                |               |
+ value_currency_separator |                |               |                |               |
+ thousands_sep            |                |               |                |               |
+ dec_point                |                |               |                |               |
+ decimals                 |                |               |                |               |
