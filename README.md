@@ -326,10 +326,6 @@ actions         | actions        |display_order  | display_order   | trim   
                 |                |false_value    |                 | input_type            |
                 |                |               |                 | field_mapping_format  |
                 |                |               |                 | display_order         |
-                |                |               |                 |                       |
-                |                |               |                 |                       |
-                |                |               |                 |                       |
-                |                |               |                 |                       |
 
 
  Number                   | DateTime       | Money         | Entity         | Tree          |
