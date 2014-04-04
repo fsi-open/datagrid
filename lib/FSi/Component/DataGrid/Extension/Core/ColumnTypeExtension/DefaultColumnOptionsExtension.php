@@ -36,6 +36,7 @@ class DefaultColumnOptionsExtension extends ColumnAbstractTypeExtension
             'batch',
             'text',
             'boolean',
+            'collection',
             'datetime',
             'number',
             'money',
