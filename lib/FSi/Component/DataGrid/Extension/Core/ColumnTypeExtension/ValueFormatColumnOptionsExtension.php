@@ -43,6 +43,7 @@ class ValueFormatColumnOptionsExtension extends ColumnAbstractTypeExtension
             'text',
             'boolean',
             'datetime',
+            'collection',
             'number',
             'money',
             'gedmo_tree',

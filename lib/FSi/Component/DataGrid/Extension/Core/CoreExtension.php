@@ -26,6 +26,7 @@ class CoreExtension extends DataGridAbstractExtension
         return array(
             new ColumnType\Text(),
             new ColumnType\Number(),
+            new ColumnType\Collection(),
             new ColumnType\DateTime(),
             new ColumnType\Action(),
             new ColumnType\Money(),
