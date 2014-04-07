@@ -32,7 +32,7 @@ class Collection extends ColumnAbstractType
                 continue;
             }
 
-            $val = implode($this->getOption('collection_glue'), (array) $val);
+            $val = implode($this->getOption('collection_glue'), $val);
         }
 
         return $value;
