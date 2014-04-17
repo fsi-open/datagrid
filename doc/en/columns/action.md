@@ -25,7 +25,7 @@ and its taken from the name under what column was registered in grid.
 For standalone datagrid use ``FSi\Component\DataGrid\Extension\Core\ColumnTypeExtension\ActionColumnExtension``, it provides:
 
  * ``uri_scheme`` - **required**, string, scheme of an uri
- * ``protocole`` - string, by default ``'http://``
+ * ``protocol`` - string, by default ``'http://``
  * ``domain`` - string, domain for an anchor
  * ``redirect_uri`` - string, optional parameter in uri, might be usefull to create return from actions. 
 
