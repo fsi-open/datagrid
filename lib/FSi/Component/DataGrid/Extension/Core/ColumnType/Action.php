@@ -129,13 +129,12 @@ class Action extends ColumnAbstractType
         ));
 
         $this->actionOptionsResolver->setNormalizers(array(
-                'protocol' => function (Options $options, $value) {
-                        if (isset($options['protocole']) && $options['protocole'] !== $this->actionOptionsDefault['protocole']) {
-                            $value = $options['protocole'];
-                        }
-
-                        return $value;
-                    },
-            ));
+            'protocole' => function (Options $options, $value) {
+                if (isset($options['protocol'])) {
+                    $value = $options['protocol'];
+                }
+                return $value;
+            }
+        ));
     }
 }
