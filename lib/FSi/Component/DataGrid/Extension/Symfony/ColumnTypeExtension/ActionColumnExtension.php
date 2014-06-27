@@ -13,6 +13,11 @@ use FSi\Component\DataGrid\Column\ColumnTypeInterface;
 use FSi\Component\DataGrid\Column\ColumnAbstractTypeExtension;
 use Symfony\Component\Routing\RouterInterface;
 
+/**
+ * @deprecated Deprecated since version 1.1, to be removed in 1.2. Use
+ *             FSi\Bundle\DataGridBundle\DataGrid\Extension\ColumnTypeExtension\ActionColumnExtension
+ *             from datagrid-bundle instead.
+ */
 class ActionColumnExtension extends ColumnAbstractTypeExtension
 {
     /**
