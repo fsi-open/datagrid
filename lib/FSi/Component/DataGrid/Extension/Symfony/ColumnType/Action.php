@@ -153,4 +153,12 @@ class Action extends ColumnAbstractType
             'route_name',
         ));
     }
+
+    /**
+     * @return \Symfony\Component\OptionsResolver\OptionsResolver
+     */
+    public function getActionOptionsResolver()
+    {
+        return $this->actionOptionsResolver;
+    }
 }

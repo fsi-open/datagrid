@@ -137,4 +137,12 @@ class Action extends ColumnAbstractType
             }
         ));
     }
+
+    /**
+     * @return \Symfony\Component\OptionsResolver\OptionsResolver
+     */
+    public function getActionOptionsResolver()
+    {
+        return $this->actionOptionsResolver;
+    }
 }
