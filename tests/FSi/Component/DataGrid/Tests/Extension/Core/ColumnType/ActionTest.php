@@ -41,7 +41,7 @@ class ActionTest extends \PHPUnit_Framework_TestCase
     }
 
     /**
-     * @expectedException \Symfony\Component\OptionsResolver\Exception\InvalidOptionsException
+     * @expectedException \InvalidArgumentException
      */
     public function testFilterValueInvalidActionInActionsOption()
     {

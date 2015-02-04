@@ -75,6 +75,7 @@ class DateTime extends ColumnAbstractType
 
         $this->getOptionsResolver()->setAllowedValues(array(
             'input_type' => array(
+                null,
                 'string',
                 'timestamp',
                 'datetime',
