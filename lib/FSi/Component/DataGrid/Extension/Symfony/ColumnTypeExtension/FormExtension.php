@@ -238,25 +238,15 @@ class FormExtension extends ColumnAbstractTypeExtension
         }
 
         //Create form builder.
-        try {
-            $formBuilder = $this->formFactory->createNamedBuilder(
-                $this->formName,
-                'collection',
-                array($index => $dataArray),
-                array(
-                    'type' => new RowType($fields),
-                    'csrf_protection' => false,
-                )
-            );
-        //Exception throwed when csrf_protection is not loaded.
-        } catch (InvalidOptionsException $exception) {
-            $formBuilder = $this->formFactory->createNamedBuilder(
-                $this->formName,
-                'collection',
-                array($index => $dataArray),
-                array('type' => new RowType($fields))
-            );
-        }
+        $formBuilder = $this->formFactory->createNamedBuilder(
+            $this->formName,
+            'collection',
+            array($index => $dataArray),
+            array(
+                'type' => new RowType($fields),
+                'csrf_protection' => false,
+            )
+        );
 
         //Create Form.
         $this->forms[$formId] = $formBuilder->getForm();

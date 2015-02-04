@@ -10,12 +10,14 @@
 namespace FSi\Component\DataGrid\Tests\Extension\Symfony\ColumnTypeExtension;
 
 use FSi\Component\DataGrid\Extension\Symfony\ColumnTypeExtension\FormExtension;
+use Symfony\Component\Form\Extension\Csrf\CsrfExtension;
+use Symfony\Component\Form\Extension\Csrf\CsrfProvider\DefaultCsrfProvider;
 use Symfony\Component\Form\FormRegistry;
 use Symfony\Component\Form\FormFactory;
 use Symfony\Component\Form\ResolvedFormTypeFactory;
 use Symfony\Component\Form\Extension\Core\CoreExtension;
-use Symfony\Component\Form\Extension\Csrf\CsrfExtension;
 use FSi\Component\DataGrid\Tests\Fixtures\Entity;
+use Symfony\Component\Security\Csrf\CsrfTokenManager;
 
 class FormExtensionTest extends \PHPUnit_Framework_TestCase
 {
@@ -28,7 +30,8 @@ class FormExtensionTest extends \PHPUnit_Framework_TestCase
         }
         $resolvedTypeFactory = new ResolvedFormTypeFactory();
         $formRegistry = new FormRegistry(array(
-                new CoreExtension()
+                new CoreExtension(),
+                new CsrfExtension(new DefaultCsrfProvider('test'))
             ),
             $resolvedTypeFactory
         );
