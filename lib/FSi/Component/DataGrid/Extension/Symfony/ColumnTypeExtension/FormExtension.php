@@ -9,12 +9,13 @@
 
 namespace FSi\Component\DataGrid\Extension\Symfony\ColumnTypeExtension;
 
+use Doctrine\Common\Util\ClassUtils;
 use FSi\Component\DataGrid\DataGridInterface;
 use FSi\Component\DataGrid\Column\ColumnTypeInterface;
 use FSi\Component\DataGrid\Column\CellViewInterface;
 use FSi\Component\DataGrid\Column\ColumnAbstractTypeExtension;
 use Symfony\Component\Form\FormFactoryInterface;
-use Symfony\Component\OptionsResolver\Exception\InvalidOptionsException;
+use Symfony\Component\Form\FormInterface;
 
 class FormExtension extends ColumnAbstractTypeExtension
 {
@@ -82,8 +83,9 @@ class FormExtension extends ColumnAbstractTypeExtension
                 }
         }
 
+        /** @var FormInterface $form */
         $form = $this->createForm($column, $index, $object);
-        $form->bind(array($index => $formData));
+        $form->submit(array($index => $formData));
         if ($form->isValid()) {
             $data = $form->getData();
             foreach ($data as $index => $fields) {
@@ -149,6 +151,7 @@ class FormExtension extends ColumnAbstractTypeExtension
      * @param \FSi\Component\DataGrid\Column\ColumnTypeInterface $column
      * @param mixed $index
      * @param mixed $data
+     * @return FormInterface
      */
     private function createForm(ColumnTypeInterface $column, $index, $data)
     {
@@ -204,7 +207,6 @@ class FormExtension extends ColumnAbstractTypeExtension
 
         //Build data array, the data array holds data that should be passed into
         //form elements.
-        $dataArray = array();
         switch ($column->getId()) {
             case 'datetime':
                 foreach ($fields as &$field) {
@@ -221,31 +223,28 @@ class FormExtension extends ColumnAbstractTypeExtension
                     if (($value instanceof \DateTime) && !isset($field['options']['input'])) {
                         $field['options']['input'] = 'datetime';
                     }
-                    $dataArray[$field['name']] = $value;
                 }
                 break;
+        }
 
-            case 'entity':
-                    $value = $column->getDataMapper()->getData($column->getOption('relation_field'), $data);
-                    $dataArray[$column->getOption('relation_field')] = $value;
-                break;
+        $formBuilderOptions = array(
+            'type' => new RowType($fields),
+            'csrf_protection' => false,
 
-            default:
-                foreach ($fields as &$field) {
-                    $value = $column->getDataMapper()->getData($field['name'], $data);
-                    $dataArray[$field['name']] = $value;
-                }
+        );
+
+        if (null !== $data) {
+            $formBuilderOptions['options'] = array(
+                'data_class' => ClassUtils::getRealClass(get_class($data))
+            );
         }
 
         //Create form builder.
         $formBuilder = $this->formFactory->createNamedBuilder(
             $this->formName,
             'collection',
-            array($index => $dataArray),
-            array(
-                'type' => new RowType($fields),
-                'csrf_protection' => false,
-            )
+            array($index => $data),
+            $formBuilderOptions
         );
 
         //Create Form.
