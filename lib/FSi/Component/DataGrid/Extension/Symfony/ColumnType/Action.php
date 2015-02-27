@@ -90,7 +90,7 @@ class Action extends ColumnAbstractType
                 }
 
                 if ($options['redirect_uri'] === true) {
-                    $parameters['redirect_uri'] = $this->container->get('request')->getUri();
+                    $parameters['redirect_uri'] = $this->container->get('request')->getRequestUri();
                 }
             }
 
