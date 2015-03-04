@@ -69,8 +69,8 @@ class ActionTest extends \PHPUnit_Framework_TestCase
                     $router = $self->getMock('Symfony\Component\Routing\RouterInterface');
                     $router->expects($self->once())
                         ->method('generate')
-                        ->with('foo', array('redirect_uri' => 'http://example.com/?test=1&test=2'), false)
-                        ->will($self->returnValue('/test/bar?redirect_uri=' . urlencode(MyRequest::URI)));
+                        ->with('foo', array('redirect_uri' => MyRequest::RELATIVE_URI), false)
+                        ->will($self->returnValue('/test/bar?redirect_uri=' . urlencode(MyRequest::ABSOLUTE_URI)));
 
                     return $router;
                 }
@@ -98,7 +98,7 @@ class ActionTest extends \PHPUnit_Framework_TestCase
        $this->assertSame(
            array(
                'edit' => array(
-                   'url' => '/test/bar?redirect_uri=' . urlencode(MyRequest::URI),
+                   'url' => '/test/bar?redirect_uri=' . urlencode(MyRequest::ABSOLUTE_URI),
                    'content' => 'edit',
                    'field_mapping_values' => array(
                            'foo' => 'bar'
@@ -126,8 +126,8 @@ class ActionTest extends \PHPUnit_Framework_TestCase
                         $router = $self->getMock('Symfony\Component\Routing\RouterInterface');
                         $router->expects($self->once())
                             ->method('generate')
-                            ->with('foo', array('foo' => 'bar', 'redirect_uri' => 'http://example.com/?test=1&test=2'), true)
-                            ->will($self->returnValue('https://fsi.pl/test/bar?redirect_uri=' . urlencode(MyRequest::URI)));
+                            ->with('foo', array('foo' => 'bar', 'redirect_uri' => MyRequest::RELATIVE_URI), true)
+                            ->will($self->returnValue('https://fsi.pl/test/bar?redirect_uri=' . urlencode(MyRequest::RELATIVE_URI)));
                         return $router;
                         break;
                     case 'request':
@@ -155,13 +155,13 @@ class ActionTest extends \PHPUnit_Framework_TestCase
        $this->assertSame(
            array(
                'edit' => array(
-                   'url' => 'https://fsi.pl/test/bar?redirect_uri=' . urlencode(MyRequest::URI),
-                    'content' => 'edit',
+                   'url' => 'https://fsi.pl/test/bar?redirect_uri=' . urlencode(MyRequest::RELATIVE_URI),
+                   'content' => 'edit',
                    'field_mapping_values' => array(
                            'foo' => 'bar'
                    ),
                    'url_attr' => array (
-                       'href' => 'https://fsi.pl/test/bar?redirect_uri=http%3A%2F%2Fexample.com%2F%3Ftest%3D1%26test%3D2'
+                       'href' => 'https://fsi.pl/test/bar?redirect_uri=' . urlencode(MyRequest::RELATIVE_URI)
                    )
                )
            ),
@@ -232,7 +232,8 @@ class ActionTest extends \PHPUnit_Framework_TestCase
 
 class MyRequest extends Request
 {
-    const URI = 'http://example.com/?test=1&test=2';
+    const ABSOLUTE_URI = 'http://example.com/?test=1&test=2';
+    const RELATIVE_URI = '/?test=1&test=2';
 
     public function __construct()
     {
@@ -240,6 +241,11 @@ class MyRequest extends Request
 
     public function getUri()
     {
-        return urldecode(self::URI);
+        return self::ABSOLUTE_URI;
+    }
+
+    public function getRequestUri()
+    {
+        return self::RELATIVE_URI;
     }
 }
