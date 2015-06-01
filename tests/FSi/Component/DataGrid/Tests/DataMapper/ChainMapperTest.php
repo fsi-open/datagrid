@@ -10,7 +10,7 @@
 namespace FSi\Component\DataGrid\Tests\DataMapper;
 
 use FSi\Component\DataGrid\DataMapper\ChainMapper;
-use FSi\Component\DataGrid\Exception\DataMappingExteption;
+use FSi\Component\DataGrid\Exception\DataMappingException;
 
 class ChainMapperTest extends \PHPUnit_Framework_TestCase
 {
@@ -39,7 +39,7 @@ class ChainMapperTest extends \PHPUnit_Framework_TestCase
 
         $mapper->expects($this->once())
                ->method('getData')
-               ->will($this->throwException(new DataMappingExteption));
+               ->will($this->throwException(new DataMappingException));
 
         $mapper1->expects($this->once())
                ->method('getData')
@@ -60,7 +60,7 @@ class ChainMapperTest extends \PHPUnit_Framework_TestCase
 
         $mapper->expects($this->once())
                ->method('setData')
-               ->will($this->throwException(new DataMappingExteption));
+               ->will($this->throwException(new DataMappingException));
 
         $mapper1->expects($this->once())
                ->method('setData')

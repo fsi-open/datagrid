@@ -9,9 +9,6 @@
 
 namespace FSi\Component\DataGrid\Exception;
 
-/**
- * @todo Fix class name in version 1.1.
- */
-class DataMappingExteption extends DataGridException
+class DataMappingException extends DataGridException
 {
 }
