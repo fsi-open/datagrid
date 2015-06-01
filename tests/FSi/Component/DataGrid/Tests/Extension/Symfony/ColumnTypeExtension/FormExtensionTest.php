@@ -10,16 +10,18 @@
 namespace FSi\Component\DataGrid\Tests\Extension\Symfony\ColumnTypeExtension;
 
 use Doctrine\ORM\Mapping\ClassMetadata;
+use Doctrine\ORM\Query\Expr;
+use Doctrine\ORM\QueryBuilder;
 use FSi\Component\DataGrid\Extension\Symfony\ColumnTypeExtension\FormExtension;
 use FSi\Component\DataGrid\Tests\Fixtures\EntityCategory;
 use Symfony\Bridge\Doctrine\Form\DoctrineOrmExtension;
 use Symfony\Component\Form\Extension\Csrf\CsrfExtension;
-use Symfony\Component\Form\Extension\Csrf\CsrfProvider\DefaultCsrfProvider;
 use Symfony\Component\Form\FormRegistry;
 use Symfony\Component\Form\FormFactory;
 use Symfony\Component\Form\ResolvedFormTypeFactory;
 use Symfony\Component\Form\Extension\Core\CoreExtension;
 use FSi\Component\DataGrid\Tests\Fixtures\Entity;
+use Symfony\Component\Security\Csrf\CsrfTokenManager;
 
 class FormExtensionTest extends \PHPUnit_Framework_TestCase
 {
@@ -34,13 +36,45 @@ class FormExtensionTest extends \PHPUnit_Framework_TestCase
             $this->markTestSkipped('Symfony Column Extension require Symfony\Component\Form\FormRegistry class.');
         }
 
-        $repository = $this->getMock('Doctrine\Common\Persistence\ObjectRepository');
-        $repository->expects($this->any())
-            ->method('findAll')
+        $configuration = $this->getMock('Doctrine\ORM\Configuration');
+
+        $objectManager = $this->getMock('Doctrine\ORM\EntityManagerInterface');
+        $objectManager->expects($this->any())
+            ->method('getConfiguration')
+            ->will($this->returnValue($configuration));
+
+        $objectManager->expects($this->any())
+            ->method('getExpressionBuilder')
+            ->will($this->returnValue(new Expr()));
+
+        $query = $this->getMockBuilder('Doctrine\ORM\AbstractQuery')
+            ->setMethods(array('execute', '_doExecute', 'getSql', 'setFirstResult', 'setMaxResults'))
+            ->setConstructorArgs(array($objectManager))
+            ->getMock();
+        $query->expects($this->any())
+            ->method('execute')
             ->will($this->returnValue(array(
                 new EntityCategory(1, 'category name 1'),
                 new EntityCategory(2, 'category name 2'),
             )));
+
+        $query->expects($this->any())
+            ->method('setFirstResult')
+            ->will($this->returnValue($query));
+
+        $query->expects($this->any())
+            ->method('setMaxResults')
+            ->will($this->returnValue($query));
+
+        $objectManager->expects($this->any())
+            ->method('createQuery')
+            ->withAnyParameters()
+            ->will($this->returnValue($query));
+
+        $queryBuilder = new QueryBuilder($objectManager);
+/*        $queryBuilder->expects($this->any())
+            ->method('getQuery')
+            ->will($this->returnValue($queryBuilder));*/
 
         $entityClass = 'FSi\Component\DataGrid\Tests\Fixtures\EntityCategory';
         $classMetadata = new ClassMetadata('FSi\Component\DataGrid\Tests\Fixtures\EntityCategory');
@@ -55,10 +89,15 @@ class FormExtensionTest extends \PHPUnit_Framework_TestCase
             'id' => new \ReflectionProperty($entityClass, 'id'),
         );
 
-        $objectManager = $this->getMock('Doctrine\Common\Persistence\ObjectManager');
+        $repository = $this->getMock('Doctrine\ORM\EntityRepository', array(), array($objectManager, $classMetadata));
+        $repository->expects($this->any())
+            ->method('createQueryBuilder')
+            ->withAnyParameters()
+            ->will($this->returnValue($queryBuilder));
+
         $objectManager->expects($this->any())
             ->method('getClassMetadata')
-            ->with($this->equalTo('FSi\Component\DataGrid\Tests\Fixtures\EntityCategory'))
+            ->withAnyParameters()
             ->will($this->returnValue($classMetadata));
         $objectManager->expects($this->any())
             ->method('getRepository')
@@ -79,7 +118,7 @@ class FormExtensionTest extends \PHPUnit_Framework_TestCase
         $formRegistry = new FormRegistry(array(
                 new CoreExtension(),
                 new DoctrineOrmExtension($managerRegistry),
-                new CsrfExtension(new DefaultCsrfProvider('test'))
+                new CsrfExtension(new CsrfTokenManager())
             ),
             $resolvedTypeFactory
         );

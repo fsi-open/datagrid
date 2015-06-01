@@ -72,20 +72,16 @@ class Number extends ColumnAbstractType
 
         $this->getOptionsResolver()->setDefaults($this->options);
 
-        $this->getOptionsResolver()->setAllowedTypes(array(
-            'precision' => 'integer',
-            'format' => 'bool',
-            'format_decimals' => 'integer',
-        ));
+        $this->getOptionsResolver()->setAllowedTypes('precision', 'integer');
+        $this->getOptionsResolver()->setAllowedTypes('format', 'bool');
+        $this->getOptionsResolver()->setAllowedTypes('format_decimals', 'integer');
 
-        $this->getOptionsResolver()->setAllowedValues(array(
-            'round_mode' => array(
-                null,
-                self::ROUND_HALF_UP,
-                self::ROUND_HALF_DOWN,
-                self::ROUND_HALF_EVEN,
-                self::ROUND_HALF_ODD,
-            )
+        $this->getOptionsResolver()->setAllowedValues('round_mode', array(
+            null,
+            self::ROUND_HALF_UP,
+            self::ROUND_HALF_DOWN,
+            self::ROUND_HALF_EVEN,
+            self::ROUND_HALF_ODD,
         ));
     }
 }

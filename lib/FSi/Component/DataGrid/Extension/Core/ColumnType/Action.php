@@ -101,9 +101,7 @@ class Action extends ColumnAbstractType
             'actions' => array(),
         ));
 
-        $this->getOptionsResolver()->setAllowedTypes(array(
-            'actions' => 'array',
-        ));
+        $this->getOptionsResolver()->setAllowedTypes('actions', 'array');
 
         $this->actionOptionsResolver->setDefaults(array(
             'redirect_uri' => null,
@@ -116,17 +114,10 @@ class Action extends ColumnAbstractType
             'uri_scheme'
         ));
 
-        $this->actionOptionsResolver->setAllowedTypes(array(
-            'redirect_uri' => array('string', 'null'),
-            'uri_scheme' => 'string',
-        ));
+        $this->actionOptionsResolver->setAllowedTypes('redirect_uri', array('string', 'null'));
+        $this->actionOptionsResolver->setAllowedTypes('uri_scheme', 'string');
 
-        $this->actionOptionsResolver->addAllowedValues(array(
-            'protocol' => array(
-                'http://',
-                'https://'
-            )
-        ));
+        $this->actionOptionsResolver->setAllowedValues('protocol', array('http://', 'https://'));
 
         $this->actionOptionsResolver->setDefaults(array(
             'protocol' => function (Options $options, $value) {

@@ -131,9 +131,7 @@ class Action extends ColumnAbstractType
             'actions' => array(),
         ));
 
-        $this->getOptionsResolver()->setAllowedTypes(array(
-            'actions' => 'array',
-        ));
+        $this->getOptionsResolver()->setAllowedTypes('actions', 'array');
 
         $this->actionOptionsResolver->setDefaults(array(
             'redirect_uri' => true,
@@ -144,10 +142,8 @@ class Action extends ColumnAbstractType
             'additional_parameters' => array(),
         ));
 
-        $this->actionOptionsResolver->setAllowedTypes(array(
-            'url_attr' => array('array', 'Closure'),
-            'content' => array('null', 'string', 'Closure')
-        ));
+        $this->actionOptionsResolver->setAllowedTypes('url_attr', array('array', 'Closure'));
+        $this->actionOptionsResolver->setAllowedTypes('content', array('null', 'string', 'Closure'));
 
         $this->actionOptionsResolver->setRequired(array(
             'route_name',

@@ -57,13 +57,8 @@ class DefaultColumnOptionsExtension extends ColumnAbstractTypeExtension
             'field_mapping' => array($column->getName())
         ));
 
-        $column->getOptionsResolver()->setAllowedTypes(array(
-            'label' => 'string',
-            'field_mapping' => 'array',
-            'display_order' => array(
-                'integer',
-                'null',
-            )
-        ));
+        $column->getOptionsResolver()->setAllowedTypes('label', 'string');
+        $column->getOptionsResolver()->setAllowedTypes('field_mapping', 'array');
+        $column->getOptionsResolver()->setAllowedTypes('display_order', array('integer', 'null'));
     }
 }

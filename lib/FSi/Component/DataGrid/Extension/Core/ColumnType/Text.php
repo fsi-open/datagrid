@@ -49,8 +49,6 @@ class Text extends ColumnAbstractType
             'trim' => false
         ));
 
-        $this->getOptionsResolver()->setAllowedTypes(array(
-            'trim' => 'bool'
-        ));
+        $this->getOptionsResolver()->setAllowedTypes('trim', 'bool');
     }
 }

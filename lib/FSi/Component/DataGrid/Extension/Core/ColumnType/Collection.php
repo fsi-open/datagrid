@@ -47,8 +47,6 @@ class Collection extends ColumnAbstractType
             'collection_glue' => ' '
         ));
 
-        $this->getOptionsResolver()->setAllowedTypes(array(
-            'collection_glue' => 'string'
-        ));
+        $this->getOptionsResolver()->setAllowedTypes('collection_glue', 'string');
     }
 }

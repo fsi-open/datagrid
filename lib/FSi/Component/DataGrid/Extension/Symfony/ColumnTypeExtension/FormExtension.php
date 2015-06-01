@@ -138,11 +138,9 @@ class FormExtension extends ColumnAbstractTypeExtension
             'form_type' => array(),
         ));
 
-        $column->getOptionsResolver()->setAllowedTypes(array(
-            'editable' => 'bool',
-            'form_options' => 'array',
-            'form_type' => 'array',
-        ));
+        $column->getOptionsResolver()->setAllowedTypes('editable', 'bool');
+        $column->getOptionsResolver()->setAllowedTypes('form_options', 'array');
+        $column->getOptionsResolver()->setAllowedTypes('form_type', 'array');
     }
 
     /**

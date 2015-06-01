@@ -83,7 +83,7 @@ class Tree extends ColumnAbstractType
 
         $config = $treeListener->getConfiguration($objectManager, get_class($object));
         $doctrineDataIndexer = new DoctrineDataIndexer($this->registry, get_class($object));
-        $propertyAccessor = PropertyAccess::getPropertyAccessor();
+        $propertyAccessor = PropertyAccess::createPropertyAccessor();
 
 
         $this->viewAttributes = array(

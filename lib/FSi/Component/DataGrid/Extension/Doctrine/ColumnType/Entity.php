@@ -75,8 +75,6 @@ class Entity extends ColumnAbstractType
             'relation_field' => $this->getName(),
         ));
 
-        $this->getOptionsResolver()->setAllowedTypes(array(
-            'relation_field' => 'string'
-        ));
+        $this->getOptionsResolver()->setAllowedTypes('relation_field', 'string');
     }
 }
