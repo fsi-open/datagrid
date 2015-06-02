@@ -36,6 +36,11 @@ class FormExtensionTest extends \PHPUnit_Framework_TestCase
             $this->markTestSkipped('Symfony Column Extension require Symfony\Component\Form\FormRegistry class.');
         }
 
+        $entities = array(
+            new EntityCategory(1, 'category name 1'),
+            new EntityCategory(2, 'category name 2'),
+        );
+
         $configuration = $this->getMock('Doctrine\ORM\Configuration');
 
         $objectManager = $this->getMock('Doctrine\ORM\EntityManagerInterface');
@@ -47,16 +52,12 @@ class FormExtensionTest extends \PHPUnit_Framework_TestCase
             ->method('getExpressionBuilder')
             ->will($this->returnValue(new Expr()));
 
-        $query = $this->getMockBuilder('Doctrine\ORM\AbstractQuery')
-            ->setMethods(array('execute', '_doExecute', 'getSql', 'setFirstResult', 'setMaxResults'))
-            ->setConstructorArgs(array($objectManager))
-            ->getMock();
+        $query = $this->getMock('Doctrine\ORM\AbstractQuery',
+            array('execute', '_doExecute', 'getSql', 'setFirstResult', 'setMaxResults'),
+            array($objectManager));
         $query->expects($this->any())
             ->method('execute')
-            ->will($this->returnValue(array(
-                new EntityCategory(1, 'category name 1'),
-                new EntityCategory(2, 'category name 2'),
-            )));
+            ->will($this->returnValue($entities));
 
         $query->expects($this->any())
             ->method('setFirstResult')
@@ -72,9 +73,6 @@ class FormExtensionTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnValue($query));
 
         $queryBuilder = new QueryBuilder($objectManager);
-/*        $queryBuilder->expects($this->any())
-            ->method('getQuery')
-            ->will($this->returnValue($queryBuilder));*/
 
         $entityClass = 'FSi\Component\DataGrid\Tests\Fixtures\EntityCategory';
         $classMetadata = new ClassMetadata('FSi\Component\DataGrid\Tests\Fixtures\EntityCategory');
@@ -94,6 +92,9 @@ class FormExtensionTest extends \PHPUnit_Framework_TestCase
             ->method('createQueryBuilder')
             ->withAnyParameters()
             ->will($this->returnValue($queryBuilder));
+        $repository->expects($this->any())
+            ->method('findAll')
+            ->will($this->returnValue($entities));
 
         $objectManager->expects($this->any())
             ->method('getClassMetadata')
