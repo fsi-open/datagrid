@@ -29,7 +29,7 @@ class ReflectionMapperTest extends \PHPUnit_Framework_TestCase
         $entity = new EntityMapper();
         $entity->setSurname('foosurname');
 
-        $this->setExpectedException('FSi\Component\DataGrid\Exception\DataMappingExteption');
+        $this->setExpectedException('FSi\Component\DataGrid\Exception\DataMappingException');
         $mapper->getData('surname', $entity);
     }
 
@@ -48,7 +48,7 @@ class ReflectionMapperTest extends \PHPUnit_Framework_TestCase
         $entity = new EntityMapper();
         $entity->setPrivateCollection('collection');
 
-        $this->setExpectedException('FSi\Component\DataGrid\Exception\DataMappingExteption');
+        $this->setExpectedException('FSi\Component\DataGrid\Exception\DataMappingException');
         $mapper->getData('private_collection', $entity);
     }
 
@@ -67,7 +67,7 @@ class ReflectionMapperTest extends \PHPUnit_Framework_TestCase
         $entity = new EntityMapper();
         $entity->setProtectedReady(true);
 
-        $this->setExpectedException('FSi\Component\DataGrid\Exception\DataMappingExteption');
+        $this->setExpectedException('FSi\Component\DataGrid\Exception\DataMappingException');
         $mapper->getData('protected_ready', $entity);
     }
 
@@ -86,7 +86,7 @@ class ReflectionMapperTest extends \PHPUnit_Framework_TestCase
         $entity = new EntityMapper();
         $entity->setPrivateId('bar');
 
-        $this->setExpectedException('FSi\Component\DataGrid\Exception\DataMappingExteption');
+        $this->setExpectedException('FSi\Component\DataGrid\Exception\DataMappingException');
         $mapper->getData('private_id', $entity);
     }
 
@@ -104,7 +104,7 @@ class ReflectionMapperTest extends \PHPUnit_Framework_TestCase
         $mapper = new ReflectionMapper();
         $entity = new EntityMapper();
 
-        $this->setExpectedException('FSi\Component\DataGrid\Exception\DataMappingExteption');
+        $this->setExpectedException('FSi\Component\DataGrid\Exception\DataMappingException');
         $mapper->setData('protected_name', $entity, 'fooname');
     }
 
@@ -122,7 +122,7 @@ class ReflectionMapperTest extends \PHPUnit_Framework_TestCase
         $mapper = new ReflectionMapper();
         $entity = new EntityMapper();
 
-        $this->setExpectedException('FSi\Component\DataGrid\Exception\DataMappingExteption');
+        $this->setExpectedException('FSi\Component\DataGrid\Exception\DataMappingException');
         $mapper->setData('protected_tag', $entity, 'bar');
     }
 }

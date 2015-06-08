@@ -9,7 +9,7 @@
 
 namespace FSi\Component\DataGrid\Column;
 
-use Symfony\Component\OptionsResolver\OptionsResolverInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 use FSi\Component\DataGrid\DataGridInterface;
 use FSi\Component\DataGrid\Column\CellViewInterface;
 use FSi\Component\DataGrid\Column\HeaderViewInterface;
@@ -159,7 +159,7 @@ interface ColumnTypeInterface
     /**
      * Returns the configured options resolver used for this type.
      *
-     * @return \Symfony\Component\OptionsResolver\OptionsResolverInterface The options resolver.
+     * @return \Symfony\Component\OptionsResolver\OptionsResolver The options resolver.
      */
     public function getOptionsResolver();
 }

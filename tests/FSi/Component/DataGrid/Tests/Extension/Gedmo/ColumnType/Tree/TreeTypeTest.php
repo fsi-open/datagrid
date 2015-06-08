@@ -100,7 +100,7 @@ class TreeTypeTest extends \PHPUnit_Framework_TestCase
                             ->will($self->returnCallback(function($class) use ($self) {
                                 switch ($class) {
                                     case "FSi\\Component\\DataGrid\\Tests\\Fixtures\\EntityTree" :
-                                        $metadata = $self->getMock('Doctrine\\Common\\Persistence\\Mapping\\ClassMetadata');
+                                        $metadata = $self->getMock('Doctrine\\ORM\\Mapping\\ClassMetadataInfo', array(), array($class));
                                         $metadata->expects($self->any())
                                             ->method('getIdentifierFieldNames')
                                             ->will($self->returnValue(array(
@@ -126,7 +126,7 @@ class TreeTypeTest extends \PHPUnit_Framework_TestCase
                     ->will($self->returnCallback(function($class) use ($self) {
                         switch ($class) {
                             case "FSi\\Component\\DataGrid\\Tests\\Fixtures\\EntityTree" :
-                                $metadata = $self->getMock('Doctrine\\Common\\Persistence\\Mapping\\ClassMetadata');
+                                $metadata = $self->getMock('Doctrine\\ORM\\Mapping\\ClassMetadataInfo', array(), array($class));
                                 $metadata->expects($self->any())
                                     ->method('getIdentifierFieldNames')
                                     ->will($self->returnValue(array(

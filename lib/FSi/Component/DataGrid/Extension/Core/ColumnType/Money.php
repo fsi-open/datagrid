@@ -90,16 +90,14 @@ class Money extends ColumnAbstractType
             'currency_field' => null,
         ));
 
-        $this->getOptionsResolver()->setAllowedTypes(array(
-            'round_mode' => 'integer',
-            'precision' => 'integer',
-            'decimals' => 'integer',
-            'decimals' => 'integer',
-            'dec_point' => 'string',
-            'thousands_sep' => 'string',
-            'value_currency_separator' => 'string',
-            'currency' => array('null', 'string'),
-            'currency_field' => array('null', 'string'),
-        ));
+        $this->getOptionsResolver()->setAllowedTypes('round_mode', 'integer');
+        $this->getOptionsResolver()->setAllowedTypes('precision', 'integer');
+        $this->getOptionsResolver()->setAllowedTypes('decimals', 'integer');
+        $this->getOptionsResolver()->setAllowedTypes('decimals', 'integer');
+        $this->getOptionsResolver()->setAllowedTypes('dec_point', 'string');
+        $this->getOptionsResolver()->setAllowedTypes('thousands_sep', 'string');
+        $this->getOptionsResolver()->setAllowedTypes('value_currency_separator', 'string');
+        $this->getOptionsResolver()->setAllowedTypes('currency', array('null', 'string'));
+        $this->getOptionsResolver()->setAllowedTypes('currency_field', array('null', 'string'));
     }
 }

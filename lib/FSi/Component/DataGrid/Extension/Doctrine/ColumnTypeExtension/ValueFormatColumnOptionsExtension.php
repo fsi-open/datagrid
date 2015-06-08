@@ -79,12 +79,10 @@ class ValueFormatColumnOptionsExtension extends ColumnAbstractTypeExtension
             'empty_value' => null
         ));
 
-        $column->getOptionsResolver()->setAllowedTypes(array(
-            'glue_multiple' => array('string'),
-            'value_glue' => array('string', 'null'),
-            'value_format' => array('string', 'null'),
-            'empty_value' => array('array', 'string', 'null')
-        ));
+        $column->getOptionsResolver()->setAllowedTypes('glue_multiple', array('string'));
+        $column->getOptionsResolver()->setAllowedTypes('value_glue', array('string', 'null'));
+        $column->getOptionsResolver()->setAllowedTypes('value_format', array('string', 'null'));
+        $column->getOptionsResolver()->setAllowedTypes('empty_value', array('array', 'string', 'null'));
     }
 
     /**

@@ -65,22 +65,14 @@ class DateTime extends ColumnAbstractType
             'input_field_format' => null
         ));
 
-        $this->getOptionsResolver()->setAllowedTypes(array(
-            'input_field_format' => array(
-                'null',
-                'array',
-                'string'
-            )
-        ));
+        $this->getOptionsResolver()->setAllowedTypes('input_field_format', array('null', 'array', 'string'));
 
-        $this->getOptionsResolver()->setAllowedValues(array(
-            'input_type' => array(
-                null,
-                'string',
-                'timestamp',
-                'datetime',
-                'array'
-            )
+        $this->getOptionsResolver()->setAllowedValues('input_type', array(
+            null,
+            'string',
+            'timestamp',
+            'datetime',
+            'array'
         ));
     }
 

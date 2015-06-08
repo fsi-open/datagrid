@@ -9,7 +9,7 @@
 
 namespace FSi\Component\DataGrid\DataMapper;
 
-use FSi\Component\DataGrid\Exception\DataMappingExteption;
+use FSi\Component\DataGrid\Exception\DataMappingException;
 
 class ChainMapper implements DataMapperInterface
 {
@@ -47,7 +47,7 @@ class ChainMapper implements DataMapperInterface
         foreach ($this->mappers as $mapper) {
             try {
                 $data = $mapper->getData($field, $object);
-            } catch (DataMappingExteption $e) {
+            } catch (DataMappingException $e) {
                 $data = null;
                 $lastMsg = $e->getMessage();
                 continue;
@@ -61,7 +61,7 @@ class ChainMapper implements DataMapperInterface
             if (!isset($lastMsg)) {
                 $lastMsg = sprintf('Cant find any data that fit "%s" field.', $field);
             }
-            throw new DataMappingExteption($lastMsg);
+            throw new DataMappingException($lastMsg);
         }
 
         return $data;
@@ -79,7 +79,7 @@ class ChainMapper implements DataMapperInterface
         foreach ($this->mappers as $mapper) {
             try {
                 $mapper->setData($field, $object, $value);
-            } catch (DataMappingExteption $e) {
+            } catch (DataMappingException $e) {
                 $lastMsg = $e->getMessage();
                 continue;
             }
@@ -93,7 +93,7 @@ class ChainMapper implements DataMapperInterface
                 $lastMsg = sprintf('Cant find any data that fit "%s" field.', $field);
             }
 
-            throw new DataMappingExteption($lastMsg);
+            throw new DataMappingException($lastMsg);
         }
 
         return true;
