@@ -31,9 +31,9 @@
         "phpunit/phpunit": "3.7.*"
     },
     "autoload": {
-        "psr-0": {
-            "FSi\\Component\\DataGrid": "lib/",
-            "FSi\\Component\\DataGrid\\Tests": "tests/"
+        "psr-4": {
+            "FSi\\Component\\DataGrid\\": "lib/",
+            "FSi\\Component\\DataGrid\\Tests\\": "tests/"
         }
     },
     "config": {

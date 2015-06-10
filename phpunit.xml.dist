@@ -11,7 +11,7 @@
 >
     <testsuites>
         <testsuite name="FSi DataGrid Component">
-            <directory>tests/FSi/Component/DataGrid/Tests</directory>
+            <directory>tests</directory>
         </testsuite>
     </testsuites>
 </phpunit>
