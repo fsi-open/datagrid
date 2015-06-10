@@ -9,9 +9,13 @@
 
 namespace FSi\Component\DataGrid\Extension\Symfony;
 
-use FSi\Component\DataGrid\DataGridAbstractExtension;
 use Symfony\Component\DependencyInjection\ContainerInterface;
+use FSi\Component\DataGrid\DataGridAbstractExtension;
 
+/**
+ * @deprecated Deprecated since version 1.1, to be removed in 1.2. Use
+ *             FSi\Bundle\DataGridBundle\DataGrid\Extension\DependencyInjectionExtension from datagrid-bundle instead.
+ */
 class DependencyInjectionExtension extends DataGridAbstractExtension
 {
     /**

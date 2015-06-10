@@ -17,6 +17,11 @@ use FSi\Component\DataGrid\Column\ColumnAbstractTypeExtension;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\FormInterface;
 
+/**
+ * @deprecated Deprecated since version 1.1, to be removed in 1.2. Use
+ *             FSi\Bundle\DataGridBundle\DataGrid\Extension\ColumnTypeExtension\FormExtension
+ *             from datagrid-bundle instead.
+ */
 class FormExtension extends ColumnAbstractTypeExtension
 {
     /**

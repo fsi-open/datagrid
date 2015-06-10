@@ -12,6 +12,11 @@ namespace FSi\Component\DataGrid\Extension\Symfony\ColumnTypeExtension;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 
+/**
+ * @deprecated Deprecated since version 1.1, to be removed in 1.2. Use
+ *             FSi\Bundle\DataGridBundle\DataGrid\Extension\ColumnTypeExtension\RowType
+ *             from datagrid-bundle instead.
+ */
 class RowType extends AbstractType
 {
     /**
