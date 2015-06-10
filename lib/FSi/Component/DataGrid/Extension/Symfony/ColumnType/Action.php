@@ -14,6 +14,10 @@ use FSi\Component\DataGrid\Exception\UnexpectedTypeException;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
+/**
+ * @deprecated This class is deprecated since version 1.2. Please use fsi/datagrid-bundle and its
+ * FSi\Bundle\DataGridBundle\DataGrid\Extension\Symfony\ColumnType\Action
+ */
 class Action extends ColumnAbstractType
 {
     /**

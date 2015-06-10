@@ -15,6 +15,10 @@ use FSi\Component\DataGrid\Exception\DataGridException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
+/**
+ * @deprecated This class is deprecated since version 1.2. Please use fsi/datagrid-bundle and its
+ * FSi\Bundle\DataGridBundle\DataGrid\Extension\Symfony\EventSubscriber\BindRequest
+ */
 class BindRequest implements EventSubscriberInterface
 {
     /**
