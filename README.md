@@ -291,8 +291,8 @@ into DataGrid is nothing more than registering it in DataGridFactory.
 (You can find documentation for some of these extensions in ``doc/en/extensions`` folder.)
 
 - Core
-- SymfonyForm
-- SymfonyDependencyInjection
+- SymfonyForm (deprecated since 1.2 because of moving to [fsi/datagrid-bundle](https://github.com/fsi-open/datagrid-bundle))
+- SymfonyDependencyInjection (deprecated since 1.2 because of moving to [fsi/datagrid-bundle](https://github.com/fsi-open/datagrid-bundle))
 - Docrtine
 - Gedmo
 
