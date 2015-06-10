@@ -16,6 +16,8 @@ interface ColumnTypeExtensionInterface
     /**
      * @param \FSi\Component\DataGrid\DataGridInterface $dataGrid
      * @return mixed
+     *
+     * @deprecated This method is deprecated since 1.2 because it is never called
      */
     public function setDataGrid(DataGridInterface $dataGrid);
 

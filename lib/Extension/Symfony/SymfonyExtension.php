@@ -14,6 +14,10 @@ use FSi\Component\DataGrid\Extension\Symfony\EventSubscriber;
 use FSi\Component\DataGrid\Extension\Symfony\ColumnType;
 use Symfony\Component\DependencyInjection\ContainerInterface;
 
+/**
+ * @deprecated This class is deprecated since version 1.2. Please use fsi/datagrid-bundle and its
+ * FSi\Bundle\DataGridBundle\DataGrid\Extension\Symfony\RouterExtension
+ */
 class SymfonyExtension extends DataGridAbstractExtension
 {
     /**
