@@ -1,5 +1,8 @@
 # DataGrid Extension SymfonyForm #
 
+This extension is deprecated since 1.2 because it was moved to
+[fsi/datagrid-bundle](https://github.com/fsi-open/datagrid-bundle).
+
 ## Column Types provided by extension ##
 
 ``FSi\Component\DataGrid\Extension\Symfony\ColumnType\Action``
