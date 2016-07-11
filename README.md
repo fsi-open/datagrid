@@ -174,7 +174,7 @@ Ok, so now when we have grid its time to create view. This can be done by callin
 ``` php
 <?php
 
-$view = $gird->createView();
+$view = $grid->createView();
 ```
 
 $view is ``DataGridView`` object that implements ``\SeekableIterator``, ``\Countable``
