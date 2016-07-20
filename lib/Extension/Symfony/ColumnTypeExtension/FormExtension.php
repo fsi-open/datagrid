@@ -243,12 +243,6 @@ class FormExtension extends ColumnAbstractTypeExtension
             );
         }
 
-//        if (null !== $object) {
-//            $formBuilderOptions[$this->isSymfony3() ? 'entry_options' : 'options'] = array(
-//                'data_class' => ClassUtils::getRealClass(get_class($object))
-//            );
-//        }
-
         if ($this->isSymfony3()) {
             $formBuilderOptions['entry_options']['fields'] = $fields;
         }
