@@ -23,6 +23,7 @@
         "doctrine/common": "~2.5",
         "gedmo/doctrine-extensions": "~2.3.10",
         "symfony/form" : "^2.4|^3.0",
+        "symfony/validator" : "^2.4|^3.0",
         "symfony/doctrine-bridge": "^2.2|^3.0",
         "symfony/security-csrf" : "^2.4|^3.0",
         "symfony/routing" : "^2.2|^3.0",
