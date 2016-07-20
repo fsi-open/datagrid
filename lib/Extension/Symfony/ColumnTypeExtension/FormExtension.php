@@ -87,9 +87,8 @@ class FormExtension extends ColumnAbstractTypeExtension
                 }
         }
 
-        $formObject = clone $object;
         /** @var FormInterface $form */
-        $form = $this->createForm($column, $index, $formObject);
+        $form = $this->createForm($column, $index, $object);
         $form->submit(array($index => $formData));
         if ($form->isValid()) {
             foreach ($form->getData() as $fields) {

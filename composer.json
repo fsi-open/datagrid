@@ -12,9 +12,9 @@
     ],
     "require": {
         "php": ">=5.4.0",
-        "symfony/event-dispatcher" : "~2.2",
-        "symfony/property-access": "~2.3",
-        "symfony/options-resolver": "~2.6",
+        "symfony/event-dispatcher" : "^2.2|^3.0",
+        "symfony/property-access": "^2.3|^3.0",
+        "symfony/options-resolver": "^2.6|^3.0",
         "fsi/reflection" : "0.9.*",
         "fsi/data-indexer" : "0.9.*"
     },
