@@ -21,7 +21,7 @@ Provided by ``DataGrid\Extension\Core\CoreExtension``
 
 **datetime_format** Format of showed date and/or time.
 
-**input_type** Kind of data you are giving to column (``array``, ``datetime``, ``string``, ``timestamp``) - if no specified, column will try to guess it.
+**input_type** Kind of data you are giving to column (``array``, ``datetime``, ``datetime_interface``, ``string``, ``timestamp``) - if no specified, column will try to guess it.
 
 **input_field_format** Array of formats used if you specify more than one field in field_mapping option (that keys match 'field_mapping` option keys), otherwise its equal to 'datetime_format' option.
 
