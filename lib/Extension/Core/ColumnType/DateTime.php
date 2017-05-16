@@ -155,14 +155,17 @@ class DateTime extends ColumnAbstractType
                             $inputData[$field] = $value[$field];
                             break;
                         case 'datetime_interface':
-                            if (!empty($value[$field]) && !($value[$field] instanceof \DateTimeInterface)) {
-                                throw new DataGridColumnException(
-                                    sprintf('Value in field "%s" is "%s" type instead of "\DateTimeInterface" instance.', $field, gettype($value[$field]))
-                                );
-                            }
+                            if (interface_exists('\DateTimeInterface')) {
+                                if (!empty($value[$field]) && !($value[$field] instanceof \DateTimeInterface)) {
+                                    throw new DataGridColumnException(
+                                        sprintf('Value in field "%s" is "%s" type instead of "\DateTimeInterface" instance.',
+                                            $field, gettype($value[$field]))
+                                    );
+                                }
 
-                            $inputData[$field] = $value[$field];
-                            break;
+                                $inputData[$field] = $value[$field];
+                                break;
+                            }
                         default:
                             throw new DataGridColumnException(
                                 sprintf('"%s" is not valid input option value for field "%s". '.
@@ -203,17 +206,19 @@ class DateTime extends ColumnAbstractType
                 break;
 
             case 'datetime_interface':
-                $field = key($value);
-                $value = current($value);
+                if (interface_exists('\DateTimeInterface')) {
+                    $field = key($value);
+                    $value = current($value);
 
-                if (!empty($value) && !($value instanceof \DateTimeInterface)) {
-                    throw new DataGridColumnException(
-                        sprintf('Value in field "%s" is not instance of "\DateTime"', $field)
-                    );
+                    if (!empty($value) && !($value instanceof \DateTimeInterface)) {
+                        throw new DataGridColumnException(
+                            sprintf('Value in field "%s" is not instance of "\DateTime"', $field)
+                        );
+                    }
+
+                    $inputData[$field] = $value;
+                    break;
                 }
-
-                $inputData[$field] = $value;
-                break;
 
             case 'timestamp':
                 $field = key($value);
@@ -257,7 +262,7 @@ class DateTime extends ColumnAbstractType
             return 'datetime';
         }
 
-        if ($value instanceof \DateTimeInterface) {
+        if (interface_exists('\DateTimeInterface') && ($value instanceof \DateTimeInterface)) {
             return 'datetime_interface';
         }
 
