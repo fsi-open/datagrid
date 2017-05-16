@@ -87,7 +87,12 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase
             )
         );
 
-        foreach (array('datetime', 'datetime_interface', 'string', 'timestamp') as $input_type) {
+        $inputTypes = array('datetime', 'string', 'timestamp');
+        if (interface_exists('\DateTimeInterface')) {
+            $inputTypes[] = 'datetime_interface';
+        }
+
+        foreach ($inputTypes as $input_type) {
 
             $this->column->setOptions(array(
                 'input_type' => $input_type
