@@ -72,6 +72,7 @@ class DateTime extends ColumnAbstractType
             'string',
             'timestamp',
             'datetime',
+            'datetime_interface',
             'array'
         ));
     }
@@ -153,6 +154,22 @@ class DateTime extends ColumnAbstractType
 
                             $inputData[$field] = $value[$field];
                             break;
+                        case 'datetime_interface':
+                            if (!interface_exists('\DateTimeInterface')) {
+                                throw new DataGridColumnException(
+                                    'Input type option has value "datetime_interface" but \DateTimeInterface is not defined'
+                                );
+                            }
+
+                            if (!empty($value[$field]) && !($value[$field] instanceof \DateTimeInterface)) {
+                                throw new DataGridColumnException(
+                                    sprintf('Value in field "%s" is "%s" type instead of "\DateTimeInterface" instance.',
+                                        $field, gettype($value[$field]))
+                                );
+                            }
+
+                            $inputData[$field] = $value[$field];
+                            break;
                         default:
                             throw new DataGridColumnException(
                                 sprintf('"%s" is not valid input option value for field "%s". '.
@@ -186,6 +203,25 @@ class DateTime extends ColumnAbstractType
                 if (!empty($value) && !($value instanceof \DateTime)) {
                     throw new DataGridColumnException(
                         sprintf('Value in field "%s" is not instance of "\DateTime"', $field)
+                    );
+                }
+
+                $inputData[$field] = $value;
+                break;
+
+            case 'datetime_interface':
+                if (!interface_exists('\DateTimeInterface')) {
+                    throw new DataGridColumnException(
+                        'Input type option has value "datetime_interface" but \DateTimeInterface is not defined'
+                    );
+                }
+
+                $field = key($value);
+                $value = current($value);
+
+                if (!empty($value) && !($value instanceof \DateTimeInterface)) {
+                    throw new DataGridColumnException(
+                        sprintf('Value in field "%s" is not instance of "\DateTimeInterface"', $field)
                     );
                 }
 
@@ -232,6 +268,10 @@ class DateTime extends ColumnAbstractType
 
         if ($value instanceof \DateTime) {
             return 'datetime';
+        }
+
+        if (interface_exists('\DateTimeInterface') && ($value instanceof \DateTimeInterface)) {
+            return 'datetime_interface';
         }
 
         if (is_numeric($value)) {
