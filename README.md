@@ -123,7 +123,7 @@ So if we have data we need to build grid and pass data into it.
 We assume that datagrid.factory is a service with DataGridFactory object instance.
 More about creating DataGridFactory and loading columns into it will be described later.
 
-``` php
+```php
 <?php
 
 $grid = $this->get('datagrid.factory')->createDataGrid();
@@ -131,7 +131,7 @@ $grid = $this->get('datagrid.factory')->createDataGrid();
 
 DataGrid::addColumn($name, $type = 'text', $options = array());
 
-``` php
+```php
 <?php
 
 $grid->addColumn('id', 'number', array('label' => 'Id'))
@@ -171,7 +171,7 @@ $grid->addColumn('id', 'number', array('label' => 'Id'))
 
 Ok, so now when we have grid its time to create view. This can be done by calling ``DataGrid::CreateView()``
 
-``` php
+```php
 <?php
 
 $view = $grid->createView();
@@ -189,8 +189,7 @@ And the last view part, column is an object with methods like ``getAttribute``,
 
 Here is a simple view implementation:
 
-```
-
+```php
 <table>
     <tr>
     <?php foreach ($view->getColumns() as $column):?>
@@ -220,7 +219,7 @@ Here is a simple view implementation:
 **Heads up!**
 There is a difference between using getColumns method at view and direct array access.
 
-```
+```php
 <?php
 
 $columns = $view->getColumns();
@@ -238,13 +237,12 @@ echo $cell->getValue();
 ## Installation ##
 
 This section will describe how to add datagrid into your project.
-First thing is to get DataGrid sources, we recommend you to use [composer](https://github.com/composer/composer#composer---package-management-for-php)
+First thing is to get DataGrid sources, we recommend you to use [composer](https://github.com/composer/composer)
 After that you need to do a couple of things to create ``DataGridFactory`` that
 finally allows you to create ``DataGrid`` objects.
 
 Here are sample scenarios of component usage:
 
-- [standalone](https://github.com/norzechowicz/datagrid-standalone)
 - [symfony](https://github.com/fsi-open/datagrid-bundle)
 
 You can also add ``fsi/datagrid`` into composer.json and run ``composer.phar update`` or ``composer.phar install``
@@ -252,14 +250,14 @@ You can also add ``fsi/datagrid`` into composer.json and run ``composer.phar upd
 ``` json
 {
     "require": {
-        "fsi/datagrid": "1.0.*"
+        "fsi/datagrid": "^2.0"
     }
 }
 ```
 
 ## Tests ##
 
-Install PHPUnit 3.5.11.
+Install PHPUnit
 To run tests for DataGrid you should install dev packages and run tests with commands:
 
 ```
@@ -291,9 +289,7 @@ into DataGrid is nothing more than registering it in DataGridFactory.
 (You can find documentation for some of these extensions in ``doc/en/extensions`` folder.)
 
 - Core
-- SymfonyForm (deprecated since 1.2 because of moving to [fsi/datagrid-bundle](https://github.com/fsi-open/datagrid-bundle))
-- SymfonyDependencyInjection (deprecated since 1.2 because of moving to [fsi/datagrid-bundle](https://github.com/fsi-open/datagrid-bundle))
-- Docrtine
+- Doctrine
 - Gedmo
 
 ## Built-in column types ##
