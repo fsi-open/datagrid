@@ -237,7 +237,7 @@ echo $cell->getValue();
 ## Installation ##
 
 This section will describe how to add datagrid into your project.
-First thing is to get DataGrid sources, we recommend you to use [composer](https://github.com/composer/composer)
+First thing is to get DataGrid sources, we recommend you to use [composer](https://getcomposer.org/download/)
 After that you need to do a couple of things to create ``DataGridFactory`` that
 finally allows you to create ``DataGrid`` objects.
 

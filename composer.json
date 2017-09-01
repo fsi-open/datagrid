@@ -11,7 +11,7 @@
         }
     ],
     "require": {
-        "php": ">=5.4.0",
+        "php": ">=5.4",
         "symfony/event-dispatcher" : "^2.2|^3.0",
         "symfony/property-access": "^2.3|^3.0",
         "symfony/options-resolver": "^2.6|^3.0",
@@ -19,18 +19,10 @@
         "fsi/data-indexer" : "0.9.*"
     },
     "require-dev": {
-        "doctrine/orm": "~2.5",
-        "doctrine/common": "~2.5",
-        "gedmo/doctrine-extensions": "~2.3.10",
-        "symfony/form" : "^2.4|^3.0",
-        "symfony/validator" : "^2.4|^3.0",
-        "symfony/translation": "^2.4|^3.0",
-        "symfony/doctrine-bridge": "^2.2|^3.0",
-        "symfony/security-csrf" : "^2.4|^3.0",
-        "symfony/routing" : "^2.2|^3.0",
-        "symfony/http-foundation": "^2.2|^3.0",
-        "symfony/dependency-injection" : "^2.2|^3.0",
-        "phpunit/phpunit": "3.7.*"
+        "doctrine/orm": "^2.5",
+        "doctrine/common": "^2.5",
+        "gedmo/doctrine-extensions": "^2.3.10",
+        "phpunit/phpunit": "^4.8"
     },
     "autoload": {
         "psr-4": {
