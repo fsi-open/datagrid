@@ -66,15 +66,6 @@ class BooleanTest extends \PHPUnit_Framework_TestCase
             )),
             'true'
         );
-
-        $this->assertNotSame(
-            $this->column->filterValue(array(
-                true,
-                1,
-                new \DateTime()
-            )),
-            'false'
-        );
     }
 
 
@@ -84,14 +75,6 @@ class BooleanTest extends \PHPUnit_Framework_TestCase
             'true_value' => 'true',
             'false_value'=> 'false'
         ));
-
-        $this->assertNotSame(
-            $this->column->filterValue(array(
-                false,
-                false
-            )),
-            'true'
-        );
 
         $this->assertSame(
             $this->column->filterValue(array(
@@ -109,16 +92,6 @@ class BooleanTest extends \PHPUnit_Framework_TestCase
             'false_value'=> 'false'
         ));
 
-        $this->assertNotSame(
-            $this->column->filterValue(array(
-                true,
-                1,
-                new \DateTime(),
-                false
-            )),
-            'true'
-        );
-
         $this->assertSame(
             $this->column->filterValue(array(
                 true,
@@ -127,6 +100,40 @@ class BooleanTest extends \PHPUnit_Framework_TestCase
                 false
             )),
             'false'
+        );
+    }
+
+    public function testFilterValueWithMixedValuesAndNullInArray()
+    {
+        $this->column->setOptions(array(
+            'true_value' => 'true',
+            'false_value'=> 'false'
+        ));
+
+        $this->assertSame(
+            $this->column->filterValue(array(
+                true,
+                1,
+                new \DateTime(),
+                null
+            )),
+            'true'
+        );
+    }
+
+    public function testFilterValueWithAllNullsInArray()
+    {
+        $this->column->setOptions(array(
+            'true_value' => 'true',
+            'false_value'=> 'false'
+        ));
+
+        $this->assertSame(
+            $this->column->filterValue(array(
+                null,
+                null
+            )),
+            ''
         );
     }
 }

@@ -28,13 +28,22 @@ class Boolean extends ColumnAbstractType
     {
         $value = (array) $value;
 
-        $boolValue = true;
+        $boolValue = null;
         foreach ($value as $val) {
-            $boolValue = (boolean) ($boolValue & (boolean) $val);
+            if ($val === null) {
+                continue;
+            }
 
-            if (!$boolValue) {
+            if ((bool) $val === false) {
+                $boolValue = false;
                 break;
             }
+
+            $boolValue = true;
+        }
+
+        if (null === $boolValue) {
+            return '';
         }
 
         return $boolValue ? $this->getOption('true_value') : $this->getOption('false_value') ;

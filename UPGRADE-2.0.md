@@ -4,3 +4,9 @@
 
 Since it was moved to [datagrid-bundle](https://github.com/fsi-open/datagrid-bundle),
 you will need to install it in order to be able to use the extension.
+
+## Use null in boolean column only when you mean it
+
+If any of your boolean columns can contain `null` then an empty string will be displayed
+instead of value passed as `false_value` option. You should either ensure the column does
+not contain `null` or that it adheres to the new behaviour.
