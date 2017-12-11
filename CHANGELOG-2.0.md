@@ -11,3 +11,8 @@ it has been removed from this component.
 
 Boolean column now treats `null`s like non existing value instead of `false` value. It displays empty string when
 all input values are `null`s.
+
+## Dropped support for PHP below 7.1
+
+To be able to fully utilize new functionality introduced in 7.1, we have decided
+to only support PHP versions equal or higher to it.

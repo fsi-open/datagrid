@@ -29,8 +29,8 @@ class EntityTypeTest extends \PHPUnit_Framework_TestCase
 
         $object = new Fixture('object');
 
-        $dataGrid = $this->getMock('FSi\Component\DataGrid\DataGridInterface');
-        $dataMapper = $dataMapper = $this->getMock('FSi\Component\DataGrid\DataMapper\DataMapperInterface');
+        $dataGrid = $this->createMock('FSi\Component\DataGrid\DataGridInterface');
+        $dataMapper = $dataMapper = $this->createMock('FSi\Component\DataGrid\DataMapper\DataMapperInterface');
 
         $dataMapper->expects($this->once())
                    ->method('getData')

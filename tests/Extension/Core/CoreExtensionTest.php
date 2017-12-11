@@ -85,7 +85,7 @@ class CoreExtensionTest extends \PHPUnit_Framework_TestCase
             $columns = array();
 
             foreach ($case['columns'] as $name => $order) {
-                $columnHeader = $this->getMock('FSi\Component\DataGrid\Column\HeaderViewInterface');
+                $columnHeader = $this->createMock('FSi\Component\DataGrid\Column\HeaderViewInterface');
 
                 $columnHeader
                     ->expects($this->atLeastOnce())
@@ -117,7 +117,7 @@ class CoreExtensionTest extends \PHPUnit_Framework_TestCase
                 $columns[] = $columnHeader;
             }
 
-            $view = $this->getMock('FSi\Component\DataGrid\DataGridViewInterface');
+            $view = $this->createMock('FSi\Component\DataGrid\DataGridViewInterface');
 
             $self = $this;
 
@@ -137,7 +137,7 @@ class CoreExtensionTest extends \PHPUnit_Framework_TestCase
                     $self->assertSame($case['sorted'], $sorted);
                 }));
 
-            $event = $this->getMock('FSi\Component\DataGrid\DataGridEventInterface');
+            $event = $this->createMock('FSi\Component\DataGrid\DataGridEventInterface');
             $event
                 ->expects($this->once())
                 ->method('getData')

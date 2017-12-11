@@ -22,8 +22,8 @@ class DataGridFactoryTest extends \PHPUnit_Framework_TestCase
             new FooExtension(),
         );
 
-        $dataMapper = $this->getMock('FSi\Component\DataGrid\DataMapper\DataMapperInterface');
-        $indexingStrategy = $this->getMock('FSi\Component\DataGrid\Data\IndexingStrategyInterface');
+        $dataMapper = $this->createMock('FSi\Component\DataGrid\DataMapper\DataMapperInterface');
+        $indexingStrategy = $this->createMock('FSi\Component\DataGrid\Data\IndexingStrategyInterface');
 
         $this->factory = new DataGridFactory($extensions, $dataMapper, $indexingStrategy);
     }

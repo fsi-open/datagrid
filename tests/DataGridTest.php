@@ -38,7 +38,7 @@ class DataGridTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->dataMapper = $this->getMock('FSi\Component\DataGrid\DataMapper\DataMapperInterface');
+        $this->dataMapper = $this->createMock('FSi\Component\DataGrid\DataMapper\DataMapperInterface');
         $this->dataMapper->expects($this->any())
             ->method('getData')
             ->will($this->returnCallback(function($field, $object){
@@ -59,7 +59,7 @@ class DataGridTest extends \PHPUnit_Framework_TestCase
                 }
             }));
 
-        $this->indexingStrategy = $this->getMock('FSi\Component\DataGrid\Data\IndexingStrategyInterface');
+        $this->indexingStrategy = $this->createMock('FSi\Component\DataGrid\Data\IndexingStrategyInterface');
         $this->indexingStrategy->expects($this->any())
             ->method('getIndex')
             ->will($this->returnCallback(function($object, $dataMapper){
@@ -69,7 +69,7 @@ class DataGridTest extends \PHPUnit_Framework_TestCase
                 return null;
             }));
 
-        $this->factory = $this->getMock('FSi\Component\DataGrid\DataGridFactoryInterface');
+        $this->factory = $this->createMock('FSi\Component\DataGrid\DataGridFactoryInterface');
         $this->factory->expects($this->any())
             ->method('getExtensions')
             ->will($this->returnValue(array(

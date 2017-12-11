@@ -17,11 +17,11 @@ class DataGridRowViewTest extends \PHPUnit_Framework_TestCase
     {
         $source = 'SOURCE';
 
-        $dataGridView = $this->getMock('FSi\Component\DataGrid\DataGridViewInterface');
+        $dataGridView = $this->createMock('FSi\Component\DataGrid\DataGridViewInterface');
 
-        $cellView = $this->getMock('FSi\Component\DataGrid\Column\CellViewInterface');
+        $cellView = $this->createMock('FSi\Component\DataGrid\Column\CellViewInterface');
 
-        $column = $this->getMock('FSi\Component\DataGrid\Column\ColumnTypeInterface');
+        $column = $this->createMock('FSi\Component\DataGrid\Column\ColumnTypeInterface');
         $column->expects($this->atLeastOnce())
                 ->method('createCellView')
                 ->with($source, 0)
