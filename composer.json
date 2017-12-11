@@ -22,7 +22,7 @@
         "doctrine/orm": "^2.5",
         "doctrine/common": "^2.5",
         "gedmo/doctrine-extensions": "^2.3.10",
-        "phpunit/phpunit": "^4.8"
+        "phpunit/phpunit": "^5.7"
     },
     "autoload": {
         "psr-4": {

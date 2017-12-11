@@ -17,8 +17,8 @@ class DefaultColumnOptionsExtensionTest extends \PHPUnit_Framework_TestCase
     {
         $extension = new DefaultColumnOptionsExtension();
 
-        $column = $this->getMock('FSi\Component\DataGrid\Column\ColumnTypeInterface');
-        $view = $this->getMock('FSi\Component\DataGrid\Column\HeaderViewInterface');
+        $column = $this->createMock('FSi\Component\DataGrid\Column\ColumnTypeInterface');
+        $view = $this->createMock('FSi\Component\DataGrid\Column\HeaderViewInterface');
 
         $column->expects($this->at(0))
             ->method('getOption')
