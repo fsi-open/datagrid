@@ -23,9 +23,8 @@ class DataGridFactoryTest extends \PHPUnit_Framework_TestCase
         );
 
         $dataMapper = $this->createMock('FSi\Component\DataGrid\DataMapper\DataMapperInterface');
-        $indexingStrategy = $this->createMock('FSi\Component\DataGrid\Data\IndexingStrategyInterface');
 
-        $this->factory = new DataGridFactory($extensions, $dataMapper, $indexingStrategy);
+        $this->factory = new DataGridFactory($extensions, $dataMapper);
     }
 
     public function testCreateGrids()
@@ -54,10 +53,5 @@ class DataGridFactoryTest extends \PHPUnit_Framework_TestCase
     public function testGetDataMapper()
     {
         $this->assertInstanceOf('FSi\Component\DataGrid\DataMapper\DataMapperInterface', $this->factory->getDataMapper());
-    }
-
-    public function testGetIndexingStrategy()
-    {
-        $this->assertInstanceOf('FSi\Component\DataGrid\Data\IndexingStrategyInterface', $this->factory->getIndexingStrategy());
     }
 }

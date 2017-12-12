@@ -22,11 +22,6 @@ class DataGridTest extends \PHPUnit_Framework_TestCase
     private $factory;
 
     /**
-     * @var IndexingStrategyInterface
-     */
-    private $indexingStrategy;
-
-    /**
      * @var DataMapper
      */
     private $dataMapper;
@@ -59,16 +54,6 @@ class DataGridTest extends \PHPUnit_Framework_TestCase
                 }
             }));
 
-        $this->indexingStrategy = $this->createMock('FSi\Component\DataGrid\Data\IndexingStrategyInterface');
-        $this->indexingStrategy->expects($this->any())
-            ->method('getIndex')
-            ->will($this->returnCallback(function($object, $dataMapper){
-                if (is_object($object)) {
-                    return $object->getName();
-                }
-                return null;
-            }));
-
         $this->factory = $this->createMock('FSi\Component\DataGrid\DataGridFactoryInterface');
         $this->factory->expects($this->any())
             ->method('getExtensions')
@@ -88,7 +73,7 @@ class DataGridTest extends \PHPUnit_Framework_TestCase
             ->with($this->equalTo('foo'))
             ->will($this->returnValue(true));
 
-        $this->datagrid = new DataGrid('grid', $this->factory, $this->dataMapper, $this->indexingStrategy);
+        $this->datagrid = new DataGrid('grid', $this->factory, $this->dataMapper);
     }
 
     public function testGetName()
@@ -127,11 +112,6 @@ class DataGridTest extends \PHPUnit_Framework_TestCase
     public function testGetDataMapper()
     {
         $this->assertInstanceOf('FSi\Component\DataGrid\DataMapper\DataMapperInterface', $this->datagrid->getDataMapper());
-    }
-
-    public function testGetIndexingStrategy()
-    {
-        $this->assertInstanceOf('FSi\Component\DataGrid\Data\IndexingStrategyInterface', $this->datagrid->getIndexingStrategy());
     }
 
     public function testSetData()

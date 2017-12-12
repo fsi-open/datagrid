@@ -16,3 +16,13 @@ all input values are `null`s.
 
 To be able to fully utilize new functionality introduced in 7.1, we have decided
 to only support PHP versions equal or higher to it.
+
+## Removed deprecated methods
+
+The following deprecated interfaces, classes and methods were removed because they were replaced by
+[data-indexer](https://github.com/fsi-open/data-indexer/) component.
+
+- `FSi\Component\DataGrid\Data\IndexingStrategyInterface`
+- `FSi\Component\DataGrid\Data\EntityIndexingStrategy`
+- `FSi\Component\DataGrid\DataGridFactoryInterface::getIndexingStrategy`
+- `FSi\Component\DataGrid\DataGridInterface::getIndexingStrategy`
