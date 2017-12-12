@@ -36,7 +36,7 @@ interface DataGridInterface
      * @param array $options
      * @return \FSi\Component\DataGrid\DataGridInterface
      */
-    public function addColumn($name, $type = 'text', $options = array());
+    public function addColumn($name, $type = 'text', $options = []);
 
     /**
      * Remove column from DataGrid.

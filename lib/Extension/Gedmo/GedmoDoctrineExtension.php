@@ -33,8 +33,8 @@ class GedmoDoctrineExtension extends DataGridAbstractExtension
      */
     protected function loadColumnTypes()
     {
-        return array(
+        return [
             new ColumnType\Tree($this->registry),
-        );
+        ];
     }
 }

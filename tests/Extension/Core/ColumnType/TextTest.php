@@ -19,12 +19,12 @@ class TextTest extends \PHPUnit_Framework_TestCase
         $column->initOptions();
         $column->setOption('trim', true);
 
-        $value = array(
+        $value = [
             ' VALUE ',
-        );
+        ];
 
         $this->assertSame(
-            array('VALUE'),
+            ['VALUE'],
             $column->filterValue($value)
         );
     }

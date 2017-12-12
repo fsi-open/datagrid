@@ -22,12 +22,12 @@ class ValueFormatColumnOptionsExtensionTest extends \PHPUnit_Framework_TestCase
 
         $view->expects($this->at(0))
             ->method('getValue')
-            ->will($this->returnValue(array(
-                0 => array(
+            ->will($this->returnValue([
+                0 => [
                     'id' => null,
                     'name' => 'Foo'
-                )
-            )));
+                ]
+            ]));
 
         $column->expects($this->at(0))
             ->method('getOption')
@@ -59,12 +59,12 @@ class ValueFormatColumnOptionsExtensionTest extends \PHPUnit_Framework_TestCase
 
         $view->expects($this->at(0))
             ->method('getValue')
-            ->will($this->returnValue(array(
-                0 => array(
+            ->will($this->returnValue([
+                0 => [
                     'id' => null,
                     'name' => null
-                )
-            )));
+                ]
+            ]));
 
         $column->expects($this->at(0))
             ->method('getOption')
@@ -96,17 +96,17 @@ class ValueFormatColumnOptionsExtensionTest extends \PHPUnit_Framework_TestCase
 
         $view->expects($this->at(0))
             ->method('getValue')
-            ->will($this->returnValue(array(
-                0 => array(
+            ->will($this->returnValue([
+                0 => [
                     'id' => 1,
                     'name' => null
-                )
-            )));
+                ]
+            ]));
 
         $column->expects($this->at(0))
             ->method('getOption')
             ->with('empty_value')
-            ->will($this->returnValue(array('name' => 'no')));
+            ->will($this->returnValue(['name' => 'no']));
 
         $column->expects($this->at(1))
             ->method('getOption')
@@ -133,17 +133,17 @@ class ValueFormatColumnOptionsExtensionTest extends \PHPUnit_Framework_TestCase
 
         $view->expects($this->at(0))
             ->method('getValue')
-            ->will($this->returnValue(array(
-                0 => array(
+            ->will($this->returnValue([
+                0 => [
                     'id' => null,
                     'name' => null
-                )
-            )));
+                ]
+            ]));
 
         $column->expects($this->at(0))
             ->method('getOption')
             ->with('empty_value')
-            ->will($this->returnValue(array('id' => 'no','name' => 'no')));
+            ->will($this->returnValue(['id' => 'no','name' => 'no']));
 
         $column->expects($this->at(1))
             ->method('getOption')
@@ -170,21 +170,21 @@ class ValueFormatColumnOptionsExtensionTest extends \PHPUnit_Framework_TestCase
 
         $view->expects($this->at(0))
             ->method('getValue')
-            ->will($this->returnValue(array(
-                0 => array(
+            ->will($this->returnValue([
+                0 => [
                     'id' => null,
                     'name' => null
-                ),
-                1 => array(
+                ],
+                1 => [
                     'id' => null,
                     'name' => 'Foo'
-                )
-            )));
+                ]
+            ]));
 
         $column->expects($this->at(0))
             ->method('getOption')
             ->with('empty_value')
-            ->will($this->returnValue(array('id' => 'no','name' => 'no')));
+            ->will($this->returnValue(['id' => 'no','name' => 'no']));
 
         $column->expects($this->at(1))
             ->method('getOption')
@@ -219,17 +219,17 @@ class ValueFormatColumnOptionsExtensionTest extends \PHPUnit_Framework_TestCase
 
         $view->expects($this->at(0))
             ->method('getValue')
-            ->will($this->returnValue(array(
-                0 => array(
+            ->will($this->returnValue([
+                0 => [
                     'id' => null,
                     'name' => 'Foo'
-                )
-            )));
+                ]
+            ]));
 
         $column->expects($this->at(0))
             ->method('getOption')
             ->with('empty_value')
-            ->will($this->returnValue(array('id2' => 'no','name' => 'no')));
+            ->will($this->returnValue(['id2' => 'no','name' => 'no']));
 
         $extension->buildCellView($column, $view);
     }
@@ -242,12 +242,12 @@ class ValueFormatColumnOptionsExtensionTest extends \PHPUnit_Framework_TestCase
 
         $view->expects($this->at(0))
             ->method('getValue')
-            ->will($this->returnValue(array(
-                0 => array(
+            ->will($this->returnValue([
+                0 => [
                     'id' => 1,
                     'name' => 'Foo'
-                )
-            )));
+                ]
+            ]));
 
         $column->expects($this->at(1))
             ->method('getOption')
@@ -274,12 +274,12 @@ class ValueFormatColumnOptionsExtensionTest extends \PHPUnit_Framework_TestCase
 
         $view->expects($this->at(0))
         ->method('getValue')
-        ->will($this->returnValue(array(
-            0 => array(
+        ->will($this->returnValue([
+            0 => [
                 'id' => 1,
                 'name' => 'Foo'
-            )
-        )));
+            ]
+        ]));
 
         $column->expects($this->at(1))
             ->method('getOption')
@@ -309,12 +309,12 @@ class ValueFormatColumnOptionsExtensionTest extends \PHPUnit_Framework_TestCase
 
         $view->expects($this->at(0))
         ->method('getValue')
-            ->will($this->returnValue(array(
-                0 => array(
+            ->will($this->returnValue([
+                0 => [
                     'id' => 1,
                     'name' => 'Foo'
-                )
-            )));
+                ]
+            ]));
 
         $column->expects($this->at(1))
             ->method('getOption')
@@ -337,16 +337,16 @@ class ValueFormatColumnOptionsExtensionTest extends \PHPUnit_Framework_TestCase
 
         $view->expects($this->at(0))
             ->method('getValue')
-            ->will($this->returnValue(array(
-                0 => array(
+            ->will($this->returnValue([
+                0 => [
                     'id' => 1,
                     'name' => 'Foo',
-                ),
-                1 => array(
+                ],
+                1 => [
                     'id' => 2,
                     'name' => 'Bar',
-                )
-            )));
+                ]
+            ]));
 
         $column->expects($this->at(1))
             ->method('getOption')

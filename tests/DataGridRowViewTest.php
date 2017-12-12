@@ -27,9 +27,9 @@ class DataGridRowViewTest extends \PHPUnit_Framework_TestCase
                 ->with($source, 0)
                 ->will($this->returnValue($cellView));
 
-        $columns = array(
+        $columns = [
             'foo' =>$column
-        );
+        ];
 
         $gridRow = new DataGridRowView($dataGridView, $columns, $source, 0);
         $this->assertSame($gridRow->current(), $cellView);

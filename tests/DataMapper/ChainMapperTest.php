@@ -17,19 +17,19 @@ class ChainMapperTest extends \PHPUnit_Framework_TestCase
     public function testMappersInChainWithInvalidMappers()
     {
         $this->setExpectedException('InvalidArgumentException');
-        $chain = new ChainMapper(array(
+        $chain = new ChainMapper([
             'foo',
             'bar'
-        ));
+        ]);
     }
 
     public function testMappersInChainWithEmptyMappersArray()
     {
         $this->setExpectedException('InvalidArgumentException');
-        $chain = new ChainMapper(array(
+        $chain = new ChainMapper([
             'foo',
             'bar'
-        ));
+        ]);
     }
 
     public function testGetDataFromTwoMappers()
@@ -45,7 +45,7 @@ class ChainMapperTest extends \PHPUnit_Framework_TestCase
                ->method('getData')
                ->will($this->returnValue('foo'));
 
-        $chain = new ChainMapper(array($mapper, $mapper1));
+        $chain = new ChainMapper([$mapper, $mapper1]);
 
         $this->assertSame(
             'foo',
@@ -67,7 +67,7 @@ class ChainMapperTest extends \PHPUnit_Framework_TestCase
                ->with('foo', 'bar', 'test')
                ->will($this->returnValue(true));
 
-        $chain = new ChainMapper(array($mapper, $mapper1));
+        $chain = new ChainMapper([$mapper, $mapper1]);
 
         $this->assertTrue($chain->setData('foo', 'bar', 'test'));
     }

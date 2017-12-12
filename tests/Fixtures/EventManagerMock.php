@@ -20,6 +20,6 @@ class EventManagerMock
 
     public function getListeners()
     {
-        return array($this->listeners);
+        return [$this->listeners];
     }
 }

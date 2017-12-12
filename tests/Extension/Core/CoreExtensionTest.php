@@ -44,9 +44,9 @@ class CoreExtensionTest extends \PHPUnit_Framework_TestCase
     {
         $subscriber = new ColumnOrder();
 
-        $cases = array(
-            array(
-                'columns' => array(
+        $cases = [
+            [
+                'columns' => [
                     'negative2' => -2,
                     'neutral1' => null,
                     'negative1' => -1,
@@ -54,8 +54,8 @@ class CoreExtensionTest extends \PHPUnit_Framework_TestCase
                     'positive1' => 1,
                     'neutral3' => null,
                     'positive2' => 2,
-                ),
-                'sorted' => array(
+                ],
+                'sorted' => [
                     'negative2',
                     'negative1',
                     'neutral1',
@@ -63,26 +63,26 @@ class CoreExtensionTest extends \PHPUnit_Framework_TestCase
                     'neutral3',
                     'positive1',
                     'positive2',
-                )
-            ),
-            array(
-                'columns' => array(
+                ]
+            ],
+            [
+                'columns' => [
                     'neutral1' => null,
                     'neutral2' => null,
                     'neutral3' => null,
                     'neutral4' => null,
-                ),
-                'sorted' => array(
+                ],
+                'sorted' => [
                     'neutral1',
                     'neutral2',
                     'neutral3',
                     'neutral4',
-                )
-            )
-        );
+                ]
+            ]
+        ];
 
         foreach ($cases as $case) {
-            $columns = array();
+            $columns = [];
 
             foreach ($case['columns'] as $name => $order) {
                 $columnHeader = $this->createMock('FSi\Component\DataGrid\Column\HeaderViewInterface');
@@ -130,7 +130,7 @@ class CoreExtensionTest extends \PHPUnit_Framework_TestCase
                 ->expects($this->once())
                 ->method('setColumns')
                 ->will($this->returnCallback(function (array $columns) use ($self, $case) {
-                    $sorted = array();
+                    $sorted = [];
                     foreach ($columns as $column) {
                         $sorted[] = $column->getName();
                     }

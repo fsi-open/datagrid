@@ -14,7 +14,7 @@ class DataRowset implements DataRowsetInterface
     /**
      * @var array
      */
-    protected $data = array();
+    protected $data = [];
 
     /**
      * @param array|\Traversable $data

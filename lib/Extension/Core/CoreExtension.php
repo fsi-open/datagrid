@@ -23,7 +23,7 @@ class CoreExtension extends DataGridAbstractExtension
      */
     protected function loadColumnTypes()
     {
-        return array(
+        return [
             new ColumnType\Text(),
             new ColumnType\Number(),
             new ColumnType\Collection(),
@@ -31,7 +31,7 @@ class CoreExtension extends DataGridAbstractExtension
             new ColumnType\Action(),
             new ColumnType\Money(),
             new ColumnType\Action(),
-        );
+        ];
     }
 
     /**
@@ -39,10 +39,10 @@ class CoreExtension extends DataGridAbstractExtension
      */
     protected function loadColumnTypesExtensions()
     {
-        return array(
+        return [
             new ColumnTypeExtension\DefaultColumnOptionsExtension(),
             new ColumnTypeExtension\ValueFormatColumnOptionsExtension(),
-        );
+        ];
     }
 
     /**
@@ -50,8 +50,8 @@ class CoreExtension extends DataGridAbstractExtension
      */
     protected function loadSubscribers()
     {
-        return array(
+        return [
             new EventSubscriber\ColumnOrder(),
-        );
+        ];
     }
 }

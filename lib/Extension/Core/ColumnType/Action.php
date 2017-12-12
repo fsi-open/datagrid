@@ -18,15 +18,15 @@ class Action extends ColumnAbstractType
     /**
      * @var array
      */
-    protected $actionOptionsDefault = array(
+    protected $actionOptionsDefault = [
         'protocol' => 'http://',
         'protocole' => 'http://'
-    );
+    ];
 
     /**
      * @var array
      */
-    protected $actionOptionsAvailable = array(
+    protected $actionOptionsAvailable = [
         'uri_scheme',
         'anchor',
         'protocole',
@@ -34,15 +34,15 @@ class Action extends ColumnAbstractType
         'domain',
         'name',
         'redirect_uri',
-    );
+    ];
 
     /**
      * @var array
      */
-    protected $actionOptionsRequired = array(
+    protected $actionOptionsRequired = [
         'uri_scheme',
         'anchor',
-    );
+    ];
 
     /**
      * @var \Symfony\Component\OptionsResolver\OptionsResolver
@@ -67,12 +67,12 @@ class Action extends ColumnAbstractType
      */
     public function filterValue($value)
     {
-        $return = array();
+        $return = [];
         $actions = $this->getOption('actions');
 
         foreach ($actions as $name => $options) {
             $options = $this->actionOptionsResolver->resolve((array) $options);
-            $return[$name] = array();
+            $return[$name] = [];
 
             $url = (isset($options['protocol'], $options['domain'])) ? $options['protocol'] . $options['domain'] : '';
             $url .= vsprintf ($options['uri_scheme'], $value);
@@ -97,36 +97,36 @@ class Action extends ColumnAbstractType
      */
     public function initOptions()
     {
-        $this->getOptionsResolver()->setDefaults(array(
-            'actions' => array(),
-        ));
+        $this->getOptionsResolver()->setDefaults([
+            'actions' => [],
+        ]);
 
         $this->getOptionsResolver()->setAllowedTypes('actions', 'array');
 
-        $this->actionOptionsResolver->setDefaults(array(
+        $this->actionOptionsResolver->setDefaults([
             'redirect_uri' => null,
             'domain' => null,
             'protocole' => 'http://',
             'protocol' => 'http://'
-        ));
+        ]);
 
-        $this->actionOptionsResolver->setRequired(array(
+        $this->actionOptionsResolver->setRequired([
             'uri_scheme'
-        ));
+        ]);
 
-        $this->actionOptionsResolver->setAllowedTypes('redirect_uri', array('string', 'null'));
+        $this->actionOptionsResolver->setAllowedTypes('redirect_uri', ['string', 'null']);
         $this->actionOptionsResolver->setAllowedTypes('uri_scheme', 'string');
 
-        $this->actionOptionsResolver->setAllowedValues('protocol', array('http://', 'https://'));
+        $this->actionOptionsResolver->setAllowedValues('protocol', ['http://', 'https://']);
 
-        $this->actionOptionsResolver->setDefaults(array(
+        $this->actionOptionsResolver->setDefaults([
             'protocol' => function (Options $options, $value) {
                 if (isset($options['protocole'])) {
                     $value = $options['protocole'];
                 }
                 return $value;
             }
-        ));
+        ]);
     }
 
     /**

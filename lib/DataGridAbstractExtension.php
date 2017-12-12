@@ -121,7 +121,7 @@ abstract class DataGridAbstractExtension implements DataGridExtensionInterface
      */
     protected function loadColumnTypes()
     {
-        return array();
+        return [];
     }
 
     /**
@@ -132,7 +132,7 @@ abstract class DataGridAbstractExtension implements DataGridExtensionInterface
      */
     protected function loadSubscribers()
     {
-        return array();
+        return [];
     }
 
     /**
@@ -144,7 +144,7 @@ abstract class DataGridAbstractExtension implements DataGridExtensionInterface
      */
     protected function loadColumnTypesExtensions()
     {
-        return array();
+        return [];
     }
 
     /**
@@ -152,7 +152,7 @@ abstract class DataGridAbstractExtension implements DataGridExtensionInterface
      */
     private function initColumnTypes()
     {
-        $this->columnTypes = array();
+        $this->columnTypes = [];
 
         $columnTypes = $this->loadColumnTypes();
 
@@ -179,7 +179,7 @@ abstract class DataGridAbstractExtension implements DataGridExtensionInterface
             $types = $extension->getExtendedColumnTypes();
             foreach ($types as $type) {
                 if (!isset($this->columnTypesExtensions)) {
-                    $this->columnTypesExtensions[$type] = array();
+                    $this->columnTypesExtensions[$type] = [];
                 }
                 $this->columnTypesExtensions[$type][] = $extension;
             }

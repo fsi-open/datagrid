@@ -79,7 +79,7 @@ class Money extends ColumnAbstractType
      */
     public function initOptions()
     {
-        $this->getOptionsResolver()->setDefaults(array(
+        $this->getOptionsResolver()->setDefaults([
             'round_mode' => self::ROUND_HALF_UP,
             'precision' => 2,
             'decimals' => 2,
@@ -88,7 +88,7 @@ class Money extends ColumnAbstractType
             'value_currency_separator' => ' ',
             'currency' => null,
             'currency_field' => null,
-        ));
+        ]);
 
         $this->getOptionsResolver()->setAllowedTypes('round_mode', 'integer');
         $this->getOptionsResolver()->setAllowedTypes('precision', 'integer');
@@ -97,7 +97,7 @@ class Money extends ColumnAbstractType
         $this->getOptionsResolver()->setAllowedTypes('dec_point', 'string');
         $this->getOptionsResolver()->setAllowedTypes('thousands_sep', 'string');
         $this->getOptionsResolver()->setAllowedTypes('value_currency_separator', 'string');
-        $this->getOptionsResolver()->setAllowedTypes('currency', array('null', 'string'));
-        $this->getOptionsResolver()->setAllowedTypes('currency_field', array('null', 'string'));
+        $this->getOptionsResolver()->setAllowedTypes('currency', ['null', 'string']);
+        $this->getOptionsResolver()->setAllowedTypes('currency_field', ['null', 'string']);
     }
 }

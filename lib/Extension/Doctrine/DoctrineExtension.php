@@ -19,9 +19,9 @@ class DoctrineExtension extends DataGridAbstractExtension
      */
     protected function loadColumnTypes()
     {
-        return array(
+        return [
             new ColumnType\Entity(),
-        );
+        ];
     }
 
     /**
@@ -29,8 +29,8 @@ class DoctrineExtension extends DataGridAbstractExtension
      */
     protected function loadColumnTypesExtensions()
     {
-        return array(
+        return [
             new ColumnTypeExtension\ValueFormatColumnOptionsExtension(),
-        );
+        ];
     }
 }

@@ -35,17 +35,17 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase
     {
         $dateTimeObject = new \DateTime('2012-05-03 12:41:11');
 
-        $value = array(
+        $value = [
             'datetime' => $dateTimeObject
-        );
+        ];
 
-        $this->column->setOption('field_mapping', array('datetime'));
+        $this->column->setOption('field_mapping', ['datetime']);
 
         $this->assertSame(
             $this->column->filterValue($value),
-            array(
+            [
                 'datetime' => $dateTimeObject->format('Y-m-d H:i:s')
-            )
+            ]
         );
     }
 
@@ -57,52 +57,52 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase
 
         $dateTimeObject = new \DateTimeImmutable('2012-05-03 12:41:11');
 
-        $value = array(
+        $value = [
             'datetime' => $dateTimeObject
-        );
+        ];
 
-        $this->column->setOption('field_mapping', array('datetime'));
+        $this->column->setOption('field_mapping', ['datetime']);
 
         $this->assertSame(
             $this->column->filterValue($value),
-            array(
+            [
                 'datetime' => $dateTimeObject->format('Y-m-d H:i:s')
-            )
+            ]
         );
     }
 
     public function testFilterValueWithNull()
     {
-        $value = array(
+        $value = [
             'datetime' => null
-        );
+        ];
 
-        $this->column->setOptions(array(
-        ));
+        $this->column->setOptions([
+        ]);
 
         $this->assertSame(
             $this->column->filterValue($value),
-            array(
+            [
                 'datetime' => null
-            )
+            ]
         );
 
-        $inputTypes = array('datetime', 'string', 'timestamp');
+        $inputTypes = ['datetime', 'string', 'timestamp'];
         if (interface_exists('\DateTimeInterface')) {
             $inputTypes[] = 'datetime_interface';
         }
 
         foreach ($inputTypes as $input_type) {
 
-            $this->column->setOptions(array(
+            $this->column->setOptions([
                 'input_type' => $input_type
-            ));
+            ]);
 
             $this->assertSame(
                 $this->column->filterValue($value),
-                array(
+                [
                     'datetime' => null
-                )
+                ]
             );
         }
     }
@@ -111,20 +111,20 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase
     {
         $dateTimeObject = new \DateTime('2012-05-03 12:41:11');
 
-        $value = array(
+        $value = [
             'datetime' => $dateTimeObject
-        );
+        ];
 
-        $this->column->setOptions(array(
-            'field_mapping' => array('datetime'),
+        $this->column->setOptions([
+            'field_mapping' => ['datetime'],
             'datetime_format' => 'Y.d.m'
-        ));
+        ]);
 
         $this->assertSame(
             $this->column->filterValue($value),
-            array(
+            [
                 'datetime' => $dateTimeObject->format('Y.d.m')
-            )
+            ]
         );
     }
 
@@ -136,20 +136,20 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase
 
         $dateTimeObject = new \DateTimeImmutable('2012-05-03 12:41:11');
 
-        $value = array(
+        $value = [
             'datetime' => $dateTimeObject
-        );
+        ];
 
-        $this->column->setOptions(array(
-            'field_mapping' => array('datetime'),
+        $this->column->setOptions([
+            'field_mapping' => ['datetime'],
             'datetime_format' => 'Y.d.m'
-        ));
+        ]);
 
         $this->assertSame(
             $this->column->filterValue($value),
-            array(
+            [
                 'datetime' => $dateTimeObject->format('Y.d.m')
-            )
+            ]
         );
     }
 
@@ -159,23 +159,23 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase
     public function testMappingFieldsOptionInputTimestamp()
     {
         $dateTimeObject = new \DateTime('2012-05-03 12:41:11');
-        $brokenValue = array(
+        $brokenValue = [
             'datetime' => $dateTimeObject
-        );
-        $value = array(
+        ];
+        $value = [
             'datetime' => $dateTimeObject->getTimestamp()
-        );
+        ];
 
-        $this->column->setOptions(array(
+        $this->column->setOptions([
             'input_type' => 'timestamp',
-        ));
+        ]);
 
         $this->column->filterValue($value);
         $this->assertSame(
             $this->column->filterValue($value),
-            array(
+            [
                 'datetime' => $dateTimeObject->format('Y-m-d H:i:s')
-            )
+            ]
         );
 
         $this->column->filterValue($brokenValue);
@@ -187,9 +187,9 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase
     public function testMappingFieldsOptionInputStringMissingMappingFieldsFormat()
     {
         $dateTimeObject = new \DateTime('2012-05-03 12:41:11');
-        $value = array(
+        $value = [
             'datetime' => $dateTimeObject->format('Y-m-d H:i:s')
-        );
+        ];
 
         $this->column->setOption('input_type', 'string');
 
@@ -203,24 +203,24 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase
     {
         $dateTimeObject = new \DateTime('2012-05-03 12:41:11');
 
-        $brokenValue = array(
+        $brokenValue = [
             'datetime' => $dateTimeObject
-        );
+        ];
 
-        $value = array(
+        $value = [
             'datetime' => $dateTimeObject->format('Y-m-d H:i:s')
-        );
+        ];
 
-        $this->column->setOptions(array(
+        $this->column->setOptions([
             'input_type' => 'string',
             'input_field_format' => 'Y-m-d H:i:s'
-        ));
+        ]);
 
         $this->assertSame(
             $this->column->filterValue($value),
-            array(
+            [
                 'datetime' => $dateTimeObject->format('Y-m-d H:i:s')
-            )
+            ]
         );
 
         $this->column->filterValue($brokenValue);
@@ -234,10 +234,10 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase
         $dateTimeObject = new \DateTime('2012-05-03 12:41:11');
         $dateObject = new \DateTime('2012-05-03');
 
-        $value = array(
+        $value = [
             'datetime' => $dateTimeObject->format('Y-m-d H:i:s'),
             'time' => $dateObject->format('Y-m-d H:i:s')
-        );
+        ];
 
         $this->column->setOption('input_type', 'array');
         $this->column->filterValue($value);
@@ -252,10 +252,10 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase
         $dateTimeObject = new \DateTimeImmutable('2012-05-03 12:41:11');
         $dateObject = new \DateTimeImmutable('2012-05-03');
 
-        $value = array(
+        $value = [
             'datetime' => $dateTimeObject->format('Y-m-d H:i:s'),
             'time' => $dateObject->format('Y-m-d H:i:s')
-        );
+        ];
 
         $this->column->setOption('input_type', 'array');
 
@@ -270,18 +270,18 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase
     {
         $dateTimeObject = new \DateTime('2012-05-03 12:41:11');
         $dateObject = new \DateTime('2012-05-03');
-        $value = array(
+        $value = [
             'datetime' => $dateTimeObject->format('Y-m-d H:i:s'),
             'time' => $dateObject->format('Y-m-d H:i:s')
-        );
+        ];
 
-        $this->column->setOptions(array(
+        $this->column->setOptions([
             'input_type' => 'string',
-            'input_field_format' => array(
+            'input_field_format' => [
                 'datetime' => 'string',
                 'time' => 'string'
-            )
-        ));
+            ]
+        ]);
 
         $this->column->filterValue($value);
     }
@@ -293,36 +293,36 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase
             $dateTimeImmutableObject = new \DateTimeImmutable('2012-05-03 12:41:11');
         }
         $dateObject = new \DateTime('2012-05-03');
-        $value = array(
+        $value = [
             'datetime' => $dateTimeObject,
             'time' => $dateObject,
             'string' => $dateTimeObject->format('Y-m-d H:i:s'),
             'timestamp' => $dateTimeObject->getTimestamp()
-        );
+        ];
         if (class_exists('\DateTimeImmutable')) {
             $value['datetime_immutable'] = $dateTimeImmutableObject;
         }
 
-        $inputFieldFormat = array(
-            'datetime' => array('input_type' => 'datetime'),
-            'time' => array('input_type' => 'datetime'),
-            'string' => array('input_type' => 'string', 'datetime_format' => 'Y-m-d H:i:s'),
-            'timestamp' => array('input_type' => 'timestamp')
-        );
+        $inputFieldFormat = [
+            'datetime' => ['input_type' => 'datetime'],
+            'time' => ['input_type' => 'datetime'],
+            'string' => ['input_type' => 'string', 'datetime_format' => 'Y-m-d H:i:s'],
+            'timestamp' => ['input_type' => 'timestamp']
+        ];
         if (class_exists('\DateTimeImmutable')) {
-            $inputFieldFormat['datetime_immutable'] = array('input_type' => 'datetime_interface');
+            $inputFieldFormat['datetime_immutable'] = ['input_type' => 'datetime_interface'];
         }
-        $this->column->setOptions(array(
+        $this->column->setOptions([
             'input_type' => 'array',
             'input_field_format' => $inputFieldFormat
-        ));
+        ]);
 
-        $expectedResult = array(
+        $expectedResult = [
             'datetime' => $dateTimeObject->format('Y-m-d H:i:s'),
             'time' => $dateObject->format('Y-m-d 00:00:00'),
             'string' => $dateTimeObject->format('Y-m-d H:i:s'),
             'timestamp' => date('Y-m-d H:i:s', $dateTimeObject->getTimestamp()),
-        );
+        ];
         if (class_exists('\DateTimeImmutable')) {
             $expectedResult['datetime_immutable'] = $dateTimeImmutableObject->format('Y-m-d H:i:s');
         }
@@ -336,38 +336,38 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase
             $dateTimeImmutableObject = new \DateTimeImmutable('2012-05-03 12:41:11');
         }
         $dateObject = new \DateTime('2012-05-03');
-        $value = array(
+        $value = [
             'datetime' => $dateTimeObject,
             'time' => $dateObject,
             'string' => $dateTimeObject->format('Y-m-d H:i:s'),
             'timestamp' => $dateTimeObject->getTimestamp()
-        );
+        ];
         if (class_exists('\DateTimeImmutable')) {
             $value['datetime_immutable'] = $dateTimeImmutableObject;
         }
 
-        $inputFieldFormat = array(
-            'datetime' => array('input_type' => 'datetime'),
-            'time' => array('input_type' => 'datetime'),
-            'string' => array('input_type' => 'string', 'datetime_format' => 'Y-m-d H:i:s'),
-            'timestamp' => array('input_type' => 'timestamp')
-        );
+        $inputFieldFormat = [
+            'datetime' => ['input_type' => 'datetime'],
+            'time' => ['input_type' => 'datetime'],
+            'string' => ['input_type' => 'string', 'datetime_format' => 'Y-m-d H:i:s'],
+            'timestamp' => ['input_type' => 'timestamp']
+        ];
 
         if (class_exists('\DateTimeImmutable')) {
-            $inputFieldFormat['datetime_immutable'] = array('input_type' => 'datetime_interface');
+            $inputFieldFormat['datetime_immutable'] = ['input_type' => 'datetime_interface'];
         }
-        $this->column->setOptions(array(
+        $this->column->setOptions([
             'input_type' => 'array',
             'datetime_format' => 'Y.d.m',
             'input_field_format' => $inputFieldFormat
-        ));
+        ]);
 
-        $expectedResult = array(
+        $expectedResult = [
             'datetime' => $dateTimeObject->format('Y.d.m'),
             'time' => $dateObject->format('Y.d.m'),
             'string' => $dateTimeObject->format('Y.d.m'),
             'timestamp' => $dateTimeObject->format('Y.d.m')
-        );
+        ];
         if (class_exists('\DateTimeImmutable')) {
             $expectedResult['datetime_immutable'] = $dateTimeImmutableObject->format('Y.d.m');
         }

@@ -54,9 +54,9 @@ class Boolean extends ColumnAbstractType
      */
     public function initOptions()
     {
-        $this->getOptionsResolver()->setDefaults(array(
+        $this->getOptionsResolver()->setDefaults([
             'true_value' => '',
             'false_value' => ''
-        ));
+        ]);
     }
 }

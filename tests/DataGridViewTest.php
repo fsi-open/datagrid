@@ -60,7 +60,7 @@ class DataGridViewTest extends \PHPUnit_Framework_TestCase
             ->method('setDataGridView');
 
         $this->rowset = $this->createMock('FSi\Component\DataGrid\Data\DataRowsetInterface');
-        $this->gridView = new DataGridView('test-grid-view', array($column) , $this->rowset);
+        $this->gridView = new DataGridView('test-grid-view', [$column], $this->rowset);
 
         $this->assertSame('test-grid-view', $this->gridView->getName());
 

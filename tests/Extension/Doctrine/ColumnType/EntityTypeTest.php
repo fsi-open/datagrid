@@ -25,7 +25,7 @@ class EntityTypeTest extends \PHPUnit_Framework_TestCase
         $extension->initOptions($column);
 
         // Call resolve at OptionsResolver.
-        $column->setOptions(array());
+        $column->setOptions([]);
 
         $object = new Fixture('object');
 
@@ -34,7 +34,7 @@ class EntityTypeTest extends \PHPUnit_Framework_TestCase
 
         $dataMapper->expects($this->once())
                    ->method('getData')
-                   ->will($this->returnValue(array('foo' => 'bar')));
+                   ->will($this->returnValue(['foo' => 'bar']));
 
         $dataGrid->expects($this->any())
                  ->method('getDataMapper')

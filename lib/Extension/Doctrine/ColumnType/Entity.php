@@ -41,8 +41,8 @@ class Entity extends ColumnAbstractType
             $value = $value->toArray();
         }
 
-        $values = array();
-        $objectValues = array();
+        $values = [];
+        $objectValues = [];
         $mappingFields = $this->getOption('field_mapping');
 
         if (is_array($value)) {
@@ -71,9 +71,9 @@ class Entity extends ColumnAbstractType
      */
     public function initOptions()
     {
-        $this->getOptionsResolver()->setDefaults(array(
+        $this->getOptionsResolver()->setDefaults([
             'relation_field' => $this->getName(),
-        ));
+        ]);
 
         $this->getOptionsResolver()->setAllowedTypes('relation_field', 'string');
     }

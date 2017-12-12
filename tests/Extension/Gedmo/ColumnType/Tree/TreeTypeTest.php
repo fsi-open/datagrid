@@ -60,14 +60,14 @@ class TreeTypeTest extends \PHPUnit_Framework_TestCase
         $extension->initOptions($column);
 
         $column->setDataMapper($dataMapper);
-        $column->setOption('field_mapping', array('foo'));
+        $column->setOption('field_mapping', ['foo']);
         $column->setDataGrid($dataGrid);
         $object = new EntityTree("foo");
 
         $column->getValue($object);
 
         $this->assertSame(
-            array(
+            [
                 "id" => "foo",
                 "root" => "root",
                 "left" => "left",
@@ -75,7 +75,7 @@ class TreeTypeTest extends \PHPUnit_Framework_TestCase
                 "level" => "level",
                 "children" => 2,
                 "parent" => "bar",
-            ),
+            ],
             $column->getViewAttributes()
         );
     }
@@ -100,12 +100,12 @@ class TreeTypeTest extends \PHPUnit_Framework_TestCase
                             ->will($self->returnCallback(function($class) use ($self) {
                                 switch ($class) {
                                     case "FSi\\Component\\DataGrid\\Tests\\Fixtures\\EntityTree" :
-                                        $metadata = $self->createMock('Doctrine\\ORM\\Mapping\\ClassMetadataInfo', array(), array($class));
+                                        $metadata = $self->createMock('Doctrine\\ORM\\Mapping\\ClassMetadataInfo', [], [$class]);
                                         $metadata->expects($self->any())
                                             ->method('getIdentifierFieldNames')
-                                            ->will($self->returnValue(array(
+                                            ->will($self->returnValue([
                                                 'id'
-                                            )));
+                                            ]));
                                         break;
                                 }
 
@@ -126,12 +126,12 @@ class TreeTypeTest extends \PHPUnit_Framework_TestCase
                     ->will($self->returnCallback(function($class) use ($self) {
                         switch ($class) {
                             case "FSi\\Component\\DataGrid\\Tests\\Fixtures\\EntityTree" :
-                                $metadata = $self->createMock('Doctrine\\ORM\\Mapping\\ClassMetadataInfo', array(), array($class));
+                                $metadata = $self->createMock('Doctrine\\ORM\\Mapping\\ClassMetadataInfo', [], [$class]);
                                 $metadata->expects($self->any())
                                     ->method('getIdentifierFieldNames')
-                                    ->will($self->returnValue(array(
+                                    ->will($self->returnValue([
                                         'id'
-                                    )));
+                                    ]));
                                 $metadata->isMappedSuperclass = false;
                                 $metadata->rootEntityName = $class;
                                 break;
@@ -153,20 +153,20 @@ class TreeTypeTest extends \PHPUnit_Framework_TestCase
         $treeListener->expects($this->once())
             ->method('getConfiguration')
             ->will($this->returnValue(
-                array(
+                [
                     'left' => 'left',
                     'right' => 'right',
                     'root' => 'root',
                     'level' => 'level',
                     'parent' => 'parent'
-                )
+                ]
             ));
 
         $strategy->expects($this->once())
             ->method('getName')
             ->will($this->returnValue('nested'));
 
-        $evm = new EventManagerMock(array($treeListener));
+        $evm = new EventManagerMock([$treeListener]);
         $em = new EntityManagerMock();
         $em->_setEventManager($evm);
 

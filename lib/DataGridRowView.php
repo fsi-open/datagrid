@@ -19,7 +19,7 @@ class DataGridRowView implements DataGridRowViewInterface
      *
      * @var array
      */
-    protected $cellViews = array();
+    protected $cellViews = [];
 
     /**
      * The source object for which view is created.

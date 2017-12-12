@@ -33,18 +33,18 @@ class NumberTest extends \PHPUnit_Framework_TestCase
 
     public function testPrecision()
     {
-        $value = array(
+        $value = [
             'number' => 10.123,
-        );
+        ];
 
         $this->column->setOption('precision', 2);
         $this->column->setOption('round_mode', Number::ROUND_HALF_UP);
 
         $this->assertSame(
             $this->column->filterValue($value),
-            array(
+            [
                 'number' => 10.12,
-            )
+            ]
         );
     }
 
@@ -52,108 +52,108 @@ class NumberTest extends \PHPUnit_Framework_TestCase
     {
         $this->column->setOption('round_mode', Number::ROUND_HALF_UP);
         $this->assertSame(
-            $this->column->filterValue(array(
+            $this->column->filterValue([
                 'number' => 10.123,
-            )),
-            array(
+            ]),
+            [
                 'number' => 10.12,
-            )
+            ]
         );
 
         $this->assertSame(
-            $this->column->filterValue(array(
+            $this->column->filterValue([
                 'number' => 10.126,
-            )),
-            array(
+            ]),
+            [
                 'number' => 10.13,
-            )
+            ]
         );
     }
 
     public function testNumberFormat()
     {
         $this->assertEquals(
-            array(
+            [
                 'number' => 12345678.1,
-            ),
-            $this->column->filterValue(array(
+            ],
+            $this->column->filterValue([
                 'number' => 12345678.1,
-            ))
+            ])
         );
 
         $this->column->setOption('format', true);
 
         $this->assertEquals(
-            array(
+            [
                 'number' => '12,345,678.10',
-            ),
-            $this->column->filterValue(array(
+            ],
+            $this->column->filterValue([
                 'number' => 12345678.1,
-            ))
+            ])
         );
 
         $this->column->setOption('format_decimals', 0);
 
         $this->assertEquals(
-            array(
+            [
                 'number' => '12,345,678',
-            ),
-            $this->column->filterValue(array(
+            ],
+            $this->column->filterValue([
                 'number' => 12345678.1,
-            ))
+            ])
         );
 
         $this->column->setOption('format_decimals', 2);
 
         $this->assertEquals(
-            array(
+            [
                 'number' => '12,345,678.10',
-            ),
-            $this->column->filterValue(array(
+            ],
+            $this->column->filterValue([
                 'number' => 12345678.1,
-            ))
+            ])
         );
 
         $this->column->setOption('format_dec_point', ',');
         $this->column->setOption('format_thousands_sep', ' ');
 
         $this->assertEquals(
-            array(
+            [
                 'number' => '12 345 678,10',
-            ),
-            $this->column->filterValue(array(
+            ],
+            $this->column->filterValue([
                 'number' => 12345678.1,
-            ))
+            ])
         );
 
         $this->assertEquals(
-            array(
+            [
                 'number' => '1 000,00',
-            ),
-            $this->column->filterValue(array(
+            ],
+            $this->column->filterValue([
                 'number' => 1000,
-            ))
+            ])
         );
 
         $this->column->setOption('format_decimals', 0);
 
         $this->assertEquals(
-            array(
+            [
                 'number' => '1 000',
-            ),
-            $this->column->filterValue(array(
+            ],
+            $this->column->filterValue([
                 'number' => 1000,
-            ))
+            ])
         );
 
         $this->column->setOption('format', false);
         $this->assertEquals(
-            array(
+            [
                 'number' => '1000',
-            ),
-            $this->column->filterValue(array(
+            ],
+            $this->column->filterValue([
                 'number' => 1000,
-            ))
+            ])
         );
     }
 }

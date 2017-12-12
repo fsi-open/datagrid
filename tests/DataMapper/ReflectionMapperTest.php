@@ -114,7 +114,7 @@ class ReflectionMapperTest extends \PHPUnit_Framework_TestCase
         $entity = new EntityMapper();
 
         $mapper->setData('tag', $entity, 'bar');
-        $this->assertSame(array('bar'),$entity->getTags());
+        $this->assertSame(['bar'],$entity->getTags());
     }
 
     public function testProtectedAdder()

@@ -18,9 +18,9 @@ class DataGridFactoryTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $extensions = array(
+        $extensions = [
             new FooExtension(),
-        );
+        ];
 
         $dataMapper = $this->createMock('FSi\Component\DataGrid\DataMapper\DataMapperInterface');
 

@@ -39,7 +39,7 @@ class ValueFormatColumnOptionsExtension extends ColumnAbstractTypeExtension
      */
     public function getExtendedColumnTypes()
     {
-        return array(
+        return [
             'text',
             'boolean',
             'datetime',
@@ -47,7 +47,7 @@ class ValueFormatColumnOptionsExtension extends ColumnAbstractTypeExtension
             'number',
             'money',
             'gedmo_tree',
-        );
+        ];
     }
 
     /**
@@ -55,14 +55,14 @@ class ValueFormatColumnOptionsExtension extends ColumnAbstractTypeExtension
      */
     public function initOptions(ColumnTypeInterface $column)
     {
-        $column->getOptionsResolver()->setDefaults(array(
+        $column->getOptionsResolver()->setDefaults([
             'value_glue' => null,
             'value_format' => null,
             'empty_value' => '',
-        ));
+        ]);
 
-        $column->getOptionsResolver()->setAllowedTypes('value_glue', array('string', 'null'));
-        $column->getOptionsResolver()->setAllowedTypes('value_format', array('string', 'Closure', 'null'));
+        $column->getOptionsResolver()->setAllowedTypes('value_glue', ['string', 'null']);
+        $column->getOptionsResolver()->setAllowedTypes('value_format', ['string', 'Closure', 'null']);
         $column->getOptionsResolver()->setAllowedTypes('empty_value', 'string');
     }
 
@@ -167,7 +167,7 @@ class ValueFormatColumnOptionsExtension extends ColumnAbstractTypeExtension
         if (isset($format)) {
             if (is_array($value)) {
                 if (isset($glue)) {
-                    $renderedValues = array();
+                    $renderedValues = [];
                     foreach ($value as $val) {
                         $renderedValues[] = $this->formatSingleValue($val, $format);
                     }

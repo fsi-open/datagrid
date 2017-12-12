@@ -55,7 +55,7 @@ class DataGrid implements DataGridInterface
      *
      * @var array
      */
-    protected $columns = array();
+    protected $columns = [];
 
     /**
      * Symfony EventDispatcher mechanism that allow users to register listeners and subscribers.
@@ -91,7 +91,7 @@ class DataGrid implements DataGridInterface
     /**
      * {@inheritdoc}
      */
-    public function addColumn($name, $type = 'text', $options = array())
+    public function addColumn($name, $type = 'text', $options = [])
     {
         if ($name instanceof ColumnTypeInterface) {
             $type = $name->getId();
@@ -182,7 +182,7 @@ class DataGrid implements DataGridInterface
      */
     public function clearColumns()
     {
-        $this->columns = array();
+        $this->columns = [];
         return $this;
     }
 

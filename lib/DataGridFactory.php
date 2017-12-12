@@ -22,14 +22,14 @@ class DataGridFactory implements DataGridFactoryInterface
      *
      * @var array
      */
-    protected $dataGrids = array();
+    protected $dataGrids = [];
 
     /**
      * Currently loaded column types.
      *
      * @var array
      */
-    protected $columnTypes = array();
+    protected $columnTypes = [];
 
     /**
      * @var \FSi\Component\DataGrid\DataMapper\DataMapperInterface
@@ -41,7 +41,7 @@ class DataGridFactory implements DataGridFactoryInterface
      *
      * @var array
      */
-    protected $extensions = array();
+    protected $extensions = [];
 
     /**
      * @param array $extensions

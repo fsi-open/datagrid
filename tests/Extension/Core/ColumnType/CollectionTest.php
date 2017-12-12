@@ -18,13 +18,13 @@ class CollectionTest extends \PHPUnit_Framework_TestCase
         $column = new Collection();
         $column->initOptions();
         $column->setOption('collection_glue', ' ');
-        $value = array(
-            array('foo', 'bar'),
+        $value = [
+            ['foo', 'bar'],
             'test'
-        );
+        ];
 
         $this->assertSame(
-            array('foo bar', 'test'),
+            ['foo bar', 'test'],
             $column->filterValue($value)
         );
     }

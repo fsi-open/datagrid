@@ -16,7 +16,7 @@ class ChainMapper implements DataMapperInterface
     /**
      * @var array
      */
-    protected $mappers = array();
+    protected $mappers = [];
 
     /**
      * @param array $mappers

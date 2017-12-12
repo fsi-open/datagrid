@@ -16,8 +16,8 @@ class FooExtension extends DataGridAbstractExtension
 {
     protected function loadColumnTypes()
     {
-        return array(
+        return [
             new ColumnType\FooType(),
-        );
+        ];
     }
 }

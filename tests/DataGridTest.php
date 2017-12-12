@@ -57,9 +57,9 @@ class DataGridTest extends \PHPUnit_Framework_TestCase
         $this->factory = $this->createMock('FSi\Component\DataGrid\DataGridFactoryInterface');
         $this->factory->expects($this->any())
             ->method('getExtensions')
-            ->will($this->returnValue(array(
+            ->will($this->returnValue([
                 new FooExtension(),
-            )));
+            ]));
 
         $this->factory->expects($this->any())
             ->method('getColumnType')
@@ -116,19 +116,19 @@ class DataGridTest extends \PHPUnit_Framework_TestCase
 
     public function testSetData()
     {
-        $gridData = array(
+        $gridData = [
             new Entity('entity1'),
             new Entity('entity2')
-        );
+        ];
 
         $this->datagrid->setData($gridData);
 
         $this->assertEquals(count($gridData), count($this->datagrid->createView()));
 
-        $gridData = array(
-            array('some', 'data'),
-            array('next', 'data')
-        );
+        $gridData = [
+            ['some', 'data'],
+            ['next', 'data']
+        ];
 
         $this->datagrid->setData($gridData);
 
@@ -149,10 +149,10 @@ class DataGridTest extends \PHPUnit_Framework_TestCase
     public function testCreateView()
     {
         $this->datagrid->addColumn('foo1', 'foo');
-        $gridData = array(
+        $gridData = [
             new Entity('entity1'),
             new Entity('entity2')
-        );
+        ];
 
         $this->datagrid->setData($gridData);
         $this->assertInstanceOf('FSi\Component\DataGrid\DataGridViewInterface',$this->datagrid->createView());
@@ -160,19 +160,19 @@ class DataGridTest extends \PHPUnit_Framework_TestCase
 
     public function testSetDataForArray()
     {
-        $gridData = array(
-            array('one'),
-            array('two'),
-            array('three'),
-            array('four'),
-            array('bazinga!'),
-            array('five'),
-        );
+        $gridData = [
+            ['one'],
+            ['two'],
+            ['three'],
+            ['four'],
+            ['bazinga!'],
+            ['five'],
+        ];
 
         $this->datagrid->setData($gridData);
         $view = $this->datagrid->createView();
 
-        $keys = array();
+        $keys = [];
         foreach ($view as $row) {
             $keys[] = $row->getIndex();
         }

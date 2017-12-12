@@ -17,7 +17,7 @@ class EntityRepositoryMock implements RepositoryInterface
     {
     }
 
-    public function getNodesHierarchy($node = null, $direct = false, array $options = array(), $includeNode = false)
+    public function getNodesHierarchy($node = null, $direct = false, array $options = [], $includeNode = false)
     {
     }
 
@@ -30,11 +30,11 @@ class EntityRepositoryMock implements RepositoryInterface
         return 2;
     }
 
-    public function childrenHierarchy($node = null, $direct = false, array $options = array(), $includeNode = false)
+    public function childrenHierarchy($node = null, $direct = false, array $options = [], $includeNode = false)
     {
     }
 
-    public function buildTree(array $nodes, array $options = array())
+    public function buildTree(array $nodes, array $options = [])
     {
     }
 

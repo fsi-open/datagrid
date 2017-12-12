@@ -31,7 +31,7 @@ class HeaderView implements HeaderViewInterface
     /**
      * @var array
      */
-    protected $attributes = array();
+    protected $attributes = [];
 
     /**
      * @var \FSi\Component\DataGrid\DataGridViewInterface

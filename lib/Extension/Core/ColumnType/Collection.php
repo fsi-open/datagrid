@@ -43,9 +43,9 @@ class Collection extends ColumnAbstractType
      */
     public function initOptions()
     {
-        $this->getOptionsResolver()->setDefaults(array(
+        $this->getOptionsResolver()->setDefaults([
             'collection_glue' => ' '
-        ));
+        ]);
 
         $this->getOptionsResolver()->setAllowedTypes('collection_glue', 'string');
     }

@@ -37,7 +37,7 @@ class ActionTest extends \PHPUnit_Framework_TestCase
     public function testFilterValueEmptyActionsOptionType()
     {
         $this->column->setOption('actions', 'boo');
-        $this->column->filterValue(array());
+        $this->column->filterValue([]);
     }
 
     /**
@@ -45,56 +45,56 @@ class ActionTest extends \PHPUnit_Framework_TestCase
      */
     public function testFilterValueInvalidActionInActionsOption()
     {
-        $this->column->setOption('actions', array('edit' => 'asasdas'));
-        $this->column->filterValue(array());
+        $this->column->setOption('actions', ['edit' => 'asasdas']);
+        $this->column->filterValue([]);
     }
 
     public function testFilterValueRequiredActionInActionsOption()
     {
-        $this->column->setOption('actions', array(
-            'edit' => array(
+        $this->column->setOption('actions', [
+            'edit' => [
                 'uri_scheme' => '/test/%s',
-            )
-        ));
+            ]
+        ]);
 
         $this->assertSame(
-            array(
-                'edit' => array(
+            [
+                'edit' => [
                     'url' => '/test/bar',
-                    'field_mapping_values' => array(
+                    'field_mapping_values' => [
                         'foo' => 'bar'
-                    )
-                )
-            ),
-            $this->column->filterValue(array(
+                    ]
+                ]
+            ],
+            $this->column->filterValue([
                 'foo' => 'bar'
-            ))
+            ])
         );
     }
 
     public function testFilterValueAvailableActionInActionsOption()
     {
-        $this->column->setOption('actions', array(
-            'edit' => array(
+        $this->column->setOption('actions', [
+            'edit' => [
                 'uri_scheme' => '/test/%s',
                 'domain' => 'fsi.pl',
                 'protocol' => 'https://',
                 'redirect_uri' => 'http://onet.pl/'
-            )
-        ));
+            ]
+        ]);
 
         $this->assertSame(
-            array(
-                'edit' => array(
+            [
+                'edit' => [
                     'url' => 'https://fsi.pl/test/bar?redirect_uri=' . urlencode('http://onet.pl/'),
-                    'field_mapping_values' => array(
+                    'field_mapping_values' => [
                         'foo' => 'bar'
-                    )
-                )
-            ),
-            $this->column->filterValue(array(
+                    ]
+                ]
+            ],
+            $this->column->filterValue([
                 'foo' => 'bar'
-            ))
+            ])
         );
     }
 }

@@ -24,10 +24,10 @@ class DataRowsetTest extends \PHPUnit_Framework_TestCase
 
     public function testCreateRowset()
     {
-        $data = array(
+        $data = [
             'e1' => new Entity('entity1'),
             'e2' => new Entity('entity2')
-        );
+        ];
 
         $rowset = new DataRowset($data);
 

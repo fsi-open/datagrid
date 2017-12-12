@@ -30,7 +30,7 @@ class DateTime extends ColumnAbstractType
         $format = $this->getOption('datetime_format');
         $inputValues = $this->getInputData($value);
 
-        $return = array();
+        $return = [];
         foreach ($inputValues as $field => $value) {
             if (empty($value)) {
                 $return[$field]  = null;
@@ -59,22 +59,22 @@ class DateTime extends ColumnAbstractType
      */
     public function initOptions()
     {
-        $this->getOptionsResolver()->setDefaults(array(
+        $this->getOptionsResolver()->setDefaults([
             'datetime_format' => 'Y-m-d H:i:s',
             'input_type' => null,
             'input_field_format' => null
-        ));
+        ]);
 
-        $this->getOptionsResolver()->setAllowedTypes('input_field_format', array('null', 'array', 'string'));
+        $this->getOptionsResolver()->setAllowedTypes('input_field_format', ['null', 'array', 'string']);
 
-        $this->getOptionsResolver()->setAllowedValues('input_type', array(
+        $this->getOptionsResolver()->setAllowedValues('input_type', [
             null,
             'string',
             'timestamp',
             'datetime',
             'datetime_interface',
             'array'
-        ));
+        ]);
     }
 
     private function getInputData($value)
@@ -87,7 +87,7 @@ class DateTime extends ColumnAbstractType
         }
 
         $mappingFields = $this->getOption('field_mapping');
-        $inputData = array();
+        $inputData = [];
         foreach ($mappingFields as $field) {
             $inputData[$field] = null;
         }

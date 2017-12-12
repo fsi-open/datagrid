@@ -49,9 +49,9 @@ class Tree extends ColumnAbstractType
     public function __construct(ManagerRegistry $registry)
     {
         $this->registry = $registry;
-        $this->viewAttributes = array();
-        $this->classStrategies = array();
-        $this->allowedStrategies = array('nested');
+        $this->viewAttributes = [];
+        $this->classStrategies = [];
+        $this->allowedStrategies = ['nested'];
     }
 
     /**
@@ -86,7 +86,7 @@ class Tree extends ColumnAbstractType
         $propertyAccessor = PropertyAccess::createPropertyAccessor();
 
 
-        $this->viewAttributes = array(
+        $this->viewAttributes = [
             'id' => $doctrineDataIndexer->getIndex($object),
             'root' => isset($config['root']) ? $propertyAccessor->getValue($object, $config['root']) : null,
             'left' => isset($config['left']) ? $propertyAccessor->getValue($object, $config['left']) : null,
@@ -94,7 +94,7 @@ class Tree extends ColumnAbstractType
             'level' => (isset($config['level'])) ? $propertyAccessor->getValue($object, $config['level']) : null,
             'children' => $this->getTreeRepository(get_class($object), $objectManager)
                     ->childCount($object),
-        );
+        ];
 
         $parent = (isset($config['parent'])) ? $propertyAccessor->getValue($object, $config['parent']) : null;
         if (isset($parent)) {
@@ -127,9 +127,9 @@ class Tree extends ColumnAbstractType
      */
     public function initOptions()
     {
-        $this->getOptionsResolver()->setDefaults(array(
+        $this->getOptionsResolver()->setDefaults([
             'em' => null,
-        ));
+        ]);
     }
 
     /**
@@ -154,7 +154,7 @@ class Tree extends ColumnAbstractType
 
         $this->classStrategies[$class] = null;
         $classParents = array_merge(
-            array($class),
+            [$class],
             class_parents($class)
         );
 

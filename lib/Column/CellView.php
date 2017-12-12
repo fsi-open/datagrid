@@ -32,7 +32,7 @@ class CellView implements CellViewInterface
      *
      * @var array
      */
-    protected $attributes = array();
+    protected $attributes = [];
 
     /**
      * Cell name.
