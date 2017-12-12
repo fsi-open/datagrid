@@ -13,6 +13,9 @@ use FSi\Component\DataGrid\DataGrid;
 use FSi\Component\DataGrid\Tests\Fixtures\FooExtension;
 use FSi\Component\DataGrid\Tests\Fixtures\ColumnType\FooType;
 use FSi\Component\DataGrid\Tests\Fixtures\Entity;
+use FSi\Component\DataGrid\DataGridViewInterface;
+use FSi\Component\DataGrid\DataMapper\DataMapperInterface;
+use FSi\Component\DataGrid\DataGridFactoryInterface;
 
 class DataGridTest extends \PHPUnit_Framework_TestCase
 {
@@ -33,7 +36,7 @@ class DataGridTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->dataMapper = $this->createMock('FSi\Component\DataGrid\DataMapper\DataMapperInterface');
+        $this->dataMapper = $this->createMock(DataMapperInterface::class);
         $this->dataMapper->expects($this->any())
             ->method('getData')
             ->will($this->returnCallback(function($field, $object){
@@ -54,7 +57,7 @@ class DataGridTest extends \PHPUnit_Framework_TestCase
                 }
             }));
 
-        $this->factory = $this->createMock('FSi\Component\DataGrid\DataGridFactoryInterface');
+        $this->factory = $this->createMock(DataGridFactoryInterface::class);
         $this->factory->expects($this->any())
             ->method('getExtensions')
             ->will($this->returnValue([
@@ -89,7 +92,7 @@ class DataGridTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($this->datagrid->hasColumnType('foo'));
         $this->assertFalse($this->datagrid->hasColumnType('this_type_cant_exists'));
 
-        $this->assertInstanceOf('FSi\Component\DataGrid\Tests\Fixtures\ColumnType\FooType', $this->datagrid->getColumn('foo1'));
+        $this->assertInstanceOf(FooType::class, $this->datagrid->getColumn('foo1'));
 
         $this->assertTrue($this->datagrid->hasColumn('foo1'));
         $column = $this->datagrid->getColumn('foo1');
@@ -111,7 +114,7 @@ class DataGridTest extends \PHPUnit_Framework_TestCase
 
     public function testGetDataMapper()
     {
-        $this->assertInstanceOf('FSi\Component\DataGrid\DataMapper\DataMapperInterface', $this->datagrid->getDataMapper());
+        $this->assertInstanceOf(DataMapperInterface::class, $this->datagrid->getDataMapper());
     }
 
     public function testSetData()
@@ -155,7 +158,7 @@ class DataGridTest extends \PHPUnit_Framework_TestCase
         ];
 
         $this->datagrid->setData($gridData);
-        $this->assertInstanceOf('FSi\Component\DataGrid\DataGridViewInterface',$this->datagrid->createView());
+        $this->assertInstanceOf(DataGridViewInterface::class,$this->datagrid->createView());
     }
 
     public function testSetDataForArray()

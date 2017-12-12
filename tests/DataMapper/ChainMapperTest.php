@@ -11,6 +11,7 @@ namespace FSi\Component\DataGrid\Tests\DataMapper;
 
 use FSi\Component\DataGrid\DataMapper\ChainMapper;
 use FSi\Component\DataGrid\Exception\DataMappingException;
+use FSi\Component\DataGrid\DataMapper\DataMapperInterface;
 
 class ChainMapperTest extends \PHPUnit_Framework_TestCase
 {
@@ -34,8 +35,8 @@ class ChainMapperTest extends \PHPUnit_Framework_TestCase
 
     public function testGetDataFromTwoMappers()
     {
-        $mapper = $this->createMock('FSi\Component\DataGrid\DataMapper\DataMapperInterface');
-        $mapper1 = $this->createMock('FSi\Component\DataGrid\DataMapper\DataMapperInterface');
+        $mapper = $this->createMock(DataMapperInterface::class);
+        $mapper1 = $this->createMock(DataMapperInterface::class);
 
         $mapper->expects($this->once())
                ->method('getData')
@@ -55,8 +56,8 @@ class ChainMapperTest extends \PHPUnit_Framework_TestCase
 
     public function testSetDataWithTwoMappers()
     {
-        $mapper = $this->createMock('FSi\Component\DataGrid\DataMapper\DataMapperInterface');
-        $mapper1 = $this->createMock('FSi\Component\DataGrid\DataMapper\DataMapperInterface');
+        $mapper = $this->createMock(DataMapperInterface::class);
+        $mapper1 = $this->createMock(DataMapperInterface::class);
 
         $mapper->expects($this->once())
                ->method('setData')

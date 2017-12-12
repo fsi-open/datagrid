@@ -155,7 +155,7 @@ class DateTime extends ColumnAbstractType
                             $inputData[$field] = $value[$field];
                             break;
                         case 'datetime_interface':
-                            if (!interface_exists('\DateTimeInterface')) {
+                            if (!interface_exists(\DateTimeInterface::class)) {
                                 throw new DataGridColumnException(
                                     'Input type option has value "datetime_interface" but \DateTimeInterface is not defined'
                                 );
@@ -210,7 +210,7 @@ class DateTime extends ColumnAbstractType
                 break;
 
             case 'datetime_interface':
-                if (!interface_exists('\DateTimeInterface')) {
+                if (!interface_exists(\DateTimeInterface::class)) {
                     throw new DataGridColumnException(
                         'Input type option has value "datetime_interface" but \DateTimeInterface is not defined'
                     );
@@ -270,7 +270,7 @@ class DateTime extends ColumnAbstractType
             return 'datetime';
         }
 
-        if (interface_exists('\DateTimeInterface') && ($value instanceof \DateTimeInterface)) {
+        if (interface_exists(\DateTimeInterface::class) && ($value instanceof \DateTimeInterface)) {
             return 'datetime_interface';
         }
 

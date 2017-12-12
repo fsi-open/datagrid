@@ -10,6 +10,9 @@
 namespace FSi\Component\DataGrid\Tests;
 
 use FSi\Component\DataGrid\DataGridRowView;
+use FSi\Component\DataGrid\Column\ColumnTypeInterface;
+use FSi\Component\DataGrid\Column\CellViewInterface;
+use FSi\Component\DataGrid\DataGridViewInterface;
 
 class DataGridRowViewTest extends \PHPUnit_Framework_TestCase
 {
@@ -17,11 +20,11 @@ class DataGridRowViewTest extends \PHPUnit_Framework_TestCase
     {
         $source = 'SOURCE';
 
-        $dataGridView = $this->createMock('FSi\Component\DataGrid\DataGridViewInterface');
+        $dataGridView = $this->createMock(DataGridViewInterface::class);
 
-        $cellView = $this->createMock('FSi\Component\DataGrid\Column\CellViewInterface');
+        $cellView = $this->createMock(CellViewInterface::class);
 
-        $column = $this->createMock('FSi\Component\DataGrid\Column\ColumnTypeInterface');
+        $column = $this->createMock(ColumnTypeInterface::class);
         $column->expects($this->atLeastOnce())
                 ->method('createCellView')
                 ->with($source, 0)

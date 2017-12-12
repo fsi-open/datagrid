@@ -10,6 +10,8 @@
 namespace FSi\Component\DataGrid\Tests\Extension\Core\ColumntypeExtension;
 
 use FSi\Component\DataGrid\Extension\Core\ColumnTypeExtension\DefaultColumnOptionsExtension;
+use FSi\Component\DataGrid\Column\HeaderViewInterface;
+use FSi\Component\DataGrid\Column\ColumnTypeInterface;
 
 class DefaultColumnOptionsExtensionTest extends \PHPUnit_Framework_TestCase
 {
@@ -17,8 +19,8 @@ class DefaultColumnOptionsExtensionTest extends \PHPUnit_Framework_TestCase
     {
         $extension = new DefaultColumnOptionsExtension();
 
-        $column = $this->createMock('FSi\Component\DataGrid\Column\ColumnTypeInterface');
-        $view = $this->createMock('FSi\Component\DataGrid\Column\HeaderViewInterface');
+        $column = $this->createMock(ColumnTypeInterface::class);
+        $view = $this->createMock(HeaderViewInterface::class);
 
         $column->expects($this->at(0))
             ->method('getOption')

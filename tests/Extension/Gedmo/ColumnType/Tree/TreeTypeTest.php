@@ -14,6 +14,8 @@ use FSi\Component\DataGrid\Tests\Fixtures\EntityManagerMock;
 use FSi\Component\DataGrid\Tests\Fixtures\EventManagerMock;
 use FSi\Component\DataGrid\Extension\Gedmo\ColumnType\Tree;
 use FSi\Component\DataGrid\Extension\Core\ColumnTypeExtension\DefaultColumnOptionsExtension;
+use FSi\Component\DataGrid\DataMapper\DataMapperInterface;
+use FSi\Component\DataGrid\DataGridInterface;
 
 class TreeTypeTest extends \PHPUnit_Framework_TestCase
 {
@@ -44,9 +46,9 @@ class TreeTypeTest extends \PHPUnit_Framework_TestCase
             $this->markTestSkipped('Doctrine\Common\Persistence\ManagerRegistry is required for testGetValue in gedmo.tree column type');
         }
 
-        $dataGrid = $this->createMock('FSi\Component\DataGrid\DataGridInterface');
+        $dataGrid = $this->createMock(DataGridInterface::class);
         $registry = $this->getManagerRegistry();
-        $dataMapper = $this->createMock('FSi\Component\DataGrid\DataMapper\DataMapperInterface');
+        $dataMapper = $this->createMock(DataMapperInterface::class);
 
         $dataMapper->expects($this->any())
             ->method('getData')
@@ -99,7 +101,7 @@ class TreeTypeTest extends \PHPUnit_Framework_TestCase
                             ->method('getMetadataFor')
                             ->will($self->returnCallback(function($class) use ($self) {
                                 switch ($class) {
-                                    case "FSi\\Component\\DataGrid\\Tests\\Fixtures\\EntityTree" :
+                                    case EntityTree::class :
                                         $metadata = $self->createMock('Doctrine\\ORM\\Mapping\\ClassMetadataInfo', [], [$class]);
                                         $metadata->expects($self->any())
                                             ->method('getIdentifierFieldNames')
@@ -125,7 +127,7 @@ class TreeTypeTest extends \PHPUnit_Framework_TestCase
                     ->method('getClassMetadata')
                     ->will($self->returnCallback(function($class) use ($self) {
                         switch ($class) {
-                            case "FSi\\Component\\DataGrid\\Tests\\Fixtures\\EntityTree" :
+                            case EntityTree::class :
                                 $metadata = $self->createMock('Doctrine\\ORM\\Mapping\\ClassMetadataInfo', [], [$class]);
                                 $metadata->expects($self->any())
                                     ->method('getIdentifierFieldNames')

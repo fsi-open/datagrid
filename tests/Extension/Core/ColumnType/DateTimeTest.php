@@ -11,6 +11,7 @@ namespace FSi\Component\DataGrid\Tests\Extension\Core\ColumnType;
 
 use FSi\Component\DataGrid\Extension\Core\ColumnType\DateTime;
 use FSi\Component\DataGrid\Extension\Core\ColumnTypeExtension\DefaultColumnOptionsExtension;
+use FSi\Component\DataGrid\Exception\DataGridColumnException;
 
 class DateTimeTest extends \PHPUnit_Framework_TestCase
 {
@@ -51,7 +52,7 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase
 
     public function testFilterValueFromDateTimeImmutable()
     {
-        if (!class_exists('\DateTimeImmutable')) {
+        if (!class_exists(\DateTimeImmutable::class)) {
             $this->markTestSkipped();
         }
 
@@ -88,7 +89,7 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase
         );
 
         $inputTypes = ['datetime', 'string', 'timestamp'];
-        if (interface_exists('\DateTimeInterface')) {
+        if (interface_exists(\DateTimeInterface::class)) {
             $inputTypes[] = 'datetime_interface';
         }
 
@@ -130,7 +131,7 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase
 
     public function testFormatOptionWithDateTimeImmutable()
     {
-        if (!class_exists('\DateTimeImmutable')) {
+        if (!class_exists(\DateTimeImmutable::class)) {
             $this->markTestSkipped();
         }
 
@@ -245,7 +246,7 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase
 
     public function testMappingFieldsOptionInputArrayMissingMappingFieldsFormatForDateTimeImmutable()
     {
-        if (!class_exists('\DateTimeImmutable')) {
+        if (!class_exists(\DateTimeImmutable::class)) {
             $this->markTestSkipped();
         }
 
@@ -259,7 +260,7 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase
 
         $this->column->setOption('input_type', 'array');
 
-        $this->setExpectedException('\FSi\Component\DataGrid\Exception\DataGridColumnException');
+        $this->setExpectedException(DataGridColumnException::class);
         $this->column->filterValue($value);
     }
 
@@ -289,7 +290,7 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase
     public function testMappingFieldsOptionInputArray()
     {
         $dateTimeObject = new \DateTime('2012-05-03 12:41:11');
-        if (class_exists('\DateTimeImmutable')) {
+        if (class_exists(\DateTimeImmutable::class)) {
             $dateTimeImmutableObject = new \DateTimeImmutable('2012-05-03 12:41:11');
         }
         $dateObject = new \DateTime('2012-05-03');
@@ -299,7 +300,7 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase
             'string' => $dateTimeObject->format('Y-m-d H:i:s'),
             'timestamp' => $dateTimeObject->getTimestamp()
         ];
-        if (class_exists('\DateTimeImmutable')) {
+        if (class_exists(\DateTimeImmutable::class)) {
             $value['datetime_immutable'] = $dateTimeImmutableObject;
         }
 
@@ -309,7 +310,7 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase
             'string' => ['input_type' => 'string', 'datetime_format' => 'Y-m-d H:i:s'],
             'timestamp' => ['input_type' => 'timestamp']
         ];
-        if (class_exists('\DateTimeImmutable')) {
+        if (class_exists(\DateTimeImmutable::class)) {
             $inputFieldFormat['datetime_immutable'] = ['input_type' => 'datetime_interface'];
         }
         $this->column->setOptions([
@@ -323,7 +324,7 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase
             'string' => $dateTimeObject->format('Y-m-d H:i:s'),
             'timestamp' => date('Y-m-d H:i:s', $dateTimeObject->getTimestamp()),
         ];
-        if (class_exists('\DateTimeImmutable')) {
+        if (class_exists(\DateTimeImmutable::class)) {
             $expectedResult['datetime_immutable'] = $dateTimeImmutableObject->format('Y-m-d H:i:s');
         }
         $this->assertSame($this->column->filterValue($value), $expectedResult);
@@ -332,7 +333,7 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase
     public function testMappingFieldsOptionInputArrayWithFormat()
     {
         $dateTimeObject = new \DateTime('2012-05-03 12:41:11');
-        if (class_exists('\DateTimeImmutable')) {
+        if (class_exists(\DateTimeImmutable::class)) {
             $dateTimeImmutableObject = new \DateTimeImmutable('2012-05-03 12:41:11');
         }
         $dateObject = new \DateTime('2012-05-03');
@@ -342,7 +343,7 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase
             'string' => $dateTimeObject->format('Y-m-d H:i:s'),
             'timestamp' => $dateTimeObject->getTimestamp()
         ];
-        if (class_exists('\DateTimeImmutable')) {
+        if (class_exists(\DateTimeImmutable::class)) {
             $value['datetime_immutable'] = $dateTimeImmutableObject;
         }
 
@@ -353,7 +354,7 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase
             'timestamp' => ['input_type' => 'timestamp']
         ];
 
-        if (class_exists('\DateTimeImmutable')) {
+        if (class_exists(\DateTimeImmutable::class)) {
             $inputFieldFormat['datetime_immutable'] = ['input_type' => 'datetime_interface'];
         }
         $this->column->setOptions([
@@ -368,7 +369,7 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase
             'string' => $dateTimeObject->format('Y.d.m'),
             'timestamp' => $dateTimeObject->format('Y.d.m')
         ];
-        if (class_exists('\DateTimeImmutable')) {
+        if (class_exists(\DateTimeImmutable::class)) {
             $expectedResult['datetime_immutable'] = $dateTimeImmutableObject->format('Y.d.m');
         }
         $this->assertSame($this->column->filterValue($value), $expectedResult);

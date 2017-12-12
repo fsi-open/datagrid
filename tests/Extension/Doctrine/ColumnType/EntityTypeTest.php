@@ -12,6 +12,8 @@ namespace FSi\Component\DataGrid\Tests\Extension\Doctrine\ColumnType;
 use FSi\Component\DataGrid\Tests\Fixtures\Entity as Fixture;
 use FSi\Component\DataGrid\Extension\Doctrine\ColumnType\Entity;
 use FSi\Component\DataGrid\Extension\Core\ColumnTypeExtension\DefaultColumnOptionsExtension;
+use FSi\Component\DataGrid\DataMapper\DataMapperInterface;
+use FSi\Component\DataGrid\DataGridInterface;
 
 class EntityTypeTest extends \PHPUnit_Framework_TestCase
 {
@@ -29,8 +31,8 @@ class EntityTypeTest extends \PHPUnit_Framework_TestCase
 
         $object = new Fixture('object');
 
-        $dataGrid = $this->createMock('FSi\Component\DataGrid\DataGridInterface');
-        $dataMapper = $dataMapper = $this->createMock('FSi\Component\DataGrid\DataMapper\DataMapperInterface');
+        $dataGrid = $this->createMock(DataGridInterface::class);
+        $dataMapper = $dataMapper = $this->createMock(DataMapperInterface::class);
 
         $dataMapper->expects($this->once())
                    ->method('getData')

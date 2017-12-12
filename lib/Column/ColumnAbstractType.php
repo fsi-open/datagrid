@@ -174,7 +174,7 @@ abstract class ColumnAbstractType implements ColumnTypeInterface
         $dataMapper = $this->getDataMapper();
 
         if (!$dataMapper instanceof DataMapperInterface) {
-            throw new UnexpectedTypeException($dataMapper, 'FSi\Component\DataGrid\DataMapper\DataMapperInterface');
+            throw new UnexpectedTypeException($dataMapper, DataMapperInterface::class);
         }
 
         $values = $this->getValue($object);
@@ -291,7 +291,7 @@ abstract class ColumnAbstractType implements ColumnTypeInterface
     {
         foreach ($extensions as $extension) {
             if (!$extension instanceof ColumnTypeExtensionInterface) {
-                throw new UnexpectedTypeException($extension, 'FSi\Component\DataGrid\Column\ColumnTypeExtensionInterface');
+                throw new UnexpectedTypeException($extension, ColumnTypeExtensionInterface::class);
             }
         }
 
