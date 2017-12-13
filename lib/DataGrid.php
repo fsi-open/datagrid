@@ -13,7 +13,6 @@ use FSi\Component\DataGrid\DataGridView;
 use FSi\Component\DataGrid\DataGridEvent;
 use FSi\Component\DataGrid\DataGridEvents;
 use FSi\Component\DataGrid\Data\DataRowset;
-use FSi\Component\DataGrid\Data\IndexingStrategyInterface;
 use FSi\Component\DataGrid\Column\ColumnTypeInterface;
 use FSi\Component\DataGrid\DataMapper\DataMapperInterface;
 use FSi\Component\DataGrid\Exception\UnexpectedTypeException;
@@ -66,27 +65,17 @@ class DataGrid implements DataGridInterface
     protected $eventDispatcher;
 
     /**
-     * Indexing strategy used to index rowset original data under unique indexes.
-     *
-     * @var \FSi\Component\DataGrid\Data\IndexingStrategyInterface
-     * @deprecated this field is deprecated and it will be removed in version 1.2
-     */
-    protected $strategy;
-
-    /**
      * Constructs new DataGrid instance. Should be called only from DataGridFactory.
      *
      * @param string $name
      * @param \FSi\Component\DataGrid\DataGridFactoryInterface $dataGridFactory
      * @param \FSi\Component\DataGrid\DataMapper\DataMapperInterface $dataMapper
-     * @param \FSi\Component\DataGrid\Data\IndexingStrategyInterface $strategy - deprecated and will be removed in 1.2
      */
-    public function __construct($name, DataGridFactoryInterface $dataGridFactory, DataMapperInterface $dataMapper, IndexingStrategyInterface $strategy = null)
+    public function __construct($name, DataGridFactoryInterface $dataGridFactory, DataMapperInterface $dataMapper)
     {
         $this->name = $name;
         $this->dataGridFactory = $dataGridFactory;
         $this->dataMapper = $dataMapper;
-        $this->strategy = $strategy;
         $this->eventDispatcher = new EventDispatcher();
         $this->registerSubscribers();
     }
@@ -203,14 +192,6 @@ class DataGrid implements DataGridInterface
     public function getDataMapper()
     {
         return $this->dataMapper;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getIndexingStrategy()
-    {
-        return $this->strategy;
     }
 
     /**

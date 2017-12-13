@@ -47,10 +47,4 @@ interface DataGridFactoryInterface
      * @return \FSi\Component\DataGrid\DataMapper\DataMapperInterface
      */
     public function getDataMapper();
-
-    /**
-     * @deprecated This method is deprecated and it will removed in version 1.2
-     * @return \FSi\Component\DataGrid\Data\IndexingStrategyInterface
-     */
-    public function getIndexingStrategy();
 }

@@ -28,14 +28,6 @@ interface DataGridInterface
     public function getDataMapper();
 
     /**
-     * Return Indexing Strategy.
-     *
-     * @deprecated This method is deprecated and it will removed in version 1.2
-     * @return \FSi\Component\DataGrid\Data\IndexingStrategyInterface
-     */
-    public function getIndexingStrategy();
-
-    /**
      * Add new column to DataGrid. Remember that column type must be registered in
      * DataGridFactory that was used to create current DataGrid.
      *

@@ -13,7 +13,6 @@ use FSi\Component\DataGrid\DataGridFactoryInterface;
 use FSi\Component\DataGrid\DataGridExtensionInterface;
 use FSi\Component\DataGrid\Exception\DataGridColumnException;
 use FSi\Component\DataGrid\Exception\UnexpectedTypeException;
-use FSi\Component\DataGrid\Data\IndexingStrategyInterface;
 use FSi\Component\DataGrid\DataMapper\DataMapperInterface;
 
 class DataGridFactory implements DataGridFactoryInterface
@@ -45,18 +44,11 @@ class DataGridFactory implements DataGridFactoryInterface
     protected $extensions = array();
 
     /**
-     * @var \FSi\Component\DataGrid\Data\IndexingStrategyInterface
-     * @deprecated this field is deprecated and it will be removed in version 1.2
-     */
-    protected $strategy;
-
-    /**
      * @param array $extensions
      * @param \FSi\Component\DataGrid\DataMapper\DataMapperInterface $dataMapper
-     * @param \FSi\Component\DataGrid\Data\IndexingStrategyInterface $strategy
      * @throws \InvalidArgumentException
      */
-    public function __construct(array $extensions, DataMapperInterface $dataMapper, IndexingStrategyInterface $strategy = null)
+    public function __construct(array $extensions, DataMapperInterface $dataMapper)
     {
         foreach ($extensions as $extension) {
             if (!$extension instanceof DataGridExtensionInterface) {
@@ -65,7 +57,6 @@ class DataGridFactory implements DataGridFactoryInterface
         }
 
         $this->dataMapper = $dataMapper;
-        $this->strategy = $strategy;
         $this->extensions = $extensions;
     }
 
@@ -80,7 +71,7 @@ class DataGridFactory implements DataGridFactoryInterface
 
         $this->dataGrids[$name] = true;
 
-        return new DataGrid($name, $this, $this->dataMapper, $this->strategy);
+        return new DataGrid($name, $this, $this->dataMapper);
     }
 
     /**
@@ -129,14 +120,6 @@ class DataGridFactory implements DataGridFactoryInterface
     public function getDataMapper()
     {
         return $this->dataMapper;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function getIndexingStrategy()
-    {
-        return $this->strategy;
     }
 
     /**
