@@ -32,7 +32,7 @@ class EntityTypeTest extends \PHPUnit_Framework_TestCase
         $object = new Fixture('object');
 
         $dataGrid = $this->createMock(DataGridInterface::class);
-        $dataMapper = $dataMapper = $this->createMock(DataMapperInterface::class);
+        $dataMapper = $this->createMock(DataMapperInterface::class);
 
         $dataMapper->expects($this->once())
                    ->method('getData')

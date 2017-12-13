@@ -15,7 +15,7 @@ use FSi\Component\DataGrid\Extension\Core\ColumnTypeExtension\DefaultColumnOptio
 class MoneyTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \FSi\Component\DataGrid\Extension\Core\ColumnType\Money
+     * @var Money
      */
     private $column;
 

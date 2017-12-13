@@ -35,7 +35,7 @@ class TreeTypeTest extends \PHPUnit_Framework_TestCase
 
         $object = 'This is string, not object';
 
-        $this->setExpectedException('InvalidArgumentException');
+        $this->expectException('InvalidArgumentException');
         $column->getValue($object);
     }
 
@@ -68,8 +68,12 @@ class TreeTypeTest extends \PHPUnit_Framework_TestCase
 
         $column->getValue($object);
 
+        $view = $column->createCellView($object, '0');
+        $column->buildCellView($view);
+
         $this->assertSame(
             [
+                "row" => "0",
                 "id" => "foo",
                 "root" => "root",
                 "left" => "left",
@@ -78,10 +82,9 @@ class TreeTypeTest extends \PHPUnit_Framework_TestCase
                 "children" => 2,
                 "parent" => "bar",
             ],
-            $column->getViewAttributes()
+            $view->getAttributes()
         );
     }
-
 
     protected function getManagerRegistry()
     {
@@ -116,7 +119,7 @@ class TreeTypeTest extends \PHPUnit_Framework_TestCase
 
                         $metadataFactory->expects($self->any())
                             ->method('getClassMetadata')
-                            ->will($self->returnCallback(function($class) {
+                            ->will($self->returnCallback(function($class) use ($metadataFactory) {
                                 return $metadataFactory->getMetadataFor($class);
                             }));
 
@@ -152,7 +155,7 @@ class TreeTypeTest extends \PHPUnit_Framework_TestCase
             ->method('getStrategy')
             ->will($this->returnValue($strategy));
 
-        $treeListener->expects($this->once())
+        $treeListener->expects($this->any())
             ->method('getConfiguration')
             ->will($this->returnValue(
                 [
@@ -164,7 +167,7 @@ class TreeTypeTest extends \PHPUnit_Framework_TestCase
                 ]
             ));
 
-        $strategy->expects($this->once())
+        $strategy->expects($this->any())
             ->method('getName')
             ->will($this->returnValue('nested'));
 

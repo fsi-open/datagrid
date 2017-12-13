@@ -12,13 +12,14 @@ namespace FSi\Component\DataGrid\Tests\DataMapper;
 use FSi\Component\DataGrid\DataMapper\ChainMapper;
 use FSi\Component\DataGrid\Exception\DataMappingException;
 use FSi\Component\DataGrid\DataMapper\DataMapperInterface;
+use InvalidArgumentException;
 
 class ChainMapperTest extends \PHPUnit_Framework_TestCase
 {
     public function testMappersInChainWithInvalidMappers()
     {
-        $this->setExpectedException('InvalidArgumentException');
-        $chain = new ChainMapper([
+        $this->expectException(InvalidArgumentException::class);
+        new ChainMapper([
             'foo',
             'bar'
         ]);
@@ -26,8 +27,8 @@ class ChainMapperTest extends \PHPUnit_Framework_TestCase
 
     public function testMappersInChainWithEmptyMappersArray()
     {
-        $this->setExpectedException('InvalidArgumentException');
-        $chain = new ChainMapper([
+        $this->expectException(InvalidArgumentException::class);
+        new ChainMapper([
             'foo',
             'bar'
         ]);
@@ -70,6 +71,6 @@ class ChainMapperTest extends \PHPUnit_Framework_TestCase
 
         $chain = new ChainMapper([$mapper, $mapper1]);
 
-        $this->assertTrue($chain->setData('foo', 'bar', 'test'));
+        $chain->setData('foo', 'bar', 'test');
     }
 }

@@ -13,17 +13,11 @@ use FSi\Component\DataGrid\Column\ColumnAbstractType;
 
 class Boolean extends ColumnAbstractType
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function getId()
+    public function getId(): string
     {
         return 'boolean';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function filterValue($value)
     {
         $value = (array) $value;
@@ -46,13 +40,10 @@ class Boolean extends ColumnAbstractType
             return '';
         }
 
-        return $boolValue ? $this->getOption('true_value') : $this->getOption('false_value') ;
+        return $this->getOption($boolValue ? 'true_value' : 'false_value');
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function initOptions()
+    public function initOptions(): void
     {
         $this->getOptionsResolver()->setDefaults([
             'true_value' => '',

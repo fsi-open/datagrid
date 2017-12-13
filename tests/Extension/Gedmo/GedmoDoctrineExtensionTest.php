@@ -10,12 +10,13 @@
 namespace FSi\Component\DataGrid\Tests\Extension\Doctrine;
 
 use FSi\Component\DataGrid\Extension\Gedmo\GedmoDoctrineExtension;
+use Doctrine\Common\Persistence\ManagerRegistry;
 
 class GedmoDoctrineExtensionTest extends \PHPUnit_Framework_TestCase
 {
     public function testLoadedTypes()
     {
-        $registry = $this->createMock('Doctrine\Common\Persistence\ManagerRegistry');
+        $registry = $this->createMock(ManagerRegistry::class);
         $extension = new GedmoDoctrineExtension($registry);
 
         $this->assertTrue($extension->hasColumnType('gedmo_tree'));

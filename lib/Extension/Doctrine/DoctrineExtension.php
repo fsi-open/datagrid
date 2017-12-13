@@ -14,20 +14,14 @@ use FSi\Component\DataGrid\Extension\Doctrine\ColumnType;
 
 class DoctrineExtension extends DataGridAbstractExtension
 {
-    /**
-     * {@inheritdoc}
-     */
-    protected function loadColumnTypes()
+    protected function loadColumnTypes(): array
     {
         return [
             new ColumnType\Entity(),
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function loadColumnTypesExtensions()
+    protected function loadColumnTypesExtensions(): array
     {
         return [
             new ColumnTypeExtension\ValueFormatColumnOptionsExtension(),

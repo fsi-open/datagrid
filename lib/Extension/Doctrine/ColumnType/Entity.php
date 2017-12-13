@@ -14,27 +14,16 @@ use FSi\Component\DataGrid\Column\ColumnAbstractType;
 
 class Entity extends ColumnAbstractType
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function getId()
+    public function getId(): string
     {
         return 'entity';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getValue($object)
     {
-        $value = $this->getDataMapper()->getData($this->getOption('relation_field'), $object);
-
-        return $value;
+        return $this->getDataMapper()->getData($this->getOption('relation_field'), $object);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function filterValue($value)
     {
         if ($value instanceof Collection) {
@@ -66,10 +55,7 @@ class Entity extends ColumnAbstractType
         return $values;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function initOptions()
+    public function initOptions(): void
     {
         $this->getOptionsResolver()->setDefaults([
             'relation_field' => $this->getName(),

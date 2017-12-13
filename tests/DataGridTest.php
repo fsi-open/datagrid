@@ -16,6 +16,8 @@ use FSi\Component\DataGrid\Tests\Fixtures\Entity;
 use FSi\Component\DataGrid\DataGridViewInterface;
 use FSi\Component\DataGrid\DataMapper\DataMapperInterface;
 use FSi\Component\DataGrid\DataGridFactoryInterface;
+use InvalidArgumentException;
+use TypeError;
 
 class DataGridTest extends \PHPUnit_Framework_TestCase
 {
@@ -25,7 +27,7 @@ class DataGridTest extends \PHPUnit_Framework_TestCase
     private $factory;
 
     /**
-     * @var DataMapper
+     * @var DataMapperInterface
      */
     private $dataMapper;
 
@@ -52,7 +54,7 @@ class DataGridTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnCallback(function($field, $object, $value){
                 switch($field) {
                     case 'name':
-                           return $object->setName($value);
+                        $object->setName($value);
                         break;
                 }
             }));
@@ -108,7 +110,7 @@ class DataGridTest extends \PHPUnit_Framework_TestCase
         $this->datagrid->clearColumns();
         $this->assertEquals(0, count($this->datagrid->getColumns()));
 
-        $this->setExpectedException('InvalidArgumentException');
+        $this->expectException(InvalidArgumentException::class);
         $this->datagrid->getColumn('bar');
     }
 
@@ -138,14 +140,14 @@ class DataGridTest extends \PHPUnit_Framework_TestCase
         $this->assertEquals(count($gridData), count($this->datagrid->createView()));
 
         $gridBrokenData = false;
-        $this->setExpectedException('InvalidArgumentException');
+        $this->expectException(TypeError::class);
         $this->datagrid->setData($gridBrokenData);
     }
 
     public function testBindData()
     {
         $gridBrokenData = false;
-        $this->setExpectedException('InvalidArgumentException');
+        $this->expectException(TypeError::class);
         $this->datagrid->bindData($gridBrokenData);
     }
 

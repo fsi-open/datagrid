@@ -11,14 +11,12 @@ namespace FSi\Component\DataGrid\Extension\Core\EventSubscriber;
 
 use FSi\Component\DataGrid\DataGridEventInterface;
 use FSi\Component\DataGrid\DataGridEvents;
+use FSi\Component\DataGrid\DataGridViewInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class ColumnOrder implements EventSubscriberInterface
 {
-    /**
-     * {@inheritdoc}
-     */
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
         return [DataGridEvents::POST_BUILD_VIEW => ['postBuildView', 128]];
     }
@@ -28,6 +26,7 @@ class ColumnOrder implements EventSubscriberInterface
      */
     public function postBuildView(DataGridEventInterface $event)
     {
+        /** @var DataGridViewInterface $view */
         $view = $event->getData();
         $columns = $view->getColumns();
 

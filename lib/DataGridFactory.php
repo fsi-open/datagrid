@@ -9,50 +9,47 @@
 
 namespace FSi\Component\DataGrid;
 
-use FSi\Component\DataGrid\DataGridFactoryInterface;
-use FSi\Component\DataGrid\DataGridExtensionInterface;
+use FSi\Component\DataGrid\Column\ColumnTypeInterface;
 use FSi\Component\DataGrid\Exception\DataGridColumnException;
 use FSi\Component\DataGrid\Exception\UnexpectedTypeException;
 use FSi\Component\DataGrid\DataMapper\DataMapperInterface;
+use InvalidArgumentException;
 
 class DataGridFactory implements DataGridFactoryInterface
 {
     /**
-     * Already registered data grids.
-     *
-     * @var array
+     * @var DataGridInterface[]
      */
     protected $dataGrids = [];
 
     /**
-     * Currently loaded column types.
-     *
-     * @var array
+     * @var ColumnTypeInterface[]
      */
     protected $columnTypes = [];
 
     /**
-     * @var \FSi\Component\DataGrid\DataMapper\DataMapperInterface
+     * @var DataMapperInterface
      */
     protected $dataMapper;
 
     /**
-     * The DataGridExtensionInterface instances
-     *
-     * @var array
+     * @var DataGridExtensionInterface[]
      */
     protected $extensions = [];
 
     /**
-     * @param array $extensions
-     * @param \FSi\Component\DataGrid\DataMapper\DataMapperInterface $dataMapper
-     * @throws \InvalidArgumentException
+     * @param DataGridExtensionInterface[] $extensions
+     * @param DataMapperInterface $dataMapper
+     * @throws InvalidArgumentException
      */
     public function __construct(array $extensions, DataMapperInterface $dataMapper)
     {
         foreach ($extensions as $extension) {
             if (!$extension instanceof DataGridExtensionInterface) {
-                throw new \InvalidArgumentException('Each extension must implement FSi\Component\DataGrid\DataGridExtensionInterface');
+                throw new InvalidArgumentException(sprintf(
+                    'Each extension must implement "%s"',
+                    DataGridExtensionInterface::class
+                ));
             }
         }
 
@@ -60,26 +57,23 @@ class DataGridFactory implements DataGridFactoryInterface
         $this->extensions = $extensions;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function createDataGrid($name = 'grid')
+    public function createDataGrid(string $name = 'grid'): DataGridInterface
     {
         if (array_key_exists($name, $this->dataGrids)) {
-            throw new DataGridColumnException(sprintf('Data grid name "%s" is not uniqe, it was used before to create form', $name));
+            throw new DataGridColumnException(sprintf(
+                'Datagrid name "%s" is not uniqe, it was used before to create datagrid',
+                $name
+            ));
         }
 
-        $this->dataGrids[$name] = true;
+        $this->dataGrids[$name] = new DataGrid($name, $this, $this->dataMapper);
 
-        return new DataGrid($name, $this, $this->dataMapper);
+        return $this->dataGrids[$name];
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function hasColumnType($type)
+    public function hasColumnType(string $type): bool
     {
-        if (isset($this->columnTypes[$type])) {
+        if (array_key_exists($type, $this->columnTypes)) {
             return true;
         }
 
@@ -93,11 +87,13 @@ class DataGridFactory implements DataGridFactoryInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @param string $type
+     * @return ColumnTypeInterface
+     * @throws UnexpectedTypeException
      */
-    public function getColumnType($type)
+    public function getColumnType(string $type): ColumnTypeInterface
     {
-        if (isset($this->columnTypes[$type])) {
+        if ($this->hasColumnType($type)) {
             return clone $this->columnTypes[$type];
         }
 
@@ -106,29 +102,21 @@ class DataGridFactory implements DataGridFactoryInterface
         return clone $this->columnTypes[$type];
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getExtensions()
+    public function getExtensions(): array
     {
         return $this->extensions;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getDataMapper()
+    public function getDataMapper(): DataMapperInterface
     {
         return $this->dataMapper;
     }
 
     /**
-     * Try to load column type from extensions registered in factory.
-     *
      * @param string $type
-     * @throws \FSi\Component\DataGrid\Exception\UnexpectedTypeException
+     * @throws UnexpectedTypeException
      */
-    private function loadColumnType($type)
+    private function loadColumnType(string $type): void
     {
         if (isset($this->columnTypes[$type])) {
             return;
@@ -142,8 +130,11 @@ class DataGridFactory implements DataGridFactoryInterface
             }
         }
 
-        if (!isset($typeInstance)) {
-            throw new UnexpectedTypeException(sprintf('There is no column with type "%s" registred in factory.', $type));
+        if (null === $typeInstance) {
+            throw new UnexpectedTypeException(sprintf(
+                'There is no column with type "%s" registered in factory.',
+                $type
+            ));
         }
 
         foreach ($this->extensions as $extension) {

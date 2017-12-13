@@ -9,8 +9,6 @@
 
 namespace FSi\Component\DataGrid\Extension\Core;
 
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
-
 use FSi\Component\DataGrid\DataGridAbstractExtension;
 use FSi\Component\DataGrid\Extension\Core\ColumnType;
 use FSi\Component\DataGrid\Extension\Core\ColumnTypeExtension;
@@ -18,10 +16,7 @@ use FSi\Component\DataGrid\Extension\Core\EventSubscriber;
 
 class CoreExtension extends DataGridAbstractExtension
 {
-    /**
-     * {@inheritdoc}
-     */
-    protected function loadColumnTypes()
+    protected function loadColumnTypes(): array
     {
         return [
             new ColumnType\Text(),
@@ -34,10 +29,7 @@ class CoreExtension extends DataGridAbstractExtension
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function loadColumnTypesExtensions()
+    protected function loadColumnTypesExtensions(): array
     {
         return [
             new ColumnTypeExtension\DefaultColumnOptionsExtension(),
@@ -45,10 +37,7 @@ class CoreExtension extends DataGridAbstractExtension
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function loadSubscribers()
+    protected function loadSubscribers(): array
     {
         return [
             new EventSubscriber\ColumnOrder(),

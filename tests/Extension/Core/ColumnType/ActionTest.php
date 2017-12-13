@@ -11,11 +11,13 @@ namespace FSi\Component\DataGrid\Tests\Extension\Core;
 
 use FSi\Component\DataGrid\Extension\Core\ColumnType\Action;
 use FSi\Component\DataGrid\Extension\Core\ColumnTypeExtension\DefaultColumnOptionsExtension;
+use InvalidArgumentException;
+use Symfony\Component\OptionsResolver\Exception\InvalidOptionsException;
 
 class ActionTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \FSi\Component\DataGrid\Extension\Core\ColumnType\Action
+     * @var Action
      */
     private $column;
 
@@ -31,20 +33,16 @@ class ActionTest extends \PHPUnit_Framework_TestCase
         $this->column = $column;
     }
 
-    /**
-     * @expectedException \Symfony\Component\OptionsResolver\Exception\InvalidOptionsException
-     */
     public function testFilterValueEmptyActionsOptionType()
     {
+        $this->expectException(InvalidOptionsException::class);
         $this->column->setOption('actions', 'boo');
         $this->column->filterValue([]);
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function testFilterValueInvalidActionInActionsOption()
     {
+        $this->expectException(InvalidArgumentException::class);
         $this->column->setOption('actions', ['edit' => 'asasdas']);
         $this->column->filterValue([]);
     }

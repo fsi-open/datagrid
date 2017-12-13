@@ -10,6 +10,7 @@
 namespace FSi\Component\DataGrid\Tests;
 
 use FSi\Component\DataGrid\DataGridFactory;
+use FSi\Component\DataGrid\DataGridFactoryInterface;
 use FSi\Component\DataGrid\Tests\Fixtures\FooExtension;
 use FSi\Component\DataGrid\DataMapper\DataMapperInterface;
 use FSi\Component\DataGrid\Exception\UnexpectedTypeException;
@@ -17,6 +18,9 @@ use FSi\Component\DataGrid\Exception\DataGridColumnException;
 
 class DataGridFactoryTest extends \PHPUnit_Framework_TestCase
 {
+    /**
+     * @var DataGridFactoryInterface
+     */
     private $factory;
 
     protected function setUp()
@@ -35,7 +39,7 @@ class DataGridFactoryTest extends \PHPUnit_Framework_TestCase
         $grid = $this->factory->createDataGrid();
         $this->assertSame('grid',$grid->getName());
 
-        $this->setExpectedException(DataGridColumnException::class);
+        $this->expectException(DataGridColumnException::class);
         $grid = $this->factory->createDataGrid('grid');
     }
 
@@ -45,11 +49,11 @@ class DataGridFactoryTest extends \PHPUnit_Framework_TestCase
         $this->assertFalse($this->factory->hasColumnType('bar'));
     }
 
-    public function testGetColumntype()
+    public function testGetColumnType()
     {
         $this->assertInstanceOf(Fixtures\ColumnType\FooType::class, $this->factory->getColumnType('foo'));
 
-        $this->setExpectedException(UnexpectedTypeException::class);
+        $this->expectException(UnexpectedTypeException::class);
         $this->factory->getColumnType('bar');
     }
 

@@ -13,77 +13,23 @@ use FSi\Component\DataGrid\DataGridViewInterface;
 
 interface HeaderViewInterface
 {
-    /**
-     * Set view attribute.
-     *
-     * @param string $name
-     * @param mixed $value
-     */
-    public function setAttribute($name, $value);
+    public function setAttribute(string $name, $value): void;
 
-    /**
-     * Get view attribute.
-     *
-     * @param string $name
-     * @return mixed
-     */
-    public function getAttribute($name);
+    public function getAttribute(string $name);
 
-    /**
-     * Check if view attribute exists.
-     *
-     * @param string $name
-     * @return boolean
-     */
-    public function hasAttribute($name);
+    public function hasAttribute(string $name): bool;
 
-    /**
-     * Return all view attributes.
-     *
-     * @return array
-     */
-    public function getAttributes();
+    public function getAttributes(): array;
 
-    /**
-     * Get view value. In most cases it should be simple string.
-     *
-     * @return mixed
-     */
-    public function getLabel();
+    public function getLabel(): ?string;
 
-    /**
-     * Set view value.
-     *
-     * @param mixed $value
-     */
-    public function setLabel($value);
+    public function setLabel(string $value): void;
 
-    /**
-     * Get column name.
-     *
-     * @return string
-     */
-    public function getName();
+    public function getName(): string;
 
-    /**
-     * Get column type.
-     *
-     * @return string
-     */
-    public function getType();
+    public function getType(): string;
 
-    /**
-     * Set DataGridView.
-     *
-     * @param \FSi\Component\DataGrid\DataGridViewInterface $dataGrid
-     * @return mixed
-     */
-    public function setDataGridView(DataGridViewInterface $dataGrid);
+    public function setDataGridView(DataGridViewInterface $dataGrid): void;
 
-    /**
-     * Get DataGridView.
-     *
-     * @return \FSi\Component\DataGrid\DataGridViewInterface
-     */
-    public function getDataGridView();
+    public function getDataGridView(): DataGridViewInterface;
 }

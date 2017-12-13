@@ -15,42 +15,27 @@ use FSi\Component\DataGrid\Column\HeaderViewInterface;
 
 class Batch extends ColumnAbstractType
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function getId()
+    public function getId(): string
     {
         return 'batch';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function filterValue($value)
     {
         return $this->getIndex();
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getValue($object)
     {
         return null;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function buildCellView(CellViewInterface $view)
+    public function buildCellView(CellViewInterface $view): void
     {
         $view->setAttribute('datagrid_name', $this->getDataGrid()->getName());
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function buildHeaderView(HeaderViewInterface $view)
+    public function buildHeaderView(HeaderViewInterface $view): void
     {
         $view->setAttribute('datagrid_name', $this->getDataGrid()->getName());
     }

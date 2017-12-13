@@ -13,22 +13,16 @@ use FSi\Component\DataGrid\Column\ColumnAbstractType;
 
 class Number extends ColumnAbstractType
 {
-    const ROUND_HALF_UP = PHP_ROUND_HALF_UP;
-    const ROUND_HALF_DOWN = PHP_ROUND_HALF_DOWN;
-    const ROUND_HALF_EVEN = PHP_ROUND_HALF_EVEN;
-    const ROUND_HALF_ODD = PHP_ROUND_HALF_ODD;
+    public const ROUND_HALF_UP = PHP_ROUND_HALF_UP;
+    public const ROUND_HALF_DOWN = PHP_ROUND_HALF_DOWN;
+    public const ROUND_HALF_EVEN = PHP_ROUND_HALF_EVEN;
+    public const ROUND_HALF_ODD = PHP_ROUND_HALF_ODD;
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getId()
+    public function getId(): string
     {
         return 'number';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function filterValue($value)
     {
         $precision = (int) $this->getOption('precision');
@@ -56,10 +50,7 @@ class Number extends ColumnAbstractType
         return $value;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function initOptions()
+    public function initOptions(): void
     {
         $this->options = [
             'round_mode' => null,

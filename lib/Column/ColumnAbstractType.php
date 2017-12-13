@@ -9,11 +9,6 @@
 
 namespace FSi\Component\DataGrid\Column;
 
-use FSi\Component\DataGrid\Column\CellView;
-use FSi\Component\DataGrid\Column\ColumnTypeExtensionInterface;
-use FSi\Component\DataGrid\Column\ColumnTypeInterface;
-use FSi\Component\DataGrid\Column\HeaderView;
-use FSi\Component\DataGrid\Column\HeaderViewInterface;
 use FSi\Component\DataGrid\DataGridInterface;
 use FSi\Component\DataGrid\DataMapper\DataMapperInterface;
 use FSi\Component\DataGrid\Exception\DataGridColumnException;
@@ -24,14 +19,14 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 abstract class ColumnAbstractType implements ColumnTypeInterface
 {
     /**
-     * @var array
+     * @var ColumnTypeExtensionInterface[]
      */
     protected $extensions = [];
 
     /**
      * @var array
      */
-    protected $options;
+    protected $options = [];
 
     /**
      * @var string
@@ -39,113 +34,66 @@ abstract class ColumnAbstractType implements ColumnTypeInterface
     protected $name;
 
     /**
-     * @var string
+     * This property is used when creating column view.
+     * After ColumnView is created it is set to null.
+     *
+     * @var null|string
      */
     protected $index;
 
     /**
-     * @var \FSi\Component\DataGrid\DataMapper\DataMapperInterface
+     * @var DataMapperInterface
      */
     protected $dataMapper;
 
     /**
-     * @var \FSi\Component\DataGrid\DataGridInterface
+     * @var DataGridInterface
      */
     protected $dataGrid;
 
     /**
-     * @var \Symfony\Component\OptionsResolver\OptionsResolver
+     * @var OptionsResolver
      */
     private $optionsResolver;
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getName()
+    public function getName(): string
     {
-        if (!isset($this->name)) {
+        if (null === $this->name) {
             throw new DataGridColumnException('Use setName method to define column name in data grid');
         }
 
         return $this->name;
     }
 
-    /**
-     * Set column registered name.
-     *
-     * @param string $name
-     * @return \FSi\Component\DataGrid\Column\ColumnTypeInterface
-     */
-    public function setName($name)
+    public function setName(string $name): void
     {
-        $this->name = (string) $name;
-
-        return $this;
+        $this->name = $name;
     }
 
-    /**
-     * @param null|string $index
-     */
-    public function setIndex($index)
-    {
-        $this->index = $index;
-    }
-
-    /**
-     * This method should be used when creating column view.
-     * After ColumnView is created index is nulled.
-     *
-     * @return null|string
-     */
-    public function getIndex()
-    {
-        return $this->index;
-    }
-
-    /**
-     * {@inheritdoc}
-     */
-    public function setDataGrid(DataGridInterface $dataGrid)
+    public function setDataGrid(DataGridInterface $dataGrid): void
     {
         $this->dataGrid = $dataGrid;
-
-        foreach ($this->extensions as $extension) {
-            $extension->setDataGrid($this->dataGrid);
-        }
-
-        return $this;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getDataGrid()
+    public function getDataGrid(): DataGridInterface
     {
         return $this->dataGrid;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function setDataMapper(DataMapperInterface $dataMapper)
+    public function setDataMapper(DataMapperInterface $dataMapper): void
     {
         $this->dataMapper = $dataMapper;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getDataMapper()
+    public function getDataMapper(): DataMapperInterface
     {
-        if (!isset($this->dataMapper)) {
+        if (null === $this->dataMapper) {
             $this->setDataMapper($this->dataGrid->getDataMapper());
         }
+
         return $this->dataMapper;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getValue($object)
     {
         $values = [];
@@ -162,12 +110,10 @@ abstract class ColumnAbstractType implements ColumnTypeInterface
         return $values;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function createCellView($object, $index)
+    public function createCellView($object, $index): CellViewInterface
     {
         $this->setIndex($index);
+
         $view = new CellView($this->getName(), $this->getId());
         $view->setSource($object);
         $view->setAttribute('row', $index);
@@ -192,20 +138,15 @@ abstract class ColumnAbstractType implements ColumnTypeInterface
 
         $this->buildCellView($view);
         $this->setIndex(null);
+
         return $view;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function buildCellView(CellViewInterface $view)
+    public function buildCellView(CellViewInterface $view): void
     {
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function createHeaderView()
+    public function createHeaderView(): HeaderViewInterface
     {
         $view = new HeaderView($this->getName(), $this->getId());
 
@@ -218,17 +159,11 @@ abstract class ColumnAbstractType implements ColumnTypeInterface
         return $view;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function buildHeaderView(HeaderViewInterface $view)
+    public function buildHeaderView(HeaderViewInterface $view): void
     {
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function setOption($name, $value)
+    public function setOption(string $name, $value): void
     {
         $this->options = $this->getOptionsResolver()->resolve(array_merge(
             is_array($this->options)
@@ -236,29 +171,15 @@ abstract class ColumnAbstractType implements ColumnTypeInterface
                 : [],
             [$name => $value]
         ));
-
-        return $this;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function setOptions($options)
+    public function setOptions(array $options): void
     {
         $this->options = $this->getOptionsResolver()->resolve($options);
-
-        return $this;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getOption($name)
+    public function getOption(string $name)
     {
-        if (!isset($this->options)) {
-            $this->options = [];
-        }
-
         if (!array_key_exists($name, $this->options)) {
             throw new UnknownOptionException(sprintf('Option "%s" is not available in column type "%s".', $name, $this->getId()));
         }
@@ -266,28 +187,19 @@ abstract class ColumnAbstractType implements ColumnTypeInterface
         return $this->options[$name];
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function hasOption($name)
+    public function hasOption(string $name): bool
     {
         return array_key_exists($name, $this->options);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function bindData($data, $object, $index)
+    public function bindData($data, $object, $index): void
     {
         foreach ($this->extensions as $extension) {
             $extension->bindData($this, $data, $object, $index);
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function setExtensions(array $extensions)
+    public function setExtensions(array $extensions): void
     {
         foreach ($extensions as $extension) {
             if (!$extension instanceof ColumnTypeExtensionInterface) {
@@ -298,31 +210,17 @@ abstract class ColumnAbstractType implements ColumnTypeInterface
         $this->extensions = $extensions;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function addExtension(ColumnTypeExtensionInterface $extension)
+    public function addExtension(ColumnTypeExtensionInterface $extension): void
     {
-        if (!$extension instanceof ColumnTypeExtensionInterface) {
-            throw new UnexpectedTypeException('Column extension must implement FSi\Component\DataGrid\Column\ColumnTypeExtensionInterface');
-        }
-
         $this->extensions[] = $extension;
-        return $this;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getExtensions()
+    public function getExtensions(): array
     {
         return $this->extensions;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getOptionsResolver()
+    public function getOptionsResolver(): OptionsResolver
     {
         if (null === $this->optionsResolver) {
             $this->optionsResolver = new OptionsResolver();
@@ -331,10 +229,17 @@ abstract class ColumnAbstractType implements ColumnTypeInterface
         return $this->optionsResolver;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function initOptions()
+    public function initOptions(): void
     {
+    }
+
+    protected function setIndex(?string $index): void
+    {
+        $this->index = $index;
+    }
+
+    protected function getIndex(): ?string
+    {
+        return $this->index;
     }
 }

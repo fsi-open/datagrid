@@ -10,46 +10,52 @@
 namespace FSi\Component\DataGrid\DataMapper;
 
 use FSi\Component\DataGrid\Exception\DataMappingException;
+use InvalidArgumentException;
 
 class ChainMapper implements DataMapperInterface
 {
     /**
-     * @var array
+     * @var DataMapperInterface[]
      */
     protected $mappers = [];
 
     /**
-     * @param array $mappers
-     * @throws \InvalidArgumentException
+     * @param DataMapperInterface[] $mappers
+     * @throws InvalidArgumentException
      */
     public function __construct(array $mappers)
     {
         if (!count($mappers)) {
-            throw new \InvalidArgumentException('There must be at least one mapper in chain.');
+            throw new InvalidArgumentException('There must be at least one mapper in chain.');
         }
 
         foreach ($mappers as $mapper) {
             if (!$mapper instanceof DataMapperInterface) {
-                throw new \InvalidArgumentException('Mapper needs to implement FSi\Component\DataGrid\DataMapper\DataMapperInterface');
+                throw new InvalidArgumentException(
+                    sprintf('Mapper needs to implement "%s"', DataMapperInterface::class)
+                );
             }
+
             $this->mappers[] = $mapper;
         }
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
-    public function getData($field, $object)
+    public function getData(string $field, $object)
     {
         $data = null;
         $dataFound = false;
         $lastMsg = null;
+
         foreach ($this->mappers as $mapper) {
             try {
                 $data = $mapper->getData($field, $object);
             } catch (DataMappingException $e) {
                 $data = null;
                 $lastMsg = $e->getMessage();
+
                 continue;
             }
 
@@ -58,9 +64,10 @@ class ChainMapper implements DataMapperInterface
         }
 
         if (!$dataFound) {
-            if (!isset($lastMsg)) {
+            if (null === $lastMsg) {
                 $lastMsg = sprintf('Cant find any data that fit "%s" field.', $field);
             }
+
             throw new DataMappingException($lastMsg);
         }
 
@@ -68,9 +75,9 @@ class ChainMapper implements DataMapperInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
-    public function setData($field, $object, $value)
+    public function setData(string $field, $object, $value): void
     {
         $data = null;
         $dataChanged = false;
@@ -95,7 +102,5 @@ class ChainMapper implements DataMapperInterface
 
             throw new DataMappingException($lastMsg);
         }
-
-        return true;
     }
 }

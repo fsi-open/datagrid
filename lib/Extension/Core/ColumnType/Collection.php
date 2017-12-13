@@ -13,17 +13,11 @@ use FSi\Component\DataGrid\Column\ColumnAbstractType;
 
 class Collection extends ColumnAbstractType
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function getId()
+    public function getId(): string
     {
         return 'collection';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function filterValue($value)
     {
         $value = (array) $value;
@@ -38,10 +32,7 @@ class Collection extends ColumnAbstractType
         return $value;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function initOptions()
+    public function initOptions(): void
     {
         $this->getOptionsResolver()->setDefaults([
             'collection_glue' => ' '

@@ -26,9 +26,9 @@ class DataGridRowViewTest extends \PHPUnit_Framework_TestCase
 
         $column = $this->createMock(ColumnTypeInterface::class);
         $column->expects($this->atLeastOnce())
-                ->method('createCellView')
-                ->with($source, 0)
-                ->will($this->returnValue($cellView));
+            ->method('createCellView')
+            ->with($source, 0)
+            ->will($this->returnValue($cellView));
 
         $columns = [
             'foo' =>$column

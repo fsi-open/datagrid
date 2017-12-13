@@ -9,26 +9,23 @@
 
 namespace FSi\Component\DataGrid\DataMapper;
 
+use FSi\Component\DataGrid\Exception\DataMappingException;
+
 interface DataMapperInterface
 {
     /**
-     * Get data from object for specified column type.
-     *
      * @param string $field
      * @param mixed $object
-     * @return boolean - return false if can't get value from object
-     * @throws \FSi\Component\DataGrid\Exception\DataMappingException - thrown when mapper cant fit any object data into column
+     * @return mixed
+     * @throws DataMappingException
      */
-    public function getData($field, $object);
+    public function getData(string $field, $object);
 
     /**
-     * Sets data to object for specified column type.
-     *
      * @param string $field
      * @param mixed $object
      * @param mixed $value
-     * @return boolean - return true if value was correctly changed
-     * @throws \FSi\Component\DataGrid\Exception\DataMappingException - thrown when mapper cant fit any object data into column
+     * @throws DataMappingException
      */
-    public function setData($field, $object, $value);
+    public function setData(string $field, $object, $value): void;
 }

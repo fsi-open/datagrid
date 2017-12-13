@@ -16,9 +16,9 @@ use Symfony\Component\PropertyAccess\PropertyAccess;
 class PropertyAccessorMapper implements DataMapperInterface
 {
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
-    public function getData($field, $object)
+    public function getData(string $field, $object)
     {
         $accessor = PropertyAccess::createPropertyAccessor();
 
@@ -32,9 +32,9 @@ class PropertyAccessorMapper implements DataMapperInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
-    public function setData($field, $object, $value)
+    public function setData(string $field, $object, $value): void
     {
         $accessor = PropertyAccess::createPropertyAccessor();
 

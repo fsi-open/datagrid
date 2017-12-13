@@ -14,7 +14,7 @@ use FSi\Component\DataGrid\Tests\Fixtures\ColumnType;
 
 class FooExtension extends DataGridAbstractExtension
 {
-    protected function loadColumnTypes()
+    protected function loadColumnTypes(): array
     {
         return [
             new ColumnType\FooType(),

@@ -13,7 +13,7 @@ use FSi\Component\DataGrid\Column\ColumnAbstractType;
 
 class FooType extends ColumnAbstractType
 {
-    public function getId()
+    public function getId(): string
     {
         return 'foo';
     }

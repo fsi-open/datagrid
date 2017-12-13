@@ -16,10 +16,7 @@ use FSi\Component\DataGrid\Exception\DataGridException;
 
 class ValueFormatColumnOptionsExtension extends ColumnAbstractTypeExtension
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function buildCellView(ColumnTypeInterface $column, CellViewInterface $view)
+    public function buildCellView(ColumnTypeInterface $column, CellViewInterface $view): void
     {
         $value = [];
         $values = $view->getValue();
@@ -38,12 +35,12 @@ class ValueFormatColumnOptionsExtension extends ColumnAbstractTypeExtension
 
             if (isset($format)) {
                 if (isset($glue)) {
-                    $formatedValues = [];
+                    $formattedValues = [];
                     foreach ($val as $fieldValue) {
-                        $formatedValues[] = sprintf($format, $fieldValue);
+                        $formattedValues[] = sprintf($format, $fieldValue);
                     }
 
-                    $objectValue = implode($glue, $formatedValues);
+                    $objectValue = implode($glue, $formattedValues);
                 } else {
                     $objectValue = vsprintf($format, $val);
                 }
@@ -57,20 +54,14 @@ class ValueFormatColumnOptionsExtension extends ColumnAbstractTypeExtension
         $view->setValue($value);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-     public function getExtendedColumnTypes()
+     public function getExtendedColumnTypes(): array
      {
          return [
              'entity',
          ];
      }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function initOptions(ColumnTypeInterface $column)
+    public function initOptions(ColumnTypeInterface $column): void
     {
         $column->getOptionsResolver()->setDefaults([
             'glue_multiple' => ' ',
@@ -85,12 +76,7 @@ class ValueFormatColumnOptionsExtension extends ColumnAbstractTypeExtension
         $column->getOptionsResolver()->setAllowedTypes('empty_value', ['array', 'string', 'null']);
     }
 
-    /**
-     * @param mixed $values
-     * @param mixed $emptyValue
-     * @return array
-     */
-    private function populateValues($values, $emptyValue)
+    private function populateValues(array $values, $emptyValue): array
     {
         foreach ($values as &$val) {
             foreach ($val as $fieldKey => &$fieldValue) {
@@ -107,10 +93,10 @@ class ValueFormatColumnOptionsExtension extends ColumnAbstractTypeExtension
      * @param string $key
      * @param mixed $value
      * @param mixed $emptyValue
-     * @return string
+     * @return mixed
      * @throws \FSi\Component\DataGrid\Exception\DataGridException
      */
-    private function populateValue($key, $value, $emptyValue)
+    private function populateValue(string $key, $value, $emptyValue)
     {
         if (is_string($emptyValue)) {
             $value = $emptyValue;

@@ -9,40 +9,22 @@
 
 namespace FSi\Component\DataGrid;
 
+use FSi\Component\DataGrid\Column\ColumnTypeExtensionInterface;
+use FSi\Component\DataGrid\Column\ColumnTypeInterface;
+
 interface DataGridExtensionInterface
 {
-    /**
-     * Register event subscribers.
-     *
-     * @param \FSi\Component\DataGrid\DataGridInterface\DataGridInterface $dataGrid
-     */
-    public function registerSubscribers(DataGridInterface $dataGrid);
+    public function registerSubscribers(DataGridInterface $dataGrid): void;
+
+    public function hasColumnType(string $type): bool;
+
+    public function getColumnType(string $type): ColumnTypeInterface;
+
+    public function hasColumnTypeExtensions(string $type): bool;
 
     /**
-     * Check if extension has column type of $type.
-     *
      * @param string $type
+     * @return ColumnTypeExtensionInterface[]
      */
-    public function hasColumnType($type);
-
-    /**
-     * Get column type.
-     *
-     * @param string $type
-     */
-    public function getColumnType($type);
-
-    /**
-     * Check if extension has any column type extension for column of $type.
-     *
-     * @param string $type
-     */
-    public function hasColumnTypeExtensions($type);
-
-    /**
-     * Return extensions for column type provided by this data grid extension.
-     *
-     * @param string $type
-     */
-    public function getColumnTypeExtensions($type);
+    public function getColumnTypeExtensions(string $type): array;
 }

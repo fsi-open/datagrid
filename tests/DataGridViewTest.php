@@ -17,12 +17,12 @@ use FSi\Component\DataGrid\Column\ColumnTypeInterface;
 class DataGridViewTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \FSi\Component\DataGrid\Data\DataRowsetInterface
+     * @var DataRowsetInterface
      */
     private $rowset;
 
     /**
-     * @var \FSi\Component\DataGrid\DataGridView
+     * @var DataGridView
      */
     private $gridView;
 
@@ -69,7 +69,7 @@ class DataGridViewTest extends \PHPUnit_Framework_TestCase
 
         $this->assertTrue($this->gridView->hasColumn('foo'));
         $this->assertTrue($this->gridView->hasColumnType('foo-type'));
-        $this->assertSame(1, count($this->gridView->getColumns()));
+        $this->assertCount(1, $this->gridView->getColumns());
         $this->assertSame($this->gridView->getColumn('foo')->getName(), 'ColumnHeaderView');
         $this->gridView->removeColumn('foo');
         $this->assertFalse($this->gridView->hasColumn('foo'));

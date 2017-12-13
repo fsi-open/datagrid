@@ -16,7 +16,7 @@ use Symfony\Component\EventDispatcher\Event;
 class DataGridEvent extends Event implements DataGridEventInterface
 {
     /**
-     * @var FSi\Component\DataGrid\DataGridInterface
+     * @var DataGridInterface
      */
     protected $dataGrid;
 
@@ -25,36 +25,23 @@ class DataGridEvent extends Event implements DataGridEventInterface
      */
     protected $data;
 
-    /**
-     * @param \FSi\Component\DataGrid\DataGridInterface $dataGrid
-     * @param mixed $data
-     */
     public function __construct(DataGridInterface $dataGrid, $data)
     {
         $this->dataGrid = $dataGrid;
         $this->data = $data;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getDataGrid()
+    public function getDataGrid(): DataGridInterface
     {
         return $this->dataGrid;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getData()
     {
         return $this->data;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function setData($data)
+    public function setData($data): void
     {
         $this->data = $data;
     }

@@ -13,6 +13,7 @@ use FSi\Component\DataGrid\Extension\Core\ColumnTypeExtension\ValueFormatColumnO
 use FSi\Component\DataGrid\Extension\Core\ColumnType\Text;
 use FSi\Component\DataGrid\Column\ColumnTypeInterface;
 use FSi\Component\DataGrid\Column\CellViewInterface;
+use InvalidArgumentException;
 
 class ValueFormatColumnOptionsExtensionTest extends \PHPUnit_Framework_TestCase
 {
@@ -120,9 +121,6 @@ class ValueFormatColumnOptionsExtensionTest extends \PHPUnit_Framework_TestCase
         $extension->buildCellView($column, $view);
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function test_build_cell_view_without_format_and_glue_with_value_array()
     {
         $extension = new ValueFormatColumnOptionsExtension();
@@ -132,24 +130,25 @@ class ValueFormatColumnOptionsExtensionTest extends \PHPUnit_Framework_TestCase
         $column->expects($this->any())
             ->method('getOption')
             ->will($this->returnCallback(function($option) {
-            switch($option) {
-                case 'value_format':
-                case 'value_glue':
-                    return null;
-                    break;
-                case 'empty_value':
-                    return '';
-                    break;
-                case 'field_mapping':
-                    return [];
-                    break;
-            }
-        }));
+                switch($option) {
+                    case 'value_format':
+                    case 'value_glue':
+                        return null;
+                        break;
+                    case 'empty_value':
+                        return '';
+                        break;
+                    case 'field_mapping':
+                        return [];
+                        break;
+                }
+            }));
 
         $view->expects($this->at(0))
             ->method('getValue')
             ->will($this->returnValue(['foo', 'bar']));
 
+        $this->expectException(InvalidArgumentException::class);
         $extension->buildCellView($column, $view);
     }
 
@@ -162,19 +161,19 @@ class ValueFormatColumnOptionsExtensionTest extends \PHPUnit_Framework_TestCase
         $column->expects($this->any())
             ->method('getOption')
             ->will($this->returnCallback(function($option) {
-            switch($option) {
-                case 'value_format':
-                    return '<b>%s</b>';
-                    break;
-                case 'value_glue':
-                case 'empty_value':
-                    return '';
-                    break;
-                case 'field_mapping':
-                    return [];
-                    break;
-            }
-        }));
+                switch($option) {
+                    case 'value_format':
+                        return '<b>%s</b>';
+                        break;
+                    case 'value_glue':
+                    case 'empty_value':
+                        return '';
+                        break;
+                    case 'field_mapping':
+                        return [];
+                        break;
+                }
+            }));
 
         $view->expects($this->at(0))
             ->method('getValue')
@@ -196,21 +195,21 @@ class ValueFormatColumnOptionsExtensionTest extends \PHPUnit_Framework_TestCase
         $column->expects($this->any())
             ->method('getOption')
             ->will($this->returnCallback(function($option) {
-            switch($option) {
-                case 'value_format':
-                    return '<b>%s</b><br/><b>%s</b>';
-                    break;
-                case 'value_glue':
-                    return null;
-                    break;
-                case 'empty_value':
-                    return '';
-                    break;
-                case 'field_mapping':
-                    return [];
-                    break;
-            }
-        }));
+                switch($option) {
+                    case 'value_format':
+                        return '<b>%s</b><br/><b>%s</b>';
+                        break;
+                    case 'value_glue':
+                        return null;
+                        break;
+                    case 'empty_value':
+                        return '';
+                        break;
+                    case 'field_mapping':
+                        return [];
+                        break;
+                }
+            }));
 
         $view->expects($this->at(0))
             ->method('getValue')
@@ -235,21 +234,21 @@ class ValueFormatColumnOptionsExtensionTest extends \PHPUnit_Framework_TestCase
         $column->expects($this->any())
             ->method('getOption')
             ->will($this->returnCallback(function($option) {
-            switch($option) {
-                case 'value_format':
-                    return '%s%s';
-                    break;
-                case 'value_glue':
-                    return null;
-                    break;
-                case 'empty_value':
-                    return '';
-                    break;
-                case 'field_mapping':
-                    return [];
-                    break;
-            }
-        }));
+                switch($option) {
+                    case 'value_format':
+                        return '%s%s';
+                        break;
+                    case 'value_glue':
+                        return null;
+                        break;
+                    case 'empty_value':
+                        return '';
+                        break;
+                    case 'field_mapping':
+                        return [];
+                        break;
+                }
+            }));
 
         $view->expects($this->at(0))
             ->method('getValue')
@@ -267,21 +266,21 @@ class ValueFormatColumnOptionsExtensionTest extends \PHPUnit_Framework_TestCase
         $column->expects($this->any())
             ->method('getOption')
             ->will($this->returnCallback(function($option) {
-            switch($option) {
-                case 'value_format':
-                    return '<b>%s</b>';
-                    break;
-                case 'value_glue':
-                    return null;
-                    break;
-                case 'empty_value':
-                    return '';
-                    break;
-                case 'field_mapping':
-                    return [];
-                    break;
-            }
-        }));
+                switch($option) {
+                    case 'value_format':
+                        return '<b>%s</b>';
+                        break;
+                    case 'value_glue':
+                        return null;
+                        break;
+                    case 'empty_value':
+                        return '';
+                        break;
+                    case 'field_mapping':
+                        return [];
+                        break;
+                }
+            }));
 
         $view->expects($this->at(0))
             ->method('getValue')
@@ -303,20 +302,20 @@ class ValueFormatColumnOptionsExtensionTest extends \PHPUnit_Framework_TestCase
         $column->expects($this->any())
             ->method('getOption')
             ->will($this->returnCallback(function($option) {
-            switch($option) {
-                case 'value_format':
-                    return '';
-                    break;
-                case 'value_glue':
-                    break;
-                case 'empty_value':
-                    return '';
-                    break;
-                case 'field_mapping':
-                    return [];
-                    break;
-            }
-        }));
+                switch($option) {
+                    case 'value_format':
+                        return '';
+                        break;
+                    case 'value_glue':
+                        break;
+                    case 'empty_value':
+                        return '';
+                        break;
+                    case 'field_mapping':
+                        return [];
+                        break;
+                }
+            }));
 
         $view->expects($this->at(0))
             ->method('getValue')
@@ -338,21 +337,21 @@ class ValueFormatColumnOptionsExtensionTest extends \PHPUnit_Framework_TestCase
         $column->expects($this->any())
             ->method('getOption')
             ->will($this->returnCallback(function($option) {
-            switch($option) {
-                case 'value_format':
-                    return null;
-                    break;
-                case 'value_glue':
-                    return ' ';
-                    break;
-                case 'empty_value':
-                    return '';
-                    break;
-                case 'field_mapping':
-                    return [];
-                    break;
-            }
-        }));
+                switch($option) {
+                    case 'value_format':
+                        return null;
+                        break;
+                    case 'value_glue':
+                        return ' ';
+                        break;
+                    case 'empty_value':
+                        return '';
+                        break;
+                    case 'field_mapping':
+                        return [];
+                        break;
+                }
+            }));
 
         $view->expects($this->at(0))
             ->method('getValue')
@@ -374,19 +373,19 @@ class ValueFormatColumnOptionsExtensionTest extends \PHPUnit_Framework_TestCase
         $column->expects($this->any())
             ->method('getOption')
             ->will($this->returnCallback(function($option) {
-            switch($option) {
-                case 'value_format':
-                case 'value_glue':
-                    return null;
-                    break;
-                case 'empty_value':
-                    return 'empty';
-                    break;
-                case 'field_mapping':
-                    return [];
-                    break;
-            }
-        }));
+                switch($option) {
+                    case 'value_format':
+                    case 'value_glue':
+                        return null;
+                        break;
+                    case 'empty_value':
+                        return 'empty';
+                        break;
+                    case 'field_mapping':
+                        return [];
+                        break;
+                }
+            }));
 
         $view->expects($this->at(0))
             ->method('getValue')
@@ -408,30 +407,29 @@ class ValueFormatColumnOptionsExtensionTest extends \PHPUnit_Framework_TestCase
         $column->expects($this->any())
             ->method('getOption')
             ->will($this->returnCallback(function($option) {
-            switch($option) {
-                case 'value_format':
-                    return null;
-                    break;
-                case 'value_glue':
-                    return ' ';
-                    break;
-                case 'empty_value':
-                    return 'empty';
-                    break;
-                case 'field_mapping':
-                    return [];
-                    break;
-            }
-        }));
+                switch($option) {
+                    case 'value_format':
+                        return null;
+                        break;
+                    case 'value_glue':
+                        return ' ';
+                        break;
+                    case 'empty_value':
+                        return 'empty';
+                        break;
+                    case 'field_mapping':
+                        return [];
+                        break;
+                }
+            }));
 
         $view->expects($this->at(0))
             ->method('getValue')
             ->will($this->returnValue([
-                    'val',
-                    '',
-                    null,
-                ]
-            ));
+                'val',
+                '',
+                null,
+            ]));
 
         $view->expects($this->at(1))
             ->method('setValue')
@@ -449,22 +447,22 @@ class ValueFormatColumnOptionsExtensionTest extends \PHPUnit_Framework_TestCase
         $column->expects($this->any())
             ->method('getOption')
             ->will($this->returnCallback(function($option) {
-            switch($option) {
-                case 'value_format':
-                case 'value_glue':
-                    return null;
-                    break;
-                case 'empty_value':
-                    return [
-                        'fo' => 'foo',
-                        'ba' => 'bar'
-                    ];
-                    break;
-                case 'field_mapping':
-                    return ['fo', 'ba'];
-                    break;
-            }
-        }));
+                switch($option) {
+                    case 'value_format':
+                    case 'value_glue':
+                        return null;
+                        break;
+                    case 'empty_value':
+                        return [
+                            'fo' => 'foo',
+                            'ba' => 'bar'
+                        ];
+                        break;
+                    case 'field_mapping':
+                        return ['fo', 'ba'];
+                        break;
+                }
+            }));
 
         $view->expects($this->at(0))
             ->method('getValue')
@@ -477,9 +475,6 @@ class ValueFormatColumnOptionsExtensionTest extends \PHPUnit_Framework_TestCase
         $extension->buildCellView($column, $view);
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function test_build_cell_view_with_empty_value_that_not_exists_in_mapping_fields()
     {
         $extension = new ValueFormatColumnOptionsExtension();
@@ -489,22 +484,23 @@ class ValueFormatColumnOptionsExtensionTest extends \PHPUnit_Framework_TestCase
         $column->expects($this->any())
             ->method('getOption')
             ->will($this->returnCallback(function($option) {
-            switch($option) {
-                case 'value_format':
-                case 'value_glue':
-                    return null;
-                    break;
-                case 'empty_value':
-                    return [
-                        'fo' => 'empty',
-                    ];
-                    break;
-                case 'field_mapping':
-                    return ['fos'];
-                    break;
-            }
-        }));
+                switch($option) {
+                    case 'value_format':
+                    case 'value_glue':
+                        return null;
+                        break;
+                    case 'empty_value':
+                        return [
+                            'fo' => 'empty',
+                        ];
+                        break;
+                    case 'field_mapping':
+                        return ['fos'];
+                        break;
+                }
+            }));
 
+        $this->expectException(InvalidArgumentException::class);
         $extension->buildCellView($column, $view);
     }
 
@@ -517,33 +513,32 @@ class ValueFormatColumnOptionsExtensionTest extends \PHPUnit_Framework_TestCase
         $column->expects($this->any())
             ->method('getOption')
             ->will($this->returnCallback(function($option) {
-            switch($option) {
-                case 'value_format':
-                    return '"%s" "%s" "%s"';
-                    break;
-                case 'value_glue':
-                    return null;
-                    break;
-                case 'empty_value':
-                    return [
-                        'fo' => 'empty-fo',
-                        'ba' => 'empty-bar'
-                    ];
-                    break;
-                case 'field_mapping':
-                    return ['fo', 'ba', 'ca'];
-                    break;
-            }
-        }));
+                switch($option) {
+                    case 'value_format':
+                        return '"%s" "%s" "%s"';
+                        break;
+                    case 'value_glue':
+                        return null;
+                        break;
+                    case 'empty_value':
+                        return [
+                            'fo' => 'empty-fo',
+                            'ba' => 'empty-bar'
+                        ];
+                        break;
+                    case 'field_mapping':
+                        return ['fo', 'ba', 'ca'];
+                        break;
+                }
+            }));
 
         $view->expects($this->at(0))
             ->method('getValue')
             ->will($this->returnValue([
-                    'fo' => '',
-                    'ba' => '',
-                    'ca' => null,
-                ]
-            ));
+                'fo' => '',
+                'ba' => '',
+                'ca' => null,
+            ]));
 
         $view->expects($this->at(1))
             ->method('setValue')

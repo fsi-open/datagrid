@@ -10,27 +10,21 @@
 namespace FSi\Component\DataGrid\Extension\Core\ColumnTypeExtension;
 
 use FSi\Component\DataGrid\Column\ColumnTypeInterface;
-use FSi\Component\DataGrid\Column\CellViewInterface;
 use FSi\Component\DataGrid\Column\HeaderViewInterface;
 use FSi\Component\DataGrid\Column\ColumnAbstractTypeExtension;
 
 class DefaultColumnOptionsExtension extends ColumnAbstractTypeExtension
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function buildHeaderView(ColumnTypeInterface $column, HeaderViewInterface $view)
+    public function buildHeaderView(ColumnTypeInterface $column, HeaderViewInterface $view): void
     {
         $view->setLabel($column->getOption('label'));
-        if (!is_null($order = $column->getOption('display_order'))) {
+        $order = $column->getOption('display_order');
+        if (null !== $order) {
             $view->setAttribute('display_order', $order);
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getExtendedColumnTypes()
+    public function getExtendedColumnTypes(): array
     {
         return [
             'batch',
@@ -46,10 +40,7 @@ class DefaultColumnOptionsExtension extends ColumnAbstractTypeExtension
         ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function initOptions(ColumnTypeInterface $column)
+    public function initOptions(ColumnTypeInterface $column): void
     {
         $column->getOptionsResolver()->setDefaults([
             'label' => $column->getName(),

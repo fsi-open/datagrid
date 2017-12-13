@@ -9,13 +9,13 @@
 
 namespace FSi\Component\DataGrid\Tests\Extension\Doctrine\ColumntypeExtension;
 
+use FSi\Component\DataGrid\Exception\DataGridException;
 use FSi\Component\DataGrid\Extension\Doctrine\ColumnTypeExtension\ValueFormatColumnOptionsExtension;
 use FSi\Component\DataGrid\Column\ColumnTypeInterface;
 use FSi\Component\DataGrid\Column\CellViewInterface;
 
 class ValueFormatColumnOptionsExtensionTest extends \PHPUnit_Framework_TestCase
 {
-
     public function testBuildCellViewWithGlueAndEmptyValueAsStringAndWithoutOneValue()
     {
         $extension = new ValueFormatColumnOptionsExtension();
@@ -210,9 +210,6 @@ class ValueFormatColumnOptionsExtensionTest extends \PHPUnit_Framework_TestCase
         $extension->buildCellView($column, $view);
     }
 
-    /**
-     * @expectedException \FSi\Component\DataGrid\Exception\DataGridException
-     */
     public function testBuildCellViewWithGlueAndEmptyValueAsArrayAndNotFoundKeyInEmptyValue()
     {
         $extension = new ValueFormatColumnOptionsExtension();
@@ -233,6 +230,7 @@ class ValueFormatColumnOptionsExtensionTest extends \PHPUnit_Framework_TestCase
             ->with('empty_value')
             ->will($this->returnValue(['id2' => 'no','name' => 'no']));
 
+        $this->expectException(DataGridException::class);
         $extension->buildCellView($column, $view);
     }
 
@@ -300,9 +298,6 @@ class ValueFormatColumnOptionsExtensionTest extends \PHPUnit_Framework_TestCase
         $extension->buildCellView($column, $view);
     }
 
-    /**
-     * @expectedException \PHPUnit_Framework_Error
-     */
     public function testBuildCellViewWithFormatAndGlueWithToManyPlaceholders()
     {
         $extension = new ValueFormatColumnOptionsExtension();
@@ -328,6 +323,7 @@ class ValueFormatColumnOptionsExtensionTest extends \PHPUnit_Framework_TestCase
             ->with('value_format')
             ->will($this->returnValue('(%s) (%s)'));
 
+        $this->expectException(\PHPUnit_Framework_Error::class);
         $extension->buildCellView($column, $view);
     }
 

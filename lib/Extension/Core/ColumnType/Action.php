@@ -20,7 +20,6 @@ class Action extends ColumnAbstractType
      */
     protected $actionOptionsDefault = [
         'protocol' => 'http://',
-        'protocole' => 'http://'
     ];
 
     /**
@@ -29,7 +28,6 @@ class Action extends ColumnAbstractType
     protected $actionOptionsAvailable = [
         'uri_scheme',
         'anchor',
-        'protocole',
         'protocol',
         'domain',
         'name',
@@ -45,7 +43,7 @@ class Action extends ColumnAbstractType
     ];
 
     /**
-     * @var \Symfony\Component\OptionsResolver\OptionsResolver
+     * @var OptionsResolver
      */
     protected $actionOptionsResolver;
 
@@ -54,17 +52,11 @@ class Action extends ColumnAbstractType
         $this->actionOptionsResolver = new OptionsResolver();
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getId()
+    public function getId(): string
     {
         return 'action';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function filterValue($value)
     {
         $return = [];
@@ -92,10 +84,7 @@ class Action extends ColumnAbstractType
         return $return;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function initOptions()
+    public function initOptions(): void
     {
         $this->getOptionsResolver()->setDefaults([
             'actions' => [],
@@ -106,7 +95,6 @@ class Action extends ColumnAbstractType
         $this->actionOptionsResolver->setDefaults([
             'redirect_uri' => null,
             'domain' => null,
-            'protocole' => 'http://',
             'protocol' => 'http://'
         ]);
 
@@ -116,23 +104,10 @@ class Action extends ColumnAbstractType
 
         $this->actionOptionsResolver->setAllowedTypes('redirect_uri', ['string', 'null']);
         $this->actionOptionsResolver->setAllowedTypes('uri_scheme', 'string');
-
         $this->actionOptionsResolver->setAllowedValues('protocol', ['http://', 'https://']);
-
-        $this->actionOptionsResolver->setDefaults([
-            'protocol' => function (Options $options, $value) {
-                if (isset($options['protocole'])) {
-                    $value = $options['protocole'];
-                }
-                return $value;
-            }
-        ]);
     }
 
-    /**
-     * @return \Symfony\Component\OptionsResolver\OptionsResolver
-     */
-    public function getActionOptionsResolver()
+    public function getActionOptionsResolver(): OptionsResolver
     {
         return $this->actionOptionsResolver;
     }

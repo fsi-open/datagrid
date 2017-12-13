@@ -9,73 +9,31 @@
 
 namespace FSi\Component\DataGrid;
 
-use FSi\Component\DataGrid\Data\DataRowsetInterface;
-use FSi\Component\DataGrid\Column\ColumnTypeInterface;
 use FSi\Component\DataGrid\Column\HeaderViewInterface;
 
 interface DataGridViewInterface extends \Iterator, \Countable, \ArrayAccess
 {
-    /**
-     * Returns datagrid name.
-     *
-     * @return string
-     */
-    public function getName();
+    public function getName(): string;
+
+    public function hasColumn(string $name): bool;
+
+    public function hasColumnType(string $type): bool;
+
+    public function removeColumn(string $name): void;
+
+    public function getColumn(string $name): HeaderViewInterface;
 
     /**
-     * Check if column is registered in view.
-     *
-     * @param string $name
-     * @return boolean
+     * @return HeaderViewInterface[]
      */
-    public function hasColumn($name);
+    public function getColumns(): array;
+
+    public function clearColumns(): void;
+
+    public function addColumn(HeaderViewInterface $column): void;
 
     /**
-     * Checks if column with specific type was added to grid.
-     *
-     * @param string $type
-     * @return boolean
+     * @param HeaderViewInterface[] $columns
      */
-    public function hasColumnType($type);
-
-    /**
-     * Removes column from view.
-     *
-     * @param string $name
-     */
-    public function removeColumn($name);
-
-    /**
-     * Get column.
-     *
-     * @throws \InvalidArgumentException
-     * @param string $name
-     */
-    public function getColumn($name);
-
-    /**
-     * Return all columns registered in view.
-     *
-     * @return array
-     */
-    public function getColumns();
-
-    /**
-     * Remove all columns from view.
-     */
-    public function clearColumns();
-
-    /**
-     * Add new column to view.
-     *
-     * @param \FSi\Component\DataGrid\Column\HeaderViewInterface $column
-     */
-    public function addColumn(HeaderViewInterface $column);
-
-    /**
-     * Set new column list set to view.
-     *
-     * @param array $columns
-     */
-    public function setColumns(array $columns);
+    public function setColumns(array $columns): void;
 }

@@ -16,7 +16,7 @@ use FSi\Component\DataGrid\Exception\DataGridColumnException;
 class DateTimeTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \FSi\Component\DataGrid\Extension\Core\ColumnType\Action
+     * @var DateTime
      */
     private $column;
 
@@ -182,9 +182,6 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase
         $this->column->filterValue($brokenValue);
     }
 
-    /**
-     * @expectedException \FSi\Component\DataGrid\Exception\DataGridColumnException
-     */
     public function testMappingFieldsOptionInputStringMissingMappingFieldsFormat()
     {
         $dateTimeObject = new \DateTime('2012-05-03 12:41:11');
@@ -194,12 +191,10 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase
 
         $this->column->setOption('input_type', 'string');
 
+        $this->expectException(DataGridColumnException::class);
         $this->column->filterValue($value);
     }
 
-    /**
-     * @expectedException \FSi\Component\DataGrid\Exception\DataGridColumnException
-     */
     public function testMappingFieldsOptionInputString()
     {
         $dateTimeObject = new \DateTime('2012-05-03 12:41:11');
@@ -224,12 +219,10 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase
             ]
         );
 
+        $this->expectException(DataGridColumnException::class);
         $this->column->filterValue($brokenValue);
     }
 
-    /**
-     * @expectedException \FSi\Component\DataGrid\Exception\DataGridColumnException
-     */
     public function testMappingFieldsOptionInputArrayMissingMappingFieldsFormat()
     {
         $dateTimeObject = new \DateTime('2012-05-03 12:41:11');
@@ -241,6 +234,7 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase
         ];
 
         $this->column->setOption('input_type', 'array');
+        $this->expectException(DataGridColumnException::class);
         $this->column->filterValue($value);
     }
 
@@ -260,13 +254,10 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase
 
         $this->column->setOption('input_type', 'array');
 
-        $this->setExpectedException(DataGridColumnException::class);
+        $this->expectException(DataGridColumnException::class);
         $this->column->filterValue($value);
     }
 
-    /**
-     * @expectedException \FSi\Component\DataGrid\Exception\DataGridColumnException
-     */
     public function testMappingFieldsOptionInputArrayWrongMappingFieldsFormat()
     {
         $dateTimeObject = new \DateTime('2012-05-03 12:41:11');
@@ -284,6 +275,7 @@ class DateTimeTest extends \PHPUnit_Framework_TestCase
             ]
         ]);
 
+        $this->expectException(DataGridColumnException::class);
         $this->column->filterValue($value);
     }
 

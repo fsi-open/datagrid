@@ -9,157 +9,61 @@
 
 namespace FSi\Component\DataGrid\Column;
 
-use Symfony\Component\OptionsResolver\OptionsResolver;
 use FSi\Component\DataGrid\DataGridInterface;
-use FSi\Component\DataGrid\Column\CellViewInterface;
-use FSi\Component\DataGrid\Column\HeaderViewInterface;
 use FSi\Component\DataGrid\DataMapper\DataMapperInterface;
-use FSi\Component\DataGrid\Column\ColumnTypeExtensionInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 interface ColumnTypeInterface
 {
-    /**
-     * Get column type identity.
-     *
-     * @return string
-     */
-    public function getId();
+    public function getId(): string;
 
-    /**
-     * Get name under column is registered in data grid.
-     *
-     * @return string
-     */
-    public function getName();
+    public function getName(): string;
 
-    /**
-     * @param \FSi\Component\DataGrid\DataGridInterface $dataGrid
-     * @return \FSi\Component\DataGrid\Column\ColumnTypeInterface
-     */
-    public function setDataGrid(DataGridInterface $dataGrid);
+    public function setName(string $name): void;
 
-    /**
-     * @return \FSi\Component\DataGrid\DataGridInterface $dataGrid
-     */
-    public function getDataGrid();
+    public function setDataGrid(DataGridInterface $dataGrid): void;
 
-    /**
-     * @param \FSi\Component\DataGrid\DataMapper\DataMapperInterface $dataMapper
-     * @return \FSi\Component\DataGrid\Column\ColumnTypeInterface
-     */
-    public function setDataMapper(DataMapperInterface $dataMapper);
+    public function getDataGrid(): DataGridInterface;
 
-    /**
-     * Return DataMapper.
-     *
-     * @return \FSi\Component\DataGrid\DataMapper\DataMapperInterface
-     */
-    public function getDataMapper();
+    public function setDataMapper(DataMapperInterface $dataMapper): void;
 
-    /**
-     * Filter value before passing it to view.
-     *
-     * @param mixed $value
-     */
+    public function getDataMapper(): DataMapperInterface;
+
     public function filterValue($value);
 
-    /**
-     * Get value from object using DataMapper
-     *
-     * @param mixed $value
-     */
     public function getValue($object);
 
-    /**
-     * Create CellView object set source value on it.
-     *
-     * @param mixed  $object
-     * @param string $index
-     * @return \FSi\Component\DataGrid\Column\CellViewInterface
-     * @throws \FSi\Component\DataGrid\Exception\UnexpectedTypeException
-     */
-    public function createCellView($object, $index);
+    public function createCellView($object, $index): CellViewInterface;
+
+    public function buildCellView(CellViewInterface $view): void;
+
+    public function createHeaderView(): HeaderViewInterface;
+
+    public function buildHeaderView(HeaderViewInterface $view): void;
+
+    public function bindData($data, $object, $index): void;
+
+    public function initOptions(): void;
+
+    public function setOption(string $name, $value): void;
+
+    public function setOptions(array $options): void;
+
+    public function getOption(string $name);
+
+    public function hasOption(string $name): bool;
 
     /**
-     * @param \FSi\Component\DataGrid\Column\CellViewInterface $view
+     * @param ColumnTypeExtensionInterface[] $extensions
      */
-    public function buildCellView(CellViewInterface $view);
+    public function setExtensions(array $extensions): void;
+
+    public function addExtension(ColumnTypeExtensionInterface $extension): void;
 
     /**
-     * Create HeaderView object for column.
-     *
-     * @return \FSi\Component\DataGrid\Column\HeaderViewInterface
+     * @return ColumnTypeExtensionInterface[]
      */
-    public function createHeaderView();
+    public function getExtensions(): array;
 
-    /**
-     * @param \FSi\Component\DataGrid\Column\HeaderViewInterface $view
-     */
-    public function buildHeaderView(HeaderViewInterface $view);
-
-    /**
-     * Binds data into object using DataMapper object.
-     *
-     * @param mixed $data
-     * @param mixed $object
-     * @param mixed $index
-     */
-    public function bindData($data, $object, $index);
-
-    /**
-     * Sets the default options for this type.
-     * To access OptionsResolver use $this->getOptionsResolver()
-     * initOptions is called in DataGrid after loading the column type
-     * from DataGridFactory.
-     */
-    public function initOptions();
-
-    /**
-     * @param string $name
-     * @param mixed $value
-     * @return \FSi\Component\DataGrid\Column\ColumnTypeInterface
-     */
-    public function setOption($name, $value);
-
-    /**
-     * @param array $options
-     * @return \FSi\Component\DataGrid\Column\ColumnTypeInterface
-     */
-    public function setOptions($options);
-
-    /**
-     * @param string $name
-     * @return mixed
-     */
-    public function getOption($name);
-
-    /**
-     * @param string $name
-     * @return boolean
-     */
-    public function hasOption($name);
-
-    /**
-     * @param array $extensions
-     * @return mixed
-     */
-    public function setExtensions(array $extensions);
-
-    /**
-     * @param \FSi\Component\DataGrid\Column\ColumnTypeExtensionInterface $extension
-     * @return \FSi\Component\DataGrid\Column\ColumnTypeExtensionInterface
-     */
-    public function addExtension(ColumnTypeExtensionInterface $extension);
-
-    /**
-     * @return array
-     */
-    public function getExtensions();
-
-    /**
-     * Returns the configured options resolver used for this type.
-     *
-     * @return \Symfony\Component\OptionsResolver\OptionsResolver The options resolver.
-     */
-    public function getOptionsResolver();
+    public function getOptionsResolver(): OptionsResolver;
 }

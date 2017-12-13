@@ -14,7 +14,7 @@ use FSi\Component\DataGrid\Extension\Core\ColumnType\Boolean;
 class BooleanTest extends \PHPUnit_Framework_TestCase
 {
     /**
-     * @var \FSi\Component\DataGrid\Extension\Core\ColumnType\Boolean
+     * @var Boolean
      */
     private $column;
 
