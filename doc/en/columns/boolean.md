@@ -13,8 +13,8 @@ Provided by ``DataGrid\Extension\Core\CoreExtension``
 * ``true_value`` - what should be stetted as cell view value if mapping_fields give true values.
 * ``false_value`` - what should be stetted as cell view value if mapping_fields give false values.
 * ``editable`` - **required**, boolean, by default ``false``
-* ``form_options`` - array, by default ``array()``
-* ``form_type`` - array, by default ``array()``
+* ``form_options`` - array, by default ``[]``
+* ``form_type`` - array, by default ``[]``
 
 ## Options Description ##
 
@@ -55,18 +55,18 @@ To do it you just need set ``empty_value`` as array where keys are ``mapping_fie
 //Input Data1: Object ('available' => false)
 //Input Data1: Object ('available' => true)
 //Input Data3: Object ('available' => null)
-$datagrid->addColumn('available', 'boolean', array(
+$datagrid->addColumn('available', 'boolean', [
     'editable' => false,
     'true_value' => '<i class="icon-ok"></i>',
     'false_value' => '<i class="icon-off"></i>',
-    'form_options' => array(
-        'available' => array(
+    'form_options' => [
+        'available' => [
             'required' => false
-        )
-    )
-    'form_type' => array(
+        ]
+    ]
+    'form_type' => [
         'available' => 'checkbox'
-    )
+    ]
 ));
 //Output1: "<i class="icon-off"></i>"
 //Output2: "<i class="icon-ok"></i>'"
@@ -75,19 +75,19 @@ $datagrid->addColumn('available', 'boolean', array(
 //Input Data1: Object ('accessible' => true, 'visible' => true)
 //Input Data2: Object ('accessible' => true, 'visible' => false)
 //Input Data3: Object ('accessible' => false, 'visible' => false)
-$datagrid->addColumn('available', 'boolean', array(
-    'field_mapping' => array('accessible', 'visible')
+$datagrid->addColumn('available', 'boolean', [
+    'field_mapping' => ['accessible', 'visible']
     'editable' => false,
     'true_value' => '<i class="icon-ok"></i>',
     'false_value' => '<i class="icon-off"></i>',
-    'form_options' => array(
-        'available' => array(
+    'form_options' => [
+        'available' => [
             'required' => false
-        )
-    ),
-    'form_type' => array(
+        ]
+    ],
+    'form_type' => [
         'available' => 'checkbox'
-    )
+    ]
 ));
 //Output1: "<i class="icon-ok"></i>'"
 //Output2: "<i class="icon-off"></i>"

@@ -16,33 +16,6 @@ use Symfony\Component\OptionsResolver\Options;
 class Action extends ColumnAbstractType
 {
     /**
-     * @var array
-     */
-    protected $actionOptionsDefault = [
-        'protocol' => 'http://',
-    ];
-
-    /**
-     * @var array
-     */
-    protected $actionOptionsAvailable = [
-        'uri_scheme',
-        'anchor',
-        'protocol',
-        'domain',
-        'name',
-        'redirect_uri',
-    ];
-
-    /**
-     * @var array
-     */
-    protected $actionOptionsRequired = [
-        'uri_scheme',
-        'anchor',
-    ];
-
-    /**
      * @var OptionsResolver
      */
     protected $actionOptionsResolver;
