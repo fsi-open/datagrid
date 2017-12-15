@@ -88,27 +88,25 @@ class TreeTypeTest extends TestCase
 
     protected function getManagerRegistry()
     {
-        $self = $this;
-
         $managerRegistry = $this->createMock(ManagerRegistry::class);
         $managerRegistry->expects($this->any())
             ->method('getManagerForClass')
-            ->will($this->returnCallback(function() use ($self) {
-                $manager = $self->createMock(ObjectManager::class);
-                $manager->expects($self->any())
+            ->will($this->returnCallback(function() {
+                $manager = $this->createMock(ObjectManager::class);
+                $manager->expects($this->any())
                     ->method('getMetadataFactory')
-                    ->will($self->returnCallback(function() use ($self) {
-                        $metadataFactory = $self->createMock(ClassMetadataFactory::class);
+                    ->will($this->returnCallback(function() {
+                        $metadataFactory = $this->createMock(ClassMetadataFactory::class);
 
-                        $metadataFactory->expects($self->any())
+                        $metadataFactory->expects($this->any())
                             ->method('getMetadataFor')
-                            ->will($self->returnCallback(function($class) use ($self) {
+                            ->will($this->returnCallback(function($class) {
                                 switch ($class) {
-                                    case EntityTree::class :
-                                        $metadata = $self->createMock(ClassMetadataInfo::class, [], [$class]);
-                                        $metadata->expects($self->any())
+                                    case EntityTree::class:
+                                        $metadata = $this->createMock(ClassMetadataInfo::class);
+                                        $metadata->expects($this->any())
                                             ->method('getIdentifierFieldNames')
-                                            ->will($self->returnValue([
+                                            ->will($this->returnValue([
                                                 'id'
                                             ]));
                                         break;
@@ -117,24 +115,24 @@ class TreeTypeTest extends TestCase
                                 return $metadata;
                             }));
 
-                        $metadataFactory->expects($self->any())
+                        $metadataFactory->expects($this->any())
                             ->method('getClassMetadata')
-                            ->will($self->returnCallback(function($class) use ($metadataFactory) {
+                            ->will($this->returnCallback(function($class) use ($metadataFactory) {
                                 return $metadataFactory->getMetadataFor($class);
                             }));
 
                         return $metadataFactory;
                     }));
 
-                $manager->expects($self->any())
+                $manager->expects($this->any())
                     ->method('getClassMetadata')
-                    ->will($self->returnCallback(function($class) use ($self) {
+                    ->will($this->returnCallback(function($class) {
                         switch ($class) {
-                            case EntityTree::class :
-                                $metadata = $self->createMock(ClassMetadataInfo::class, [], [$class]);
-                                $metadata->expects($self->any())
+                            case EntityTree::class:
+                                $metadata = $this->createMock(ClassMetadataInfo::class);
+                                $metadata->expects($this->any())
                                     ->method('getIdentifierFieldNames')
-                                    ->will($self->returnValue([
+                                    ->will($this->returnValue([
                                         'id'
                                     ]));
                                 $metadata->isMappedSuperclass = false;

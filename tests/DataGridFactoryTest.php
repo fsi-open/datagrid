@@ -43,7 +43,7 @@ class DataGridFactoryTest extends TestCase
         $this->assertSame('grid',$grid->getName());
 
         $this->expectException(DataGridColumnException::class);
-        $grid = $this->factory->createDataGrid('grid');
+        $this->factory->createDataGrid('grid');
     }
 
     public function testHasColumnType()

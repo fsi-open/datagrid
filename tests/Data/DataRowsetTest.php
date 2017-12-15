@@ -22,7 +22,7 @@ class DataRowsetTest extends TestCase
     {
         $this->expectException(TypeError::class);
 
-        $rowset = new DataRowset('Invalid Data');
+        new DataRowset('Invalid Data');
     }
 
     public function testCreateRowset()
