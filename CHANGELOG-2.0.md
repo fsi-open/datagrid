@@ -26,3 +26,11 @@ The following deprecated interfaces, classes and methods were removed because th
 - `FSi\Component\DataGrid\Data\EntityIndexingStrategy`
 - `FSi\Component\DataGrid\DataGridFactoryInterface::getIndexingStrategy`
 - `FSi\Component\DataGrid\DataGridInterface::getIndexingStrategy`
+
+## Added argument and return typehints
+
+All interfaces and classes are now strictly typed.
+
+## Removed fluent interfaces
+
+All interfaces except `DataGridInterface` are no longer fluent.

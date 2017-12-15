@@ -7,6 +7,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace FSi\Component\DataGrid\Tests\Extension\Doctrine\ColumnType;
 
 use FSi\Component\DataGrid\Tests\Fixtures\Entity as Fixture;
