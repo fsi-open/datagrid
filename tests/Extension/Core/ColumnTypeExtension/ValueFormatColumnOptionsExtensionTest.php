@@ -225,9 +225,6 @@ class ValueFormatColumnOptionsExtensionTest extends TestCase
         $extension->buildCellView($column, $view);
     }
 
-    /**
-     * @expectedException \PHPUnit_Framework_Error
-     */
     public function test_build_cell_view_with_format_that_have_too_many_placeholders()
     {
         $extension = new ValueFormatColumnOptionsExtension();
@@ -257,6 +254,7 @@ class ValueFormatColumnOptionsExtensionTest extends TestCase
             ->method('getValue')
             ->will($this->returnValue(['foo']));
 
+        $this->expectException(\PHPUnit_Framework_Error::class);
         $extension->buildCellView($column, $view);
     }
 

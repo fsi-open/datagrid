@@ -157,9 +157,6 @@ class DateTimeTest extends TestCase
         );
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function testMappingFieldsOptionInputTimestamp()
     {
         $dateTimeObject = new \DateTime('2012-05-03 12:41:11');
@@ -182,6 +179,7 @@ class DateTimeTest extends TestCase
             ]
         );
 
+        $this->expectException(\InvalidArgumentException::class);
         $this->column->filterValue($brokenValue);
     }
 
