@@ -18,16 +18,19 @@ use FSi\Component\DataGrid\Extension\Gedmo\ColumnType\Tree;
 use FSi\Component\DataGrid\Extension\Core\ColumnTypeExtension\DefaultColumnOptionsExtension;
 use FSi\Component\DataGrid\DataMapper\DataMapperInterface;
 use FSi\Component\DataGrid\DataGridInterface;
+use PHPUnit\Framework\TestCase;
+use Doctrine\Common\Persistence\ManagerRegistry;
+use Gedmo\Tree\TreeListener;
+use Doctrine\Common\Persistence\ObjectManager;
+use Doctrine\Common\Persistence\Mapping\ClassMetadataFactory;
+use Doctrine\ORM\Mapping\ClassMetadataInfo;
+use Gedmo\Tree\Strategy;
 
-class TreeTypeTest extends \PHPUnit_Framework_TestCase
+class TreeTypeTest extends TestCase
 {
     public function testWrongValue()
     {
-        if (!interface_exists('Doctrine\Common\Persistence\ManagerRegistry')) {
-            $this->markTestSkipped('Doctrine\Common\Persistence\ManagerRegistry is required for testGetValue in gedmo.tree column type');
-        }
-
-        $registry = $this->createMock('Doctrine\Common\Persistence\ManagerRegistry');
+        $registry = $this->createMock(ManagerRegistry::class);
         $column = new Tree($registry);
         $column->setName('tree');
         $column->initOptions();
@@ -43,18 +46,13 @@ class TreeTypeTest extends \PHPUnit_Framework_TestCase
 
     public function testGetValue()
     {
-        if (!interface_exists('Doctrine\Common\Persistence\ManagerRegistry')
-            || !class_exists('Gedmo\Tree\TreeListener')) {
-            $this->markTestSkipped('Doctrine\Common\Persistence\ManagerRegistry is required for testGetValue in gedmo.tree column type');
-        }
-
         $dataGrid = $this->createMock(DataGridInterface::class);
         $registry = $this->getManagerRegistry();
         $dataMapper = $this->createMock(DataMapperInterface::class);
 
         $dataMapper->expects($this->any())
             ->method('getData')
-            ->will($this->returnValue(new EntityTree("foo")));
+            ->will($this->returnValue(new EntityTree('foo')));
 
         $column = new Tree($registry);
         $column->setName('tree');
@@ -92,22 +90,22 @@ class TreeTypeTest extends \PHPUnit_Framework_TestCase
     {
         $self = $this;
 
-        $managerRegistry = $this->createMock("Doctrine\\Common\\Persistence\\ManagerRegistry");
+        $managerRegistry = $this->createMock(ManagerRegistry::class);
         $managerRegistry->expects($this->any())
             ->method('getManagerForClass')
             ->will($this->returnCallback(function() use ($self) {
-                $manager = $self->createMock("Doctrine\\Common\\Persistence\\ObjectManager");
+                $manager = $self->createMock(ObjectManager::class);
                 $manager->expects($self->any())
                     ->method('getMetadataFactory')
                     ->will($self->returnCallback(function() use ($self) {
-                        $metadataFactory = $self->createMock("Doctrine\\Common\\Persistence\\Mapping\\ClassMetadataFactory");
+                        $metadataFactory = $self->createMock(ClassMetadataFactory::class);
 
                         $metadataFactory->expects($self->any())
                             ->method('getMetadataFor')
                             ->will($self->returnCallback(function($class) use ($self) {
                                 switch ($class) {
                                     case EntityTree::class :
-                                        $metadata = $self->createMock('Doctrine\\ORM\\Mapping\\ClassMetadataInfo', [], [$class]);
+                                        $metadata = $self->createMock(ClassMetadataInfo::class, [], [$class]);
                                         $metadata->expects($self->any())
                                             ->method('getIdentifierFieldNames')
                                             ->will($self->returnValue([
@@ -133,7 +131,7 @@ class TreeTypeTest extends \PHPUnit_Framework_TestCase
                     ->will($self->returnCallback(function($class) use ($self) {
                         switch ($class) {
                             case EntityTree::class :
-                                $metadata = $self->createMock('Doctrine\\ORM\\Mapping\\ClassMetadataInfo', [], [$class]);
+                                $metadata = $self->createMock(ClassMetadataInfo::class, [], [$class]);
                                 $metadata->expects($self->any())
                                     ->method('getIdentifierFieldNames')
                                     ->will($self->returnValue([
@@ -150,8 +148,8 @@ class TreeTypeTest extends \PHPUnit_Framework_TestCase
                 return $manager;
             }));
 
-        $treeListener = $this->createMock('Gedmo\Tree\TreeListener');
-        $strategy = $this->createMock('Gedmo\Tree\Strategy');
+        $treeListener = $this->createMock(TreeListener::class);
+        $strategy = $this->createMock(Strategy::class);
 
         $treeListener->expects($this->once())
             ->method('getStrategy')

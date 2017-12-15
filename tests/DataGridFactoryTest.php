@@ -17,8 +17,9 @@ use FSi\Component\DataGrid\Tests\Fixtures\FooExtension;
 use FSi\Component\DataGrid\DataMapper\DataMapperInterface;
 use FSi\Component\DataGrid\Exception\UnexpectedTypeException;
 use FSi\Component\DataGrid\Exception\DataGridColumnException;
+use PHPUnit\Framework\TestCase;
 
-class DataGridFactoryTest extends \PHPUnit_Framework_TestCase
+class DataGridFactoryTest extends TestCase
 {
     /**
      * @var DataGridFactoryInterface

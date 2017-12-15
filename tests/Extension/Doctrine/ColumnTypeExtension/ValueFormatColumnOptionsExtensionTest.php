@@ -15,8 +15,9 @@ use FSi\Component\DataGrid\Exception\DataGridException;
 use FSi\Component\DataGrid\Extension\Doctrine\ColumnTypeExtension\ValueFormatColumnOptionsExtension;
 use FSi\Component\DataGrid\Column\ColumnTypeInterface;
 use FSi\Component\DataGrid\Column\CellViewInterface;
+use PHPUnit\Framework\TestCase;
 
-class ValueFormatColumnOptionsExtensionTest extends \PHPUnit_Framework_TestCase
+class ValueFormatColumnOptionsExtensionTest extends TestCase
 {
     public function testBuildCellViewWithGlueAndEmptyValueAsStringAndWithoutOneValue()
     {

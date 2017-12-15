@@ -13,8 +13,9 @@ namespace FSi\Component\DataGrid\Tests\Extension\Doctrine;
 
 use FSi\Component\DataGrid\Extension\Gedmo\GedmoDoctrineExtension;
 use Doctrine\Common\Persistence\ManagerRegistry;
+use PHPUnit\Framework\TestCase;
 
-class GedmoDoctrineExtensionTest extends \PHPUnit_Framework_TestCase
+class GedmoDoctrineExtensionTest extends TestCase
 {
     public function testLoadedTypes()
     {

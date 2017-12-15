@@ -16,8 +16,9 @@ use FSi\Component\DataGrid\Extension\Core\EventSubscriber\ColumnOrder;
 use FSi\Component\DataGrid\DataGridEventInterface;
 use FSi\Component\DataGrid\DataGridViewInterface;
 use FSi\Component\DataGrid\Column\HeaderViewInterface;
+use PHPUnit\Framework\TestCase;
 
-class CoreExtensionTest extends \PHPUnit_Framework_TestCase
+class CoreExtensionTest extends TestCase
 {
     public function testLoadedTypes()
     {

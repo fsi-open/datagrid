@@ -14,8 +14,9 @@ namespace FSi\Component\DataGrid\Tests\DataMapper;
 use FSi\Component\DataGrid\DataMapper\ReflectionMapper;
 use FSi\Component\DataGrid\Tests\Fixtures\EntityMapper;
 use FSi\Component\DataGrid\Exception\DataMappingException;
+use PHPUnit\Framework\TestCase;
 
-class ReflectionMapperTest extends \PHPUnit_Framework_TestCase
+class ReflectionMapperTest extends TestCase
 {
     public function testGetter()
     {

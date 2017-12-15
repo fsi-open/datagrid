@@ -19,9 +19,10 @@ use FSi\Component\DataGrid\DataGridViewInterface;
 use FSi\Component\DataGrid\DataMapper\DataMapperInterface;
 use FSi\Component\DataGrid\DataGridFactoryInterface;
 use InvalidArgumentException;
+use PHPUnit\Framework\TestCase;
 use TypeError;
 
-class DataGridTest extends \PHPUnit_Framework_TestCase
+class DataGridTest extends TestCase
 {
     /**
      * @var DataGridFactoryInterface

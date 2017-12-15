@@ -14,8 +14,9 @@ namespace FSi\Component\DataGrid\Tests\Extension\Core\ColumnType;
 use FSi\Component\DataGrid\Extension\Core\ColumnType\DateTime;
 use FSi\Component\DataGrid\Extension\Core\ColumnTypeExtension\DefaultColumnOptionsExtension;
 use FSi\Component\DataGrid\Exception\DataGridColumnException;
+use PHPUnit\Framework\TestCase;
 
-class DateTimeTest extends \PHPUnit_Framework_TestCase
+class DateTimeTest extends TestCase
 {
     /**
      * @var DateTime

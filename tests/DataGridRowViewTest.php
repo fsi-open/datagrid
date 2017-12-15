@@ -15,8 +15,9 @@ use FSi\Component\DataGrid\DataGridRowView;
 use FSi\Component\DataGrid\Column\ColumnTypeInterface;
 use FSi\Component\DataGrid\Column\CellViewInterface;
 use FSi\Component\DataGrid\DataGridViewInterface;
+use PHPUnit\Framework\TestCase;
 
-class DataGridRowViewTest extends \PHPUnit_Framework_TestCase
+class DataGridRowViewTest extends TestCase
 {
     public function testCreateDataGridRowView()
     {

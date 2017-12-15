@@ -16,8 +16,9 @@ use FSi\Component\DataGrid\Extension\Doctrine\ColumnType\Entity;
 use FSi\Component\DataGrid\Extension\Core\ColumnTypeExtension\DefaultColumnOptionsExtension;
 use FSi\Component\DataGrid\DataMapper\DataMapperInterface;
 use FSi\Component\DataGrid\DataGridInterface;
+use PHPUnit\Framework\TestCase;
 
-class EntityTypeTest extends \PHPUnit_Framework_TestCase
+class EntityTypeTest extends TestCase
 {
     public function testGetValue()
     {

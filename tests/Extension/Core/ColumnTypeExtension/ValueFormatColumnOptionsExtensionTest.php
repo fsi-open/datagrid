@@ -16,8 +16,9 @@ use FSi\Component\DataGrid\Extension\Core\ColumnType\Text;
 use FSi\Component\DataGrid\Column\ColumnTypeInterface;
 use FSi\Component\DataGrid\Column\CellViewInterface;
 use InvalidArgumentException;
+use PHPUnit\Framework\TestCase;
 
-class ValueFormatColumnOptionsExtensionTest extends \PHPUnit_Framework_TestCase
+class ValueFormatColumnOptionsExtensionTest extends TestCase
 {
     public function test_build_cell_view()
     {

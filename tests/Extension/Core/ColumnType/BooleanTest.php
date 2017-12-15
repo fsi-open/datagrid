@@ -12,8 +12,9 @@ declare(strict_types=1);
 namespace FSi\Component\DataGrid\Tests\Extension\Core\ColumnType;
 
 use FSi\Component\DataGrid\Extension\Core\ColumnType\Boolean;
+use PHPUnit\Framework\TestCase;
 
-class BooleanTest extends \PHPUnit_Framework_TestCase
+class BooleanTest extends TestCase
 {
     /**
      * @var Boolean

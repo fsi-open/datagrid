@@ -14,9 +14,10 @@ namespace FSi\Component\DataGrid\Tests\Extension\Core;
 use FSi\Component\DataGrid\Extension\Core\ColumnType\Action;
 use FSi\Component\DataGrid\Extension\Core\ColumnTypeExtension\DefaultColumnOptionsExtension;
 use InvalidArgumentException;
+use PHPUnit\Framework\TestCase;
 use Symfony\Component\OptionsResolver\Exception\InvalidOptionsException;
 
-class ActionTest extends \PHPUnit_Framework_TestCase
+class ActionTest extends TestCase
 {
     /**
      * @var Action

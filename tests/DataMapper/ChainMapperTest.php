@@ -15,8 +15,9 @@ use FSi\Component\DataGrid\DataMapper\ChainMapper;
 use FSi\Component\DataGrid\Exception\DataMappingException;
 use FSi\Component\DataGrid\DataMapper\DataMapperInterface;
 use InvalidArgumentException;
+use PHPUnit\Framework\TestCase;
 
-class ChainMapperTest extends \PHPUnit_Framework_TestCase
+class ChainMapperTest extends TestCase
 {
     public function testMappersInChainWithInvalidMappers()
     {

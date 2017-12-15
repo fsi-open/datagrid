@@ -14,8 +14,9 @@ namespace FSi\Component\DataGrid\Tests\Extension\Core\ColumntypeExtension;
 use FSi\Component\DataGrid\Extension\Core\ColumnTypeExtension\DefaultColumnOptionsExtension;
 use FSi\Component\DataGrid\Column\HeaderViewInterface;
 use FSi\Component\DataGrid\Column\ColumnTypeInterface;
+use PHPUnit\Framework\TestCase;
 
-class DefaultColumnOptionsExtensionTest extends \PHPUnit_Framework_TestCase
+class DefaultColumnOptionsExtensionTest extends TestCase
 {
     public function testBuildHeaderView()
     {
