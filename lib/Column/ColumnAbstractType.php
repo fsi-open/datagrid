@@ -235,12 +235,19 @@ abstract class ColumnAbstractType implements ColumnTypeInterface
     {
     }
 
-    protected function setIndex(?string $index): void
+    /**
+     * @param int|string|null $index
+     * @return void
+     */
+    protected function setIndex($index): void
     {
         $this->index = $index;
     }
 
-    protected function getIndex(): ?string
+    /**
+     * @return int|string|null
+     */
+    protected function getIndex()
     {
         return $this->index;
     }
