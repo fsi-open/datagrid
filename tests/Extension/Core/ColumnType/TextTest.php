@@ -7,11 +7,14 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace FSi\Component\DataGrid\Tests\Extension\Core\ColumnType;
 
 use FSi\Component\DataGrid\Extension\Core\ColumnType\Text;
+use PHPUnit\Framework\TestCase;
 
-class TextTest extends \PHPUnit_Framework_TestCase
+class TextTest extends TestCase
 {
     public function testTrimOption()
     {
@@ -19,12 +22,12 @@ class TextTest extends \PHPUnit_Framework_TestCase
         $column->initOptions();
         $column->setOption('trim', true);
 
-        $value = array(
+        $value = [
             ' VALUE ',
-        );
+        ];
 
         $this->assertSame(
-            array('VALUE'),
+            ['VALUE'],
             $column->filterValue($value)
         );
     }

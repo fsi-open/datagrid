@@ -7,6 +7,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace FSi\Component\DataGrid\Extension\Doctrine\ColumnTypeExtension;
 
 use FSi\Component\DataGrid\Column\ColumnTypeInterface;
@@ -16,12 +18,9 @@ use FSi\Component\DataGrid\Exception\DataGridException;
 
 class ValueFormatColumnOptionsExtension extends ColumnAbstractTypeExtension
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function buildCellView(ColumnTypeInterface $column, CellViewInterface $view)
+    public function buildCellView(ColumnTypeInterface $column, CellViewInterface $view): void
     {
-        $value = array();
+        $value = [];
         $values = $view->getValue();
         if (($emptyValue = $column->getOption('empty_value')) !== null) {
             $values = $this->populateValues($values, $emptyValue);
@@ -38,12 +37,12 @@ class ValueFormatColumnOptionsExtension extends ColumnAbstractTypeExtension
 
             if (isset($format)) {
                 if (isset($glue)) {
-                    $formatedValues = array();
+                    $formattedValues = [];
                     foreach ($val as $fieldValue) {
-                        $formatedValues[] = sprintf($format, $fieldValue);
+                        $formattedValues[] = sprintf($format, $fieldValue);
                     }
 
-                    $objectValue = implode($glue, $formatedValues);
+                    $objectValue = implode($glue, $formattedValues);
                 } else {
                     $objectValue = vsprintf($format, $val);
                 }
@@ -57,40 +56,29 @@ class ValueFormatColumnOptionsExtension extends ColumnAbstractTypeExtension
         $view->setValue($value);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-     public function getExtendedColumnTypes()
+     public function getExtendedColumnTypes(): array
      {
-         return array(
+         return [
              'entity',
-         );
+         ];
      }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function initOptions(ColumnTypeInterface $column)
+    public function initOptions(ColumnTypeInterface $column): void
     {
-        $column->getOptionsResolver()->setDefaults(array(
+        $column->getOptionsResolver()->setDefaults([
             'glue_multiple' => ' ',
             'value_glue' => ' ',
             'value_format' => '%s',
             'empty_value' => null
-        ));
+        ]);
 
-        $column->getOptionsResolver()->setAllowedTypes('glue_multiple', array('string'));
-        $column->getOptionsResolver()->setAllowedTypes('value_glue', array('string', 'null'));
-        $column->getOptionsResolver()->setAllowedTypes('value_format', array('string', 'null'));
-        $column->getOptionsResolver()->setAllowedTypes('empty_value', array('array', 'string', 'null'));
+        $column->getOptionsResolver()->setAllowedTypes('glue_multiple', ['string']);
+        $column->getOptionsResolver()->setAllowedTypes('value_glue', ['string', 'null']);
+        $column->getOptionsResolver()->setAllowedTypes('value_format', ['string', 'null']);
+        $column->getOptionsResolver()->setAllowedTypes('empty_value', ['array', 'string', 'null']);
     }
 
-    /**
-     * @param mixed $values
-     * @param mixed $emptyValue
-     * @return array
-     */
-    private function populateValues($values, $emptyValue)
+    private function populateValues(array $values, $emptyValue): array
     {
         foreach ($values as &$val) {
             foreach ($val as $fieldKey => &$fieldValue) {
@@ -107,10 +95,10 @@ class ValueFormatColumnOptionsExtension extends ColumnAbstractTypeExtension
      * @param string $key
      * @param mixed $value
      * @param mixed $emptyValue
-     * @return string
+     * @return mixed
      * @throws \FSi\Component\DataGrid\Exception\DataGridException
      */
-    private function populateValue($key, $value, $emptyValue)
+    private function populateValue(string $key, $value, $emptyValue)
     {
         if (is_string($emptyValue)) {
             $value = $emptyValue;

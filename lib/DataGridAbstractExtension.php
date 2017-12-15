@@ -7,10 +7,10 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace FSi\Component\DataGrid;
 
-use FSi\Component\DataGrid\DataGridInterface;
-use FSi\Component\DataGrid\DataGridExtensionInterface;
 use FSi\Component\DataGrid\Column\ColumnTypeInterface;
 use FSi\Component\DataGrid\Column\ColumnTypeExtensionInterface;
 use FSi\Component\DataGrid\Exception\UnexpectedTypeException;
@@ -20,92 +20,76 @@ use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 abstract class DataGridAbstractExtension implements DataGridExtensionInterface
 {
     /**
-     * All column types extensions provided by data grid extension.
-     *
-     * @var array
+     * @var ColumnTypeExtensionInterface[][]
      */
     protected $columnTypesExtensions;
 
     /**
-     * All column types provided by extension.
-     *
-     * @var array
+     * @var ColumnTypeInterface[]
      */
     protected $columnTypes;
 
-    /**
-     * Returns a column type by id (all column types mush have unique id).
-     *
-     * @param string $id The identity of the column type
-     * @return \FSi\Component\DataGrid\Column\ColumnTypeInterface The column type
-     * @throws \FSi\Component\DataGrid\Exception\DataGridException if the given column type is not a part of this extension
-     */
-    public function getColumnType($type)
+    public function getColumnType(string $type): ColumnTypeInterface
     {
-        if (!isset($this->columnTypes)) {
+        if (null === $this->columnTypes) {
             $this->initColumnTypes();
         }
 
-        if (!isset($this->columnTypes[$type])) {
-            throw new DataGridException(sprintf('The column type "%s" can not be loaded by this extension', $type));
+        if (!array_key_exists($type, $this->columnTypes)) {
+            throw new DataGridException(sprintf(
+                'The column type "%s" can not be loaded by this extension',
+                $type
+            ));
         }
 
         return $this->columnTypes[$type];
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function hasColumnType($type)
+    public function hasColumnType(string $type): bool
     {
-        if (!isset($this->columnTypes)) {
+        if (null === $this->columnTypes) {
             $this->initColumnTypes();
         }
 
-        return isset($this->columnTypes[$type]);
+        return array_key_exists($type, $this->columnTypes);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function hasColumnTypeExtensions($type)
+    public function hasColumnTypeExtensions(string $type): bool
     {
-        if (!isset($this->columnTypesExtensions)) {
+        if (null === $this->columnTypesExtensions) {
             $this->initColumnTypesExtensions();
         }
 
-        return isset($this->columnTypesExtensions[$type]);
+        return array_key_exists($type, $this->columnTypesExtensions);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getColumnTypeExtensions($type)
+    public function getColumnTypeExtensions(string $type): array
     {
-        if (!isset($this->columnTypesExtensions)) {
+        if (null === $this->columnTypesExtensions) {
             $this->initColumnTypesExtensions();
         }
 
-        if (!isset($this->columnTypesExtensions[$type])) {
-            throw new DataGridException(sprintf('Extension for column type "%s" can not be loaded by this data grid extension', $type));
+        if (!array_key_exists($type, $this->columnTypesExtensions)) {
+            throw new DataGridException(sprintf(
+                'Extension for column type "%s" can not be loaded by this data grid extension',
+                $type
+            ));
         }
 
         return $this->columnTypesExtensions[$type];
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function registerSubscribers(DataGridInterface $dataGrid)
+    public function registerSubscribers(DataGridInterface $dataGrid): void
     {
         $subscribers = $this->loadSubscribers();
-        if (!is_array($subscribers)) {
-            throw new UnexpectedTypeException('Listeners needs to be stored in array.');
-        }
 
         foreach ($subscribers as $subscriber) {
             if (!$subscriber instanceof EventSubscriberInterface) {
-                throw new UnexpectedTypeException(sprintf('"%s" is not instance of Symfony\Component\EventDispatcher\EventSubscriberInterface', $columnType));
+                throw new UnexpectedTypeException(sprintf(
+                    '"%s" is not instance of "%s"',
+                    $subscriber,
+                    EventSubscriberInterface::class
+                ));
             }
 
             $dataGrid->addEventSubscriber($subscriber);
@@ -113,74 +97,66 @@ abstract class DataGridAbstractExtension implements DataGridExtensionInterface
     }
 
     /**
-     * If extension needs to provide new column types this function
-     * should be overloaded in child class and return array of DataGridColumnTypeInterface
-     * instances.
-     *
-     * @return array
+     * @return ColumnTypeInterface[]
      */
-    protected function loadColumnTypes()
+    protected function loadColumnTypes(): array
     {
-        return array();
+        return [];
     }
 
     /**
-     * If extension needs to load event subscribers this method should be overloaded in
-     * child class and return array event subscribers.
-     *
-     * @return array
+     * @return EventSubscriberInterface[]
      */
-    protected function loadSubscribers()
+    protected function loadSubscribers(): array
     {
-        return array();
+        return [];
     }
 
     /**
-     * If extension needs to provide new column types this function
-     * should be overloaded in child class and return array of DataGridColumnTypeInterface
-     * instances.
-     *
-     * @return array
+     * @return ColumnTypeExtensionInterface[]
      */
-    protected function loadColumnTypesExtensions()
+    protected function loadColumnTypesExtensions(): array
     {
-        return array();
+        return [];
     }
 
-    /**
-     * @throws \FSi\Component\DataGrid\Exception\UnexpectedTypeException
-     */
-    private function initColumnTypes()
+    private function initColumnTypes(): void
     {
-        $this->columnTypes = array();
+        $this->columnTypes = [];
 
         $columnTypes = $this->loadColumnTypes();
 
         foreach ($columnTypes as $columnType) {
             if (!$columnType instanceof ColumnTypeInterface) {
-                throw new UnexpectedTypeException('Column Type must implement FSi\Component\DataGrid\Column\ColumnTypeInterface');
+                throw new UnexpectedTypeException(sprintf(
+                    'Column type must implement "%s"',
+                    ColumnTypeInterface::class
+                ));
             }
 
             $this->columnTypes[$columnType->getId()] = $columnType;
         }
     }
 
-    /**
-     * @throws \FSi\Component\DataGrid\Exception\UnexpectedTypeException
-     */
-    private function initColumnTypesExtensions()
+    private function initColumnTypesExtensions(): void
     {
         $columnTypesExtensions = $this->loadColumnTypesExtensions();
+        $this->columnTypesExtensions = [];
+
         foreach ($columnTypesExtensions as $extension) {
             if (!$extension instanceof ColumnTypeExtensionInterface) {
-                throw new UnexpectedTypeException('Extension must implement FSi\Component\DataGrid\Column\ColumnTypeExtensionInterface');
+                throw new UnexpectedTypeException(sprintf(
+                    'Extension must implement %s',
+                    ColumnTypeExtensionInterface::class
+                ));
             }
 
             $types = $extension->getExtendedColumnTypes();
             foreach ($types as $type) {
-                if (!isset($this->columnTypesExtensions)) {
-                    $this->columnTypesExtensions[$type] = array();
+                if (!array_key_exists($type, $this->columnTypesExtensions)) {
+                    $this->columnTypesExtensions[$type] = [];
                 }
+
                 $this->columnTypesExtensions[$type][] = $extension;
             }
         }

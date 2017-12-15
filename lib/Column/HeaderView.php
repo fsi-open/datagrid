@@ -7,6 +7,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace FSi\Component\DataGrid\Column;
 
 use FSi\Component\DataGrid\DataGridViewInterface;
@@ -14,7 +16,7 @@ use FSi\Component\DataGrid\DataGridViewInterface;
 class HeaderView implements HeaderViewInterface
 {
     /**
-     * @var string
+     * @var string|null
      */
     protected $label;
 
@@ -31,105 +33,69 @@ class HeaderView implements HeaderViewInterface
     /**
      * @var array
      */
-    protected $attributes = array();
+    protected $attributes = [];
 
     /**
-     * @var \FSi\Component\DataGrid\DataGridViewInterface
+     * @var DataGridViewInterface
      */
     protected $datagrid;
 
-    /**
-     * @param string $name
-     * @param string $type
-     */
-    public function __construct($name, $type)
+    public function __construct(string $name, string $type)
     {
         $this->name = $name;
         $this->type = $type;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function setAttribute($name, $value)
+    public function setAttribute(string $name, $value): void
     {
         $this->attributes[$name] = $value;
-
-        return $this;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getAttribute($name)
+    public function getAttribute(string $name)
     {
-        if (isset($this->attributes[$name])) {
+        if (array_key_exists($name, $this->attributes)) {
             return $this->attributes[$name];
         }
+
+        return null;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function hasAttribute($name)
+    public function hasAttribute(string $name): bool
     {
         return array_key_exists($name, $this->attributes);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getAttributes()
+    public function getAttributes(): array
     {
         return $this->attributes;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function setLabel($label)
+    public function setLabel(string $label): void
     {
         $this->label = $label;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getLabel()
+    public function getLabel(): ?string
     {
         return $this->label;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getType()
+    public function getType(): string
     {
         return $this->type;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function setDataGridView(DataGridViewInterface $dataGrid)
+    public function setDataGridView(DataGridViewInterface $dataGrid): void
     {
         $this->datagrid = $dataGrid;
-
-        return $this;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getDataGridView()
+    public function getDataGridView(): DataGridViewInterface
     {
         return $this->datagrid;
     }

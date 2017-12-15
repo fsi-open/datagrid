@@ -7,99 +7,35 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace FSi\Component\DataGrid\Column;
 
 use FSi\Component\DataGrid\DataGridViewInterface;
 
 interface CellViewInterface
 {
-    /**
-     * Check if view attribute exists.
-     *
-     * @param string $name
-     * @return boolean
-     */
-    public function hasAttribute($name);
+    public function hasAttribute(string $name): bool;
 
-    /**
-     * Set view attribute.
-     *
-     * @param string $name
-     * @param mixed $value
-     * @return \FSi\Component\DataGrid\Column\CellViewInterface
-     */
-    public function setAttribute($name, $value);
+    public function setAttribute(string $name, $value): void;
 
-    /**
-     * Get view attribute.
-     *
-     * @param string $name
-     * @return mixed
-     */
-    public function getAttribute($name);
+    public function getAttribute(string $name);
 
-    /**
-     * Get all cell attributes.
-     *
-     * @return array
-     */
-    public function getAttributes();
+    public function getAttributes(): array;
 
-    /**
-     * Set the source object.
-     *
-     * @param mixed $source
-     * @return \FSi\Component\DataGrid\Column\CellViewInterface
-     */
-    public function setSource($source);
+    public function setSource($source): void;
 
-    /**
-     * Get the source object.
-     *
-     * @return mixed
-     */
     public function getSource();
 
-    /**
-     * Get view value. In most cases it should be simple string.
-     *
-     * @return mixed
-     */
     public function getValue();
 
-    /**
-     * Set view value.
-     *
-     * @param mixed $value
-     */
-    public function setValue($value);
+    public function setValue($value): void;
 
-    /**
-     * Return cell column type.
-     *
-     * @return string
-     */
-    public function getType();
+    public function getType(): string;
 
-    /**
-     * Return cell column name.
-     *
-     * @return string
-     */
-    public function getName();
+    public function getName(): string;
 
-    /**
-     * Set DataGridView.
-     *
-     * @param \FSi\Component\DataGrid\DataGridViewInterface $dataGrid
-     * @return \FSi\Component\DataGrid\Column\CellViewInterface
-     */
-    public function setDataGridView(DataGridViewInterface $dataGrid);
+    public function setDataGridView(DataGridViewInterface $dataGrid): void;
 
-    /**
-     * Get DataGridView.
-     *
-     * @return \FSi\Component\DataGrid\DataGridViewInterface
-     */
-    public function getDataGridView();
+    public function getDataGridView(): DataGridViewInterface;
 }

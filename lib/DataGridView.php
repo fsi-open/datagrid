@@ -7,49 +7,44 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace FSi\Component\DataGrid;
 
 use FSi\Component\DataGrid\Data\DataRowsetInterface;
 use FSi\Component\DataGrid\Column\ColumnTypeInterface;
 use FSi\Component\DataGrid\Column\HeaderViewInterface;
+use RuntimeException;
 
 class DataGridView implements DataGridViewInterface
 {
     /**
-     * Original column objects passed from datagrid.
-     * This array should be used only to call methods like createCellView or
-     * createHeaderView.
-     *
-     * @var array
+     * @var ColumnTypeInterface[]
      */
-    protected $columns = array();
+    protected $columns = [];
 
     /**
-     * @var array
+     * @var HeaderViewInterface[]
      */
-    protected $columnsHeaders = array();
+    protected $columnsHeaders = [];
 
     /**
-     * Unique data grid name.
-     *
      * @var string
      */
     protected $name;
 
     /**
-     * @var \FSi\Component\DataGrid\Data\DataRowsetInterface
+     * @var DataRowsetInterface
      */
     protected $rowset;
 
     /**
-     * Constructs DataGridView, should be called only from DataGrid::createView method.
-     *
      * @param string $name
-     * @param array $columns
-     * @param \FSi\Component\DataGrid\Data\DataRowsetInterface $rowset
+     * @param ColumnTypeInterface[] $columns
+     * @param DataRowsetInterface $rowset
      * @throws \InvalidArgumentException
      */
-    public function __construct($name, array $columns = array(), DataRowsetInterface $rowset)
+    public function __construct(string $name, array $columns = [], DataRowsetInterface $rowset)
     {
         foreach ($columns as $column) {
             if (!$column instanceof ColumnTypeInterface) {
@@ -66,29 +61,20 @@ class DataGridView implements DataGridViewInterface
         $this->rowset = $rowset;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function hasColumn($name)
+    public function hasColumn(string $name): bool
     {
         return array_key_exists($name, $this->columnsHeaders);
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function hasColumnType($type)
+    public function hasColumnType(string $type): bool
     {
         foreach ($this->columnsHeaders as $header) {
-            if ($header->getType() == $type) {
+            if ($header->getType() === $type) {
                 return true;
             }
         }
@@ -96,23 +82,14 @@ class DataGridView implements DataGridViewInterface
         return false;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function removeColumn($name)
+    public function removeColumn(string $name): void
     {
-        if (isset($this->columnsHeaders[$name])) {
+        if (array_key_exists($name, $this->columnsHeaders)) {
             unset($this->columnsHeaders[$name]);
-            return true;
         }
-
-        return false;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getColumn($name)
+    public function getColumn(string $name): HeaderViewInterface
     {
         if ($this->hasColumn($name)) {
             return $this->columnsHeaders[$name];
@@ -121,65 +98,61 @@ class DataGridView implements DataGridViewInterface
         throw new \InvalidArgumentException(sprintf('Column "%s" does not exist in data grid.', $name));
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getColumns()
+    public function getColumns(): array
     {
         return $this->columnsHeaders;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function clearColumns()
+    public function clearColumns(): void
     {
-        $this->columnsHeaders = array();
-        return $this;
+        $this->columnsHeaders = [];
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function addColumn(HeaderViewInterface $column)
+    public function addColumn(HeaderViewInterface $column): void
     {
         if (!array_key_exists($column->getName(), $this->columns)) {
-            throw new \InvalidArgumentException(sprintf('Column with name "%s" was never registred in datagrid ""', $column->getName(), $this->getName()));
+            throw new \InvalidArgumentException(sprintf(
+                'Column with name "%s" was never registred in datagrid "%s"',
+                $column->getName(),
+                $this->getName()
+            ));
         }
 
         $this->columnsHeaders[$column->getName()] = $column;
-        return $this;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function setColumns(array $columns)
+    public function setColumns(array $columns): void
     {
-        $this->columnsHeaders = array();
+        $this->columnsHeaders = [];
 
         foreach ($columns as $column) {
             if (!$column instanceof HeaderViewInterface) {
                 throw new \InvalidArgumentException('Column must implement FSi\Component\DataGrid\Column\HeaderViewInterface');
             }
+
             if (!array_key_exists($column->getName(), $this->columns)) {
-                throw new \InvalidArgumentException(sprintf('Column with name "%s" was never registred in datagrid ""', $column->getName(), $this->getName()));
+                throw new \InvalidArgumentException(sprintf(
+                    'Column with name "%s" was never registred in datagrid "%s"',
+                    $column->getName(),
+                    $this->getName()
+                ));
             }
 
             $this->columnsHeaders[$column->getName()] = $column;
         }
+    }
 
-        return $this;
+    public function count(): int
+    {
+        return $this->rowset->count();
     }
 
     /**
-     * Return rowset indexes as array.
-     *
-     * @return array
+     * @return string[]
      */
-    public function getIndexes()
+    public function getIndexes(): array
     {
-        $indexes = array();
+        $indexes = [];
         foreach ($this->rowset as $index => $row) {
             $indexes[] = $index;
         }
@@ -187,97 +160,38 @@ class DataGridView implements DataGridViewInterface
         return $indexes;
     }
 
-    /**
-     * Returns the number of elements in the collection.
-     *
-     * Implementation of Countable::count()
-     *
-     * @return int
-     */
-    public function count()
-    {
-        return $this->rowset->count();
-    }
-
-    /**
-     * Return the current element.
-     * Similar to the current() function for arrays in PHP
-     * Required by interface Iterator.
-     *
-     * @return \FSi\Component\DataGrid\DataGridRowView current element from the rowset
-     */
-    public function current()
+    public function current(): DataGridRowViewInterface
     {
         $index = $this->rowset->key();
+
         return new DataGridRowView($this, $this->getOriginColumns(), $this->rowset->current(), $index);
     }
 
-    /**
-     * Return the identifying key of the current element.
-     * Similar to the key() function for arrays in PHP.
-     * Required by interface Iterator.
-     *
-     * @return int
-     */
     public function key()
     {
         return $this->rowset->key();
     }
 
-    /**
-     * Move forward to next element.
-     * Similar to the next() function for arrays in PHP.
-     * Required by interface Iterator.
-     */
-    public function next()
+    public function next(): void
     {
         $this->rowset->next();
     }
 
-    /**
-     * Rewind the Iterator to the first element.
-     * Similar to the reset() function for arrays in PHP.
-     * Required by interface Iterator.
-     *
-     * @return \FSi\Component\DataGrid\DataGridViewInterface
-     */
-    public function rewind()
+    public function rewind(): void
     {
         $this->rowset->rewind();
     }
 
-    /**
-     * Check if there is a current element after calls to rewind() or next().
-     * Used to check if we've iterated to the end of the collection.
-     * Required by interface Iterator.
-     *
-     * @return bool False if there's nothing more to iterate over
-     */
-    public function valid()
+    public function valid(): bool
     {
         return $this->rowset->valid();
     }
 
-    /**
-     * Check if an offset exists.
-     * Required by the ArrayAccess implementation.
-     *
-     * @param string $offset
-     * @return boolean
-     */
-    public function offsetExists($offset)
+    public function offsetExists($offset): bool
     {
         return isset($this->rowset[$offset]);
     }
 
-    /**
-     * Get the row for the given offset.
-     * Required by the ArrayAccess implementation.
-     *
-     * @param int $offset
-     * @return \FSi\Component\DataGrid\DataGridRowViewInterface
-     * @throws \InvalidArgumentException
-     */
     public function offsetGet($offset)
     {
         if ($this->offsetExists($offset)) {
@@ -287,35 +201,22 @@ class DataGridView implements DataGridViewInterface
         throw new \InvalidArgumentException(sprintf('Row "%s" does not exist in rowset.', $offset));
     }
 
-    /**
-     * Does nothing.
-     * Required by the ArrayAccess implementation.
-     *
-     * @param string $offset
-     * @param mixed $value
-     */
-    public function offsetSet($offset, $value)
+    public function offsetSet($offset, $value): void
     {
+        throw new RuntimeException('Method not implemented');
+    }
+
+    public function offsetUnset($offset): void
+    {
+        throw new RuntimeException('Method not implemented');
     }
 
     /**
-     * Does nothing.
-     * Required by the ArrayAccess implementation.
-     *
-     * @param string $offset
+     * @return ColumnTypeInterface[]
      */
-    public function offsetUnset($offset)
+    protected function getOriginColumns(): array
     {
-    }
-
-    /**
-     * Return the origin columns in order of columns headers.
-     *
-     * @return array
-     */
-    protected function getOriginColumns()
-    {
-        $columns = array();
+        $columns = [];
         foreach ($this->columnsHeaders as $name => $header) {
             $columns[$name] = $this->columns[$name];
         }

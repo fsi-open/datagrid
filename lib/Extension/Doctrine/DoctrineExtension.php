@@ -7,6 +7,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace FSi\Component\DataGrid\Extension\Doctrine;
 
 use FSi\Component\DataGrid\DataGridAbstractExtension;
@@ -14,23 +16,17 @@ use FSi\Component\DataGrid\Extension\Doctrine\ColumnType;
 
 class DoctrineExtension extends DataGridAbstractExtension
 {
-    /**
-     * {@inheritdoc}
-     */
-    protected function loadColumnTypes()
+    protected function loadColumnTypes(): array
     {
-        return array(
+        return [
             new ColumnType\Entity(),
-        );
+        ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function loadColumnTypesExtensions()
+    protected function loadColumnTypesExtensions(): array
     {
-        return array(
+        return [
             new ColumnTypeExtension\ValueFormatColumnOptionsExtension(),
-        );
+        ];
     }
 }

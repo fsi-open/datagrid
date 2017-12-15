@@ -7,23 +7,24 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace FSi\Component\DataGrid;
 
+use FSi\Component\DataGrid\Column\CellViewInterface;
 use FSi\Component\DataGrid\Column\ColumnTypeInterface;
 use FSi\Component\DataGrid\Exception\UnexpectedTypeException;
+use InvalidArgumentException;
+use RuntimeException;
 
 class DataGridRowView implements DataGridRowViewInterface
 {
     /**
-     * Cells views.
-     *
-     * @var array
+     * @var CellViewInterface[]
      */
-    protected $cellViews = array();
+    protected $cellViews = [];
 
     /**
-     * The source object for which view is created.
-     *
      * @var mixed
      */
     protected $source;
@@ -35,7 +36,7 @@ class DataGridRowView implements DataGridRowViewInterface
 
     /**
      * @param DataGridViewInterface $dataGridView
-     * @param array $columns
+     * @param ColumnTypeInterface[] $columns
      * @param mixed $source
      * @param int $index
      * @throws Exception\UnexpectedTypeException
@@ -46,7 +47,10 @@ class DataGridRowView implements DataGridRowViewInterface
         $this->index = $index;
         foreach ($columns as $name => $column) {
             if (!$column instanceof ColumnTypeInterface) {
-                throw new UnexpectedTypeException('Column object must implement FSi\Component\DataGrid\Column\ColumnTypeInterface');
+                throw new UnexpectedTypeException(sprintf(
+                    'Column object must implement "%s"',
+                    ColumnTypeInterface::class
+                ));
             }
 
             $cellView = $column->createCellView($this->source, $index);
@@ -56,135 +60,67 @@ class DataGridRowView implements DataGridRowViewInterface
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getIndex()
     {
         return $this->index;
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getSource()
     {
         return $this->source;
     }
 
-    /**
-     * Returns the number of cells in the row.
-     * Implementation of Countable::count().
-     *
-     * @return int
-     */
-    public function count()
+    public function count(): int
     {
         return count($this->cellViews);
     }
 
-    /**
-     * Return the current cell view.
-     * Similar to the current() function for arrays in PHP.
-     * Required by interface Iterator.
-     *
-     * @return \FSi\Component\DataGrid\Column\CellViewInterface current element from the rowset
-     */
-    public function current()
+    public function current(): CellViewInterface
     {
         return current($this->cellViews);
     }
 
-    /**
-     * Return the identifying key of the current column.
-     * Similar to the key() function for arrays in PHP.
-     * Required by interface Iterator.
-     *
-     * @return string
-     */
-    public function key()
+    public function key(): string
     {
         return key($this->cellViews);
     }
 
-    /**
-     * Move forward to next cell view.
-     * Similar to the next() function for arrays in PHP.
-     * Required by interface Iterator.
-     *
-     * @return string
-     */
-    public function next()
+    public function next(): void
     {
         next($this->cellViews);
     }
 
-    /**
-     * Rewind the Iterator to the first element.
-     * Similar to the reset() function for arrays in PHP.
-     * Required by interface Iterator.
-     */
-    public function rewind()
+    public function rewind(): void
     {
         reset($this->cellViews);
     }
 
-    /**
-     * Checks if current position is valid.
-     * Required by the SeekableIterator implementation.
-     *
-     * @return bool
-     */
-    public function valid()
+    public function valid(): bool
     {
         return $this->key() !== null;
     }
 
-    /**
-     * Required by the ArrayAccess implementation.
-     *
-     * @param string $offset
-     * @return bool
-     */
-    public function offsetExists($offset)
+    public function offsetExists($offset): bool
     {
-        return isset($this->cellViews[$offset]);
+        return array_key_exists($offset, $this->cellViews);
     }
 
-    /**
-     * Required by the ArrayAccess implementation
-     *
-     * @param string $offset
-     * @throws \InvalidArgumentException
-     * @return ColumnTypeInterface
-     */
-    public function offsetGet($offset)
+    public function offsetGet($offset): CellViewInterface
     {
         if ($this->offsetExists($offset)) {
             return $this->cellViews[$offset];
         }
 
-        throw new \InvalidArgumentException(sprintf('Column "%s" does not exist in row.', $offset));
+        throw new InvalidArgumentException(sprintf('Column "%s" does not exist in row.', $offset));
     }
 
-    /**
-     * Does nothing.
-     * Required by the ArrayAccess implementation.
-     *
-     * @param string $offset
-     * @param mixed $value
-     */
-    public function offsetSet($offset, $value)
+    public function offsetSet($offset, $value): void
     {
+        throw new RuntimeException('Method not implemented');
     }
 
-    /**
-     * Does nothing.
-     * Required by the ArrayAccess implementation.
-     *
-     * @param string $offset
-     */
-    public function offsetUnset($offset)
+    public function offsetUnset($offset): void
     {
+        throw new RuntimeException('Method not implemented');
     }
 }

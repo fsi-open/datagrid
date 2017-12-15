@@ -7,27 +7,32 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace FSi\Component\DataGrid\Tests\Extension\Doctrine\ColumntypeExtension;
 
+use FSi\Component\DataGrid\Exception\DataGridException;
 use FSi\Component\DataGrid\Extension\Doctrine\ColumnTypeExtension\ValueFormatColumnOptionsExtension;
+use FSi\Component\DataGrid\Column\ColumnTypeInterface;
+use FSi\Component\DataGrid\Column\CellViewInterface;
+use PHPUnit\Framework\TestCase;
 
-class ValueFormatColumnOptionsExtensionTest extends \PHPUnit_Framework_TestCase
+class ValueFormatColumnOptionsExtensionTest extends TestCase
 {
-
     public function testBuildCellViewWithGlueAndEmptyValueAsStringAndWithoutOneValue()
     {
         $extension = new ValueFormatColumnOptionsExtension();
-        $view = $this->createMock('FSi\Component\DataGrid\Column\CellViewInterface');
-        $column = $this->createMock('FSi\Component\DataGrid\Column\ColumnTypeInterface');
+        $view = $this->createMock(CellViewInterface::class);
+        $column = $this->createMock(ColumnTypeInterface::class);
 
         $view->expects($this->at(0))
             ->method('getValue')
-            ->will($this->returnValue(array(
-                0 => array(
+            ->will($this->returnValue([
+                0 => [
                     'id' => null,
                     'name' => 'Foo'
-                )
-            )));
+                ]
+            ]));
 
         $column->expects($this->at(0))
             ->method('getOption')
@@ -54,17 +59,17 @@ class ValueFormatColumnOptionsExtensionTest extends \PHPUnit_Framework_TestCase
     public function testBuildCellViewWithGlueAndEmptyValueAsStringAndWithoutValues()
     {
         $extension = new ValueFormatColumnOptionsExtension();
-        $view = $this->createMock('FSi\Component\DataGrid\Column\CellViewInterface');
-        $column = $this->createMock('FSi\Component\DataGrid\Column\ColumnTypeInterface');
+        $view = $this->createMock(CellViewInterface::class);
+        $column = $this->createMock(ColumnTypeInterface::class);
 
         $view->expects($this->at(0))
             ->method('getValue')
-            ->will($this->returnValue(array(
-                0 => array(
+            ->will($this->returnValue([
+                0 => [
                     'id' => null,
                     'name' => null
-                )
-            )));
+                ]
+            ]));
 
         $column->expects($this->at(0))
             ->method('getOption')
@@ -91,22 +96,22 @@ class ValueFormatColumnOptionsExtensionTest extends \PHPUnit_Framework_TestCase
     public function testBuildCellViewWithGlueAndEmptyValueAsArrayAndWithoutOneValue()
     {
         $extension = new ValueFormatColumnOptionsExtension();
-        $view = $this->createMock('FSi\Component\DataGrid\Column\CellViewInterface');
-        $column = $this->createMock('FSi\Component\DataGrid\Column\ColumnTypeInterface');
+        $view = $this->createMock(CellViewInterface::class);
+        $column = $this->createMock(ColumnTypeInterface::class);
 
         $view->expects($this->at(0))
             ->method('getValue')
-            ->will($this->returnValue(array(
-                0 => array(
+            ->will($this->returnValue([
+                0 => [
                     'id' => 1,
                     'name' => null
-                )
-            )));
+                ]
+            ]));
 
         $column->expects($this->at(0))
             ->method('getOption')
             ->with('empty_value')
-            ->will($this->returnValue(array('name' => 'no')));
+            ->will($this->returnValue(['name' => 'no']));
 
         $column->expects($this->at(1))
             ->method('getOption')
@@ -128,22 +133,22 @@ class ValueFormatColumnOptionsExtensionTest extends \PHPUnit_Framework_TestCase
     public function testBuildCellViewWithGlueAndEmptyValueAsArrayAndWithoutValues()
     {
         $extension = new ValueFormatColumnOptionsExtension();
-        $view = $this->createMock('FSi\Component\DataGrid\Column\CellViewInterface');
-        $column = $this->createMock('FSi\Component\DataGrid\Column\ColumnTypeInterface');
+        $view = $this->createMock(CellViewInterface::class);
+        $column = $this->createMock(ColumnTypeInterface::class);
 
         $view->expects($this->at(0))
             ->method('getValue')
-            ->will($this->returnValue(array(
-                0 => array(
+            ->will($this->returnValue([
+                0 => [
                     'id' => null,
                     'name' => null
-                )
-            )));
+                ]
+            ]));
 
         $column->expects($this->at(0))
             ->method('getOption')
             ->with('empty_value')
-            ->will($this->returnValue(array('id' => 'no','name' => 'no')));
+            ->will($this->returnValue(['id' => 'no','name' => 'no']));
 
         $column->expects($this->at(1))
             ->method('getOption')
@@ -165,26 +170,26 @@ class ValueFormatColumnOptionsExtensionTest extends \PHPUnit_Framework_TestCase
     public function testBuildCellViewWithGlueAndGlueMultipleAndEmptyValueAsArrayAndWithoutMultipleValues()
     {
         $extension = new ValueFormatColumnOptionsExtension();
-        $view = $this->createMock('FSi\Component\DataGrid\Column\CellViewInterface');
-        $column = $this->createMock('FSi\Component\DataGrid\Column\ColumnTypeInterface');
+        $view = $this->createMock(CellViewInterface::class);
+        $column = $this->createMock(ColumnTypeInterface::class);
 
         $view->expects($this->at(0))
             ->method('getValue')
-            ->will($this->returnValue(array(
-                0 => array(
+            ->will($this->returnValue([
+                0 => [
                     'id' => null,
                     'name' => null
-                ),
-                1 => array(
+                ],
+                1 => [
                     'id' => null,
                     'name' => 'Foo'
-                )
-            )));
+                ]
+            ]));
 
         $column->expects($this->at(0))
             ->method('getOption')
             ->with('empty_value')
-            ->will($this->returnValue(array('id' => 'no','name' => 'no')));
+            ->will($this->returnValue(['id' => 'no','name' => 'no']));
 
         $column->expects($this->at(1))
             ->method('getOption')
@@ -208,46 +213,44 @@ class ValueFormatColumnOptionsExtensionTest extends \PHPUnit_Framework_TestCase
         $extension->buildCellView($column, $view);
     }
 
-    /**
-     * @expectedException \FSi\Component\DataGrid\Exception\DataGridException
-     */
     public function testBuildCellViewWithGlueAndEmptyValueAsArrayAndNotFoundKeyInEmptyValue()
     {
         $extension = new ValueFormatColumnOptionsExtension();
-        $view = $this->createMock('FSi\Component\DataGrid\Column\CellViewInterface');
-        $column = $this->createMock('FSi\Component\DataGrid\Column\ColumnTypeInterface');
+        $view = $this->createMock(CellViewInterface::class);
+        $column = $this->createMock(ColumnTypeInterface::class);
 
         $view->expects($this->at(0))
             ->method('getValue')
-            ->will($this->returnValue(array(
-                0 => array(
+            ->will($this->returnValue([
+                0 => [
                     'id' => null,
                     'name' => 'Foo'
-                )
-            )));
+                ]
+            ]));
 
         $column->expects($this->at(0))
             ->method('getOption')
             ->with('empty_value')
-            ->will($this->returnValue(array('id2' => 'no','name' => 'no')));
+            ->will($this->returnValue(['id2' => 'no','name' => 'no']));
 
+        $this->expectException(DataGridException::class);
         $extension->buildCellView($column, $view);
     }
 
     public function testBuildCellViewWithoutFormatAndGlue()
     {
         $extension = new ValueFormatColumnOptionsExtension();
-        $view = $this->createMock('FSi\Component\DataGrid\Column\CellViewInterface');
-        $column = $this->createMock('FSi\Component\DataGrid\Column\ColumnTypeInterface');
+        $view = $this->createMock(CellViewInterface::class);
+        $column = $this->createMock(ColumnTypeInterface::class);
 
         $view->expects($this->at(0))
             ->method('getValue')
-            ->will($this->returnValue(array(
-                0 => array(
+            ->will($this->returnValue([
+                0 => [
                     'id' => 1,
                     'name' => 'Foo'
-                )
-            )));
+                ]
+            ]));
 
         $column->expects($this->at(1))
             ->method('getOption')
@@ -269,17 +272,17 @@ class ValueFormatColumnOptionsExtensionTest extends \PHPUnit_Framework_TestCase
     public function testBuildCellViewWithFormatAndGlue()
     {
         $extension = new ValueFormatColumnOptionsExtension();
-        $view = $this->createMock('FSi\Component\DataGrid\Column\CellViewInterface');
-        $column = $this->createMock('FSi\Component\DataGrid\Column\ColumnTypeInterface');
+        $view = $this->createMock(CellViewInterface::class);
+        $column = $this->createMock(ColumnTypeInterface::class);
 
         $view->expects($this->at(0))
         ->method('getValue')
-        ->will($this->returnValue(array(
-            0 => array(
+        ->will($this->returnValue([
+            0 => [
                 'id' => 1,
                 'name' => 'Foo'
-            )
-        )));
+            ]
+        ]));
 
         $column->expects($this->at(1))
             ->method('getOption')
@@ -298,23 +301,20 @@ class ValueFormatColumnOptionsExtensionTest extends \PHPUnit_Framework_TestCase
         $extension->buildCellView($column, $view);
     }
 
-    /**
-     * @expectedException \PHPUnit_Framework_Error
-     */
     public function testBuildCellViewWithFormatAndGlueWithToManyPlaceholders()
     {
         $extension = new ValueFormatColumnOptionsExtension();
-        $view = $this->createMock('FSi\Component\DataGrid\Column\CellViewInterface');
-        $column = $this->createMock('FSi\Component\DataGrid\Column\ColumnTypeInterface');
+        $view = $this->createMock(CellViewInterface::class);
+        $column = $this->createMock(ColumnTypeInterface::class);
 
         $view->expects($this->at(0))
         ->method('getValue')
-            ->will($this->returnValue(array(
-                0 => array(
+            ->will($this->returnValue([
+                0 => [
                     'id' => 1,
                     'name' => 'Foo'
-                )
-            )));
+                ]
+            ]));
 
         $column->expects($this->at(1))
             ->method('getOption')
@@ -326,27 +326,28 @@ class ValueFormatColumnOptionsExtensionTest extends \PHPUnit_Framework_TestCase
             ->with('value_format')
             ->will($this->returnValue('(%s) (%s)'));
 
+        $this->expectException(\PHPUnit_Framework_Error::class);
         $extension->buildCellView($column, $view);
     }
 
     public function testBuildCellViewWithFormatGlueAndGlueMultiple()
     {
         $extension = new ValueFormatColumnOptionsExtension();
-        $view = $this->createMock('FSi\Component\DataGrid\Column\CellViewInterface');
-        $column = $this->createMock('FSi\Component\DataGrid\Column\ColumnTypeInterface');
+        $view = $this->createMock(CellViewInterface::class);
+        $column = $this->createMock(ColumnTypeInterface::class);
 
         $view->expects($this->at(0))
             ->method('getValue')
-            ->will($this->returnValue(array(
-                0 => array(
+            ->will($this->returnValue([
+                0 => [
                     'id' => 1,
                     'name' => 'Foo',
-                ),
-                1 => array(
+                ],
+                1 => [
                     'id' => 2,
                     'name' => 'Bar',
-                )
-            )));
+                ]
+            ]));
 
         $column->expects($this->at(1))
             ->method('getOption')

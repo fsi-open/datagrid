@@ -7,6 +7,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace FSi\Component\DataGrid\DataMapper;
 
 use FSi\Component\Reflection\ReflectionClass;
@@ -15,10 +17,9 @@ use FSi\Component\DataGrid\Exception\DataMappingException;
 class ReflectionMapper implements DataMapperInterface
 {
     /**
-     * Method inspired by Symfony\Component\Form\Util\PropertyPath::readProperty(&$objectOrArray, $property, $isIndex)
-     * {@inheritdoc}
+     * @inheritdoc
      */
-    public function getData($field, $object)
+    public function getData(string $field, $object)
     {
         if (!is_object($object)) {
             throw new DataMappingException('Reflection mapper needs object to retrieve data.');
@@ -66,9 +67,9 @@ class ReflectionMapper implements DataMapperInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
-    public function setData($field, $object, $value)
+    public function setData(string $field, $object, $value): void
     {
         if (!is_object($object)) {
             throw new DataMappingException('Reflection mapper needs object to retrieve data.');
@@ -81,40 +82,61 @@ class ReflectionMapper implements DataMapperInterface
 
         if ($objectReflection->hasMethod($setter)) {
             if (!$objectReflection->getMethod($setter)->isPublic()) {
-                throw new DataMappingException(sprintf('Method "%s()" is not public in class "%s"', $setter, $objectReflection->name));
+                throw new DataMappingException(sprintf(
+                    'Method "%s()" is not public in class "%s"',
+                    $setter,
+                    $objectReflection->name
+                ));
             }
 
-            return $object->$setter($value);
+            $object->$setter($value);
+
+            return;
         }
 
         if ($objectReflection->hasMethod($adder)) {
             if (!$objectReflection->getMethod($adder)->isPublic()) {
-                throw new DataMappingException(sprintf('Method "%s()" is not public in class "%s"', $adder, $objectReflection->name));
+                throw new DataMappingException(sprintf(
+                    'Method "%s()" is not public in class "%s"',
+                    $adder,
+                    $objectReflection->name
+                ));
             }
 
-            return $object->$adder($value);
+            $object->$adder($value);
+
+            return;
         }
 
         if ($objectReflection->hasProperty($field)) {
             if (!$objectReflection->getProperty($field)->isPublic()) {
-                throw new DataMappingException(sprintf('Property "%s" is not public in class "%s". Maybe you should create the method "%s()" or "%s()"?', $field, $objectReflection->name, $setter, $adder));
+                throw new DataMappingException(sprintf(
+                    'Property "%s" is not public in class "%s". Maybe you should create method "%s()" or "%s()"?',
+                    $field,
+                    $objectReflection->name,
+                    $setter,
+                    $adder
+                ));
             }
+
             $property = $objectReflection->getProperty($field);
-            return $property->setValue($object, $value);
+            $property->setValue($object, $value);
+
+            return;
         }
 
-        throw new DataMappingException(sprintf('Neither property "%s" nor method "%s()" exists in class "%s"', $setter, $adder, $objectReflection->name));
+        throw new DataMappingException(sprintf(
+            'Neither property "%s" nor method "%s()" exists in class "%s"',
+            $setter,
+            $adder,
+            $objectReflection->name
+        ));
     }
 
-    /**
-     * Camelizes a given string.
-     * Method copied from Symfony\Component\Form\Util\PropertyPath.
-     *
-     * @param string $string Some string.
-     * @return string The camelized version of the string.
-     */
-    private function camelize($string)
+    private function camelize(string $string): string
     {
-        return preg_replace_callback('/(^|_|\.)+(.)/', function ($match) { return ('.' === $match[1] ? '_' : '').strtoupper($match[2]); }, $string);
+        return preg_replace_callback('/(^|_|\.)+(.)/', function ($match) {
+            return ('.' === $match[1] ? '_' : '').strtoupper($match[2]);
+        }, $string);
     }
 }

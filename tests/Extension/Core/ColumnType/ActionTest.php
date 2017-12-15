@@ -7,15 +7,20 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace FSi\Component\DataGrid\Tests\Extension\Core;
 
 use FSi\Component\DataGrid\Extension\Core\ColumnType\Action;
 use FSi\Component\DataGrid\Extension\Core\ColumnTypeExtension\DefaultColumnOptionsExtension;
+use InvalidArgumentException;
+use PHPUnit\Framework\TestCase;
+use Symfony\Component\OptionsResolver\Exception\InvalidOptionsException;
 
-class ActionTest extends \PHPUnit_Framework_TestCase
+class ActionTest extends TestCase
 {
     /**
-     * @var \FSi\Component\DataGrid\Extension\Core\ColumnType\Action
+     * @var Action
      */
     private $column;
 
@@ -31,70 +36,66 @@ class ActionTest extends \PHPUnit_Framework_TestCase
         $this->column = $column;
     }
 
-    /**
-     * @expectedException \Symfony\Component\OptionsResolver\Exception\InvalidOptionsException
-     */
     public function testFilterValueEmptyActionsOptionType()
     {
+        $this->expectException(InvalidOptionsException::class);
         $this->column->setOption('actions', 'boo');
-        $this->column->filterValue(array());
+        $this->column->filterValue([]);
     }
 
-    /**
-     * @expectedException \InvalidArgumentException
-     */
     public function testFilterValueInvalidActionInActionsOption()
     {
-        $this->column->setOption('actions', array('edit' => 'asasdas'));
-        $this->column->filterValue(array());
+        $this->expectException(InvalidArgumentException::class);
+        $this->column->setOption('actions', ['edit' => 'asasdas']);
+        $this->column->filterValue([]);
     }
 
     public function testFilterValueRequiredActionInActionsOption()
     {
-        $this->column->setOption('actions', array(
-            'edit' => array(
+        $this->column->setOption('actions', [
+            'edit' => [
                 'uri_scheme' => '/test/%s',
-            )
-        ));
+            ]
+        ]);
 
         $this->assertSame(
-            array(
-                'edit' => array(
+            [
+                'edit' => [
                     'url' => '/test/bar',
-                    'field_mapping_values' => array(
+                    'field_mapping_values' => [
                         'foo' => 'bar'
-                    )
-                )
-            ),
-            $this->column->filterValue(array(
+                    ]
+                ]
+            ],
+            $this->column->filterValue([
                 'foo' => 'bar'
-            ))
+            ])
         );
     }
 
     public function testFilterValueAvailableActionInActionsOption()
     {
-        $this->column->setOption('actions', array(
-            'edit' => array(
+        $this->column->setOption('actions', [
+            'edit' => [
                 'uri_scheme' => '/test/%s',
                 'domain' => 'fsi.pl',
                 'protocol' => 'https://',
                 'redirect_uri' => 'http://onet.pl/'
-            )
-        ));
+            ]
+        ]);
 
         $this->assertSame(
-            array(
-                'edit' => array(
+            [
+                'edit' => [
                     'url' => 'https://fsi.pl/test/bar?redirect_uri=' . urlencode('http://onet.pl/'),
-                    'field_mapping_values' => array(
+                    'field_mapping_values' => [
                         'foo' => 'bar'
-                    )
-                )
-            ),
-            $this->column->filterValue(array(
+                    ]
+                ]
+            ],
+            $this->column->filterValue([
                 'foo' => 'bar'
-            ))
+            ])
         );
     }
 }

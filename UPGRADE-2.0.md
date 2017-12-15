@@ -14,3 +14,9 @@ not contain `null` or that it adheres to the new behaviour.
 ## Upgrade to PHP 7.1 or higher
 
 In order to use this library, you will need PHP 7.1 or higher.
+
+## Add argument and return typehints
+
+There is quite a big chance that your custom column type or column type extension
+need to have added typehints to most of its methods accordingly to extended
+class or implemented interface.

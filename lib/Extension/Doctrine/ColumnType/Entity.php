@@ -7,6 +7,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace FSi\Component\DataGrid\Extension\Doctrine\ColumnType;
 
 use Doctrine\Common\Collections\Collection;
@@ -14,35 +16,24 @@ use FSi\Component\DataGrid\Column\ColumnAbstractType;
 
 class Entity extends ColumnAbstractType
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function getId()
+    public function getId(): string
     {
         return 'entity';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getValue($object)
     {
-        $value = $this->getDataMapper()->getData($this->getOption('relation_field'), $object);
-
-        return $value;
+        return $this->getDataMapper()->getData($this->getOption('relation_field'), $object);
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function filterValue($value)
     {
         if ($value instanceof Collection) {
             $value = $value->toArray();
         }
 
-        $values = array();
-        $objectValues = array();
+        $values = [];
+        $objectValues = [];
         $mappingFields = $this->getOption('field_mapping');
 
         if (is_array($value)) {
@@ -66,14 +57,11 @@ class Entity extends ColumnAbstractType
         return $values;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function initOptions()
+    public function initOptions(): void
     {
-        $this->getOptionsResolver()->setDefaults(array(
+        $this->getOptionsResolver()->setDefaults([
             'relation_field' => $this->getName(),
-        ));
+        ]);
 
         $this->getOptionsResolver()->setAllowedTypes('relation_field', 'string');
     }

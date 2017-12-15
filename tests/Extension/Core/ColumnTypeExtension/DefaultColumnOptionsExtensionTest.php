@@ -7,18 +7,23 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace FSi\Component\DataGrid\Tests\Extension\Core\ColumntypeExtension;
 
 use FSi\Component\DataGrid\Extension\Core\ColumnTypeExtension\DefaultColumnOptionsExtension;
+use FSi\Component\DataGrid\Column\HeaderViewInterface;
+use FSi\Component\DataGrid\Column\ColumnTypeInterface;
+use PHPUnit\Framework\TestCase;
 
-class DefaultColumnOptionsExtensionTest extends \PHPUnit_Framework_TestCase
+class DefaultColumnOptionsExtensionTest extends TestCase
 {
     public function testBuildHeaderView()
     {
         $extension = new DefaultColumnOptionsExtension();
 
-        $column = $this->createMock('FSi\Component\DataGrid\Column\ColumnTypeInterface');
-        $view = $this->createMock('FSi\Component\DataGrid\Column\HeaderViewInterface');
+        $column = $this->createMock(ColumnTypeInterface::class);
+        $view = $this->createMock(HeaderViewInterface::class);
 
         $column->expects($this->at(0))
             ->method('getOption')

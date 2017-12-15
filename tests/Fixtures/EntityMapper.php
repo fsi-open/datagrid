@@ -7,6 +7,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace FSi\Component\DataGrid\Tests\Fixtures;
 
 class EntityMapper
@@ -27,7 +29,7 @@ class EntityMapper
 
     private $protected_ready;
 
-    private $tags = array();
+    private $tags = [];
 
     public function setId($id)
     {

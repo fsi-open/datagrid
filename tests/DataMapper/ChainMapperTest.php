@@ -7,35 +7,40 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace FSi\Component\DataGrid\Tests\DataMapper;
 
 use FSi\Component\DataGrid\DataMapper\ChainMapper;
 use FSi\Component\DataGrid\Exception\DataMappingException;
+use FSi\Component\DataGrid\DataMapper\DataMapperInterface;
+use InvalidArgumentException;
+use PHPUnit\Framework\TestCase;
 
-class ChainMapperTest extends \PHPUnit_Framework_TestCase
+class ChainMapperTest extends TestCase
 {
     public function testMappersInChainWithInvalidMappers()
     {
-        $this->setExpectedException('InvalidArgumentException');
-        $chain = new ChainMapper(array(
+        $this->expectException(InvalidArgumentException::class);
+        new ChainMapper([
             'foo',
             'bar'
-        ));
+        ]);
     }
 
     public function testMappersInChainWithEmptyMappersArray()
     {
-        $this->setExpectedException('InvalidArgumentException');
-        $chain = new ChainMapper(array(
+        $this->expectException(InvalidArgumentException::class);
+        new ChainMapper([
             'foo',
             'bar'
-        ));
+        ]);
     }
 
     public function testGetDataFromTwoMappers()
     {
-        $mapper = $this->createMock('FSi\Component\DataGrid\DataMapper\DataMapperInterface');
-        $mapper1 = $this->createMock('FSi\Component\DataGrid\DataMapper\DataMapperInterface');
+        $mapper = $this->createMock(DataMapperInterface::class);
+        $mapper1 = $this->createMock(DataMapperInterface::class);
 
         $mapper->expects($this->once())
                ->method('getData')
@@ -45,7 +50,7 @@ class ChainMapperTest extends \PHPUnit_Framework_TestCase
                ->method('getData')
                ->will($this->returnValue('foo'));
 
-        $chain = new ChainMapper(array($mapper, $mapper1));
+        $chain = new ChainMapper([$mapper, $mapper1]);
 
         $this->assertSame(
             'foo',
@@ -55,8 +60,8 @@ class ChainMapperTest extends \PHPUnit_Framework_TestCase
 
     public function testSetDataWithTwoMappers()
     {
-        $mapper = $this->createMock('FSi\Component\DataGrid\DataMapper\DataMapperInterface');
-        $mapper1 = $this->createMock('FSi\Component\DataGrid\DataMapper\DataMapperInterface');
+        $mapper = $this->createMock(DataMapperInterface::class);
+        $mapper1 = $this->createMock(DataMapperInterface::class);
 
         $mapper->expects($this->once())
                ->method('setData')
@@ -67,8 +72,8 @@ class ChainMapperTest extends \PHPUnit_Framework_TestCase
                ->with('foo', 'bar', 'test')
                ->will($this->returnValue(true));
 
-        $chain = new ChainMapper(array($mapper, $mapper1));
+        $chain = new ChainMapper([$mapper, $mapper1]);
 
-        $this->assertTrue($chain->setData('foo', 'bar', 'test'));
+        $chain->setData('foo', 'bar', 'test');
     }
 }

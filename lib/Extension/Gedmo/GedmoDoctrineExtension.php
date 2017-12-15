@@ -7,6 +7,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace FSi\Component\DataGrid\Extension\Gedmo;
 
 use Doctrine\Common\Persistence\ManagerRegistry;
@@ -16,25 +18,19 @@ use FSi\Component\DataGrid\Extension\Gedmo\ColumnType;
 class GedmoDoctrineExtension extends DataGridAbstractExtension
 {
     /**
-     * @var \Doctrine\Common\Persistence\ManagerRegistry
+     * @var ManagerRegistry
      */
     protected $registry;
 
-    /**
-     * @param \Doctrine\Common\Persistence\ManagerRegistry $registry
-     */
     public function __construct(ManagerRegistry $registry)
     {
         $this->registry = $registry;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function loadColumnTypes()
+    protected function loadColumnTypes(): array
     {
-        return array(
+        return [
             new ColumnType\Tree($this->registry),
-        );
+        ];
     }
 }

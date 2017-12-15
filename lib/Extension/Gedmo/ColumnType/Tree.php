@@ -7,6 +7,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace FSi\Component\DataGrid\Extension\Gedmo\ColumnType;
 
 use Doctrine\Common\Persistence\ManagerRegistry;
@@ -36,35 +38,26 @@ class Tree extends ColumnAbstractType
     /**
      * @var array
      */
-    protected $viewAttributes;
+    private $viewAttributes;
 
     /**
      * @var array
      */
-    protected $classStrategies;
+    private $classStrategies;
 
-    /**
-     * @param ManagerRegistry $registry
-     */
     public function __construct(ManagerRegistry $registry)
     {
         $this->registry = $registry;
-        $this->viewAttributes = array();
-        $this->classStrategies = array();
-        $this->allowedStrategies = array('nested');
+        $this->viewAttributes = [];
+        $this->classStrategies = [];
+        $this->allowedStrategies = ['nested'];
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getId()
+    public function getId(): string
     {
         return 'gedmo_tree';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function getValue($object)
     {
         if (!is_object($object)) {
@@ -85,16 +78,14 @@ class Tree extends ColumnAbstractType
         $doctrineDataIndexer = new DoctrineDataIndexer($this->registry, get_class($object));
         $propertyAccessor = PropertyAccess::createPropertyAccessor();
 
-
-        $this->viewAttributes = array(
+        $this->viewAttributes = [
             'id' => $doctrineDataIndexer->getIndex($object),
             'root' => isset($config['root']) ? $propertyAccessor->getValue($object, $config['root']) : null,
             'left' => isset($config['left']) ? $propertyAccessor->getValue($object, $config['left']) : null,
             'right' => isset($config['right']) ? $propertyAccessor->getValue($object, $config['right']) : null,
             'level' => (isset($config['level'])) ? $propertyAccessor->getValue($object, $config['level']) : null,
-            'children' => $this->getTreeRepository(get_class($object), $objectManager)
-                    ->childCount($object),
-        );
+            'children' => $this->getTreeRepository(get_class($object), $objectManager)->childCount($object),
+        ];
 
         $parent = (isset($config['parent'])) ? $propertyAccessor->getValue($object, $config['parent']) : null;
         if (isset($parent)) {
@@ -112,41 +103,26 @@ class Tree extends ColumnAbstractType
         return $value;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function buildCellView(CellViewInterface $view)
+    public function buildCellView(CellViewInterface $view): void
     {
         foreach ($this->getViewAttributes() as $attrName => $attrValue) {
             $view->setAttribute($attrName, $attrValue);
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function initOptions()
+    public function initOptions(): void
     {
-        $this->getOptionsResolver()->setDefaults(array(
+        $this->getOptionsResolver()->setDefaults([
             'em' => null,
-        ));
+        ]);
     }
 
-    /**
-     * @return array
-     */
-    public function getViewAttributes()
+    private function getViewAttributes(): array
     {
         return $this->viewAttributes;
     }
 
-    /**
-     * @param ObjectManager $om
-     * @param TreeListener $listener
-     * @param string $class
-     * @return Strategy
-     */
-    private function getClassStrategy(ObjectManager $om, TreeListener $listener, $class)
+    private function getClassStrategy(ObjectManager $om, TreeListener $listener, string $class): Strategy
     {
         if (array_key_exists($class, $this->classStrategies)) {
             return $this->classStrategies[$class];
@@ -154,7 +130,7 @@ class Tree extends ColumnAbstractType
 
         $this->classStrategies[$class] = null;
         $classParents = array_merge(
-            array($class),
+            [$class],
             class_parents($class)
         );
 

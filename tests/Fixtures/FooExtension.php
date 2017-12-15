@@ -7,6 +7,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace FSi\Component\DataGrid\Tests\Fixtures;
 
 use FSi\Component\DataGrid\DataGridAbstractExtension;
@@ -14,10 +16,10 @@ use FSi\Component\DataGrid\Tests\Fixtures\ColumnType;
 
 class FooExtension extends DataGridAbstractExtension
 {
-    protected function loadColumnTypes()
+    protected function loadColumnTypes(): array
     {
-        return array(
+        return [
             new ColumnType\FooType(),
-        );
+        ];
     }
 }

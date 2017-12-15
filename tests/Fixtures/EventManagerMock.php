@@ -7,6 +7,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace FSi\Component\DataGrid\Tests\Fixtures;
 
 class EventManagerMock
@@ -20,6 +22,6 @@ class EventManagerMock
 
     public function getListeners()
     {
-        return array($this->listeners);
+        return [$this->listeners];
     }
 }

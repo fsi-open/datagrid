@@ -7,6 +7,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace FSi\Component\DataGrid\DataMapper;
 
 use FSi\Component\DataGrid\Exception\DataMappingException;
@@ -16,9 +18,9 @@ use Symfony\Component\PropertyAccess\PropertyAccess;
 class PropertyAccessorMapper implements DataMapperInterface
 {
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
-    public function getData($field, $object)
+    public function getData(string $field, $object)
     {
         $accessor = PropertyAccess::createPropertyAccessor();
 
@@ -32,9 +34,9 @@ class PropertyAccessorMapper implements DataMapperInterface
     }
 
     /**
-     * {@inheritdoc}
+     * @inheritdoc
      */
-    public function setData($field, $object, $value)
+    public function setData(string $field, $object, $value): void
     {
         $accessor = PropertyAccess::createPropertyAccessor();
 

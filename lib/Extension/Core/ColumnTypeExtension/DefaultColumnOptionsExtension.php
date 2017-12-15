@@ -7,32 +7,28 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace FSi\Component\DataGrid\Extension\Core\ColumnTypeExtension;
 
 use FSi\Component\DataGrid\Column\ColumnTypeInterface;
-use FSi\Component\DataGrid\Column\CellViewInterface;
 use FSi\Component\DataGrid\Column\HeaderViewInterface;
 use FSi\Component\DataGrid\Column\ColumnAbstractTypeExtension;
 
 class DefaultColumnOptionsExtension extends ColumnAbstractTypeExtension
 {
-    /**
-     * {@inheritdoc}
-     */
-    public function buildHeaderView(ColumnTypeInterface $column, HeaderViewInterface $view)
+    public function buildHeaderView(ColumnTypeInterface $column, HeaderViewInterface $view): void
     {
         $view->setLabel($column->getOption('label'));
-        if (!is_null($order = $column->getOption('display_order'))) {
+        $order = $column->getOption('display_order');
+        if (null !== $order) {
             $view->setAttribute('display_order', $order);
         }
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getExtendedColumnTypes()
+    public function getExtendedColumnTypes(): array
     {
-        return array(
+        return [
             'batch',
             'text',
             'boolean',
@@ -43,22 +39,19 @@ class DefaultColumnOptionsExtension extends ColumnAbstractTypeExtension
             'gedmo_tree',
             'entity',
             'action',
-        );
+        ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function initOptions(ColumnTypeInterface $column)
+    public function initOptions(ColumnTypeInterface $column): void
     {
-        $column->getOptionsResolver()->setDefaults(array(
+        $column->getOptionsResolver()->setDefaults([
             'label' => $column->getName(),
             'display_order' => null,
-            'field_mapping' => array($column->getName())
-        ));
+            'field_mapping' => [$column->getName()]
+        ]);
 
         $column->getOptionsResolver()->setAllowedTypes('label', 'string');
         $column->getOptionsResolver()->setAllowedTypes('field_mapping', 'array');
-        $column->getOptionsResolver()->setAllowedTypes('display_order', array('integer', 'null'));
+        $column->getOptionsResolver()->setAllowedTypes('display_order', ['integer', 'null']);
     }
 }

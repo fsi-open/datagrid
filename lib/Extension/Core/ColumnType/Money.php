@@ -7,6 +7,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace FSi\Component\DataGrid\Extension\Core\ColumnType;
 
 use FSi\Component\DataGrid\Column\ColumnAbstractType;
@@ -14,22 +16,16 @@ use FSi\Component\DataGrid\Exception\DataGridColumnException;
 
 class Money extends ColumnAbstractType
 {
-    const ROUND_HALF_UP = PHP_ROUND_HALF_UP;
-    const ROUND_HALF_DOWN = PHP_ROUND_HALF_DOWN;
-    const ROUND_HALF_EVEN = PHP_ROUND_HALF_EVEN;
-    const ROUND_HALF_ODD = PHP_ROUND_HALF_ODD;
+    public const ROUND_HALF_UP = PHP_ROUND_HALF_UP;
+    public const ROUND_HALF_DOWN = PHP_ROUND_HALF_DOWN;
+    public const ROUND_HALF_EVEN = PHP_ROUND_HALF_EVEN;
+    public const ROUND_HALF_ODD = PHP_ROUND_HALF_ODD;
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getId()
+    public function getId(): string
     {
         return 'money';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function filterValue($value)
     {
         $precision = $this->getOption('precision');
@@ -42,14 +38,15 @@ class Money extends ColumnAbstractType
         $mappingFields = $this->getOption('field_mapping');
         $currencySeparator = $this->getOption('value_currency_separator');
 
-        if (!isset($currencyField) && !isset($currencyValue)) {
-            throw new DataGridColumnException(
-                sprintf('At least one option from "currency" and "currency_field" must be defined in "%s" field.', $this->getName())
-            );
+        if (null === $currencyField && null === $currencyValue) {
+            throw new DataGridColumnException(sprintf(
+                'At least one option from "currency" and "currency_field" must be defined in "%s" field.',
+                $this->getName()
+            ));
         }
 
         $currency = $currencyValue;
-        if (isset($currencyField)) {
+        if (null !== $currencyField) {
             if (!in_array($currencyField, $mappingFields)) {
                 throw new DataGridColumnException(
                     sprintf('There is no field with name "%s".', $currencyField)
@@ -74,12 +71,9 @@ class Money extends ColumnAbstractType
         return $value;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function initOptions()
+    public function initOptions(): void
     {
-        $this->getOptionsResolver()->setDefaults(array(
+        $this->getOptionsResolver()->setDefaults([
             'round_mode' => self::ROUND_HALF_UP,
             'precision' => 2,
             'decimals' => 2,
@@ -88,7 +82,7 @@ class Money extends ColumnAbstractType
             'value_currency_separator' => ' ',
             'currency' => null,
             'currency_field' => null,
-        ));
+        ]);
 
         $this->getOptionsResolver()->setAllowedTypes('round_mode', 'integer');
         $this->getOptionsResolver()->setAllowedTypes('precision', 'integer');
@@ -97,7 +91,7 @@ class Money extends ColumnAbstractType
         $this->getOptionsResolver()->setAllowedTypes('dec_point', 'string');
         $this->getOptionsResolver()->setAllowedTypes('thousands_sep', 'string');
         $this->getOptionsResolver()->setAllowedTypes('value_currency_separator', 'string');
-        $this->getOptionsResolver()->setAllowedTypes('currency', array('null', 'string'));
-        $this->getOptionsResolver()->setAllowedTypes('currency_field', array('null', 'string'));
+        $this->getOptionsResolver()->setAllowedTypes('currency', ['null', 'string']);
+        $this->getOptionsResolver()->setAllowedTypes('currency_field', ['null', 'string']);
     }
 }

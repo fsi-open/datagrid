@@ -7,6 +7,8 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace FSi\Component\DataGrid\Extension\Core\ColumnType;
 
 use FSi\Component\DataGrid\Column\ColumnAbstractType;
@@ -16,36 +18,7 @@ use Symfony\Component\OptionsResolver\Options;
 class Action extends ColumnAbstractType
 {
     /**
-     * @var array
-     */
-    protected $actionOptionsDefault = array(
-        'protocol' => 'http://',
-        'protocole' => 'http://'
-    );
-
-    /**
-     * @var array
-     */
-    protected $actionOptionsAvailable = array(
-        'uri_scheme',
-        'anchor',
-        'protocole',
-        'protocol',
-        'domain',
-        'name',
-        'redirect_uri',
-    );
-
-    /**
-     * @var array
-     */
-    protected $actionOptionsRequired = array(
-        'uri_scheme',
-        'anchor',
-    );
-
-    /**
-     * @var \Symfony\Component\OptionsResolver\OptionsResolver
+     * @var OptionsResolver
      */
     protected $actionOptionsResolver;
 
@@ -54,25 +27,19 @@ class Action extends ColumnAbstractType
         $this->actionOptionsResolver = new OptionsResolver();
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getId()
+    public function getId(): string
     {
         return 'action';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function filterValue($value)
     {
-        $return = array();
+        $return = [];
         $actions = $this->getOption('actions');
 
         foreach ($actions as $name => $options) {
             $options = $this->actionOptionsResolver->resolve((array) $options);
-            $return[$name] = array();
+            $return[$name] = [];
 
             $url = (isset($options['protocol'], $options['domain'])) ? $options['protocol'] . $options['domain'] : '';
             $url .= vsprintf ($options['uri_scheme'], $value);
@@ -92,47 +59,30 @@ class Action extends ColumnAbstractType
         return $return;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function initOptions()
+    public function initOptions(): void
     {
-        $this->getOptionsResolver()->setDefaults(array(
-            'actions' => array(),
-        ));
+        $this->getOptionsResolver()->setDefaults([
+            'actions' => [],
+        ]);
 
         $this->getOptionsResolver()->setAllowedTypes('actions', 'array');
 
-        $this->actionOptionsResolver->setDefaults(array(
+        $this->actionOptionsResolver->setDefaults([
             'redirect_uri' => null,
             'domain' => null,
-            'protocole' => 'http://',
             'protocol' => 'http://'
-        ));
+        ]);
 
-        $this->actionOptionsResolver->setRequired(array(
+        $this->actionOptionsResolver->setRequired([
             'uri_scheme'
-        ));
+        ]);
 
-        $this->actionOptionsResolver->setAllowedTypes('redirect_uri', array('string', 'null'));
+        $this->actionOptionsResolver->setAllowedTypes('redirect_uri', ['string', 'null']);
         $this->actionOptionsResolver->setAllowedTypes('uri_scheme', 'string');
-
-        $this->actionOptionsResolver->setAllowedValues('protocol', array('http://', 'https://'));
-
-        $this->actionOptionsResolver->setDefaults(array(
-            'protocol' => function (Options $options, $value) {
-                if (isset($options['protocole'])) {
-                    $value = $options['protocole'];
-                }
-                return $value;
-            }
-        ));
+        $this->actionOptionsResolver->setAllowedValues('protocol', ['http://', 'https://']);
     }
 
-    /**
-     * @return \Symfony\Component\OptionsResolver\OptionsResolver
-     */
-    public function getActionOptionsResolver()
+    public function getActionOptionsResolver(): OptionsResolver
     {
         return $this->actionOptionsResolver;
     }

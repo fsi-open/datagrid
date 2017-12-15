@@ -7,13 +7,15 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace FSi\Component\DataGrid\Tests\Fixtures\ColumnType;
 
 use FSi\Component\DataGrid\Column\ColumnAbstractType;
 
 class FooType extends ColumnAbstractType
 {
-    public function getId()
+    public function getId(): string
     {
         return 'foo';
     }

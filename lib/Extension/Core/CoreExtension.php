@@ -7,9 +7,9 @@
  * file that was distributed with this source code.
  */
 
-namespace FSi\Component\DataGrid\Extension\Core;
+declare(strict_types=1);
 
-use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+namespace FSi\Component\DataGrid\Extension\Core;
 
 use FSi\Component\DataGrid\DataGridAbstractExtension;
 use FSi\Component\DataGrid\Extension\Core\ColumnType;
@@ -18,12 +18,9 @@ use FSi\Component\DataGrid\Extension\Core\EventSubscriber;
 
 class CoreExtension extends DataGridAbstractExtension
 {
-    /**
-     * {@inheritdoc}
-     */
-    protected function loadColumnTypes()
+    protected function loadColumnTypes(): array
     {
-        return array(
+        return [
             new ColumnType\Text(),
             new ColumnType\Number(),
             new ColumnType\Collection(),
@@ -31,27 +28,21 @@ class CoreExtension extends DataGridAbstractExtension
             new ColumnType\Action(),
             new ColumnType\Money(),
             new ColumnType\Action(),
-        );
+        ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function loadColumnTypesExtensions()
+    protected function loadColumnTypesExtensions(): array
     {
-        return array(
+        return [
             new ColumnTypeExtension\DefaultColumnOptionsExtension(),
             new ColumnTypeExtension\ValueFormatColumnOptionsExtension(),
-        );
+        ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    protected function loadSubscribers()
+    protected function loadSubscribers(): array
     {
-        return array(
+        return [
             new EventSubscriber\ColumnOrder(),
-        );
+        ];
     }
 }

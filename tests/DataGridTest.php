@@ -7,14 +7,22 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace FSi\Component\DataGrid\Tests;
 
 use FSi\Component\DataGrid\DataGrid;
 use FSi\Component\DataGrid\Tests\Fixtures\FooExtension;
 use FSi\Component\DataGrid\Tests\Fixtures\ColumnType\FooType;
 use FSi\Component\DataGrid\Tests\Fixtures\Entity;
+use FSi\Component\DataGrid\DataGridViewInterface;
+use FSi\Component\DataGrid\DataMapper\DataMapperInterface;
+use FSi\Component\DataGrid\DataGridFactoryInterface;
+use InvalidArgumentException;
+use PHPUnit\Framework\TestCase;
+use TypeError;
 
-class DataGridTest extends \PHPUnit_Framework_TestCase
+class DataGridTest extends TestCase
 {
     /**
      * @var DataGridFactoryInterface
@@ -22,7 +30,7 @@ class DataGridTest extends \PHPUnit_Framework_TestCase
     private $factory;
 
     /**
-     * @var DataMapper
+     * @var DataMapperInterface
      */
     private $dataMapper;
 
@@ -33,7 +41,7 @@ class DataGridTest extends \PHPUnit_Framework_TestCase
 
     protected function setUp()
     {
-        $this->dataMapper = $this->createMock('FSi\Component\DataGrid\DataMapper\DataMapperInterface');
+        $this->dataMapper = $this->createMock(DataMapperInterface::class);
         $this->dataMapper->expects($this->any())
             ->method('getData')
             ->will($this->returnCallback(function($field, $object){
@@ -49,17 +57,17 @@ class DataGridTest extends \PHPUnit_Framework_TestCase
             ->will($this->returnCallback(function($field, $object, $value){
                 switch($field) {
                     case 'name':
-                           return $object->setName($value);
+                        $object->setName($value);
                         break;
                 }
             }));
 
-        $this->factory = $this->createMock('FSi\Component\DataGrid\DataGridFactoryInterface');
+        $this->factory = $this->createMock(DataGridFactoryInterface::class);
         $this->factory->expects($this->any())
             ->method('getExtensions')
-            ->will($this->returnValue(array(
+            ->will($this->returnValue([
                 new FooExtension(),
-            )));
+            ]));
 
         $this->factory->expects($this->any())
             ->method('getColumnType')
@@ -89,7 +97,7 @@ class DataGridTest extends \PHPUnit_Framework_TestCase
         $this->assertTrue($this->datagrid->hasColumnType('foo'));
         $this->assertFalse($this->datagrid->hasColumnType('this_type_cant_exists'));
 
-        $this->assertInstanceOf('FSi\Component\DataGrid\Tests\Fixtures\ColumnType\FooType', $this->datagrid->getColumn('foo1'));
+        $this->assertInstanceOf(FooType::class, $this->datagrid->getColumn('foo1'));
 
         $this->assertTrue($this->datagrid->hasColumn('foo1'));
         $column = $this->datagrid->getColumn('foo1');
@@ -105,74 +113,74 @@ class DataGridTest extends \PHPUnit_Framework_TestCase
         $this->datagrid->clearColumns();
         $this->assertEquals(0, count($this->datagrid->getColumns()));
 
-        $this->setExpectedException('InvalidArgumentException');
+        $this->expectException(InvalidArgumentException::class);
         $this->datagrid->getColumn('bar');
     }
 
     public function testGetDataMapper()
     {
-        $this->assertInstanceOf('FSi\Component\DataGrid\DataMapper\DataMapperInterface', $this->datagrid->getDataMapper());
+        $this->assertInstanceOf(DataMapperInterface::class, $this->datagrid->getDataMapper());
     }
 
     public function testSetData()
     {
-        $gridData = array(
+        $gridData = [
             new Entity('entity1'),
             new Entity('entity2')
-        );
+        ];
 
         $this->datagrid->setData($gridData);
 
         $this->assertEquals(count($gridData), count($this->datagrid->createView()));
 
-        $gridData = array(
-            array('some', 'data'),
-            array('next', 'data')
-        );
+        $gridData = [
+            ['some', 'data'],
+            ['next', 'data']
+        ];
 
         $this->datagrid->setData($gridData);
 
         $this->assertEquals(count($gridData), count($this->datagrid->createView()));
 
         $gridBrokenData = false;
-        $this->setExpectedException('InvalidArgumentException');
+        $this->expectException(TypeError::class);
         $this->datagrid->setData($gridBrokenData);
     }
 
     public function testBindData()
     {
         $gridBrokenData = false;
-        $this->setExpectedException('InvalidArgumentException');
+        $this->expectException(TypeError::class);
         $this->datagrid->bindData($gridBrokenData);
     }
 
     public function testCreateView()
     {
         $this->datagrid->addColumn('foo1', 'foo');
-        $gridData = array(
+        $gridData = [
             new Entity('entity1'),
             new Entity('entity2')
-        );
+        ];
 
         $this->datagrid->setData($gridData);
-        $this->assertInstanceOf('FSi\Component\DataGrid\DataGridViewInterface',$this->datagrid->createView());
+        $this->assertInstanceOf(DataGridViewInterface::class,$this->datagrid->createView());
     }
 
     public function testSetDataForArray()
     {
-        $gridData = array(
-            array('one'),
-            array('two'),
-            array('three'),
-            array('four'),
-            array('bazinga!'),
-            array('five'),
-        );
+        $gridData = [
+            ['one'],
+            ['two'],
+            ['three'],
+            ['four'],
+            ['bazinga!'],
+            ['five'],
+        ];
 
         $this->datagrid->setData($gridData);
         $view = $this->datagrid->createView();
 
-        $keys = array();
+        $keys = [];
         foreach ($view as $row) {
             $keys[] = $row->getIndex();
         }

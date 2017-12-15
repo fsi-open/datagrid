@@ -7,19 +7,25 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace FSi\Component\DataGrid\Tests;
 
 use FSi\Component\DataGrid\DataGridView;
+use FSi\Component\DataGrid\Data\DataRowsetInterface;
+use FSi\Component\DataGrid\Column\HeaderViewInterface;
+use FSi\Component\DataGrid\Column\ColumnTypeInterface;
+use PHPUnit\Framework\TestCase;
 
-class DataGridViewTest extends \PHPUnit_Framework_TestCase
+class DataGridViewTest extends TestCase
 {
     /**
-     * @var \FSi\Component\DataGrid\Data\DataRowsetInterface
+     * @var DataRowsetInterface
      */
     private $rowset;
 
     /**
-     * @var \FSi\Component\DataGrid\DataGridView
+     * @var DataGridView
      */
     private $gridView;
 
@@ -27,11 +33,11 @@ class DataGridViewTest extends \PHPUnit_Framework_TestCase
     {
         $self = $this;
 
-        $column = $this->createMock('FSi\Component\DataGrid\Column\ColumnTypeInterface');
+        $column = $this->createMock(ColumnTypeInterface::class);
         $column->expects($this->any())
             ->method('createHeaderView')
             ->will($this->returnCallback(function() use ($self) {
-                $headerView = $self->createMock('FSi\Component\DataGrid\Column\HeaderViewInterface');
+                $headerView = $self->createMock(HeaderViewInterface::class);
                 $headerView->expects($self->any())
                     ->method('getName')
                     ->will($self->returnValue('ColumnHeaderView'));
@@ -47,7 +53,7 @@ class DataGridViewTest extends \PHPUnit_Framework_TestCase
             ->method('getName')
             ->will($this->returnValue('foo'));
 
-        $columnHeader = $this->createMock('FSi\Component\DataGrid\Column\HeaderViewInterface');
+        $columnHeader = $this->createMock(HeaderViewInterface::class);
         $columnHeader->expects($this->any())
                 ->method('getName')
                 ->will($this->returnValue('foo'));
@@ -59,14 +65,14 @@ class DataGridViewTest extends \PHPUnit_Framework_TestCase
         $columnHeader->expects($this->any())
             ->method('setDataGridView');
 
-        $this->rowset = $this->createMock('FSi\Component\DataGrid\Data\DataRowsetInterface');
-        $this->gridView = new DataGridView('test-grid-view', array($column) , $this->rowset);
+        $this->rowset = $this->createMock(DataRowsetInterface::class);
+        $this->gridView = new DataGridView('test-grid-view', [$column], $this->rowset);
 
         $this->assertSame('test-grid-view', $this->gridView->getName());
 
         $this->assertTrue($this->gridView->hasColumn('foo'));
         $this->assertTrue($this->gridView->hasColumnType('foo-type'));
-        $this->assertSame(1, count($this->gridView->getColumns()));
+        $this->assertCount(1, $this->gridView->getColumns());
         $this->assertSame($this->gridView->getColumn('foo')->getName(), 'ColumnHeaderView');
         $this->gridView->removeColumn('foo');
         $this->assertFalse($this->gridView->hasColumn('foo'));

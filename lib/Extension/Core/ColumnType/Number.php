@@ -7,28 +7,24 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace FSi\Component\DataGrid\Extension\Core\ColumnType;
 
 use FSi\Component\DataGrid\Column\ColumnAbstractType;
 
 class Number extends ColumnAbstractType
 {
-    const ROUND_HALF_UP = PHP_ROUND_HALF_UP;
-    const ROUND_HALF_DOWN = PHP_ROUND_HALF_DOWN;
-    const ROUND_HALF_EVEN = PHP_ROUND_HALF_EVEN;
-    const ROUND_HALF_ODD = PHP_ROUND_HALF_ODD;
+    public const ROUND_HALF_UP = PHP_ROUND_HALF_UP;
+    public const ROUND_HALF_DOWN = PHP_ROUND_HALF_DOWN;
+    public const ROUND_HALF_EVEN = PHP_ROUND_HALF_EVEN;
+    public const ROUND_HALF_ODD = PHP_ROUND_HALF_ODD;
 
-    /**
-     * {@inheritdoc}
-     */
-    public function getId()
+    public function getId(): string
     {
         return 'number';
     }
 
-    /**
-     * {@inheritdoc}
-     */
     public function filterValue($value)
     {
         $precision = (int) $this->getOption('precision');
@@ -56,19 +52,16 @@ class Number extends ColumnAbstractType
         return $value;
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function initOptions()
+    public function initOptions(): void
     {
-        $this->options = array(
+        $this->options = [
             'round_mode' => null,
             'precision' => 2,
             'format' => false,
             'format_decimals' => 2,
             'format_dec_point' => '.',
             'format_thousands_sep' => ',',
-        );
+        ];
 
         $this->getOptionsResolver()->setDefaults($this->options);
 
@@ -76,12 +69,12 @@ class Number extends ColumnAbstractType
         $this->getOptionsResolver()->setAllowedTypes('format', 'bool');
         $this->getOptionsResolver()->setAllowedTypes('format_decimals', 'integer');
 
-        $this->getOptionsResolver()->setAllowedValues('round_mode', array(
+        $this->getOptionsResolver()->setAllowedValues('round_mode', [
             null,
             self::ROUND_HALF_UP,
             self::ROUND_HALF_DOWN,
             self::ROUND_HALF_EVEN,
             self::ROUND_HALF_ODD,
-        ));
+        ]);
     }
 }

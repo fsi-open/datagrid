@@ -7,20 +7,20 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace FSi\Component\DataGrid\Extension\Core\EventSubscriber;
 
 use FSi\Component\DataGrid\DataGridEventInterface;
 use FSi\Component\DataGrid\DataGridEvents;
+use FSi\Component\DataGrid\DataGridViewInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class ColumnOrder implements EventSubscriberInterface
 {
-    /**
-     * {@inheritdoc}
-     */
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
-        return array(DataGridEvents::POST_BUILD_VIEW => array('postBuildView', 128));
+        return [DataGridEvents::POST_BUILD_VIEW => ['postBuildView', 128]];
     }
 
     /**
@@ -28,15 +28,16 @@ class ColumnOrder implements EventSubscriberInterface
      */
     public function postBuildView(DataGridEventInterface $event)
     {
+        /** @var DataGridViewInterface $view */
         $view = $event->getData();
         $columns = $view->getColumns();
 
         if (count($columns)) {
-            $positive = array();
-            $negative = array();
-            $neutral = array();
+            $positive = [];
+            $negative = [];
+            $neutral = [];
 
-            $indexedColumns = array();
+            $indexedColumns = [];
             foreach ($columns as $column) {
                 if ($column->hasAttribute('display_order')) {
                     if (($order = $column->getAttribute('display_order')) >= 0) {
@@ -53,7 +54,7 @@ class ColumnOrder implements EventSubscriberInterface
             asort($positive);
             asort($negative);
 
-            $columns = array();
+            $columns = [];
             foreach ($negative as $name => $order) {
                 $columns[] = $indexedColumns[$name];
             }

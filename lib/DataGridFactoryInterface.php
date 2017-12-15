@@ -7,44 +7,25 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace FSi\Component\DataGrid;
+
+use FSi\Component\DataGrid\Column\ColumnTypeInterface;
+use FSi\Component\DataGrid\DataMapper\DataMapperInterface;
 
 interface DataGridFactoryInterface
 {
-    /**
-     * Check if column is registered in factory. Column types can be registered
-     * only by extensions.
-     *
-     * @param string $type
-     * @return boolean
-     */
-    public function hasColumnType($type);
+    public function hasColumnType(string $type): bool;
+
+    public function getColumnType(string $type): ColumnTypeInterface;
 
     /**
-     * @throws \FSi\Component\DataGrid\Exception\UnexpectedTypeException if column is not registered in factory.
-     * @param string $type
-     * @return \FSi\Component\DataGrid\Column\ColumnTypeInterface
+     * @return DataGridExtensionInterface[]
      */
-    public function getColumnType($type);
+    public function getExtensions(): array;
 
-    /**
-     * Return all registered in factory DataGrid extensions as array.
-     *
-     * @return array
-     */
-    public function getExtensions();
+    public function createDataGrid(string $name = 'grid'): DataGridInterface;
 
-    /**
-     * Create data grid with unique name.
-     *
-     * @param string $name
-     * @return \FSi\Component\DataGrid\DataGridInterface
-     * @throws \FSi\Component\DataGrid\Exception\DataGridColumnException
-     */
-    public function createDataGrid($name = 'grid');
-
-    /**
-     * @return \FSi\Component\DataGrid\DataMapper\DataMapperInterface
-     */
-    public function getDataMapper();
+    public function getDataMapper(): DataMapperInterface;
 }

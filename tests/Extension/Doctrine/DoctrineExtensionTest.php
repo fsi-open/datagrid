@@ -7,11 +7,14 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace FSi\Component\DataGrid\Tests\Extension\Doctrine;
 
 use FSi\Component\DataGrid\Extension\Doctrine\DoctrineExtension;
+use PHPUnit\Framework\TestCase;
 
-class DoctrineExtensionTest extends \PHPUnit_Framework_TestCase
+class DoctrineExtensionTest extends TestCase
 {
     public function testLoadedTypes()
     {

@@ -7,14 +7,17 @@
  * file that was distributed with this source code.
  */
 
+declare(strict_types=1);
+
 namespace FSi\Component\DataGrid\Tests\Extension\Core\ColumnType;
 
 use FSi\Component\DataGrid\Extension\Core\ColumnType\Boolean;
+use PHPUnit\Framework\TestCase;
 
-class BooleanTest extends \PHPUnit_Framework_TestCase
+class BooleanTest extends TestCase
 {
     /**
-     * @var \FSi\Component\DataGrid\Extension\Core\ColumnType\Boolean
+     * @var Boolean
      */
     private $column;
 
@@ -29,10 +32,10 @@ class BooleanTest extends \PHPUnit_Framework_TestCase
 
     public function testBasicFilterValue()
     {
-        $this->column->setOptions(array(
+        $this->column->setOptions([
             'true_value' => 'true',
             'false_value'=> 'false'
-        ));
+        ]);
 
         $this->assertSame($this->column->filterValue(true), 'true');
         $this->assertNotSame($this->column->filterValue(true), 'false');
@@ -43,27 +46,27 @@ class BooleanTest extends \PHPUnit_Framework_TestCase
         $this->column->setOption('true_value', 'true');
 
         $this->assertSame(
-            $this->column->filterValue(array(
+            $this->column->filterValue([
                 true,
                 true
-            )),
+            ]),
             'true'
         );
     }
 
     public function testFilterValueWithMixedValuesInArray()
     {
-        $this->column->setOptions(array(
+        $this->column->setOptions([
             'true_value' => 'true',
             'false_value'=> 'false'
-        ));
+        ]);
 
         $this->assertSame(
-            $this->column->filterValue(array(
+            $this->column->filterValue([
                 true,
                 1,
                 new \DateTime()
-            )),
+            ]),
             'true'
         );
     }
@@ -71,68 +74,68 @@ class BooleanTest extends \PHPUnit_Framework_TestCase
 
     public function testFilterValueWithFalseValuesInArray()
     {
-        $this->column->setOptions(array(
+        $this->column->setOptions([
             'true_value' => 'true',
             'false_value'=> 'false'
-        ));
+        ]);
 
         $this->assertSame(
-            $this->column->filterValue(array(
+            $this->column->filterValue([
                 false,
                 false
-            )),
+            ]),
             'false'
         );
     }
 
     public function testFilterValueWithMixedValuesAndFalseInArray()
     {
-        $this->column->setOptions(array(
+        $this->column->setOptions([
             'true_value' => 'true',
             'false_value'=> 'false'
-        ));
+        ]);
 
         $this->assertSame(
-            $this->column->filterValue(array(
+            $this->column->filterValue([
                 true,
                 1,
                 new \DateTime(),
                 false
-            )),
+            ]),
             'false'
         );
     }
 
     public function testFilterValueWithMixedValuesAndNullInArray()
     {
-        $this->column->setOptions(array(
+        $this->column->setOptions([
             'true_value' => 'true',
             'false_value'=> 'false'
-        ));
+        ]);
 
         $this->assertSame(
-            $this->column->filterValue(array(
+            $this->column->filterValue([
                 true,
                 1,
                 new \DateTime(),
                 null
-            )),
+            ]),
             'true'
         );
     }
 
     public function testFilterValueWithAllNullsInArray()
     {
-        $this->column->setOptions(array(
+        $this->column->setOptions([
             'true_value' => 'true',
             'false_value'=> 'false'
-        ));
+        ]);
 
         $this->assertSame(
-            $this->column->filterValue(array(
+            $this->column->filterValue([
                 null,
                 null
-            )),
+            ]),
             ''
         );
     }
