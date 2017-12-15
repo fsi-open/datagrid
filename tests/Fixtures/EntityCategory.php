@@ -32,7 +32,7 @@ class EntityCategory
         $this->name = $name;
     }
 
-    function __toString()
+    public function __toString()
     {
         return $this->name;
     }

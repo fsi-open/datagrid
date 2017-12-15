@@ -81,7 +81,6 @@ class ChainMapper implements DataMapperInterface
      */
     public function setData(string $field, $object, $value): void
     {
-        $data = null;
         $dataChanged = false;
         $lastMsg = null;
 

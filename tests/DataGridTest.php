@@ -48,7 +48,6 @@ class DataGridTest extends TestCase
                 switch($field) {
                     case 'name':
                         return $object->getName();
-                    break;
                 }
             }));
 

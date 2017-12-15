@@ -43,11 +43,11 @@ class ValueFormatColumnOptionsExtensionTest extends TestCase
                 }
             }));
 
-        $view->expects($this->any(0))
+        $view->expects($this->any())
             ->method('getValue')
             ->will($this->returnValue(['foo', 'bar']));
 
-        $view->expects($this->any(1))
+        $view->expects($this->any())
             ->method('setValue')
             ->with('foo-bar');
 
@@ -67,13 +67,13 @@ class ValueFormatColumnOptionsExtensionTest extends TestCase
                 case 'value_glue':
                 case 'value_format':
                     return null;
-                    break;
+
                 case 'empty_value':
                     return '';
-                    break;
+
                 case 'field_mapping':
                     return [];
-                    break;
+
             }
         }));
 
@@ -100,16 +100,15 @@ class ValueFormatColumnOptionsExtensionTest extends TestCase
             switch($option) {
                 case 'value_format':
                     return '<b>%s</b>';
-                    break;
+
                 case 'value_glue':
                     return '<br/>';
-                    break;
+
                 case 'empty_value':
                     return '';
-                    break;
+
                 case 'field_mapping':
                     return [];
-                    break;
             }
         }));
 
@@ -137,13 +136,12 @@ class ValueFormatColumnOptionsExtensionTest extends TestCase
                     case 'value_format':
                     case 'value_glue':
                         return null;
-                        break;
+
                     case 'empty_value':
                         return '';
-                        break;
+
                     case 'field_mapping':
                         return [];
-                        break;
                 }
             }));
 
@@ -167,14 +165,13 @@ class ValueFormatColumnOptionsExtensionTest extends TestCase
                 switch($option) {
                     case 'value_format':
                         return '<b>%s</b>';
-                        break;
+
                     case 'value_glue':
                     case 'empty_value':
                         return '';
-                        break;
+
                     case 'field_mapping':
                         return [];
-                        break;
                 }
             }));
 
@@ -201,16 +198,15 @@ class ValueFormatColumnOptionsExtensionTest extends TestCase
                 switch($option) {
                     case 'value_format':
                         return '<b>%s</b><br/><b>%s</b>';
-                        break;
+
                     case 'value_glue':
                         return null;
-                        break;
+
                     case 'empty_value':
                         return '';
-                        break;
+
                     case 'field_mapping':
                         return [];
-                        break;
                 }
             }));
 
@@ -237,16 +233,15 @@ class ValueFormatColumnOptionsExtensionTest extends TestCase
                 switch($option) {
                     case 'value_format':
                         return '%s%s';
-                        break;
+
                     case 'value_glue':
                         return null;
-                        break;
+
                     case 'empty_value':
                         return '';
-                        break;
+
                     case 'field_mapping':
                         return [];
-                        break;
                 }
             }));
 
@@ -270,16 +265,15 @@ class ValueFormatColumnOptionsExtensionTest extends TestCase
                 switch($option) {
                     case 'value_format':
                         return '<b>%s</b>';
-                        break;
+
                     case 'value_glue':
                         return null;
-                        break;
+
                     case 'empty_value':
                         return '';
-                        break;
+
                     case 'field_mapping':
                         return [];
-                        break;
                 }
             }));
 
@@ -306,15 +300,15 @@ class ValueFormatColumnOptionsExtensionTest extends TestCase
                 switch($option) {
                     case 'value_format':
                         return '';
-                        break;
+
                     case 'value_glue':
                         break;
+
                     case 'empty_value':
                         return '';
-                        break;
+
                     case 'field_mapping':
                         return [];
-                        break;
                 }
             }));
 
@@ -341,16 +335,15 @@ class ValueFormatColumnOptionsExtensionTest extends TestCase
                 switch($option) {
                     case 'value_format':
                         return null;
-                        break;
+
                     case 'value_glue':
                         return ' ';
-                        break;
+
                     case 'empty_value':
                         return '';
-                        break;
+
                     case 'field_mapping':
                         return [];
-                        break;
                 }
             }));
 
@@ -378,13 +371,12 @@ class ValueFormatColumnOptionsExtensionTest extends TestCase
                     case 'value_format':
                     case 'value_glue':
                         return null;
-                        break;
+
                     case 'empty_value':
                         return 'empty';
-                        break;
+
                     case 'field_mapping':
                         return [];
-                        break;
                 }
             }));
 
@@ -411,16 +403,15 @@ class ValueFormatColumnOptionsExtensionTest extends TestCase
                 switch($option) {
                     case 'value_format':
                         return null;
-                        break;
+
                     case 'value_glue':
                         return ' ';
-                        break;
+
                     case 'empty_value':
                         return 'empty';
-                        break;
+
                     case 'field_mapping':
                         return [];
-                        break;
                 }
             }));
 
@@ -452,16 +443,15 @@ class ValueFormatColumnOptionsExtensionTest extends TestCase
                     case 'value_format':
                     case 'value_glue':
                         return null;
-                        break;
+
                     case 'empty_value':
                         return [
                             'fo' => 'foo',
                             'ba' => 'bar'
                         ];
-                        break;
+
                     case 'field_mapping':
                         return ['fo', 'ba'];
-                        break;
                 }
             }));
 
@@ -489,15 +479,14 @@ class ValueFormatColumnOptionsExtensionTest extends TestCase
                     case 'value_format':
                     case 'value_glue':
                         return null;
-                        break;
+
                     case 'empty_value':
                         return [
                             'fo' => 'empty',
                         ];
-                        break;
+
                     case 'field_mapping':
                         return ['fos'];
-                        break;
                 }
             }));
 
@@ -517,19 +506,18 @@ class ValueFormatColumnOptionsExtensionTest extends TestCase
                 switch($option) {
                     case 'value_format':
                         return '"%s" "%s" "%s"';
-                        break;
+
                     case 'value_glue':
                         return null;
-                        break;
+
                     case 'empty_value':
                         return [
                             'fo' => 'empty-fo',
                             'ba' => 'empty-bar'
                         ];
-                        break;
+
                     case 'field_mapping':
                         return ['fo', 'ba', 'ca'];
-                        break;
                 }
             }));
 
@@ -562,16 +550,15 @@ class ValueFormatColumnOptionsExtensionTest extends TestCase
                         return function($data) {
                             return $data['fo'] . '-' . $data['ba'];
                         };
-                        break;
+
                     case 'value_glue':
                         return null;
-                        break;
+
                     case 'empty_value':
                         return [];
-                        break;
+
                     case 'field_mapping':
                         return ['fo', 'ba'];
-                        break;
                 }
             }));
 
@@ -602,13 +589,12 @@ class ValueFormatColumnOptionsExtensionTest extends TestCase
                 switch($option) {
                     case 'value_glue':
                         return '';
-                        break;
+
                     case 'empty_value':
                         return 'This should not be used.';
-                        break;
+
                     case 'field_mapping':
                         return ['fo'];
-                        break;
                 }
             }));
 
