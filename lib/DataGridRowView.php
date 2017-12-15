@@ -80,7 +80,7 @@ class DataGridRowView implements DataGridRowViewInterface
         return current($this->cellViews);
     }
 
-    public function key(): string
+    public function key(): ?string
     {
         return key($this->cellViews);
     }
