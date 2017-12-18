@@ -142,7 +142,7 @@ class DataGridTest extends TestCase
         $this->assertEquals(count($gridData), count($this->datagrid->createView()));
 
         $gridBrokenData = false;
-        $this->expectException(TypeError::class);
+        $this->expectException(InvalidArgumentException::class);
         $this->datagrid->setData($gridBrokenData);
     }
 
