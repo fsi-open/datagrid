@@ -40,7 +40,7 @@ interface DataGridInterface
 
     public function createView(): DataGridViewInterface;
 
-    public function setData(iterable $data): void;
+    public function setData($data): void;
 
     public function bindData(iterable $data): void;
 
