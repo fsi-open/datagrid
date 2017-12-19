@@ -169,7 +169,7 @@ class DataGrid implements DataGridInterface
         return $this->dataMapper;
     }
 
-    public function setData($data): void
+    public function setData(iterable $data): void
     {
         $event = new DataGridEvent($this, $data);
         $this->eventDispatcher->dispatch(DataGridEvents::PRE_SET_DATA, $event);
@@ -187,7 +187,7 @@ class DataGrid implements DataGridInterface
         $this->eventDispatcher->dispatch(DataGridEvents::POST_SET_DATA, $event);
     }
 
-    public function bindData(iterable $data): void
+    public function bindData($data): void
     {
         $event = new DataGridEvent($this, $data);
         $this->eventDispatcher->dispatch(DataGridEvents::PRE_BIND_DATA, $event);
