@@ -27,7 +27,6 @@ class CoreExtension extends DataGridAbstractExtension
             new ColumnType\DateTime(),
             new ColumnType\Action(),
             new ColumnType\Money(),
-            new ColumnType\Action(),
         ];
     }
 

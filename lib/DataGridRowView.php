@@ -12,7 +12,7 @@ declare(strict_types=1);
 namespace FSi\Component\DataGrid;
 
 use FSi\Component\DataGrid\Column\CellViewInterface;
-use FSi\Component\DataGrid\Column\ColumnTypeInterface;
+use FSi\Component\DataGrid\Column\ColumnInterface;
 use FSi\Component\DataGrid\Exception\UnexpectedTypeException;
 use InvalidArgumentException;
 use RuntimeException;
@@ -22,41 +22,37 @@ class DataGridRowView implements DataGridRowViewInterface
     /**
      * @var CellViewInterface[]
      */
-    protected $cellViews = [];
+    private $cellViews = [];
 
     /**
      * @var mixed
      */
-    protected $source;
+    private $source;
 
     /**
-     * @var int
+     * @var int|string
      */
-    protected $index;
+    private $index;
 
     /**
-     * @param DataGridViewInterface $dataGridView
-     * @param ColumnTypeInterface[] $columns
+     * @param ColumnInterface[] $columns
+     * @param int|string $index
      * @param mixed $source
-     * @param int $index
-     * @throws Exception\UnexpectedTypeException
      */
-    public function __construct(DataGridViewInterface $dataGridView, array $columns, $source, $index)
+    public function __construct(array $columns, $index, $source)
     {
         $this->source = $source;
         $this->index = $index;
         foreach ($columns as $name => $column) {
-            if (!$column instanceof ColumnTypeInterface) {
+            if (!$column instanceof ColumnInterface) {
                 throw new UnexpectedTypeException(sprintf(
                     'Column object must implement "%s"',
-                    ColumnTypeInterface::class
+                    ColumnInterface::class
                 ));
             }
 
-            $cellView = $column->createCellView($this->source, $index);
-            $cellView->setDataGridView($dataGridView);
-
-            $this->cellViews[$name] = $cellView;
+            $this->cellViews[$name] = $column->getDataGrid()->getFactory()->createCellView($column, $source);
+            $this->cellViews[$name]->setAttribute('row_index', $index);
         }
     }
 

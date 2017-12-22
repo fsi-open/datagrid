@@ -11,24 +11,42 @@ declare(strict_types=1);
 
 namespace FSi\Component\DataGrid\Tests\Extension\Core\ColumnType;
 
+use FSi\Component\DataGrid\DataGridFactory;
+use FSi\Component\DataGrid\DataGridInterface;
 use FSi\Component\DataGrid\Extension\Core\ColumnType\Collection;
+use FSi\Component\DataGrid\Extension\Core\ColumnTypeExtension\DefaultColumnOptionsExtension;
+use FSi\Component\DataGrid\Tests\Fixtures\SimpleDataGridExtension;
 use PHPUnit\Framework\TestCase;
 
 class CollectionTest extends TestCase
 {
     public function test_filter_value()
     {
-        $column = new Collection();
-        $column->initOptions();
-        $column->setOption('collection_glue', ' ');
-        $value = [
-            ['foo', 'bar'],
-            'test'
-        ];
+        $dataGridFactory = new DataGridFactory(
+            [new SimpleDataGridExtension(new DefaultColumnOptionsExtension(), new Collection())]
+        );
+
+        $column = $dataGridFactory->createColumn($this->getDataGridMock(), Collection::class, 'col', [
+            'collection_glue' => ', ',
+            'field_mapping' => ['collection1', 'collection2'],
+        ]);
+
+        $cellView = $dataGridFactory->createCellView($column, (object) [
+            'collection1' => ['foo', 'bar'],
+            'collection2' => 'test',
+        ]);
 
         $this->assertSame(
-            ['foo bar', 'test'],
-            $column->filterValue($value)
+            [
+                'collection1' => 'foo, bar',
+                'collection2' => 'test'
+            ],
+            $cellView->getValue()
         );
+    }
+
+    private function getDataGridMock(): DataGridInterface
+    {
+        return $this->createMock(DataGridInterface::class);
     }
 }

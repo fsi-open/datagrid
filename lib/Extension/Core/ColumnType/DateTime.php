@@ -12,7 +12,9 @@ declare(strict_types=1);
 namespace FSi\Component\DataGrid\Extension\Core\ColumnType;
 
 use FSi\Component\DataGrid\Column\ColumnAbstractType;
+use FSi\Component\DataGrid\Column\ColumnInterface;
 use FSi\Component\DataGrid\Exception\DataGridColumnException;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class DateTime extends ColumnAbstractType
 {
@@ -21,10 +23,10 @@ class DateTime extends ColumnAbstractType
         return 'datetime';
     }
 
-    public function filterValue($value)
+    public function filterValue(ColumnInterface $column, $value)
     {
-        $format = $this->getOption('datetime_format');
-        $inputValues = $this->getInputData($value);
+        $format = $column->getOption('datetime_format');
+        $inputValues = $this->getInputData($column, $value);
 
         $return = [];
         foreach ($inputValues as $field => $fieldValue) {
@@ -52,17 +54,17 @@ class DateTime extends ColumnAbstractType
         return $return;
     }
 
-    public function initOptions(): void
+    public function initOptions(OptionsResolver $optionsResolver): void
     {
-        $this->getOptionsResolver()->setDefaults([
+        $optionsResolver->setDefaults([
             'datetime_format' => 'Y-m-d H:i:s',
             'input_type' => null,
             'input_field_format' => null
         ]);
 
-        $this->getOptionsResolver()->setAllowedTypes('input_field_format', ['null', 'array', 'string']);
+        $optionsResolver->setAllowedTypes('input_field_format', ['null', 'array', 'string']);
 
-        $this->getOptionsResolver()->setAllowedValues('input_type', [
+        $optionsResolver->setAllowedValues('input_type', [
             null,
             'string',
             'timestamp',
@@ -72,16 +74,16 @@ class DateTime extends ColumnAbstractType
         ]);
     }
 
-    private function getInputData($value)
+    private function getInputData(ColumnInterface $column, $value)
     {
-        $inputType = $this->getOption('input_type');
-        $mappingFormat = $this->getOption('input_field_format');
+        $inputType = $column->getOption('input_type');
+        $mappingFormat = $column->getOption('input_field_format');
 
         if (null === $inputType) {
             $inputType = $this->guessInputType($value);
         }
 
-        $mappingFields = $this->getOption('field_mapping');
+        $mappingFields = $column->getOption('field_mapping');
         $inputData = [];
         foreach ($mappingFields as $field) {
             $inputData[$field] = null;
@@ -139,9 +141,10 @@ class DateTime extends ColumnAbstractType
                             if (empty($value[$field])) {
                                 $inputData[$field] = null;
                             } else {
-                                $inputData[$field] = $this->transformTimestampToDateTime($value[$field]);
+                                $inputData[$field] = $this->transformTimestampToDateTime($column, $value[$field]);
                             }
                             break;
+
                         case 'datetime':
                             if (!empty($value[$field]) && !($value[$field] instanceof \DateTime)) {
                                 throw new DataGridColumnException(
@@ -151,6 +154,7 @@ class DateTime extends ColumnAbstractType
 
                             $inputData[$field] = $value[$field];
                             break;
+
                         case 'datetime_interface':
                             if (!interface_exists(\DateTimeInterface::class)) {
                                 throw new DataGridColumnException(
@@ -167,6 +171,7 @@ class DateTime extends ColumnAbstractType
 
                             $inputData[$field] = $value[$field];
                             break;
+
                         default:
                             throw new DataGridColumnException(
                                 sprintf('"%s" is not valid input option value for field "%s". '.
@@ -186,11 +191,11 @@ class DateTime extends ColumnAbstractType
                     );
                 }
 
-                    if (empty($value)) {
-                        $inputData[$field] = null;
-                    } else {
-                        $inputData[$field] = $this->transformStringToDateTime($value, $mappingFormat);
-                    }
+                if (empty($value)) {
+                    $inputData[$field] = null;
+                } else {
+                    $inputData[$field] = $this->transformStringToDateTime($value, $mappingFormat);
+                }
                 break;
 
             case 'datetime':
@@ -232,7 +237,7 @@ class DateTime extends ColumnAbstractType
                 if (empty($value)) {
                     $inputData[$field] = null;
                 } else {
-                    $inputData[$field] = $this->transformTimestampToDateTime($value);
+                    $inputData[$field] = $this->transformTimestampToDateTime($column, $value);
                 }
                 break;
 
@@ -301,11 +306,11 @@ class DateTime extends ColumnAbstractType
         return $dateTime;
     }
 
-    private function transformTimestampToDateTime($value): \DateTime
+    private function transformTimestampToDateTime(ColumnInterface $column, $value): \DateTime
     {
         if (!is_numeric($value)) {
             throw new \InvalidArgumentException(
-                sprintf('Value in column "%s" should be timestamp but "%s" type was detected. Maybe you should consider using different "input" opition value?', $this->getName(), gettype($value))
+                sprintf('Value in column "%s" should be timestamp but "%s" type was detected. Maybe you should consider using different "input" opition value?', $column->getName(), gettype($value))
             );
         }
 

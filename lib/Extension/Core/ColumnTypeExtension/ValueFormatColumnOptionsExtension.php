@@ -11,16 +11,22 @@ declare(strict_types=1);
 
 namespace FSi\Component\DataGrid\Extension\Core\ColumnTypeExtension;
 
-use FSi\Component\DataGrid\Column\ColumnTypeInterface;
-use FSi\Component\DataGrid\Column\CellViewInterface;
+use FSi\Component\DataGrid\Column\ColumnInterface;
 use FSi\Component\DataGrid\Column\ColumnAbstractTypeExtension;
+use FSi\Component\DataGrid\Extension\Core\ColumnType\Boolean;
+use FSi\Component\DataGrid\Extension\Core\ColumnType\Collection;
+use FSi\Component\DataGrid\Extension\Core\ColumnType\DateTime;
+use FSi\Component\DataGrid\Extension\Core\ColumnType\Money;
+use FSi\Component\DataGrid\Extension\Core\ColumnType\Number;
+use FSi\Component\DataGrid\Extension\Core\ColumnType\Text;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ValueFormatColumnOptionsExtension extends ColumnAbstractTypeExtension
 {
-    public function buildCellView(ColumnTypeInterface $column, CellViewInterface $view): void
+    public function filterValue(ColumnInterface $column, $value)
     {
         $this->validateEmptyValueOption($column);
-        $value = $this->populateValue($view->getValue(), $column->getOption('empty_value'));
+        $value = $this->populateValue($value, $column->getOption('empty_value'));
         $glue = $column->getOption('value_glue');
         $format = $column->getOption('value_format');
 
@@ -33,36 +39,35 @@ class ValueFormatColumnOptionsExtension extends ColumnAbstractTypeExtension
             ));
         }
 
-        $view->setValue($value);
+        return $value;
     }
 
     public function getExtendedColumnTypes(): array
     {
         return [
-            'text',
-            'boolean',
-            'datetime',
-            'collection',
-            'number',
-            'money',
-            'gedmo_tree',
+            Text::class,
+            Boolean::class,
+            DateTime::class,
+            Collection::class,
+            Number::class,
+            Money::class,
         ];
     }
 
-    public function initOptions(ColumnTypeInterface $column): void
+    public function initOptions(OptionsResolver $optionsResolver): void
     {
-        $column->getOptionsResolver()->setDefaults([
+        $optionsResolver->setDefaults([
             'value_glue' => null,
             'value_format' => null,
             'empty_value' => '',
         ]);
 
-        $column->getOptionsResolver()->setAllowedTypes('value_glue', ['string', 'null']);
-        $column->getOptionsResolver()->setAllowedTypes('value_format', ['string', 'Closure', 'null']);
-        $column->getOptionsResolver()->setAllowedTypes('empty_value', 'string');
+        $optionsResolver->setAllowedTypes('value_glue', ['string', 'null']);
+        $optionsResolver->setAllowedTypes('value_format', ['string', 'Closure', 'null']);
+        $optionsResolver->setAllowedTypes('empty_value', 'string');
     }
 
-    private function validateEmptyValueOption(ColumnTypeInterface $column): void
+    private function validateEmptyValueOption(ColumnInterface $column): void
     {
         $emptyValue = $column->getOption('empty_value');
         $mappingFields = $column->getOption('field_mapping');

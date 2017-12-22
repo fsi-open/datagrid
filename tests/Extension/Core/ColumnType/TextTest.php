@@ -11,24 +11,29 @@ declare(strict_types=1);
 
 namespace FSi\Component\DataGrid\Tests\Extension\Core\ColumnType;
 
+use FSi\Component\DataGrid\DataGridFactory;
+use FSi\Component\DataGrid\DataGridInterface;
 use FSi\Component\DataGrid\Extension\Core\ColumnType\Text;
+use FSi\Component\DataGrid\Extension\Core\ColumnTypeExtension\DefaultColumnOptionsExtension;
+use FSi\Component\DataGrid\Tests\Fixtures\SimpleDataGridExtension;
 use PHPUnit\Framework\TestCase;
 
 class TextTest extends TestCase
 {
     public function testTrimOption()
     {
-        $column = new Text();
-        $column->initOptions();
-        $column->setOption('trim', true);
-
-        $value = [
-            ' VALUE ',
-        ];
-
-        $this->assertSame(
-            ['VALUE'],
-            $column->filterValue($value)
+        $dataGridFactory = new DataGridFactory(
+            [new SimpleDataGridExtension(new DefaultColumnOptionsExtension(), new Text())]
         );
+
+        $column = $dataGridFactory->createColumn($this->getDataGridMock(), Text::class, 'text', ['trim' => true]);
+        $cellView = $dataGridFactory->createCellView($column, (object) ['text' => ' VALUE ']);
+
+        $this->assertSame(['text' => 'VALUE'], $cellView->getValue());
+    }
+
+    private function getDataGridMock(): DataGridInterface
+    {
+        return $this->createMock(DataGridInterface::class);
     }
 }

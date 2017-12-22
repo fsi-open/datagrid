@@ -22,11 +22,11 @@ interface DataGridExtensionInterface
 
     public function getColumnType(string $type): ColumnTypeInterface;
 
-    public function hasColumnTypeExtensions(string $type): bool;
+    public function hasColumnTypeExtensions(ColumnTypeInterface $columnType): bool;
 
     /**
-     * @param string $type
+     * @param ColumnTypeInterface $columnType
      * @return ColumnTypeExtensionInterface[]
      */
-    public function getColumnTypeExtensions(string $type): array;
+    public function getColumnTypeExtensions(ColumnTypeInterface $columnType): array;
 }

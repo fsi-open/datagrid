@@ -12,8 +12,7 @@ declare(strict_types=1);
 namespace FSi\Component\DataGrid\Extension\Core\ColumnType;
 
 use FSi\Component\DataGrid\Column\ColumnAbstractType;
-use FSi\Component\DataGrid\Column\CellViewInterface;
-use FSi\Component\DataGrid\Column\HeaderViewInterface;
+use FSi\Component\DataGrid\Column\ColumnInterface;
 
 class Batch extends ColumnAbstractType
 {
@@ -22,23 +21,8 @@ class Batch extends ColumnAbstractType
         return 'batch';
     }
 
-    public function filterValue($value)
-    {
-        return $this->getIndex();
-    }
-
-    public function getValue($object)
+    public function getValue(ColumnInterface $column, $object)
     {
         return null;
-    }
-
-    public function buildCellView(CellViewInterface $view): void
-    {
-        $view->setAttribute('datagrid_name', $this->getDataGrid()->getName());
-    }
-
-    public function buildHeaderView(HeaderViewInterface $view): void
-    {
-        $view->setAttribute('datagrid_name', $this->getDataGrid()->getName());
     }
 }

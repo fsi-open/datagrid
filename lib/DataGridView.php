@@ -11,50 +11,51 @@ declare(strict_types=1);
 
 namespace FSi\Component\DataGrid;
 
+use FSi\Component\DataGrid\Column\ColumnInterface;
 use FSi\Component\DataGrid\Data\DataRowsetInterface;
-use FSi\Component\DataGrid\Column\ColumnTypeInterface;
 use FSi\Component\DataGrid\Column\HeaderViewInterface;
 use RuntimeException;
 
 class DataGridView implements DataGridViewInterface
 {
     /**
-     * @var ColumnTypeInterface[]
+     * @var ColumnInterface[]
      */
-    protected $columns = [];
+    private $columns = [];
 
     /**
      * @var HeaderViewInterface[]
      */
-    protected $columnsHeaders = [];
+    private $columnsHeaders = [];
 
     /**
      * @var string
      */
-    protected $name;
+    private $name;
 
     /**
      * @var DataRowsetInterface
      */
-    protected $rowset;
+    private $rowset;
 
     /**
      * @param string $name
-     * @param ColumnTypeInterface[] $columns
+     * @param ColumnInterface[] $columns
      * @param DataRowsetInterface $rowset
-     * @throws \InvalidArgumentException
      */
     public function __construct(string $name, array $columns = [], DataRowsetInterface $rowset)
     {
         foreach ($columns as $column) {
-            if (!$column instanceof ColumnTypeInterface) {
-                throw new \InvalidArgumentException('Column must implement FSi\Component\DataGrid\Column\ColumnTypeInterface');
+            if (!$column instanceof ColumnInterface) {
+                throw new \InvalidArgumentException(sprintf(
+                    'Column must implement "%s", but got "%s"',
+                    ColumnInterface::class,
+                    is_object($column) ? get_class($column) : gettype($column)
+                ));
             }
 
             $this->columns[$column->getName()] = $column;
-            $headerView = $column->createHeaderView();
-            $headerView->setDataGridView($this);
-            $this->columnsHeaders[$column->getName()] = $headerView;
+            $this->columnsHeaders[$column->getName()] = $column->getDataGrid()->getFactory()->createHeaderView($column);
         }
 
         $this->name = $name;
@@ -66,80 +67,9 @@ class DataGridView implements DataGridViewInterface
         return $this->name;
     }
 
-    public function hasColumn(string $name): bool
-    {
-        return array_key_exists($name, $this->columnsHeaders);
-    }
-
-    public function hasColumnType(string $type): bool
-    {
-        foreach ($this->columnsHeaders as $header) {
-            if ($header->getType() === $type) {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    public function removeColumn(string $name): void
-    {
-        if (array_key_exists($name, $this->columnsHeaders)) {
-            unset($this->columnsHeaders[$name]);
-        }
-    }
-
-    public function getColumn(string $name): HeaderViewInterface
-    {
-        if ($this->hasColumn($name)) {
-            return $this->columnsHeaders[$name];
-        }
-
-        throw new \InvalidArgumentException(sprintf('Column "%s" does not exist in data grid.', $name));
-    }
-
-    public function getColumns(): array
+    public function getHeaders(): array
     {
         return $this->columnsHeaders;
-    }
-
-    public function clearColumns(): void
-    {
-        $this->columnsHeaders = [];
-    }
-
-    public function addColumn(HeaderViewInterface $column): void
-    {
-        if (!array_key_exists($column->getName(), $this->columns)) {
-            throw new \InvalidArgumentException(sprintf(
-                'Column with name "%s" was never registred in datagrid "%s"',
-                $column->getName(),
-                $this->getName()
-            ));
-        }
-
-        $this->columnsHeaders[$column->getName()] = $column;
-    }
-
-    public function setColumns(array $columns): void
-    {
-        $this->columnsHeaders = [];
-
-        foreach ($columns as $column) {
-            if (!$column instanceof HeaderViewInterface) {
-                throw new \InvalidArgumentException('Column must implement FSi\Component\DataGrid\Column\HeaderViewInterface');
-            }
-
-            if (!array_key_exists($column->getName(), $this->columns)) {
-                throw new \InvalidArgumentException(sprintf(
-                    'Column with name "%s" was never registred in datagrid "%s"',
-                    $column->getName(),
-                    $this->getName()
-                ));
-            }
-
-            $this->columnsHeaders[$column->getName()] = $column;
-        }
     }
 
     public function count(): int
@@ -147,24 +77,11 @@ class DataGridView implements DataGridViewInterface
         return $this->rowset->count();
     }
 
-    /**
-     * @return string[]
-     */
-    public function getIndexes(): array
-    {
-        $indexes = [];
-        foreach ($this->rowset as $index => $row) {
-            $indexes[] = $index;
-        }
-
-        return $indexes;
-    }
-
     public function current(): DataGridRowViewInterface
     {
         $index = $this->rowset->key();
 
-        return new DataGridRowView($this, $this->getOriginColumns(), $this->rowset->current(), $index);
+        return new DataGridRowView($this->columns, $index, $this->rowset->current());
     }
 
     public function key()
@@ -192,10 +109,10 @@ class DataGridView implements DataGridViewInterface
         return isset($this->rowset[$offset]);
     }
 
-    public function offsetGet($offset)
+    public function offsetGet($offset): DataGridRowViewInterface
     {
         if ($this->offsetExists($offset)) {
-            return new DataGridRowView($this, $this->getOriginColumns(), $this->rowset[$offset], $offset);
+            return new DataGridRowView($this->columns, $offset, $this->rowset[$offset]);
         }
 
         throw new \InvalidArgumentException(sprintf('Row "%s" does not exist in rowset.', $offset));
@@ -209,18 +126,5 @@ class DataGridView implements DataGridViewInterface
     public function offsetUnset($offset): void
     {
         throw new RuntimeException('Method not implemented');
-    }
-
-    /**
-     * @return ColumnTypeInterface[]
-     */
-    protected function getOriginColumns(): array
-    {
-        $columns = [];
-        foreach ($this->columnsHeaders as $name => $header) {
-            $columns[$name] = $this->columns[$name];
-        }
-
-        return $columns;
     }
 }

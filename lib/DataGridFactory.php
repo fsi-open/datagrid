@@ -11,11 +11,18 @@ declare(strict_types=1);
 
 namespace FSi\Component\DataGrid;
 
+use FSi\Component\DataGrid\Column\CellView;
+use FSi\Component\DataGrid\Column\CellViewInterface;
+use FSi\Component\DataGrid\Column\Column;
+use FSi\Component\DataGrid\Column\ColumnInterface;
+use FSi\Component\DataGrid\Column\ColumnTypeExtensionInterface;
 use FSi\Component\DataGrid\Column\ColumnTypeInterface;
+use FSi\Component\DataGrid\Column\HeaderView;
+use FSi\Component\DataGrid\Column\HeaderViewInterface;
 use FSi\Component\DataGrid\Exception\DataGridColumnException;
 use FSi\Component\DataGrid\Exception\UnexpectedTypeException;
-use FSi\Component\DataGrid\DataMapper\DataMapperInterface;
 use InvalidArgumentException;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class DataGridFactory implements DataGridFactoryInterface
 {
@@ -30,21 +37,15 @@ class DataGridFactory implements DataGridFactoryInterface
     protected $columnTypes = [];
 
     /**
-     * @var DataMapperInterface
-     */
-    protected $dataMapper;
-
-    /**
      * @var DataGridExtensionInterface[]
      */
     protected $extensions = [];
 
     /**
      * @param DataGridExtensionInterface[] $extensions
-     * @param DataMapperInterface $dataMapper
      * @throws InvalidArgumentException
      */
-    public function __construct(array $extensions, DataMapperInterface $dataMapper)
+    public function __construct(array $extensions)
     {
         foreach ($extensions as $extension) {
             if (!$extension instanceof DataGridExtensionInterface) {
@@ -55,11 +56,10 @@ class DataGridFactory implements DataGridFactoryInterface
             }
         }
 
-        $this->dataMapper = $dataMapper;
         $this->extensions = $extensions;
     }
 
-    public function createDataGrid(string $name = 'grid'): DataGridInterface
+    public function createDataGrid(string $name): DataGridInterface
     {
         if (array_key_exists($name, $this->dataGrids)) {
             throw new DataGridColumnException(sprintf(
@@ -68,7 +68,11 @@ class DataGridFactory implements DataGridFactoryInterface
             ));
         }
 
-        $this->dataGrids[$name] = new DataGrid($name, $this, $this->dataMapper);
+        $this->dataGrids[$name] = new DataGrid($name, $this);
+
+        foreach ($this->extensions as $extension) {
+            $extension->registerSubscribers($this->dataGrids[$name]);
+        }
 
         return $this->dataGrids[$name];
     }
@@ -88,11 +92,6 @@ class DataGridFactory implements DataGridFactoryInterface
         return true;
     }
 
-    /**
-     * @param string $type
-     * @return ColumnTypeInterface
-     * @throws UnexpectedTypeException
-     */
     public function getColumnType(string $type): ColumnTypeInterface
     {
         if ($this->hasColumnType($type)) {
@@ -104,14 +103,78 @@ class DataGridFactory implements DataGridFactoryInterface
         return clone $this->columnTypes[$type];
     }
 
-    public function getExtensions(): array
-    {
-        return $this->extensions;
+    public function createColumn(
+        DataGridInterface $dataGrid,
+        string $type,
+        string $name,
+        array $options
+    ): ColumnInterface {
+        $optionsResolver = new OptionsResolver();
+        $optionsResolver->setRequired('name');
+        $optionsResolver->setAllowedTypes('name', 'string');
+
+        $columnType = $this->getColumnType($type);
+        $columnType->initOptions($optionsResolver);
+        foreach ($this->getColumnTypeExtensions($columnType) as $extension) {
+            $extension->initOptions($optionsResolver);
+        }
+
+        return new Column(
+            $dataGrid,
+            $columnType,
+            $name,
+            $optionsResolver->resolve(array_merge(['name' => $name], $options))
+        );
     }
 
-    public function getDataMapper(): DataMapperInterface
+    public function createCellView(ColumnInterface $column, $source): CellViewInterface
     {
-        return $this->dataMapper;
+        $columnType = $column->getType();
+        $value = $columnType->filterValue($column, $columnType->getValue($column, $source));
+        foreach ($this->getColumnTypeExtensions($columnType) as $extension) {
+            $value = $extension->filterValue($column, $value);
+        }
+
+        $cellView = new CellView($column, $value);
+        $columnType->buildCellView($column, $cellView);
+        foreach ($this->getColumnTypeExtensions($columnType) as $extension) {
+            $extension->buildCellView($column, $cellView);
+        }
+
+        return $cellView;
+    }
+
+    public function createHeaderView(ColumnInterface $column): HeaderViewInterface
+    {
+        $view = new HeaderView($column);
+
+        $columnType = $column->getType();
+        $columnType->buildHeaderView($column, $view);
+        foreach ($this->getColumnTypeExtensions($columnType) as $extension) {
+            $extension->buildHeaderView($column, $view);
+        }
+
+        return $view;
+    }
+
+    /**
+     * @param ColumnTypeInterface $columnType
+     * @return ColumnTypeExtensionInterface[]
+     */
+    public function getColumnTypeExtensions(ColumnTypeInterface $columnType): array
+    {
+        $extensions = [];
+        foreach ($this->extensions as $extension) {
+            if ($extension->hasColumnTypeExtensions($columnType)) {
+                $extensions[] = $extension->getColumnTypeExtensions($columnType);
+            }
+        }
+
+        if (empty($extensions)) {
+            return [];
+        }
+
+        return array_merge(...$extensions);
     }
 
     /**
@@ -137,15 +200,6 @@ class DataGridFactory implements DataGridFactoryInterface
                 'There is no column with type "%s" registered in factory.',
                 $type
             ));
-        }
-
-        foreach ($this->extensions as $extension) {
-            if ($extension->hasColumnTypeExtensions($type)) {
-                $columnExtensions = $extension->getColumnTypeExtensions($type);
-                foreach ($columnExtensions as $columnExtension) {
-                    $typeInstance->addExtension($columnExtension);
-                }
-            }
         }
 
         $this->columnTypes[$type] = $typeInstance;

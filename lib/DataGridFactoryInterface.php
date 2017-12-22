@@ -11,8 +11,11 @@ declare(strict_types=1);
 
 namespace FSi\Component\DataGrid;
 
+use FSi\Component\DataGrid\Column\CellViewInterface;
+use FSi\Component\DataGrid\Column\ColumnInterface;
+use FSi\Component\DataGrid\Column\ColumnTypeExtensionInterface;
 use FSi\Component\DataGrid\Column\ColumnTypeInterface;
-use FSi\Component\DataGrid\DataMapper\DataMapperInterface;
+use FSi\Component\DataGrid\Column\HeaderViewInterface;
 
 interface DataGridFactoryInterface
 {
@@ -20,12 +23,22 @@ interface DataGridFactoryInterface
 
     public function getColumnType(string $type): ColumnTypeInterface;
 
+    public function createDataGrid(string $name): DataGridInterface;
+
+    public function createColumn(
+        DataGridInterface $dataGrid,
+        string $type,
+        string $name,
+        array $options
+    ): ColumnInterface;
+
+    public function createCellView(ColumnInterface $column, $source): CellViewInterface;
+
+    public function createHeaderView(ColumnInterface $column): HeaderViewInterface;
+
     /**
-     * @return DataGridExtensionInterface[]
+     * @param ColumnTypeInterface $columnType
+     * @return ColumnTypeExtensionInterface[]
      */
-    public function getExtensions(): array;
-
-    public function createDataGrid(string $name = 'grid'): DataGridInterface;
-
-    public function getDataMapper(): DataMapperInterface;
+    public function getColumnTypeExtensions(ColumnTypeInterface $columnType): array;
 }

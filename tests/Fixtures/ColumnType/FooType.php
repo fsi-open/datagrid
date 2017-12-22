@@ -19,9 +19,4 @@ class FooType extends ColumnAbstractType
     {
         return 'foo';
     }
-
-    public function filterValue($value)
-    {
-        return $value;
-    }
 }

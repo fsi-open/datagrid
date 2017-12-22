@@ -11,363 +11,155 @@ declare(strict_types=1);
 
 namespace FSi\Component\DataGrid\Tests\Extension\Doctrine\ColumntypeExtension;
 
+use FSi\Component\DataGrid\Column\ColumnInterface;
 use FSi\Component\DataGrid\Exception\DataGridException;
 use FSi\Component\DataGrid\Extension\Doctrine\ColumnTypeExtension\ValueFormatColumnOptionsExtension;
-use FSi\Component\DataGrid\Column\ColumnTypeInterface;
-use FSi\Component\DataGrid\Column\CellViewInterface;
 use PHPUnit\Framework\TestCase;
 
 class ValueFormatColumnOptionsExtensionTest extends TestCase
 {
-    public function testBuildCellViewWithGlueAndEmptyValueAsStringAndWithoutOneValue()
+    /**
+     * @var ValueFormatColumnOptionsExtension
+     */
+    private $extension;
+
+    protected function setUp()
     {
-        $extension = new ValueFormatColumnOptionsExtension();
-        $view = $this->createMock(CellViewInterface::class);
-        $column = $this->createMock(ColumnTypeInterface::class);
-
-        $view->expects($this->at(0))
-            ->method('getValue')
-            ->will($this->returnValue([
-                0 => [
-                    'id' => null,
-                    'name' => 'Foo'
-                ]
-            ]));
-
-        $column->expects($this->at(0))
-            ->method('getOption')
-            ->with('empty_value')
-            ->will($this->returnValue('no'));
-
-        $column->expects($this->at(1))
-            ->method('getOption')
-            ->with('value_glue')
-            ->will($this->returnValue(' '));
-
-        $column->expects($this->at(2))
-            ->method('getOption')
-            ->with('value_format')
-            ->will($this->returnValue(null));
-
-        $view->expects($this->at(1))
-            ->method('setValue')
-            ->with('no Foo');
-
-        $extension->buildCellView($column, $view);
+        $this->extension = new ValueFormatColumnOptionsExtension();
     }
 
-    public function testBuildCellViewWithGlueAndEmptyValueAsStringAndWithoutValues()
+    public function testGlueAndEmptyValueAsStringWithoutOneValue()
     {
-        $extension = new ValueFormatColumnOptionsExtension();
-        $view = $this->createMock(CellViewInterface::class);
-        $column = $this->createMock(ColumnTypeInterface::class);
+        $options = [
+            'empty_value' => 'no',
+            'value_glue' => ' ',
+        ];
 
-        $view->expects($this->at(0))
-            ->method('getValue')
-            ->will($this->returnValue([
-                0 => [
-                    'id' => null,
-                    'name' => null
-                ]
-            ]));
-
-        $column->expects($this->at(0))
-            ->method('getOption')
-            ->with('empty_value')
-            ->will($this->returnValue('no'));
-
-        $column->expects($this->at(1))
-            ->method('getOption')
-            ->with('value_glue')
-            ->will($this->returnValue(' '));
-
-        $column->expects($this->at(2))
-            ->method('getOption')
-            ->with('value_format')
-            ->will($this->returnValue(null));
-
-        $view->expects($this->at(1))
-            ->method('setValue')
-            ->with('no no');
-
-        $extension->buildCellView($column, $view);
+        $this->assertFilteredValue($options, [0 => ['id' => null, 'name' => 'Foo']], 'no Foo');
     }
 
-    public function testBuildCellViewWithGlueAndEmptyValueAsArrayAndWithoutOneValue()
+    public function testGlueAndEmptyValueAsStringWithoutValues()
     {
-        $extension = new ValueFormatColumnOptionsExtension();
-        $view = $this->createMock(CellViewInterface::class);
-        $column = $this->createMock(ColumnTypeInterface::class);
+        $options = [
+            'empty_value' => 'no',
+            'value_glue' => ' ',
+        ];
 
-        $view->expects($this->at(0))
-            ->method('getValue')
-            ->will($this->returnValue([
-                0 => [
-                    'id' => 1,
-                    'name' => null
-                ]
-            ]));
-
-        $column->expects($this->at(0))
-            ->method('getOption')
-            ->with('empty_value')
-            ->will($this->returnValue(['name' => 'no']));
-
-        $column->expects($this->at(1))
-            ->method('getOption')
-            ->with('value_glue')
-            ->will($this->returnValue(' '));
-
-        $column->expects($this->at(2))
-            ->method('getOption')
-            ->with('value_format')
-            ->will($this->returnValue(null));
-
-        $view->expects($this->at(1))
-            ->method('setValue')
-            ->with('1 no');
-
-        $extension->buildCellView($column, $view);
+        $this->assertFilteredValue($options, [0 => ['id' => null, 'name' => null]], 'no no');
     }
 
-    public function testBuildCellViewWithGlueAndEmptyValueAsArrayAndWithoutValues()
+    public function testGlueAndEmptyValueAsArrayWithoutOneValue()
     {
-        $extension = new ValueFormatColumnOptionsExtension();
-        $view = $this->createMock(CellViewInterface::class);
-        $column = $this->createMock(ColumnTypeInterface::class);
+        $options = [
+            'empty_value' => ['name' => 'no'],
+            'value_glue' => ' ',
+        ];
 
-        $view->expects($this->at(0))
-            ->method('getValue')
-            ->will($this->returnValue([
-                0 => [
-                    'id' => null,
-                    'name' => null
-                ]
-            ]));
-
-        $column->expects($this->at(0))
-            ->method('getOption')
-            ->with('empty_value')
-            ->will($this->returnValue(['id' => 'no','name' => 'no']));
-
-        $column->expects($this->at(1))
-            ->method('getOption')
-            ->with('value_glue')
-            ->will($this->returnValue(' '));
-
-        $column->expects($this->at(2))
-            ->method('getOption')
-            ->with('value_format')
-            ->will($this->returnValue(null));
-
-        $view->expects($this->at(1))
-            ->method('setValue')
-            ->with('no no');
-
-        $extension->buildCellView($column, $view);
+        $this->assertFilteredValue($options, [0 => ['id' => 1, 'name' => null]], '1 no');
     }
 
-    public function testBuildCellViewWithGlueAndGlueMultipleAndEmptyValueAsArrayAndWithoutMultipleValues()
+    public function testGlueAndEmptyValueAsArrayWithoutValues()
     {
-        $extension = new ValueFormatColumnOptionsExtension();
-        $view = $this->createMock(CellViewInterface::class);
-        $column = $this->createMock(ColumnTypeInterface::class);
+        $options = [
+            'empty_value' => ['id' => 'no', 'name' => 'no'],
+            'value_glue' => ' ',
+        ];
 
-        $view->expects($this->at(0))
-            ->method('getValue')
-            ->will($this->returnValue([
-                0 => [
-                    'id' => null,
-                    'name' => null
-                ],
-                1 => [
-                    'id' => null,
-                    'name' => 'Foo'
-                ]
-            ]));
-
-        $column->expects($this->at(0))
-            ->method('getOption')
-            ->with('empty_value')
-            ->will($this->returnValue(['id' => 'no','name' => 'no']));
-
-        $column->expects($this->at(1))
-            ->method('getOption')
-            ->with('value_glue')
-            ->will($this->returnValue(' '));
-
-        $column->expects($this->at(2))
-            ->method('getOption')
-            ->with('value_format')
-            ->will($this->returnValue(null));
-
-        $column->expects($this->at(3))
-            ->method('getOption')
-            ->with('glue_multiple')
-            ->will($this->returnValue('<br />'));
-
-        $view->expects($this->at(1))
-            ->method('setValue')
-            ->with('no no<br />no Foo');
-
-        $extension->buildCellView($column, $view);
+        $this->assertFilteredValue($options, [0 => ['id' => null, 'name' => null]], 'no no');
     }
 
-    public function testBuildCellViewWithGlueAndEmptyValueAsArrayAndNotFoundKeyInEmptyValue()
+    public function testGlueMultipleAndEmptyValueAsArrayWithoutMultipleValues()
     {
-        $extension = new ValueFormatColumnOptionsExtension();
-        $view = $this->createMock(CellViewInterface::class);
-        $column = $this->createMock(ColumnTypeInterface::class);
+        $options = [
+            'empty_value' => ['id' => 'no', 'name' => 'no'],
+            'glue_multiple' => '<br />',
+            'value_glue' => ' ',
+        ];
 
-        $view->expects($this->at(0))
-            ->method('getValue')
-            ->will($this->returnValue([
-                0 => [
-                    'id' => null,
-                    'name' => 'Foo'
-                ]
-            ]));
+        $value = [
+            0 => [
+                'id' => null,
+                'name' => null
+            ],
+            1 => [
+                'id' => null,
+                'name' => 'Foo'
+            ],
+        ];
 
-        $column->expects($this->at(0))
-            ->method('getOption')
-            ->with('empty_value')
-            ->will($this->returnValue(['id2' => 'no','name' => 'no']));
+        $this->assertFilteredValue($options, $value, 'no no<br />no Foo');
+    }
+
+    public function testGlueAndEmptyValueAsArrayWithoutKeyInEmptyValue()
+    {
+        $options = [
+            'empty_value' => ['id2' => 'no', 'name' => 'no'],
+        ];
 
         $this->expectException(DataGridException::class);
-        $extension->buildCellView($column, $view);
+        $this->assertFilteredValue($options, [0 => ['id' => null, 'name' => 'Foo']], 'unreachable');
     }
 
-    public function testBuildCellViewWithoutFormatAndGlue()
+    public function testMissingFormatAndGlue()
     {
-        $extension = new ValueFormatColumnOptionsExtension();
-        $view = $this->createMock(CellViewInterface::class);
-        $column = $this->createMock(ColumnTypeInterface::class);
-
-        $view->expects($this->at(0))
-            ->method('getValue')
-            ->will($this->returnValue([
-                0 => [
-                    'id' => 1,
-                    'name' => 'Foo'
-                ]
-            ]));
-
-        $column->expects($this->at(1))
-            ->method('getOption')
-            ->with('value_glue')
-            ->will($this->returnValue(null));
-
-        $column->expects($this->at(2))
-            ->method('getOption')
-            ->with('value_format')
-            ->will($this->returnValue(null));
-
-        $view->expects($this->at(1))
-            ->method('setValue')
-            ->with('');
-
-        $extension->buildCellView($column, $view);
+        $this->assertFilteredValue([], [0 => ['id' => 1, 'name' => 'Foo']], '');
     }
 
-    public function testBuildCellViewWithFormatAndGlue()
+    public function testFormatAndGlue()
     {
-        $extension = new ValueFormatColumnOptionsExtension();
-        $view = $this->createMock(CellViewInterface::class);
-        $column = $this->createMock(ColumnTypeInterface::class);
+        $options = [
+            'value_format' => '(%s)',
+            'value_glue' => '<br />',
+        ];
 
-        $view->expects($this->at(0))
-        ->method('getValue')
-        ->will($this->returnValue([
-            0 => [
-                'id' => 1,
-                'name' => 'Foo'
-            ]
-        ]));
-
-        $column->expects($this->at(1))
-            ->method('getOption')
-            ->with('value_glue')
-            ->will($this->returnValue('<br/>'));
-
-        $column->expects($this->at(2))
-            ->method('getOption')
-            ->with('value_format')
-            ->will($this->returnValue('(%s)'));
-
-        $view->expects($this->at(1))
-            ->method('setValue')
-            ->with('(1)<br/>(Foo)');
-
-        $extension->buildCellView($column, $view);
+        $this->assertFilteredValue($options, [0 => ['id' => 1, 'name' => 'Foo']], '(1)<br />(Foo)');
     }
 
-    public function testBuildCellViewWithFormatAndGlueWithToManyPlaceholders()
+    public function testFormatWithTooManyPlaceholders()
     {
-        $extension = new ValueFormatColumnOptionsExtension();
-        $view = $this->createMock(CellViewInterface::class);
-        $column = $this->createMock(ColumnTypeInterface::class);
-
-        $view->expects($this->at(0))
-        ->method('getValue')
-            ->will($this->returnValue([
-                0 => [
-                    'id' => 1,
-                    'name' => 'Foo'
-                ]
-            ]));
-
-        $column->expects($this->at(1))
-            ->method('getOption')
-            ->with('value_glue')
-            ->will($this->returnValue('<br/>'));
-
-        $column->expects($this->at(2))
-            ->method('getOption')
-            ->with('value_format')
-            ->will($this->returnValue('(%s) (%s)'));
+        $options = [
+            'value_format' => '(%s) (%s)',
+            'value_glue' => '<br />',
+        ];
 
         $this->expectException(\PHPUnit_Framework_Error::class);
-        $extension->buildCellView($column, $view);
+        $this->assertFilteredValue($options, [0 => ['id' => 1, 'name' => 'Foo']], 'unreachable');
     }
 
-    public function testBuildCellViewWithFormatGlueAndGlueMultiple()
+    public function testFormatGlueAndGlueMultiple()
     {
-        $extension = new ValueFormatColumnOptionsExtension();
-        $view = $this->createMock(CellViewInterface::class);
-        $column = $this->createMock(ColumnTypeInterface::class);
+        $options = [
+            'glue_multiple' => '<br />',
+            'value_format' => '(%s)',
+            'value_glue' => ' ',
+        ];
 
-        $view->expects($this->at(0))
-            ->method('getValue')
-            ->will($this->returnValue([
-                0 => [
-                    'id' => 1,
-                    'name' => 'Foo',
-                ],
-                1 => [
-                    'id' => 2,
-                    'name' => 'Bar',
-                ]
-            ]));
+        $value = [
+            0 => [
+                'id' => 1,
+                'name' => 'Foo',
+            ],
+            1 => [
+                'id' => 2,
+                'name' => 'Bar',
+            ],
+        ];
 
-        $column->expects($this->at(1))
+        $this->assertFilteredValue($options, $value, '(1) (Foo)<br />(2) (Bar)');
+    }
+
+    private function assertFilteredValue(array $options, $value, $filteredValue): void
+    {
+        $column = $this->createMock(ColumnInterface::class);
+
+        $column->expects($this->any())
             ->method('getOption')
-            ->with('value_glue')
-            ->will($this->returnValue(' '));
+            ->will($this->returnCallback(function(string $option) use ($options) {
+                if (array_key_exists($option, $options)) {
+                    return $options[$option];
+                }
+            }));
 
-        $column->expects($this->at(2))
-            ->method('getOption')
-            ->with('value_format')
-            ->will($this->returnValue('(%s)'));
-
-        $column->expects($this->at(3))
-            ->method('getOption')
-            ->with('glue_multiple')
-            ->will($this->returnValue('<br>'));
-
-        $view->expects($this->at(1))
-            ->method('setValue')
-            ->with('(1) (Foo)<br>(2) (Bar)');
-
-        $extension->buildCellView($column, $view);
+        $this->assertSame($filteredValue, $this->extension->filterValue($column, $value));
     }
 }

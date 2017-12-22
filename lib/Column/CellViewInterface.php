@@ -11,8 +11,6 @@ declare(strict_types=1);
 
 namespace FSi\Component\DataGrid\Column;
 
-use FSi\Component\DataGrid\DataGridViewInterface;
-
 interface CellViewInterface
 {
     public function hasAttribute(string $name): bool;
@@ -23,19 +21,11 @@ interface CellViewInterface
 
     public function getAttributes(): array;
 
-    public function setSource($source): void;
-
-    public function getSource();
-
     public function getValue();
-
-    public function setValue($value): void;
 
     public function getType(): string;
 
     public function getName(): string;
 
-    public function setDataGridView(DataGridViewInterface $dataGrid): void;
-
-    public function getDataGridView(): DataGridViewInterface;
+    public function getDataGridName(): string;
 }

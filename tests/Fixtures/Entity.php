@@ -19,26 +19,24 @@ class Entity
 
     private $category;
 
-    public function __construct($name)
+    public function __construct(string $name)
     {
         $this->name = $name;
     }
 
-    public function setName($name)
+    public function setName(string $name): void
     {
         $this->name = $name;
-        return $this;
     }
 
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
 
-    public function setAuthor($author)
+    public function setAuthor($author): void
     {
         $this->author = $author;
-        return $this;
     }
 
     public function getAuthor()
@@ -46,15 +44,12 @@ class Entity
         return $this->author;
     }
 
-    /**
-     * @return EntityCategory
-     */
-    public function getCategory()
+    public function getCategory(): ?EntityCategory
     {
         return $this->category;
     }
 
-    public function setCategory($category)
+    public function setCategory(?EntityCategory $category): void
     {
         $this->category = $category;
     }

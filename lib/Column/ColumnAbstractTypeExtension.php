@@ -11,25 +11,27 @@ declare(strict_types=1);
 
 namespace FSi\Component\DataGrid\Column;
 
+use Symfony\Component\OptionsResolver\OptionsResolver;
+
 abstract class ColumnAbstractTypeExtension implements ColumnTypeExtensionInterface
 {
-    public function bindData(ColumnTypeInterface $column, $data, $object, $index): void
+    public function bindData(ColumnInterface $column, $data, $object, $index): void
     {
     }
 
-    public function buildCellView(ColumnTypeInterface $column, CellViewInterface $view): void
+    public function buildCellView(ColumnInterface $column, CellViewInterface $view): void
     {
     }
 
-    public function buildHeaderView(ColumnTypeInterface $column, HeaderViewInterface $view): void
+    public function buildHeaderView(ColumnInterface $column, HeaderViewInterface $view): void
     {
     }
 
-    public function initOptions(ColumnTypeInterface $column): void
+    public function initOptions(OptionsResolver $optionsResolver): void
     {
     }
 
-    public function filterValue(ColumnTypeInterface $column, $value)
+    public function filterValue(ColumnInterface $column, $value)
     {
         return $value;
     }

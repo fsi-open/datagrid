@@ -11,152 +11,107 @@ declare(strict_types=1);
 
 namespace FSi\Component\DataGrid\Tests\Extension\Core\ColumnType;
 
+use FSi\Component\DataGrid\DataGridFactory;
+use FSi\Component\DataGrid\DataGridFactoryInterface;
+use FSi\Component\DataGrid\DataGridInterface;
 use FSi\Component\DataGrid\Extension\Core\ColumnType\Number;
 use FSi\Component\DataGrid\Extension\Core\ColumnTypeExtension\DefaultColumnOptionsExtension;
+use FSi\Component\DataGrid\Tests\Fixtures\SimpleDataGridExtension;
 use PHPUnit\Framework\TestCase;
 
 class NumberTest extends TestCase
 {
     /**
-     * @var Number
+     * @var DataGridFactoryInterface
      */
-    private $column;
+    private $dataGridFactory;
 
     public function setUp()
     {
-        $column = new Number();
-        $column->setName('number');
-        $column->initOptions();
-
-        $extension = new DefaultColumnOptionsExtension();
-        $extension->initOptions($column);
-
-        $this->column = $column;
+        $this->dataGridFactory = new DataGridFactory(
+            [new SimpleDataGridExtension(new DefaultColumnOptionsExtension(), new Number())]
+        );
     }
 
     public function testPrecision()
     {
-        $value = [
-            'number' => 10.123,
-        ];
-
-        $this->column->setOption('precision', 2);
-        $this->column->setOption('round_mode', Number::ROUND_HALF_UP);
-
-        $this->assertSame(
-            $this->column->filterValue($value),
-            [
-                'number' => 10.12,
-            ]
+        $this->assertCellValue(
+            ['precision' => 2, 'round_mode' => Number::ROUND_HALF_UP],
+            (object) ['number' => 10.123],
+            ['number' => 10.12]
         );
     }
 
     public function testRoundMode()
     {
-        $this->column->setOption('round_mode', Number::ROUND_HALF_UP);
-        $this->assertSame(
-            $this->column->filterValue([
-                'number' => 10.123,
-            ]),
-            [
-                'number' => 10.12,
-            ]
-        );
-
-        $this->assertSame(
-            $this->column->filterValue([
-                'number' => 10.126,
-            ]),
-            [
-                'number' => 10.13,
-            ]
+        $this->assertCellValue(
+            ['round_mode' => Number::ROUND_HALF_UP],
+            (object) ['number' => 10.126],
+            ['number' => 10.13]
         );
     }
 
     public function testNumberFormat()
     {
-        $this->assertEquals(
-            [
-                'number' => 12345678.1,
-            ],
-            $this->column->filterValue([
-                'number' => 12345678.1,
-            ])
+        $this->assertCellValue(
+            [],
+            (object) ['number' => 12345678.1],
+            ['number' => 12345678.1]
         );
 
-        $this->column->setOption('format', true);
-
-        $this->assertEquals(
-            [
-                'number' => '12,345,678.10',
-            ],
-            $this->column->filterValue([
-                'number' => 12345678.1,
-            ])
+        $this->assertCellValue(
+            ['format' => true],
+            (object) ['number' => 12345678.1],
+            ['number' => '12,345,678.10']
         );
 
-        $this->column->setOption('format_decimals', 0);
-
-        $this->assertEquals(
-            [
-                'number' => '12,345,678',
-            ],
-            $this->column->filterValue([
-                'number' => 12345678.1,
-            ])
+        $this->assertCellValue(
+            ['format' => true, 'format_decimals' => 0],
+            (object) ['number' => 12345678.1],
+            ['number' => '12,345,678']
         );
 
-        $this->column->setOption('format_decimals', 2);
-
-        $this->assertEquals(
-            [
-                'number' => '12,345,678.10',
-            ],
-            $this->column->filterValue([
-                'number' => 12345678.1,
-            ])
+        $this->assertCellValue(
+            ['format' => true, 'format_decimals' => 2],
+            (object) ['number' => 12345678.1],
+            ['number' => '12,345,678.10']
         );
 
-        $this->column->setOption('format_dec_point', ',');
-        $this->column->setOption('format_thousands_sep', ' ');
-
-        $this->assertEquals(
-            [
-                'number' => '12 345 678,10',
-            ],
-            $this->column->filterValue([
-                'number' => 12345678.1,
-            ])
+        $this->assertCellValue(
+            ['format' => true, 'format_decimals' => 2, 'format_dec_point' => ',', 'format_thousands_sep' => ' '],
+            (object) ['number' => 12345678.1],
+            ['number' => '12 345 678,10']
         );
 
-        $this->assertEquals(
-            [
-                'number' => '1 000,00',
-            ],
-            $this->column->filterValue([
-                'number' => 1000,
-            ])
+        $this->assertCellValue(
+            ['format' => true, 'format_decimals' => 2, 'format_dec_point' => ',', 'format_thousands_sep' => ' '],
+            (object) ['number' => 1000],
+            ['number' => '1 000,00']
         );
 
-        $this->column->setOption('format_decimals', 0);
-
-        $this->assertEquals(
-            [
-                'number' => '1 000',
-            ],
-            $this->column->filterValue([
-                'number' => 1000,
-            ])
+        $this->assertCellValue(
+            ['format' => true, 'format_decimals' => 0, 'format_dec_point' => ',', 'format_thousands_sep' => ' '],
+            (object) ['number' => 1000],
+            ['number' => '1 000']
         );
 
-        $this->column->setOption('format', false);
-        $this->assertEquals(
-            [
-                'number' => '1000',
-            ],
-            $this->column->filterValue([
-                'number' => 1000,
-            ])
+        $this->assertCellValue(
+            ['format' => false, 'format_decimals' => 2, 'format_dec_point' => ',', 'format_thousands_sep' => ' '],
+            (object) ['number' => 1000],
+            ['number' => 1000]
         );
+    }
+
+    private function assertCellValue(array $options, $value, array $expectedValue): void
+    {
+        $column = $this->dataGridFactory->createColumn($this->getDataGridMock(), Number::class, 'number', $options);
+        $cellView = $this->dataGridFactory->createCellView($column, $value);
+
+        $this->assertSame($expectedValue, $cellView->getValue());
+    }
+
+    private function getDataGridMock(): DataGridInterface
+    {
+        return $this->createMock(DataGridInterface::class);
     }
 }

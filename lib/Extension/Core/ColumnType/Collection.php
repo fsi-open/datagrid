@@ -12,6 +12,8 @@ declare(strict_types=1);
 namespace FSi\Component\DataGrid\Extension\Core\ColumnType;
 
 use FSi\Component\DataGrid\Column\ColumnAbstractType;
+use FSi\Component\DataGrid\Column\ColumnInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class Collection extends ColumnAbstractType
 {
@@ -20,7 +22,7 @@ class Collection extends ColumnAbstractType
         return 'collection';
     }
 
-    public function filterValue($value)
+    public function filterValue(ColumnInterface $column, $value)
     {
         $value = (array) $value;
         foreach ($value as &$val) {
@@ -28,18 +30,18 @@ class Collection extends ColumnAbstractType
                 continue;
             }
 
-            $val = implode($this->getOption('collection_glue'), $val);
+            $val = implode($column->getOption('collection_glue'), $val);
         }
 
         return $value;
     }
 
-    public function initOptions(): void
+    public function initOptions(OptionsResolver $optionsResolver): void
     {
-        $this->getOptionsResolver()->setDefaults([
+        $optionsResolver->setDefaults([
             'collection_glue' => ' '
         ]);
 
-        $this->getOptionsResolver()->setAllowedTypes('collection_glue', 'string');
+        $optionsResolver->setAllowedTypes('collection_glue', 'string');
     }
 }

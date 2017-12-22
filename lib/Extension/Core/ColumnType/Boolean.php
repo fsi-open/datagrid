@@ -12,6 +12,8 @@ declare(strict_types=1);
 namespace FSi\Component\DataGrid\Extension\Core\ColumnType;
 
 use FSi\Component\DataGrid\Column\ColumnAbstractType;
+use FSi\Component\DataGrid\Column\ColumnInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class Boolean extends ColumnAbstractType
 {
@@ -20,7 +22,7 @@ class Boolean extends ColumnAbstractType
         return 'boolean';
     }
 
-    public function filterValue($value)
+    public function filterValue(ColumnInterface $column, $value)
     {
         $value = (array) $value;
 
@@ -42,12 +44,12 @@ class Boolean extends ColumnAbstractType
             return '';
         }
 
-        return $this->getOption($boolValue ? 'true_value' : 'false_value');
+        return $column->getOption($boolValue ? 'true_value' : 'false_value');
     }
 
-    public function initOptions(): void
+    public function initOptions(OptionsResolver $optionsResolver): void
     {
-        $this->getOptionsResolver()->setDefaults([
+        $optionsResolver->setDefaults([
             'true_value' => '',
             'false_value' => ''
         ]);
