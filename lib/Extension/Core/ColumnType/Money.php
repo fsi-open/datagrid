@@ -12,7 +12,9 @@ declare(strict_types=1);
 namespace FSi\Component\DataGrid\Extension\Core\ColumnType;
 
 use FSi\Component\DataGrid\Column\ColumnAbstractType;
+use FSi\Component\DataGrid\Column\ColumnInterface;
 use FSi\Component\DataGrid\Exception\DataGridColumnException;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class Money extends ColumnAbstractType
 {
@@ -26,22 +28,22 @@ class Money extends ColumnAbstractType
         return 'money';
     }
 
-    public function filterValue($value)
+    public function filterValue(ColumnInterface $column, $value)
     {
-        $precision = $this->getOption('precision');
-        $roundmode = $this->getOption('round_mode');
-        $decimals = $this->getOption('decimals');
-        $decPoint = $this->getOption('dec_point');
-        $thousands = $this->getOption('thousands_sep');
-        $currencyField = $this->getOption('currency_field');
-        $currencyValue = $this->getOption('currency');
-        $mappingFields = $this->getOption('field_mapping');
-        $currencySeparator = $this->getOption('value_currency_separator');
+        $precision = $column->getOption('precision');
+        $roundmode = $column->getOption('round_mode');
+        $decimals = $column->getOption('decimals');
+        $decPoint = $column->getOption('dec_point');
+        $thousands = $column->getOption('thousands_sep');
+        $currencyField = $column->getOption('currency_field');
+        $currencyValue = $column->getOption('currency');
+        $mappingFields = $column->getOption('field_mapping');
+        $currencySeparator = $column->getOption('value_currency_separator');
 
         if (null === $currencyField && null === $currencyValue) {
             throw new DataGridColumnException(sprintf(
                 'At least one option from "currency" and "currency_field" must be defined in "%s" field.',
-                $this->getName()
+                $column->getName()
             ));
         }
 
@@ -71,9 +73,9 @@ class Money extends ColumnAbstractType
         return $value;
     }
 
-    public function initOptions(): void
+    public function initOptions(OptionsResolver $optionsResolver): void
     {
-        $this->getOptionsResolver()->setDefaults([
+        $optionsResolver->setDefaults([
             'round_mode' => self::ROUND_HALF_UP,
             'precision' => 2,
             'decimals' => 2,
@@ -84,14 +86,14 @@ class Money extends ColumnAbstractType
             'currency_field' => null,
         ]);
 
-        $this->getOptionsResolver()->setAllowedTypes('round_mode', 'integer');
-        $this->getOptionsResolver()->setAllowedTypes('precision', 'integer');
-        $this->getOptionsResolver()->setAllowedTypes('decimals', 'integer');
-        $this->getOptionsResolver()->setAllowedTypes('decimals', 'integer');
-        $this->getOptionsResolver()->setAllowedTypes('dec_point', 'string');
-        $this->getOptionsResolver()->setAllowedTypes('thousands_sep', 'string');
-        $this->getOptionsResolver()->setAllowedTypes('value_currency_separator', 'string');
-        $this->getOptionsResolver()->setAllowedTypes('currency', ['null', 'string']);
-        $this->getOptionsResolver()->setAllowedTypes('currency_field', ['null', 'string']);
+        $optionsResolver->setAllowedTypes('round_mode', 'integer');
+        $optionsResolver->setAllowedTypes('precision', 'integer');
+        $optionsResolver->setAllowedTypes('decimals', 'integer');
+        $optionsResolver->setAllowedTypes('decimals', 'integer');
+        $optionsResolver->setAllowedTypes('dec_point', 'string');
+        $optionsResolver->setAllowedTypes('thousands_sep', 'string');
+        $optionsResolver->setAllowedTypes('value_currency_separator', 'string');
+        $optionsResolver->setAllowedTypes('currency', ['null', 'string']);
+        $optionsResolver->setAllowedTypes('currency_field', ['null', 'string']);
     }
 }

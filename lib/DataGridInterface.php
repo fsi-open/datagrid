@@ -11,26 +11,27 @@ declare(strict_types=1);
 
 namespace FSi\Component\DataGrid;
 
-use FSi\Component\DataGrid\Column\ColumnTypeInterface;
-use FSi\Component\DataGrid\DataMapper\DataMapperInterface;
+use FSi\Component\DataGrid\Column\ColumnInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 interface DataGridInterface
 {
+    public function getFactory(): DataGridFactoryInterface;
+
     public function getName(): string;
 
-    public function getDataMapper(): DataMapperInterface;
+    public function addColumn(string $name, string $type, array $options = []): DataGridInterface;
 
-    public function addColumn($name, string $type = 'text', array $options = []): DataGridInterface;
+    public function addColumnInstance(ColumnInterface $column): DataGridInterface;
 
     public function removeColumn(string $name): DataGridInterface;
 
     public function clearColumns(): DataGridInterface;
 
-    public function getColumn(string $name): ColumnTypeInterface;
+    public function getColumn(string $name): ColumnInterface;
 
     /**
-     * @return ColumnTypeInterface[]
+     * @return ColumnInterface[]
      */
     public function getColumns(): array;
 

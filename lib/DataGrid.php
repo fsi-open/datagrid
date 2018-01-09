@@ -11,11 +11,9 @@ declare(strict_types=1);
 
 namespace FSi\Component\DataGrid;
 
+use FSi\Component\DataGrid\Column\ColumnInterface;
 use FSi\Component\DataGrid\Data\DataRowsetInterface;
 use FSi\Component\DataGrid\Data\DataRowset;
-use FSi\Component\DataGrid\Column\ColumnTypeInterface;
-use FSi\Component\DataGrid\DataMapper\DataMapperInterface;
-use FSi\Component\DataGrid\Exception\UnexpectedTypeException;
 use FSi\Component\DataGrid\Exception\DataGridException;
 use InvalidArgumentException;
 use Symfony\Component\EventDispatcher\EventDispatcher;
@@ -34,17 +32,12 @@ class DataGrid implements DataGridInterface
     protected $rowset;
 
     /**
-     * @var DataMapperInterface
-     */
-    protected $dataMapper;
-
-    /**
      * @var DataGridFactoryInterface
      */
     protected $dataGridFactory;
 
     /**
-     * @var ColumnTypeInterface[]
+     * @var ColumnInterface[]
      */
     protected $columns = [];
 
@@ -55,14 +48,16 @@ class DataGrid implements DataGridInterface
 
     public function __construct(
         string $name,
-        DataGridFactoryInterface $dataGridFactory,
-        DataMapperInterface $dataMapper
+        DataGridFactoryInterface $dataGridFactory
     ) {
         $this->name = $name;
         $this->dataGridFactory = $dataGridFactory;
-        $this->dataMapper = $dataMapper;
         $this->eventDispatcher = new EventDispatcher();
-        $this->registerSubscribers();
+    }
+
+    public function getFactory(): DataGridFactoryInterface
+    {
+        return $this->dataGridFactory;
     }
 
     public function getName(): string
@@ -70,47 +65,25 @@ class DataGrid implements DataGridInterface
         return $this->name;
     }
 
-    /**
-     * @param ColumnTypeInterface|string $name
-     * @param string $type
-     * @param array $options
-     * @return $this|DataGridInterface
-     * @throws UnexpectedTypeException
-     */
-    public function addColumn($name, string $type = 'text', array $options = []): DataGridInterface
+    public function addColumn(string $name, string $type, array $options = []): DataGridInterface
     {
-        if ($name instanceof ColumnTypeInterface) {
-            $type = $name->getId();
+        return $this->addColumnInstance(
+            $this->dataGridFactory->createColumn($this, $type, $name, $options)
+        );
+    }
 
-            if (!$this->dataGridFactory->hasColumnType($type)) {
-                throw new UnexpectedTypeException(sprintf(
-                    'There is no column with type "%s" registred in factory.',
-                    $type
-                ));
-            }
-
-            $name->setDataGrid($this);
-            $this->columns[$name->getName()] = $name;
-
-            return $this;
+    public function addColumnInstance(ColumnInterface $column): DataGridInterface
+    {
+        if ($column->getDataGrid() !== $this) {
+            throw new InvalidArgumentException('Tried to add column associated with different datagrid instance');
         }
 
-        $column = $this->dataGridFactory->getColumnType($type);
-        $column->setName($name);
-        $column->setDataGrid($this);
-
-        $column->initOptions();
-        foreach ($column->getExtensions() as $extension) {
-            $extension->initOptions($column);
-        }
-        $column->setOptions($options);
-
-        $this->columns[$name] = $column;
+        $this->columns[$column->getName()] = $column;
 
         return $this;
     }
 
-    public function getColumn(string $name): ColumnTypeInterface
+    public function getColumn(string $name): ColumnInterface
     {
         if (!$this->hasColumn($name)) {
             throw new InvalidArgumentException(sprintf(
@@ -122,6 +95,9 @@ class DataGrid implements DataGridInterface
         return $this->columns[$name];
     }
 
+    /**
+     * @return ColumnInterface[]
+     */
     public function getColumns(): array
     {
         return $this->columns;
@@ -135,7 +111,7 @@ class DataGrid implements DataGridInterface
     public function hasColumnType(string $type): bool
     {
         foreach ($this->columns as $column) {
-            if ($column->getId() === $type) {
+            if ($column->getType()->getId() === $type) {
                 return true;
             }
         }
@@ -162,11 +138,6 @@ class DataGrid implements DataGridInterface
         $this->columns = [];
 
         return $this;
-    }
-
-    public function getDataMapper(): DataMapperInterface
-    {
-        return $this->dataMapper;
     }
 
     public function setData(iterable $data): void
@@ -198,10 +169,14 @@ class DataGrid implements DataGridInterface
                 continue;
             }
 
-            $object = $this->rowset[$index];
+            $source = $this->rowset[$index];
 
             foreach ($this->getColumns() as $column) {
-                $column->bindData($values, $object, $index);
+                $columnType = $column->getType();
+
+                foreach ($this->getFactory()->getColumnTypeExtensions($columnType) as $extension) {
+                    $extension->bindData($column, $index, $source, $values);
+                }
             }
         }
 
@@ -246,14 +221,5 @@ class DataGrid implements DataGridInterface
         }
 
         return $this->rowset;
-    }
-
-    private function registerSubscribers(): void
-    {
-        $extensions = $this->dataGridFactory->getExtensions();
-
-        foreach ($extensions as $extension) {
-            $extension->registerSubscribers($this);
-        }
     }
 }

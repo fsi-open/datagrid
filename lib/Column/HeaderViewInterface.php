@@ -11,8 +11,6 @@ declare(strict_types=1);
 
 namespace FSi\Component\DataGrid\Column;
 
-use FSi\Component\DataGrid\DataGridViewInterface;
-
 interface HeaderViewInterface
 {
     public function setAttribute(string $name, $value): void;
@@ -23,7 +21,7 @@ interface HeaderViewInterface
 
     public function getAttributes(): array;
 
-    public function getLabel(): ?string;
+    public function getLabel(): string;
 
     public function setLabel(string $value): void;
 
@@ -31,7 +29,5 @@ interface HeaderViewInterface
 
     public function getType(): string;
 
-    public function setDataGridView(DataGridViewInterface $dataGrid): void;
-
-    public function getDataGridView(): DataGridViewInterface;
+    public function getDataGridName(): string;
 }

@@ -13,6 +13,9 @@ namespace FSi\Component\DataGrid\Extension\Doctrine\ColumnType;
 
 use Doctrine\Common\Collections\Collection;
 use FSi\Component\DataGrid\Column\ColumnAbstractType;
+use FSi\Component\DataGrid\Column\ColumnInterface;
+use Symfony\Component\OptionsResolver\Options;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class Entity extends ColumnAbstractType
 {
@@ -21,12 +24,27 @@ class Entity extends ColumnAbstractType
         return 'entity';
     }
 
-    public function getValue($object)
+    public function initOptions(OptionsResolver $optionsResolver): void
     {
-        return $this->getDataMapper()->getData($this->getOption('relation_field'), $object);
+        $optionsResolver->setDefaults([
+            'relation_field' => function (Options $options, $previousValue) {
+                if (null !== $previousValue) {
+                    return $previousValue;
+                }
+
+                return $options['name'];
+            },
+        ]);
+
+        $optionsResolver->setAllowedTypes('relation_field', 'string');
     }
 
-    public function filterValue($value)
+    public function getValue(ColumnInterface $column, $object)
+    {
+        return $this->propertyAccessor->getValue($object, $column->getOption('relation_field'));
+    }
+
+    public function filterValue(ColumnInterface $column, $value)
     {
         if ($value instanceof Collection) {
             $value = $value->toArray();
@@ -34,12 +52,12 @@ class Entity extends ColumnAbstractType
 
         $values = [];
         $objectValues = [];
-        $mappingFields = $this->getOption('field_mapping');
+        $mappingFields = $column->getOption('field_mapping');
 
         if (is_array($value)) {
             foreach ($value as $object) {
                 foreach ($mappingFields as $field) {
-                    $objectValues[$field] = $this->getDataMapper()->getData($field, $object);
+                    $objectValues[$field] = $this->propertyAccessor->getValue($object, $field);
                 }
 
                 $values[] = $objectValues;
@@ -47,7 +65,7 @@ class Entity extends ColumnAbstractType
         } else {
             foreach ($mappingFields as $field) {
                 $objectValues[$field] = isset($value)
-                    ? $this->getDataMapper()->getData($field, $value)
+                    ? $this->propertyAccessor->getValue($value, $field)
                     : null;
             }
 
@@ -55,14 +73,5 @@ class Entity extends ColumnAbstractType
         }
 
         return $values;
-    }
-
-    public function initOptions(): void
-    {
-        $this->getOptionsResolver()->setDefaults([
-            'relation_field' => $this->getName(),
-        ]);
-
-        $this->getOptionsResolver()->setAllowedTypes('relation_field', 'string');
     }
 }

@@ -11,47 +11,54 @@ declare(strict_types=1);
 
 namespace FSi\Component\DataGrid\Tests;
 
+use FSi\Component\DataGrid\Column\ColumnInterface;
+use FSi\Component\DataGrid\Column\ColumnTypeInterface;
+use FSi\Component\DataGrid\DataGridFactoryInterface;
+use FSi\Component\DataGrid\DataGridInterface;
 use FSi\Component\DataGrid\DataGridView;
 use FSi\Component\DataGrid\Data\DataRowsetInterface;
 use FSi\Component\DataGrid\Column\HeaderViewInterface;
-use FSi\Component\DataGrid\Column\ColumnTypeInterface;
 use PHPUnit\Framework\TestCase;
 
 class DataGridViewTest extends TestCase
 {
-    /**
-     * @var DataRowsetInterface
-     */
-    private $rowset;
-
-    /**
-     * @var DataGridView
-     */
-    private $gridView;
-
-    public function testAddHasGetRemoveColumn()
+    public function testBuildingView()
     {
-        $self = $this;
+        $dataGridFactory = $this->createMock(DataGridFactoryInterface::class);
+        $dataGrid = $this->createMock(DataGridInterface::class);
+        $columnType = $this->createMock(ColumnTypeInterface::class);
 
-        $column = $this->createMock(ColumnTypeInterface::class);
+        $column = $this->createMock(ColumnInterface::class);
         $column->expects($this->any())
-            ->method('createHeaderView')
-            ->will($this->returnCallback(function() use ($self) {
-                $headerView = $self->createMock(HeaderViewInterface::class);
-                $headerView->expects($self->any())
-                    ->method('getName')
-                    ->will($self->returnValue('ColumnHeaderView'));
+            ->method('getType')
+            ->will($this->returnValue($columnType));
 
-                $headerView->expects($self->any())
-                    ->method('getType')
-                    ->will($self->returnValue('foo-type'));
+        $column->expects($this->any())
+            ->method('getDataGrid')
+            ->will($this->returnValue($dataGrid));
 
-                return $headerView;
-            }));
+        $dataGrid->expects($this->any())
+            ->method('getFactory')
+            ->will($this->returnValue($dataGridFactory));
 
         $column->expects($this->any())
             ->method('getName')
             ->will($this->returnValue('foo'));
+
+        $dataGridFactory->expects($this->any())
+            ->method('createHeaderView')
+            ->will($this->returnCallback(function() {
+                $headerView = $this->createMock(HeaderViewInterface::class);
+                $headerView->expects($this->any())
+                    ->method('getName')
+                    ->will($this->returnValue('ColumnHeaderView'));
+
+                $headerView->expects($this->any())
+                    ->method('getType')
+                    ->will($this->returnValue('foo-type'));
+
+                return $headerView;
+            }));
 
         $columnHeader = $this->createMock(HeaderViewInterface::class);
         $columnHeader->expects($this->any())
@@ -62,25 +69,12 @@ class DataGridViewTest extends TestCase
             ->method('getType')
             ->will($this->returnValue('foo-type'));
 
-        $columnHeader->expects($this->any())
-            ->method('setDataGridView');
+        $rowset = $this->createMock(DataRowsetInterface::class);
+        $gridView = new DataGridView('test-grid-view', [$column], $rowset);
 
-        $this->rowset = $this->createMock(DataRowsetInterface::class);
-        $this->gridView = new DataGridView('test-grid-view', [$column], $this->rowset);
-
-        $this->assertSame('test-grid-view', $this->gridView->getName());
-
-        $this->assertTrue($this->gridView->hasColumn('foo'));
-        $this->assertTrue($this->gridView->hasColumnType('foo-type'));
-        $this->assertCount(1, $this->gridView->getColumns());
-        $this->assertSame($this->gridView->getColumn('foo')->getName(), 'ColumnHeaderView');
-        $this->gridView->removeColumn('foo');
-        $this->assertFalse($this->gridView->hasColumn('foo'));
-
-        $this->gridView->addColumn($columnHeader);
-        $this->assertTrue($this->gridView->hasColumn('foo'));
-
-        $this->gridView->clearColumns();
-        $this->assertFalse($this->gridView->hasColumn('foo'));
+        $this->assertSame('test-grid-view', $gridView->getName());
+        $this->assertTrue(isset($gridView->getHeaders()['foo']));
+        $this->assertCount(1, $gridView->getHeaders());
+        $this->assertSame($gridView->getHeaders()['foo']->getName(), 'ColumnHeaderView');
     }
 }

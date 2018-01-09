@@ -11,11 +11,18 @@ declare(strict_types=1);
 
 namespace FSi\Component\DataGrid\Tests\Extension\Core;
 
+use FSi\Component\DataGrid\Column\ColumnInterface;
+use FSi\Component\DataGrid\DataGridInterface;
+use FSi\Component\DataGrid\Extension\Core\ColumnType\Action;
+use FSi\Component\DataGrid\Extension\Core\ColumnType\Batch;
+use FSi\Component\DataGrid\Extension\Core\ColumnType\DateTime;
+use FSi\Component\DataGrid\Extension\Core\ColumnType\Money;
+use FSi\Component\DataGrid\Extension\Core\ColumnType\Number;
+use FSi\Component\DataGrid\Extension\Core\ColumnType\Text;
 use FSi\Component\DataGrid\Extension\Core\CoreExtension;
 use FSi\Component\DataGrid\Extension\Core\EventSubscriber\ColumnOrder;
 use FSi\Component\DataGrid\DataGridEventInterface;
-use FSi\Component\DataGrid\DataGridViewInterface;
-use FSi\Component\DataGrid\Column\HeaderViewInterface;
+use FSi\Component\DataGrid\Extension\Doctrine\ColumnType\Entity;
 use PHPUnit\Framework\TestCase;
 
 class CoreExtensionTest extends TestCase
@@ -36,14 +43,13 @@ class CoreExtensionTest extends TestCase
     public function testLoadedExtensions()
     {
         $extension = new CoreExtension();
-        $this->assertTrue($extension->hasColumnTypeExtensions('text'));
-        $this->assertTrue($extension->hasColumnTypeExtensions('text'));
-        $this->assertTrue($extension->hasColumnTypeExtensions('number'));
-        $this->assertTrue($extension->hasColumnTypeExtensions('datetime'));
-        $this->assertTrue($extension->hasColumnTypeExtensions('action'));
-        $this->assertTrue($extension->hasColumnTypeExtensions('money'));
-        $this->assertTrue($extension->hasColumnTypeExtensions('gedmo_tree'));
-        $this->assertTrue($extension->hasColumnTypeExtensions('entity'));
+        $this->assertTrue($extension->hasColumnTypeExtensions(new Text()));
+        $this->assertTrue($extension->hasColumnTypeExtensions(new Number()));
+        $this->assertTrue($extension->hasColumnTypeExtensions(new DateTime()));
+        $this->assertTrue($extension->hasColumnTypeExtensions(new Action()));
+        $this->assertTrue($extension->hasColumnTypeExtensions(new Money()));
+        $this->assertTrue($extension->hasColumnTypeExtensions(new Batch()));
+        $this->assertTrue($extension->hasColumnTypeExtensions(new Entity()));
     }
 
     public function testColumnOrder()
@@ -91,65 +97,64 @@ class CoreExtensionTest extends TestCase
             $columns = [];
 
             foreach ($case['columns'] as $name => $order) {
-                $columnHeader = $this->createMock(HeaderViewInterface::class);
+                $column = $this->createMock(ColumnInterface::class);
 
-                $columnHeader
-                    ->expects($this->atLeastOnce())
+                $column
+                    ->expects($this->any())
                     ->method('getName')
                     ->will($this->returnValue($name));
 
-                $columnHeader
+                $column
                     ->expects($this->atLeastOnce())
-                    ->method('hasAttribute')
+                    ->method('hasOption')
                     ->will($this->returnCallback(function ($attribute) use ($order) {
-                        if (($attribute == 'display_order') && isset($order)) {
-                            return true;
-                        } else {
-                            return false;
-                        }
+                        return ('display_order' === $attribute) && (null !== $order);
                     }));
 
-                $columnHeader
+                $column
                     ->expects($this->any())
-                    ->method('getAttribute')
+                    ->method('getOption')
                     ->will($this->returnCallback(function ($attribute) use ($order) {
-                        if (($attribute == 'display_order') && isset($order)) {
+                        if ('display_order' === $attribute) {
                             return $order;
-                        } else {
-                            return null;
                         }
+
+                        return null;
                     }));
 
-                $columns[] = $columnHeader;
+                $columns[$name] = $column;
             }
 
-            $view = $this->createMock(DataGridViewInterface::class);
+            $dataGrid = $this->createMock(DataGridInterface::class);
 
-            $self = $this;
-
-            $view
-                ->expects($this->once())
+            $dataGrid
+                ->expects($this->at(0))
                 ->method('getColumns')
                 ->will($this->returnValue($columns));
 
-            $view
-                ->expects($this->once())
-                ->method('setColumns')
-                ->will($this->returnCallback(function (array $columns) use ($self, $case) {
-                    $sorted = [];
-                    foreach ($columns as $column) {
-                        $sorted[] = $column->getName();
-                    }
-                    $self->assertSame($case['sorted'], $sorted);
-                }));
+            $dataGrid
+                ->expects($this->at(1))
+                ->method('clearColumns');
+
+            $sortedColumns = array_map(
+                function (string $columnName) use ($columns): array {
+                    return [$columns[$columnName]];
+                },
+                $case['sorted']
+            );
+            $dataGrid
+                ->expects($this->exactly(count($case['sorted'])))
+                ->method('addColumnInstance')
+                ->withConsecutive(...$sortedColumns)
+                ->will($this->returnSelf());
 
             $event = $this->createMock(DataGridEventInterface::class);
             $event
                 ->expects($this->once())
-                ->method('getData')
-                ->will($this->returnValue($view));
+                ->method('getDataGrid')
+                ->will($this->returnValue($dataGrid));
 
-            $subscriber->postBuildView($event);
+            $subscriber->preBuildView($event);
         }
     }
 }

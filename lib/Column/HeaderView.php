@@ -11,39 +11,39 @@ declare(strict_types=1);
 
 namespace FSi\Component\DataGrid\Column;
 
-use FSi\Component\DataGrid\DataGridViewInterface;
-
 class HeaderView implements HeaderViewInterface
 {
     /**
-     * @var string|null
+     * @var string
      */
-    protected $label;
+    private $dataGridName;
 
     /**
      * @var string
      */
-    protected $name;
+    private $name;
 
     /**
      * @var string
      */
-    protected $type;
+    private $type;
+
+    /**
+     * @var string
+     */
+    private $label;
 
     /**
      * @var array
      */
-    protected $attributes = [];
+    private $attributes = [];
 
-    /**
-     * @var DataGridViewInterface
-     */
-    protected $datagrid;
-
-    public function __construct(string $name, string $type)
+    public function __construct(ColumnInterface $column, ?string $label = null)
     {
-        $this->name = $name;
-        $this->type = $type;
+        $this->dataGridName = $column->getDataGrid()->getName();
+        $this->name = $column->getName();
+        $this->type = $column->getType()->getId();
+        $this->label = $label ?? $this->name;
     }
 
     public function setAttribute(string $name, $value): void
@@ -75,7 +75,7 @@ class HeaderView implements HeaderViewInterface
         $this->label = $label;
     }
 
-    public function getLabel(): ?string
+    public function getLabel(): string
     {
         return $this->label;
     }
@@ -90,13 +90,8 @@ class HeaderView implements HeaderViewInterface
         return $this->type;
     }
 
-    public function setDataGridView(DataGridViewInterface $dataGrid): void
+    public function getDataGridName(): string
     {
-        $this->datagrid = $dataGrid;
-    }
-
-    public function getDataGridView(): DataGridViewInterface
-    {
-        return $this->datagrid;
+        return $this->dataGridName;
     }
 }

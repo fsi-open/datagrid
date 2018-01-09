@@ -14,7 +14,6 @@ namespace FSi\Component\DataGrid\Tests;
 use FSi\Component\DataGrid\DataGridFactory;
 use FSi\Component\DataGrid\DataGridFactoryInterface;
 use FSi\Component\DataGrid\Tests\Fixtures\FooExtension;
-use FSi\Component\DataGrid\DataMapper\DataMapperInterface;
 use FSi\Component\DataGrid\Exception\UnexpectedTypeException;
 use FSi\Component\DataGrid\Exception\DataGridColumnException;
 use PHPUnit\Framework\TestCase;
@@ -32,15 +31,13 @@ class DataGridFactoryTest extends TestCase
             new FooExtension(),
         ];
 
-        $dataMapper = $this->createMock(DataMapperInterface::class);
-
-        $this->factory = new DataGridFactory($extensions, $dataMapper);
+        $this->factory = new DataGridFactory($extensions);
     }
 
     public function testCreateGrids()
     {
-        $grid = $this->factory->createDataGrid();
-        $this->assertSame('grid',$grid->getName());
+        $grid = $this->factory->createDataGrid('grid');
+        $this->assertSame('grid', $grid->getName());
 
         $this->expectException(DataGridColumnException::class);
         $this->factory->createDataGrid('grid');
@@ -58,10 +55,5 @@ class DataGridFactoryTest extends TestCase
 
         $this->expectException(UnexpectedTypeException::class);
         $this->factory->getColumnType('bar');
-    }
-
-    public function testGetDataMapper()
-    {
-        $this->assertInstanceOf(DataMapperInterface::class, $this->factory->getDataMapper());
     }
 }

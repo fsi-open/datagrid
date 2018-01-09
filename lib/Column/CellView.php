@@ -11,54 +11,44 @@ declare(strict_types=1);
 
 namespace FSi\Component\DataGrid\Column;
 
-use FSi\Component\DataGrid\DataGridViewInterface;
-
 class CellView implements CellViewInterface
 {
     /**
-     * The original object from which the value of the cell was retrieved.
-     *
-     * @var mixed
+     * @var string
      */
-    protected $source;
+    private $dataGridName;
 
     /**
-     * Cell value. In most cases this should be a simple string.
-     *
-     * @var mixed
+     * @var string
      */
-    protected $value;
+    private $name;
 
     /**
-     * Cell attributes.
-     *
+     * @var string
+     */
+    private $type;
+
+    /**
+     * @var mixed
+     */
+    private $value;
+
+    /**
      * @var array
      */
-    protected $attributes = [];
+    private $attributes = [];
 
-    /**
-     * Cell name.
-     *
-     * @var string
-     */
-    protected $name;
-
-    /**
-     * Cell type.
-     *
-     * @var string
-     */
-    protected $type;
-
-    /**
-     * @var DataGridViewInterface
-     */
-    protected $datagrid;
-
-    public function __construct(string $name, string $type)
+    public function __construct(ColumnInterface $column, $value)
     {
-        $this->name = $name;
-        $this->type = $type;
+        $this->dataGridName = $column->getDataGrid()->getName();
+        $this->name = $column->getName();
+        $this->type = $column->getType()->getId();
+        $this->value = $value;
+    }
+
+    public function getDataGridName(): string
+    {
+        return $this->dataGridName;
     }
 
     public function getName(): string
@@ -69,11 +59,6 @@ class CellView implements CellViewInterface
     public function getType(): string
     {
         return $this->type;
-    }
-
-    public function setValue($value): void
-    {
-        $this->value = $value;
     }
 
     public function getValue()
@@ -103,25 +88,5 @@ class CellView implements CellViewInterface
     public function hasAttribute(string $name): bool
     {
         return array_key_exists($name, $this->attributes);
-    }
-
-    public function setSource($source): void
-    {
-        $this->source = $source;
-    }
-
-    public function getSource()
-    {
-        return $this->source;
-    }
-
-    public function setDataGridView(DataGridViewInterface $dataGrid): void
-    {
-        $this->datagrid = $dataGrid;
-    }
-
-    public function getDataGridView(): DataGridViewInterface
-    {
-        return $this->datagrid;
     }
 }

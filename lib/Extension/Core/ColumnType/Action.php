@@ -12,19 +12,21 @@ declare(strict_types=1);
 namespace FSi\Component\DataGrid\Extension\Core\ColumnType;
 
 use FSi\Component\DataGrid\Column\ColumnAbstractType;
+use FSi\Component\DataGrid\Column\ColumnInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\OptionsResolver\Options;
 
 class Action extends ColumnAbstractType
 {
     /**
      * @var OptionsResolver
      */
-    protected $actionOptionsResolver;
+    private $actionOptionsResolver;
 
     public function __construct()
     {
         $this->actionOptionsResolver = new OptionsResolver();
+
+        parent::__construct();
     }
 
     public function getId(): string
@@ -32,10 +34,15 @@ class Action extends ColumnAbstractType
         return 'action';
     }
 
-    public function filterValue($value)
+    public function getActionOptionsResolver(): OptionsResolver
+    {
+        return $this->actionOptionsResolver;
+    }
+
+    public function filterValue(ColumnInterface $column, $value)
     {
         $return = [];
-        $actions = $this->getOption('actions');
+        $actions = $column->getOption('actions');
 
         foreach ($actions as $name => $options) {
             $options = $this->actionOptionsResolver->resolve((array) $options);
@@ -59,13 +66,13 @@ class Action extends ColumnAbstractType
         return $return;
     }
 
-    public function initOptions(): void
+    public function initOptions(OptionsResolver $optionsResolver): void
     {
-        $this->getOptionsResolver()->setDefaults([
+        $optionsResolver->setDefaults([
             'actions' => [],
         ]);
 
-        $this->getOptionsResolver()->setAllowedTypes('actions', 'array');
+        $optionsResolver->setAllowedTypes('actions', 'array');
 
         $this->actionOptionsResolver->setDefaults([
             'redirect_uri' => null,
@@ -80,10 +87,5 @@ class Action extends ColumnAbstractType
         $this->actionOptionsResolver->setAllowedTypes('redirect_uri', ['string', 'null']);
         $this->actionOptionsResolver->setAllowedTypes('uri_scheme', 'string');
         $this->actionOptionsResolver->setAllowedValues('protocol', ['http://', 'https://']);
-    }
-
-    public function getActionOptionsResolver(): OptionsResolver
-    {
-        return $this->actionOptionsResolver;
     }
 }

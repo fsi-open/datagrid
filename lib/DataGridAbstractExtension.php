@@ -54,29 +54,37 @@ abstract class DataGridAbstractExtension implements DataGridExtensionInterface
         return array_key_exists($type, $this->columnTypes);
     }
 
-    public function hasColumnTypeExtensions(string $type): bool
+    public function hasColumnTypeExtensions(ColumnTypeInterface $columnType): bool
     {
         if (null === $this->columnTypesExtensions) {
             $this->initColumnTypesExtensions();
         }
 
-        return array_key_exists($type, $this->columnTypesExtensions);
+        foreach (array_keys($this->columnTypesExtensions) as $extendedType) {
+            if (is_a($columnType, $extendedType)) {
+                return true;
+            }
+        }
+
+        return false;
     }
 
-    public function getColumnTypeExtensions(string $type): array
+    public function getColumnTypeExtensions(ColumnTypeInterface $columnType): array
     {
         if (null === $this->columnTypesExtensions) {
             $this->initColumnTypesExtensions();
         }
 
-        if (!array_key_exists($type, $this->columnTypesExtensions)) {
-            throw new DataGridException(sprintf(
-                'Extension for column type "%s" can not be loaded by this data grid extension',
-                $type
-            ));
+        foreach ($this->columnTypesExtensions as $extendedType => $extensions) {
+            if (is_a($columnType, $extendedType)) {
+                return $extensions;
+            }
         }
 
-        return $this->columnTypesExtensions[$type];
+        throw new DataGridException(sprintf(
+            'Extension for column type "%s" can not be loaded by this DataGrid extension',
+            get_class($columnType)
+        ));
     }
 
     public function registerSubscribers(DataGridInterface $dataGrid): void
@@ -135,6 +143,7 @@ abstract class DataGridAbstractExtension implements DataGridExtensionInterface
             }
 
             $this->columnTypes[$columnType->getId()] = $columnType;
+            $this->columnTypes[get_class($columnType)] = $columnType;
         }
     }
 

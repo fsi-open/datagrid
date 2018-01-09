@@ -11,47 +11,65 @@ declare(strict_types=1);
 
 namespace FSi\Component\DataGrid\Extension\Core\ColumnTypeExtension;
 
-use FSi\Component\DataGrid\Column\ColumnTypeInterface;
+use FSi\Component\DataGrid\Column\ColumnInterface;
 use FSi\Component\DataGrid\Column\HeaderViewInterface;
 use FSi\Component\DataGrid\Column\ColumnAbstractTypeExtension;
+use FSi\Component\DataGrid\Extension\Core\ColumnType\Action;
+use FSi\Component\DataGrid\Extension\Core\ColumnType\Batch;
+use FSi\Component\DataGrid\Extension\Core\ColumnType\Boolean;
+use FSi\Component\DataGrid\Extension\Core\ColumnType\Collection;
+use FSi\Component\DataGrid\Extension\Core\ColumnType\DateTime;
+use FSi\Component\DataGrid\Extension\Core\ColumnType\Money;
+use FSi\Component\DataGrid\Extension\Core\ColumnType\Number;
+use FSi\Component\DataGrid\Extension\Core\ColumnType\Text;
+use FSi\Component\DataGrid\Extension\Doctrine\ColumnType\Entity;
+use Symfony\Component\OptionsResolver\Options;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class DefaultColumnOptionsExtension extends ColumnAbstractTypeExtension
 {
-    public function buildHeaderView(ColumnTypeInterface $column, HeaderViewInterface $view): void
-    {
-        $view->setLabel($column->getOption('label'));
-        $order = $column->getOption('display_order');
-        if (null !== $order) {
-            $view->setAttribute('display_order', $order);
-        }
-    }
-
     public function getExtendedColumnTypes(): array
     {
         return [
-            'batch',
-            'text',
-            'boolean',
-            'collection',
-            'datetime',
-            'number',
-            'money',
-            'gedmo_tree',
-            'entity',
-            'action',
+            Batch::class,
+            Text::class,
+            Boolean::class,
+            Collection::class,
+            DateTime::class,
+            Number::class,
+            Money::class,
+            Entity::class,
+            Action::class,
         ];
     }
 
-    public function initOptions(ColumnTypeInterface $column): void
+    public function buildHeaderView(ColumnInterface $column, HeaderViewInterface $view): void
     {
-        $column->getOptionsResolver()->setDefaults([
-            'label' => $column->getName(),
+        $view->setLabel($column->getOption('label'));
+    }
+
+    public function initOptions(OptionsResolver $optionsResolver): void
+    {
+        $optionsResolver->setDefaults([
+            'label' => function (Options $options, $previousValue) {
+                if (null !== $previousValue) {
+                    return $previousValue;
+                }
+
+                return $options['name'];
+            },
             'display_order' => null,
-            'field_mapping' => [$column->getName()]
+            'field_mapping' => function (Options $options, $previousValue) {
+                if (null !== $previousValue) {
+                    return $previousValue;
+                }
+
+                return [$options['name']];
+            },
         ]);
 
-        $column->getOptionsResolver()->setAllowedTypes('label', 'string');
-        $column->getOptionsResolver()->setAllowedTypes('field_mapping', 'array');
-        $column->getOptionsResolver()->setAllowedTypes('display_order', ['integer', 'null']);
+        $optionsResolver->setAllowedTypes('label', 'string');
+        $optionsResolver->setAllowedTypes('field_mapping', 'array');
+        $optionsResolver->setAllowedTypes('display_order', ['integer', 'null']);
     }
 }

@@ -11,24 +11,24 @@ declare(strict_types=1);
 
 namespace FSi\Component\DataGrid\Extension\Doctrine\ColumnTypeExtension;
 
-use FSi\Component\DataGrid\Column\ColumnTypeInterface;
-use FSi\Component\DataGrid\Column\CellViewInterface;
+use FSi\Component\DataGrid\Column\ColumnInterface;
 use FSi\Component\DataGrid\Column\ColumnAbstractTypeExtension;
 use FSi\Component\DataGrid\Exception\DataGridException;
+use FSi\Component\DataGrid\Extension\Doctrine\ColumnType\Entity;
+use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class ValueFormatColumnOptionsExtension extends ColumnAbstractTypeExtension
 {
-    public function buildCellView(ColumnTypeInterface $column, CellViewInterface $view): void
+    public function filterValue(ColumnInterface $column, $value)
     {
-        $value = [];
-        $values = $view->getValue();
+        $returnValue = [];
         if (($emptyValue = $column->getOption('empty_value')) !== null) {
-            $values = $this->populateValues($values, $emptyValue);
+            $value = $this->populateValues($value, $emptyValue);
         }
         $glue = $column->getOption('value_glue');
         $format = $column->getOption('value_format');
 
-        foreach ($values as $val) {
+        foreach ($value as $val) {
             $objectValue = null;
 
             if (isset($glue) && !isset($format)) {
@@ -48,34 +48,32 @@ class ValueFormatColumnOptionsExtension extends ColumnAbstractTypeExtension
                 }
             }
 
-            $value[] = $objectValue;
+            $returnValue[] = $objectValue;
         }
 
-        $value = implode($column->getOption('glue_multiple'), $value);
-
-        $view->setValue($value);
+        return implode($column->getOption('glue_multiple'), $returnValue);
     }
 
-     public function getExtendedColumnTypes(): array
-     {
-         return [
-             'entity',
-         ];
-     }
-
-    public function initOptions(ColumnTypeInterface $column): void
+    public function getExtendedColumnTypes(): array
     {
-        $column->getOptionsResolver()->setDefaults([
+        return [
+            Entity::class,
+        ];
+    }
+
+    public function initOptions(OptionsResolver $optionsResolver): void
+    {
+        $optionsResolver->setDefaults([
             'glue_multiple' => ' ',
             'value_glue' => ' ',
             'value_format' => '%s',
             'empty_value' => null
         ]);
 
-        $column->getOptionsResolver()->setAllowedTypes('glue_multiple', ['string']);
-        $column->getOptionsResolver()->setAllowedTypes('value_glue', ['string', 'null']);
-        $column->getOptionsResolver()->setAllowedTypes('value_format', ['string', 'null']);
-        $column->getOptionsResolver()->setAllowedTypes('empty_value', ['array', 'string', 'null']);
+        $optionsResolver->setAllowedTypes('glue_multiple', ['string']);
+        $optionsResolver->setAllowedTypes('value_glue', ['string', 'null']);
+        $optionsResolver->setAllowedTypes('value_format', ['string', 'null']);
+        $optionsResolver->setAllowedTypes('empty_value', ['array', 'string', 'null']);
     }
 
     private function populateValues(array $values, $emptyValue): array
