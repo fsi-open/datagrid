@@ -34,11 +34,6 @@ class Action extends ColumnAbstractType
         return 'action';
     }
 
-    public function getActionOptionsResolver(): OptionsResolver
-    {
-        return $this->actionOptionsResolver;
-    }
-
     public function filterValue(ColumnInterface $column, $value)
     {
         $return = [];
