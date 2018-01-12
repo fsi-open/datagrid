@@ -74,7 +74,7 @@ class MoneyTest extends TestCase
         ], $options);
 
         $column = $this->dataGridFactory->createColumn($this->getDataGridMock(), Money::class, 'price', $options);
-        $cellView = $this->dataGridFactory->createCellView($column, $value);
+        $cellView = $this->dataGridFactory->createCellView($column, 0, $value);
 
         $this->assertSame($expectedValue, $cellView->getValue());
     }

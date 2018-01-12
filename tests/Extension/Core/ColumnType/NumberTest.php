@@ -105,7 +105,7 @@ class NumberTest extends TestCase
     private function assertCellValue(array $options, $value, array $expectedValue): void
     {
         $column = $this->dataGridFactory->createColumn($this->getDataGridMock(), Number::class, 'number', $options);
-        $cellView = $this->dataGridFactory->createCellView($column, $value);
+        $cellView = $this->dataGridFactory->createCellView($column, 0, $value);
 
         $this->assertSame($expectedValue, $cellView->getValue());
     }

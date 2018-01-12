@@ -55,7 +55,7 @@ class ActionTest extends TestCase
             ],
             'field_mapping' => ['foo']
         ]);
-        $this->dataGridFactory->createCellView($column, (object) ['foo' => 'bar']);
+        $this->dataGridFactory->createCellView($column, 0, (object) ['foo' => 'bar']);
     }
 
     public function testRequiredActionInActionsOption()
@@ -68,7 +68,7 @@ class ActionTest extends TestCase
             ],
             'field_mapping' => ['foo'],
         ]);
-        $cellView = $this->dataGridFactory->createCellView($column, (object) ['foo' => 'bar']);
+        $cellView = $this->dataGridFactory->createCellView($column, 0, (object) ['foo' => 'bar']);
 
         $this->assertSame([
             'edit' => [
@@ -93,7 +93,7 @@ class ActionTest extends TestCase
             ],
             'field_mapping' => ['foo']
         ]);
-        $cellView = $this->dataGridFactory->createCellView($column, (object) ['foo' => 'bar']);
+        $cellView = $this->dataGridFactory->createCellView($column, 0, (object) ['foo' => 'bar']);
 
         $this->assertSame([
             'edit' => [

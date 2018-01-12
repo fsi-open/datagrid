@@ -33,7 +33,8 @@ class EntityTypeTest extends TestCase
         $object = new Fixture('object');
         $object->setAuthor((object) ['foo' => 'bar']);
 
-        $cellView = $dataGridFactory->createCellView($column, $object);
+        $cellView = $dataGridFactory->createCellView($column, 0, $object);
         $this->assertSame([['foo' => 'bar']], $cellView->getValue());
+        $this->assertSame(0, $cellView->getIndex());
     }
 }

@@ -250,7 +250,7 @@ class ValueFormatColumnOptionsExtensionTest extends TestCase
                 return sprintf('%s %s', $data['text'], $data['text']);
             }
         ]);
-        $cellView = $dataGridFactory->createCellView($column, (object) ['text' => 'bar']);
+        $cellView = $dataGridFactory->createCellView($column, 0, (object) ['text' => 'bar']);
 
         $this->assertSame('bar bar', $cellView->getValue());
     }

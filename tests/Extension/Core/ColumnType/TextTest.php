@@ -27,7 +27,7 @@ class TextTest extends TestCase
         );
 
         $column = $dataGridFactory->createColumn($this->getDataGridMock(), Text::class, 'text', ['trim' => true]);
-        $cellView = $dataGridFactory->createCellView($column, (object) ['text' => ' VALUE ']);
+        $cellView = $dataGridFactory->createCellView($column, 0, (object) ['text' => ' VALUE ']);
 
         $this->assertSame(['text' => 'VALUE'], $cellView->getValue());
     }

@@ -47,7 +47,7 @@ class DataGridRowViewTest extends TestCase
 
         $dataGridFactory->expects($this->atLeastOnce())
             ->method('createCellView')
-            ->with($column, $source)
+            ->with($column, 0, $source)
             ->will($this->returnValue($cellView));
 
         $columns = [

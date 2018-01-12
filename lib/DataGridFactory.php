@@ -127,7 +127,7 @@ class DataGridFactory implements DataGridFactoryInterface
         );
     }
 
-    public function createCellView(ColumnInterface $column, $source): CellViewInterface
+    public function createCellView(ColumnInterface $column, $index, $source): CellViewInterface
     {
         $columnType = $column->getType();
         $value = $columnType->filterValue($column, $columnType->getValue($column, $source));
@@ -135,7 +135,7 @@ class DataGridFactory implements DataGridFactoryInterface
             $value = $extension->filterValue($column, $value);
         }
 
-        $cellView = new CellView($column, $value);
+        $cellView = new CellView($column, $index, $value);
         $columnType->buildCellView($column, $cellView);
         foreach ($this->getColumnTypeExtensions($columnType) as $extension) {
             $extension->buildCellView($column, $cellView);

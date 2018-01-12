@@ -29,6 +29,11 @@ class CellView implements CellViewInterface
     private $type;
 
     /**
+     * @var int|string
+     */
+    private $index;
+
+    /**
      * @var mixed
      */
     private $value;
@@ -38,11 +43,17 @@ class CellView implements CellViewInterface
      */
     private $attributes = [];
 
-    public function __construct(ColumnInterface $column, $value)
+    /**
+     * @param ColumnInterface $column
+     * @param int|string $index
+     * @param mixed $value
+     */
+    public function __construct(ColumnInterface $column, $index, $value)
     {
         $this->dataGridName = $column->getDataGrid()->getName();
         $this->name = $column->getName();
         $this->type = $column->getType()->getId();
+        $this->index = $index;
         $this->value = $value;
     }
 
@@ -59,6 +70,11 @@ class CellView implements CellViewInterface
     public function getType(): string
     {
         return $this->type;
+    }
+
+    public function getIndex()
+    {
+        return $this->index;
     }
 
     public function getValue()
