@@ -19,6 +19,7 @@ use FSi\Component\DataGrid\Extension\Core\ColumnTypeExtension\DefaultColumnOptio
 use FSi\Component\DataGrid\Tests\Fixtures\SimpleDataGridExtension;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\OptionsResolver\Exception\InvalidOptionsException;
 
 class ActionTest extends TestCase
@@ -31,6 +32,7 @@ class ActionTest extends TestCase
     public function setUp()
     {
         $this->dataGridFactory = new DataGridFactory(
+            new EventDispatcher(),
             [new SimpleDataGridExtension(new DefaultColumnOptionsExtension(), new Action())]
         );
     }

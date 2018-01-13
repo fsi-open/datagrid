@@ -21,6 +21,7 @@ use FSi\Component\DataGrid\DataGridFactoryInterface;
 use FSi\Component\DataGrid\Tests\Fixtures\FooExtension;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\EventDispatcher\EventDispatcher;
 use TypeError;
 
 class DataGridTest extends TestCase
@@ -37,11 +38,9 @@ class DataGridTest extends TestCase
 
     protected function setUp()
     {
-        $this->factory = new DataGridFactory([
-            new FooExtension(),
-        ]);
+        $this->factory = new DataGridFactory(new EventDispatcher(), [new FooExtension()]);
 
-        $this->datagrid = new DataGrid('grid', $this->factory);
+        $this->datagrid = $this->factory->createDataGrid('grid');
     }
 
     public function testGetName()

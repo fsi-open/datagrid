@@ -14,7 +14,6 @@ namespace FSi\Component\DataGrid\Extension\Core;
 use FSi\Component\DataGrid\DataGridAbstractExtension;
 use FSi\Component\DataGrid\Extension\Core\ColumnType;
 use FSi\Component\DataGrid\Extension\Core\ColumnTypeExtension;
-use FSi\Component\DataGrid\Extension\Core\EventSubscriber;
 
 class CoreExtension extends DataGridAbstractExtension
 {
@@ -35,13 +34,6 @@ class CoreExtension extends DataGridAbstractExtension
         return [
             new ColumnTypeExtension\DefaultColumnOptionsExtension(),
             new ColumnTypeExtension\ValueFormatColumnOptionsExtension(),
-        ];
-    }
-
-    protected function loadSubscribers(): array
-    {
-        return [
-            new EventSubscriber\ColumnOrder(),
         ];
     }
 }

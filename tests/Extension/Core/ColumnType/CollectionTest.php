@@ -17,12 +17,14 @@ use FSi\Component\DataGrid\Extension\Core\ColumnType\Collection;
 use FSi\Component\DataGrid\Extension\Core\ColumnTypeExtension\DefaultColumnOptionsExtension;
 use FSi\Component\DataGrid\Tests\Fixtures\SimpleDataGridExtension;
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\EventDispatcher\EventDispatcher;
 
 class CollectionTest extends TestCase
 {
     public function test_filter_value()
     {
         $dataGridFactory = new DataGridFactory(
+            new EventDispatcher(),
             [new SimpleDataGridExtension(new DefaultColumnOptionsExtension(), new Collection())]
         );
 

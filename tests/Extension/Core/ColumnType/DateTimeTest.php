@@ -19,6 +19,7 @@ use FSi\Component\DataGrid\Exception\DataGridColumnException;
 use FSi\Component\DataGrid\Extension\Core\ColumnTypeExtension\DefaultColumnOptionsExtension;
 use FSi\Component\DataGrid\Tests\Fixtures\SimpleDataGridExtension;
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\EventDispatcher\EventDispatcher;
 
 class DateTimeTest extends TestCase
 {
@@ -30,6 +31,7 @@ class DateTimeTest extends TestCase
     public function setUp()
     {
         $this->dataGridFactory = new DataGridFactory(
+            new EventDispatcher(),
             [new SimpleDataGridExtension(new DefaultColumnOptionsExtension(), new DateTime())]
         );
     }

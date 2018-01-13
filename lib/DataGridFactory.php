@@ -22,10 +22,16 @@ use FSi\Component\DataGrid\Column\HeaderViewInterface;
 use FSi\Component\DataGrid\Exception\DataGridColumnException;
 use FSi\Component\DataGrid\Exception\UnexpectedTypeException;
 use InvalidArgumentException;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class DataGridFactory implements DataGridFactoryInterface
 {
+    /**
+     * @var EventDispatcherInterface
+     */
+    private $eventDispatcher;
+
     /**
      * @var DataGridInterface[]
      */
@@ -42,11 +48,14 @@ class DataGridFactory implements DataGridFactoryInterface
     protected $extensions = [];
 
     /**
+     * @param EventDispatcherInterface $eventDispatcher
      * @param DataGridExtensionInterface[] $extensions
      * @throws InvalidArgumentException
      */
-    public function __construct(array $extensions)
+    public function __construct(EventDispatcherInterface $eventDispatcher, array $extensions)
     {
+        $this->eventDispatcher = $eventDispatcher;
+
         foreach ($extensions as $extension) {
             if (!$extension instanceof DataGridExtensionInterface) {
                 throw new InvalidArgumentException(sprintf(
@@ -68,11 +77,7 @@ class DataGridFactory implements DataGridFactoryInterface
             ));
         }
 
-        $this->dataGrids[$name] = new DataGrid($name, $this);
-
-        foreach ($this->extensions as $extension) {
-            $extension->registerSubscribers($this->dataGrids[$name]);
-        }
+        $this->dataGrids[$name] = new DataGrid($name, $this, $this->eventDispatcher);
 
         return $this->dataGrids[$name];
     }

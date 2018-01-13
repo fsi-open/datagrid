@@ -42,6 +42,4 @@ interface DataGridInterface
     public function createView(): DataGridViewInterface;
 
     public function setData(iterable $data): void;
-
-    public function addEventSubscriber(EventSubscriberInterface $subscriber): DataGridInterface;
 }
