@@ -15,7 +15,6 @@ use FSi\Component\DataGrid\Column\ColumnTypeInterface;
 use FSi\Component\DataGrid\Column\ColumnTypeExtensionInterface;
 use FSi\Component\DataGrid\Exception\UnexpectedTypeException;
 use FSi\Component\DataGrid\Exception\DataGridException;
-use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 abstract class DataGridAbstractExtension implements DataGridExtensionInterface
 {
@@ -87,35 +86,10 @@ abstract class DataGridAbstractExtension implements DataGridExtensionInterface
         ));
     }
 
-    public function registerSubscribers(DataGridInterface $dataGrid): void
-    {
-        $subscribers = $this->loadSubscribers();
-
-        foreach ($subscribers as $subscriber) {
-            if (!$subscriber instanceof EventSubscriberInterface) {
-                throw new UnexpectedTypeException(sprintf(
-                    '"%s" is not instance of "%s"',
-                    $subscriber,
-                    EventSubscriberInterface::class
-                ));
-            }
-
-            $dataGrid->addEventSubscriber($subscriber);
-        }
-    }
-
     /**
      * @return ColumnTypeInterface[]
      */
     protected function loadColumnTypes(): array
-    {
-        return [];
-    }
-
-    /**
-     * @return EventSubscriberInterface[]
-     */
-    protected function loadSubscribers(): array
     {
         return [];
     }

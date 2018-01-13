@@ -18,12 +18,14 @@ use FSi\Component\DataGrid\Extension\Core\ColumnTypeExtension\DefaultColumnOptio
 use FSi\Component\DataGrid\DataGridInterface;
 use FSi\Component\DataGrid\Tests\Fixtures\SimpleDataGridExtension;
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\EventDispatcher\EventDispatcher;
 
 class EntityTypeTest extends TestCase
 {
     public function testGetValue()
     {
         $dataGridFactory = new DataGridFactory(
+            new EventDispatcher(),
             [new SimpleDataGridExtension(new DefaultColumnOptionsExtension(), new Entity())]
         );
 
@@ -33,7 +35,8 @@ class EntityTypeTest extends TestCase
         $object = new Fixture('object');
         $object->setAuthor((object) ['foo' => 'bar']);
 
-        $cellView = $dataGridFactory->createCellView($column, $object);
+        $cellView = $dataGridFactory->createCellView($column, 0, $object);
         $this->assertSame([['foo' => 'bar']], $cellView->getValue());
+        $this->assertSame(0, $cellView->getIndex());
     }
 }

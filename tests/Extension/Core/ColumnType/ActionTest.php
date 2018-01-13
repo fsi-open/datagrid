@@ -19,6 +19,7 @@ use FSi\Component\DataGrid\Extension\Core\ColumnTypeExtension\DefaultColumnOptio
 use FSi\Component\DataGrid\Tests\Fixtures\SimpleDataGridExtension;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\OptionsResolver\Exception\InvalidOptionsException;
 
 class ActionTest extends TestCase
@@ -31,6 +32,7 @@ class ActionTest extends TestCase
     public function setUp()
     {
         $this->dataGridFactory = new DataGridFactory(
+            new EventDispatcher(),
             [new SimpleDataGridExtension(new DefaultColumnOptionsExtension(), new Action())]
         );
     }
@@ -55,7 +57,7 @@ class ActionTest extends TestCase
             ],
             'field_mapping' => ['foo']
         ]);
-        $this->dataGridFactory->createCellView($column, (object) ['foo' => 'bar']);
+        $this->dataGridFactory->createCellView($column, 0, (object) ['foo' => 'bar']);
     }
 
     public function testRequiredActionInActionsOption()
@@ -68,7 +70,7 @@ class ActionTest extends TestCase
             ],
             'field_mapping' => ['foo'],
         ]);
-        $cellView = $this->dataGridFactory->createCellView($column, (object) ['foo' => 'bar']);
+        $cellView = $this->dataGridFactory->createCellView($column, 0, (object) ['foo' => 'bar']);
 
         $this->assertSame([
             'edit' => [
@@ -93,7 +95,7 @@ class ActionTest extends TestCase
             ],
             'field_mapping' => ['foo']
         ]);
-        $cellView = $this->dataGridFactory->createCellView($column, (object) ['foo' => 'bar']);
+        $cellView = $this->dataGridFactory->createCellView($column, 0, (object) ['foo' => 'bar']);
 
         $this->assertSame([
             'edit' => [

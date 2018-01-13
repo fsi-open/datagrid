@@ -22,10 +22,16 @@ use FSi\Component\DataGrid\Column\HeaderViewInterface;
 use FSi\Component\DataGrid\Exception\DataGridColumnException;
 use FSi\Component\DataGrid\Exception\UnexpectedTypeException;
 use InvalidArgumentException;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
 class DataGridFactory implements DataGridFactoryInterface
 {
+    /**
+     * @var EventDispatcherInterface
+     */
+    private $eventDispatcher;
+
     /**
      * @var DataGridInterface[]
      */
@@ -42,11 +48,14 @@ class DataGridFactory implements DataGridFactoryInterface
     protected $extensions = [];
 
     /**
+     * @param EventDispatcherInterface $eventDispatcher
      * @param DataGridExtensionInterface[] $extensions
      * @throws InvalidArgumentException
      */
-    public function __construct(array $extensions)
+    public function __construct(EventDispatcherInterface $eventDispatcher, array $extensions)
     {
+        $this->eventDispatcher = $eventDispatcher;
+
         foreach ($extensions as $extension) {
             if (!$extension instanceof DataGridExtensionInterface) {
                 throw new InvalidArgumentException(sprintf(
@@ -68,11 +77,7 @@ class DataGridFactory implements DataGridFactoryInterface
             ));
         }
 
-        $this->dataGrids[$name] = new DataGrid($name, $this);
-
-        foreach ($this->extensions as $extension) {
-            $extension->registerSubscribers($this->dataGrids[$name]);
-        }
+        $this->dataGrids[$name] = new DataGrid($name, $this, $this->eventDispatcher);
 
         return $this->dataGrids[$name];
     }
@@ -127,7 +132,7 @@ class DataGridFactory implements DataGridFactoryInterface
         );
     }
 
-    public function createCellView(ColumnInterface $column, $source): CellViewInterface
+    public function createCellView(ColumnInterface $column, $index, $source): CellViewInterface
     {
         $columnType = $column->getType();
         $value = $columnType->filterValue($column, $columnType->getValue($column, $source));
@@ -135,7 +140,7 @@ class DataGridFactory implements DataGridFactoryInterface
             $value = $extension->filterValue($column, $value);
         }
 
-        $cellView = new CellView($column, $value);
+        $cellView = new CellView($column, $index, $value);
         $columnType->buildCellView($column, $cellView);
         foreach ($this->getColumnTypeExtensions($columnType) as $extension) {
             $extension->buildCellView($column, $cellView);

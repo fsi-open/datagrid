@@ -18,6 +18,7 @@ use FSi\Component\DataGrid\Extension\Core\ColumnType\Boolean;
 use FSi\Component\DataGrid\Extension\Core\ColumnTypeExtension\DefaultColumnOptionsExtension;
 use FSi\Component\DataGrid\Tests\Fixtures\SimpleDataGridExtension;
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\EventDispatcher\EventDispatcher;
 
 class BooleanTest extends TestCase
 {
@@ -29,6 +30,7 @@ class BooleanTest extends TestCase
     public function setUp()
     {
         $this->dataGridFactory = new DataGridFactory(
+            new EventDispatcher(),
             [new SimpleDataGridExtension(new DefaultColumnOptionsExtension(), new Boolean())]
         );
     }
@@ -40,8 +42,8 @@ class BooleanTest extends TestCase
             'false_value'=> 'false',
         ]);
 
-        $trueCellView = $this->dataGridFactory->createCellView($column, (object) ['available' => true]);
-        $falseCellView = $this->dataGridFactory->createCellView($column, (object) ['available' => false]);
+        $trueCellView = $this->dataGridFactory->createCellView($column, 0, (object) ['available' => true]);
+        $falseCellView = $this->dataGridFactory->createCellView($column, 0, (object) ['available' => false]);
 
         $this->assertSame('true', $trueCellView->getValue());
         $this->assertSame('false', $falseCellView->getValue());
@@ -54,7 +56,7 @@ class BooleanTest extends TestCase
             'field_mapping' => ['available', 'active'],
         ]);
 
-        $cellView = $this->dataGridFactory->createCellView($column, (object) [
+        $cellView = $this->dataGridFactory->createCellView($column, 0, (object) [
             'available' => true,
             'active' => true
         ]);
@@ -70,7 +72,7 @@ class BooleanTest extends TestCase
             'field_mapping' => ['available', 'active', 'createdAt'],
         ]);
 
-        $cellView = $this->dataGridFactory->createCellView($column, (object) [
+        $cellView = $this->dataGridFactory->createCellView($column, 0, (object) [
             'available' => true,
             'active' => 1,
             'createdAt' => new \DateTime(),
@@ -87,7 +89,7 @@ class BooleanTest extends TestCase
             'field_mapping' => ['available', 'active'],
         ]);
 
-        $cellView = $this->dataGridFactory->createCellView($column, (object) [
+        $cellView = $this->dataGridFactory->createCellView($column, 0, (object) [
             'available' => false,
             'active' => false,
         ]);
@@ -103,7 +105,7 @@ class BooleanTest extends TestCase
             'field_mapping' => ['available', 'active', 'createdAt', 'disabled'],
         ]);
 
-        $cellView = $this->dataGridFactory->createCellView($column, (object) [
+        $cellView = $this->dataGridFactory->createCellView($column, 0, (object) [
             'available' => true,
             'active' => 1,
             'createdAt' => new \DateTime(),
@@ -121,7 +123,7 @@ class BooleanTest extends TestCase
             'field_mapping' => ['available', 'active', 'createdAt', 'disabled'],
         ]);
 
-        $cellView = $this->dataGridFactory->createCellView($column, (object) [
+        $cellView = $this->dataGridFactory->createCellView($column, 0, (object) [
             'available' => true,
             'active' => 1,
             'createdAt' => new \DateTime(),
@@ -139,7 +141,7 @@ class BooleanTest extends TestCase
             'field_mapping' => ['available', 'active'],
         ]);
 
-        $cellView = $this->dataGridFactory->createCellView($column, (object) [
+        $cellView = $this->dataGridFactory->createCellView($column, 0, (object) [
             'available' => null,
             'active' => null,
         ]);

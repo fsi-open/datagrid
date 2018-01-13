@@ -35,10 +35,6 @@ class SimpleDataGridExtension implements DataGridExtensionInterface
         $this->columnType = $columnType;
     }
 
-    public function registerSubscribers(DataGridInterface $dataGrid): void
-    {
-    }
-
     public function hasColumnType(string $type): bool
     {
         return null !== $this->columnType && ($this->columnType->getId() === $type || is_a($this->columnType, $type));

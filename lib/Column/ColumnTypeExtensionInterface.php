@@ -15,8 +15,6 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 
 interface ColumnTypeExtensionInterface
 {
-    public function bindData(ColumnInterface $column, $data, $object, $index): void;
-
     public function buildCellView(ColumnInterface $column, CellViewInterface $view): void;
 
     public function buildHeaderView(ColumnInterface $column, HeaderViewInterface $view): void;

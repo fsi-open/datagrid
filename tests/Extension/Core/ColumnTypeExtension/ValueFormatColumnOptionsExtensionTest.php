@@ -20,6 +20,7 @@ use FSi\Component\DataGrid\Extension\Core\ColumnType\Text;
 use FSi\Component\DataGrid\Tests\Fixtures\SimpleDataGridExtension;
 use InvalidArgumentException;
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\EventDispatcher\EventDispatcher;
 
 class ValueFormatColumnOptionsExtensionTest extends TestCase
 {
@@ -239,10 +240,13 @@ class ValueFormatColumnOptionsExtensionTest extends TestCase
 
     public function test_set_value_format_that_is_clousure()
     {
-        $dataGridFactory = new DataGridFactory([
-            new SimpleDataGridExtension(new DefaultColumnOptionsExtension(), new Text()),
-            new SimpleDataGridExtension($this->extension, null),
-        ]);
+        $dataGridFactory = new DataGridFactory(
+            new EventDispatcher(),
+            [
+                new SimpleDataGridExtension(new DefaultColumnOptionsExtension(), new Text()),
+                new SimpleDataGridExtension($this->extension, null),
+            ]
+        );
 
         $column = $dataGridFactory->createColumn($this->createMock(DataGridInterface::class), Text::class, 'text', [
             'field_mapping' => ['text'],
@@ -250,7 +254,7 @@ class ValueFormatColumnOptionsExtensionTest extends TestCase
                 return sprintf('%s %s', $data['text'], $data['text']);
             }
         ]);
-        $cellView = $dataGridFactory->createCellView($column, (object) ['text' => 'bar']);
+        $cellView = $dataGridFactory->createCellView($column, 0, (object) ['text' => 'bar']);
 
         $this->assertSame('bar bar', $cellView->getValue());
     }

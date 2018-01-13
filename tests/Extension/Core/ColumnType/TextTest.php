@@ -17,17 +17,19 @@ use FSi\Component\DataGrid\Extension\Core\ColumnType\Text;
 use FSi\Component\DataGrid\Extension\Core\ColumnTypeExtension\DefaultColumnOptionsExtension;
 use FSi\Component\DataGrid\Tests\Fixtures\SimpleDataGridExtension;
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\EventDispatcher\EventDispatcher;
 
 class TextTest extends TestCase
 {
     public function testTrimOption()
     {
         $dataGridFactory = new DataGridFactory(
+            new EventDispatcher(),
             [new SimpleDataGridExtension(new DefaultColumnOptionsExtension(), new Text())]
         );
 
         $column = $dataGridFactory->createColumn($this->getDataGridMock(), Text::class, 'text', ['trim' => true]);
-        $cellView = $dataGridFactory->createCellView($column, (object) ['text' => ' VALUE ']);
+        $cellView = $dataGridFactory->createCellView($column, 0, (object) ['text' => ' VALUE ']);
 
         $this->assertSame(['text' => 'VALUE'], $cellView->getValue());
     }

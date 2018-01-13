@@ -21,6 +21,8 @@ interface CellViewInterface
 
     public function getAttributes(): array;
 
+    public function getIndex();
+
     public function getValue();
 
     public function getType(): string;

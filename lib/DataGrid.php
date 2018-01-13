@@ -17,6 +17,7 @@ use FSi\Component\DataGrid\Data\DataRowset;
 use FSi\Component\DataGrid\Exception\DataGridException;
 use InvalidArgumentException;
 use Symfony\Component\EventDispatcher\EventDispatcher;
+use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 
 class DataGrid implements DataGridInterface
@@ -48,11 +49,12 @@ class DataGrid implements DataGridInterface
 
     public function __construct(
         string $name,
-        DataGridFactoryInterface $dataGridFactory
+        DataGridFactoryInterface $dataGridFactory,
+        EventDispatcherInterface $eventDispatcher
     ) {
         $this->name = $name;
         $this->dataGridFactory = $dataGridFactory;
-        $this->eventDispatcher = new EventDispatcher();
+        $this->eventDispatcher = $eventDispatcher;
     }
 
     public function getFactory(): DataGridFactoryInterface
@@ -156,46 +158,6 @@ class DataGrid implements DataGridInterface
 
         $event = new DataGridEvent($this, $this->rowset);
         $this->eventDispatcher->dispatch(DataGridEvents::POST_SET_DATA, $event);
-    }
-
-    public function bindData($data): void
-    {
-        $event = new DataGridEvent($this, $data);
-        $this->eventDispatcher->dispatch(DataGridEvents::PRE_BIND_DATA, $event);
-        $data = $event->getData();
-
-        foreach ($data as $index => $values) {
-            if (!isset($this->rowset[$index])) {
-                continue;
-            }
-
-            $source = $this->rowset[$index];
-
-            foreach ($this->getColumns() as $column) {
-                $columnType = $column->getType();
-
-                foreach ($this->getFactory()->getColumnTypeExtensions($columnType) as $extension) {
-                    $extension->bindData($column, $index, $source, $values);
-                }
-            }
-        }
-
-        $event = new DataGridEvent($this, $data);
-        $this->eventDispatcher->dispatch(DataGridEvents::POST_BIND_DATA, $event);
-    }
-
-    public function addEventListener(string $eventName, callable $listener, int $priority = 0): DataGridInterface
-    {
-        $this->eventDispatcher->addListener($eventName, $listener, $priority);
-
-        return $this;
-    }
-
-    public function addEventSubscriber(EventSubscriberInterface $subscriber): DataGridInterface
-    {
-        $this->eventDispatcher->addSubscriber($subscriber);
-
-        return $this;
     }
 
     public function createView(): DataGridViewInterface

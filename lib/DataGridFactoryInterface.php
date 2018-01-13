@@ -32,7 +32,13 @@ interface DataGridFactoryInterface
         array $options
     ): ColumnInterface;
 
-    public function createCellView(ColumnInterface $column, $source): CellViewInterface;
+    /**
+     * @param ColumnInterface $column
+     * @param int|string $index
+     * @param mixed $source
+     * @return CellViewInterface
+     */
+    public function createCellView(ColumnInterface $column, $index, $source): CellViewInterface;
 
     public function createHeaderView(ColumnInterface $column): HeaderViewInterface;
 

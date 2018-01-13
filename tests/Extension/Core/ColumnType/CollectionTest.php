@@ -17,12 +17,14 @@ use FSi\Component\DataGrid\Extension\Core\ColumnType\Collection;
 use FSi\Component\DataGrid\Extension\Core\ColumnTypeExtension\DefaultColumnOptionsExtension;
 use FSi\Component\DataGrid\Tests\Fixtures\SimpleDataGridExtension;
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\EventDispatcher\EventDispatcher;
 
 class CollectionTest extends TestCase
 {
     public function test_filter_value()
     {
         $dataGridFactory = new DataGridFactory(
+            new EventDispatcher(),
             [new SimpleDataGridExtension(new DefaultColumnOptionsExtension(), new Collection())]
         );
 
@@ -31,7 +33,7 @@ class CollectionTest extends TestCase
             'field_mapping' => ['collection1', 'collection2'],
         ]);
 
-        $cellView = $dataGridFactory->createCellView($column, (object) [
+        $cellView = $dataGridFactory->createCellView($column, 0, (object) [
             'collection1' => ['foo', 'bar'],
             'collection2' => 'test',
         ]);

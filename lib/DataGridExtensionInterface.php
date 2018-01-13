@@ -16,8 +16,6 @@ use FSi\Component\DataGrid\Column\ColumnTypeInterface;
 
 interface DataGridExtensionInterface
 {
-    public function registerSubscribers(DataGridInterface $dataGrid): void;
-
     public function hasColumnType(string $type): bool;
 
     public function getColumnType(string $type): ColumnTypeInterface;

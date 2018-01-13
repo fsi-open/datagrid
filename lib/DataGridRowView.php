@@ -51,8 +51,7 @@ class DataGridRowView implements DataGridRowViewInterface
                 ));
             }
 
-            $this->cellViews[$name] = $column->getDataGrid()->getFactory()->createCellView($column, $source);
-            $this->cellViews[$name]->setAttribute('row_index', $index);
+            $this->cellViews[$name] = $column->getDataGrid()->getFactory()->createCellView($column, $index, $source);
         }
     }
 

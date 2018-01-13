@@ -18,6 +18,7 @@ use FSi\Component\DataGrid\Extension\Core\ColumnType\Money;
 use FSi\Component\DataGrid\Extension\Core\ColumnTypeExtension\DefaultColumnOptionsExtension;
 use FSi\Component\DataGrid\Tests\Fixtures\SimpleDataGridExtension;
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\EventDispatcher\EventDispatcher;
 
 class MoneyTest extends TestCase
 {
@@ -29,6 +30,7 @@ class MoneyTest extends TestCase
     public function setUp()
     {
         $this->dataGridFactory = new DataGridFactory(
+            new EventDispatcher(),
             [new SimpleDataGridExtension(new DefaultColumnOptionsExtension(), new Money())]
         );
     }
@@ -74,7 +76,7 @@ class MoneyTest extends TestCase
         ], $options);
 
         $column = $this->dataGridFactory->createColumn($this->getDataGridMock(), Money::class, 'price', $options);
-        $cellView = $this->dataGridFactory->createCellView($column, $value);
+        $cellView = $this->dataGridFactory->createCellView($column, 0, $value);
 
         $this->assertSame($expectedValue, $cellView->getValue());
     }

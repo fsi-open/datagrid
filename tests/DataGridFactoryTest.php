@@ -17,6 +17,7 @@ use FSi\Component\DataGrid\Tests\Fixtures\FooExtension;
 use FSi\Component\DataGrid\Exception\UnexpectedTypeException;
 use FSi\Component\DataGrid\Exception\DataGridColumnException;
 use PHPUnit\Framework\TestCase;
+use Symfony\Component\EventDispatcher\EventDispatcher;
 
 class DataGridFactoryTest extends TestCase
 {
@@ -27,11 +28,7 @@ class DataGridFactoryTest extends TestCase
 
     protected function setUp()
     {
-        $extensions = [
-            new FooExtension(),
-        ];
-
-        $this->factory = new DataGridFactory($extensions);
+        $this->factory = new DataGridFactory(new EventDispatcher(), [new FooExtension()]);
     }
 
     public function testCreateGrids()
