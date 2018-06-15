@@ -15,6 +15,7 @@ use FSi\Component\DataGrid\Exception\DataGridException;
 use FSi\Component\DataGrid\Extension\Doctrine\ColumnTypeExtension\ValueFormatColumnOptionsExtension;
 use FSi\Component\DataGrid\Column\ColumnTypeInterface;
 use FSi\Component\DataGrid\Column\CellViewInterface;
+use PHPUnit\Framework\Error\Error;
 use PHPUnit\Framework\TestCase;
 
 class ValueFormatColumnOptionsExtensionTest extends TestCase
@@ -326,7 +327,7 @@ class ValueFormatColumnOptionsExtensionTest extends TestCase
             ->with('value_format')
             ->will($this->returnValue('(%s) (%s)'));
 
-        $this->expectException(\PHPUnit_Framework_Error::class);
+        $this->expectException(Error::class);
         $extension->buildCellView($column, $view);
     }
 

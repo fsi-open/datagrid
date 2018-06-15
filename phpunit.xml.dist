@@ -1,14 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<phpunit backupGlobals="false"
+
+<!-- https://phpunit.de/manual/6.5/en/appendixes.configuration.html -->
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:noNamespaceSchemaLocation="http://schema.phpunit.de/7.1/phpunit.xsd"
+         backupGlobals="false"
          backupStaticAttributes="false"
          colors="true"
-         convertErrorsToExceptions="true"
-         convertNoticesToExceptions="true"
-         convertWarningsToExceptions="true"
-         processIsolation="false"
-         stopOnFailure="false"
-         syntaxCheck="false"
 >
+    <php>
+        <ini name="error_reporting" value="-1" />
+    </php>
+
     <testsuites>
         <testsuite name="FSi DataGrid Component">
             <directory>tests</directory>
