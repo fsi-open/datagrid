@@ -11,11 +11,12 @@ declare(strict_types=1);
 
 namespace FSi\Component\DataGrid\Tests\Extension\Core\ColumnTypeExtension;
 
-use FSi\Component\DataGrid\Extension\Core\ColumnTypeExtension\ValueFormatColumnOptionsExtension;
-use FSi\Component\DataGrid\Extension\Core\ColumnType\Text;
-use FSi\Component\DataGrid\Column\ColumnTypeInterface;
 use FSi\Component\DataGrid\Column\CellViewInterface;
+use FSi\Component\DataGrid\Column\ColumnTypeInterface;
+use FSi\Component\DataGrid\Extension\Core\ColumnType\Text;
+use FSi\Component\DataGrid\Extension\Core\ColumnTypeExtension\ValueFormatColumnOptionsExtension;
 use InvalidArgumentException;
+use PHPUnit\Framework\Error\Error;
 use PHPUnit\Framework\TestCase;
 
 class ValueFormatColumnOptionsExtensionTest extends TestCase
@@ -27,7 +28,7 @@ class ValueFormatColumnOptionsExtensionTest extends TestCase
         $column = $this->createMock(ColumnTypeInterface::class);
         $view = $this->createMock(CellViewInterface::class);
 
-        $column->expects($this->any())
+        $column->expects($this->exactly(5))
             ->method('getOption')
             ->will($this->returnCallback(function($option) {
                 switch($option) {
@@ -60,7 +61,7 @@ class ValueFormatColumnOptionsExtensionTest extends TestCase
         $view = $this->createMock(CellViewInterface::class);
         $column = $this->createMock(ColumnTypeInterface::class);
 
-        $column->expects($this->any())
+        $column->expects($this->exactly(5))
             ->method('getOption')
             ->will($this->returnCallback(function($option) {
             switch($option) {
@@ -94,7 +95,7 @@ class ValueFormatColumnOptionsExtensionTest extends TestCase
         $view = $this->createMock(CellViewInterface::class);
         $column = $this->createMock(ColumnTypeInterface::class);
 
-        $column->expects($this->any())
+        $column->expects($this->exactly(5))
             ->method('getOption')
             ->will($this->returnCallback(function($option) {
             switch($option) {
@@ -129,7 +130,7 @@ class ValueFormatColumnOptionsExtensionTest extends TestCase
         $view = $this->createMock(CellViewInterface::class);
         $column = $this->createMock(ColumnTypeInterface::class);
 
-        $column->expects($this->any())
+        $column->expects($this->exactly(5))
             ->method('getOption')
             ->will($this->returnCallback(function($option) {
                 switch($option) {
@@ -159,7 +160,7 @@ class ValueFormatColumnOptionsExtensionTest extends TestCase
         $view = $this->createMock(CellViewInterface::class);
         $column = $this->createMock(ColumnTypeInterface::class);
 
-        $column->expects($this->any())
+        $column->expects($this->exactly(5))
             ->method('getOption')
             ->will($this->returnCallback(function($option) {
                 switch($option) {
@@ -192,7 +193,7 @@ class ValueFormatColumnOptionsExtensionTest extends TestCase
         $view = $this->createMock(CellViewInterface::class);
         $column = $this->createMock(ColumnTypeInterface::class);
 
-        $column->expects($this->any())
+        $column->expects($this->exactly(5))
             ->method('getOption')
             ->will($this->returnCallback(function($option) {
                 switch($option) {
@@ -227,7 +228,7 @@ class ValueFormatColumnOptionsExtensionTest extends TestCase
         $view = $this->createMock(CellViewInterface::class);
         $column = $this->createMock(ColumnTypeInterface::class);
 
-        $column->expects($this->any())
+        $column->expects($this->exactly(5))
             ->method('getOption')
             ->will($this->returnCallback(function($option) {
                 switch($option) {
@@ -249,7 +250,7 @@ class ValueFormatColumnOptionsExtensionTest extends TestCase
             ->method('getValue')
             ->will($this->returnValue(['foo']));
 
-        $this->expectException(\PHPUnit_Framework_Error::class);
+        $this->expectException(Error::class);
         $extension->buildCellView($column, $view);
     }
 
@@ -259,7 +260,7 @@ class ValueFormatColumnOptionsExtensionTest extends TestCase
         $view = $this->createMock(CellViewInterface::class);
         $column = $this->createMock(ColumnTypeInterface::class);
 
-        $column->expects($this->any())
+        $column->expects($this->exactly(5))
             ->method('getOption')
             ->will($this->returnCallback(function($option) {
                 switch($option) {
@@ -294,7 +295,7 @@ class ValueFormatColumnOptionsExtensionTest extends TestCase
         $view = $this->createMock(CellViewInterface::class);
         $column = $this->createMock(ColumnTypeInterface::class);
 
-        $column->expects($this->any())
+        $column->expects($this->exactly(5))
             ->method('getOption')
             ->will($this->returnCallback(function($option) {
                 switch($option) {
@@ -329,7 +330,7 @@ class ValueFormatColumnOptionsExtensionTest extends TestCase
         $view = $this->createMock(CellViewInterface::class);
         $column = $this->createMock(ColumnTypeInterface::class);
 
-        $column->expects($this->any())
+        $column->expects($this->exactly(5))
             ->method('getOption')
             ->will($this->returnCallback(function($option) {
                 switch($option) {
@@ -364,7 +365,7 @@ class ValueFormatColumnOptionsExtensionTest extends TestCase
         $view = $this->createMock(CellViewInterface::class);
         $column = $this->createMock(ColumnTypeInterface::class);
 
-        $column->expects($this->any())
+        $column->expects($this->exactly(5))
             ->method('getOption')
             ->will($this->returnCallback(function($option) {
                 switch($option) {
@@ -397,7 +398,7 @@ class ValueFormatColumnOptionsExtensionTest extends TestCase
         $view = $this->createMock(CellViewInterface::class);
         $column = $this->createMock(ColumnTypeInterface::class);
 
-        $column->expects($this->any())
+        $column->expects($this->exactly(5))
             ->method('getOption')
             ->will($this->returnCallback(function($option) {
                 switch($option) {
@@ -436,7 +437,7 @@ class ValueFormatColumnOptionsExtensionTest extends TestCase
         $view = $this->createMock(CellViewInterface::class);
         $column = $this->createMock(ColumnTypeInterface::class);
 
-        $column->expects($this->any())
+        $column->expects($this->exactly(5))
             ->method('getOption')
             ->will($this->returnCallback(function($option) {
                 switch($option) {
@@ -472,7 +473,7 @@ class ValueFormatColumnOptionsExtensionTest extends TestCase
         $view = $this->createMock(CellViewInterface::class);
         $column = $this->createMock(ColumnTypeInterface::class);
 
-        $column->expects($this->any())
+        $column->expects($this->exactly(2))
             ->method('getOption')
             ->will($this->returnCallback(function($option) {
                 switch($option) {
@@ -500,7 +501,7 @@ class ValueFormatColumnOptionsExtensionTest extends TestCase
         $view = $this->createMock(CellViewInterface::class);
         $column = $this->createMock(ColumnTypeInterface::class);
 
-        $column->expects($this->any())
+        $column->expects($this->exactly(5))
             ->method('getOption')
             ->will($this->returnCallback(function($option) {
                 switch($option) {
@@ -542,7 +543,7 @@ class ValueFormatColumnOptionsExtensionTest extends TestCase
         $view = $this->createMock(CellViewInterface::class);
         $column = $this->createMock(ColumnTypeInterface::class);
 
-        $column->expects($this->any())
+        $column->expects($this->exactly(5))
             ->method('getOption')
             ->will($this->returnCallback(function($option) {
                 switch($option) {
@@ -583,7 +584,7 @@ class ValueFormatColumnOptionsExtensionTest extends TestCase
         $view = $this->createMock(CellViewInterface::class);
         $column = $this->createMock(ColumnTypeInterface::class);
 
-        $column->expects($this->any())
+        $column->expects($this->exactly(5))
             ->method('getOption')
             ->will($this->returnCallback(function($option) {
                 switch($option) {
@@ -627,6 +628,6 @@ class ValueFormatColumnOptionsExtensionTest extends TestCase
             }
         ]);
 
-        $extension->filterValue($column, ['for' => 'bar']);
+        $this->assertEquals(['for' => 'bar'], $extension->filterValue($column, ['for' => 'bar']));
     }
 }

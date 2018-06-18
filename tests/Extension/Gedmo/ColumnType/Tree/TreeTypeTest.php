@@ -115,12 +115,6 @@ class TreeTypeTest extends TestCase
                                 return $metadata;
                             }));
 
-                        $metadataFactory->expects($this->any())
-                            ->method('getClassMetadata')
-                            ->will($this->returnCallback(function($class) use ($metadataFactory) {
-                                return $metadataFactory->getMetadataFor($class);
-                            }));
-
                         return $metadataFactory;
                     }));
 

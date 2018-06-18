@@ -22,16 +22,20 @@
         "doctrine/orm": "^2.5",
         "doctrine/common": "^2.5",
         "gedmo/doctrine-extensions": "^2.3.10",
-        "phpunit/phpunit": "^5.7"
+        "phpunit/phpunit": "^7.1"
     },
     "autoload": {
         "psr-4": {
-            "FSi\\Component\\DataGrid\\": "lib/",
+            "FSi\\Component\\DataGrid\\": "lib/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
             "FSi\\Component\\DataGrid\\Tests\\": "tests/"
         }
     },
     "config": {
-        "bin-dir": "bin"
+        "bin-dir": "vendor/bin"
     },
     "extra": {
         "branch-alias": {

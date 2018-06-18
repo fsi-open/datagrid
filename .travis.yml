@@ -1,18 +1,22 @@
 language: php
 
 matrix:
-  include:
-    - php: 7.1
-      env:
-        - COMPOSER_FLAGS='--prefer-lowest'
-    - php: 7.1
+    include:
+        - php: 7.1
+          env:
+            - COMPOSER_FLAGS='--prefer-lowest'
+        - php: 7.2
 
 sudo: false
 
+cache:
+    directories:
+        - $HOME/.composer/cache
+        - vendor
+
 before_script:
-  - composer update $COMPOSER_FLAGS
+    - phpenv config-rm xdebug.ini
+    - composer validate
+    - composer update $COMPOSER_FLAGS
 
-script: bin/phpunit
-
-notifications:
-  irc: "irc.freenode.org#fsi-open"
+script: vendor/bin/phpunit
