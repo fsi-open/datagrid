@@ -26,7 +26,11 @@
     },
     "autoload": {
         "psr-4": {
-            "FSi\\Component\\DataGrid\\": "lib/",
+            "FSi\\Component\\DataGrid\\": "lib/"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
             "FSi\\Component\\DataGrid\\Tests\\": "tests/"
         }
     },
