@@ -12,7 +12,7 @@ Provided by ``DataGrid\Extension\Core\CoreExtension``
 * ``display_order`` - integer
 * ``editable`` - **required**, boolean, by default ``false``
 * ``empty_value`` - string|array, by default ``""`` (empty string)
-* ``form_otpions`` - array, by default ``[]``
+* ``form_options`` - array, by default ``[]``
 * ``form_type`` - array, by default ``[]``
 * ``format`` - boolean, by default ``false``
 * ``format_decimals`` - integer, by default ``0``
