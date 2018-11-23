@@ -47,7 +47,7 @@ $datagrid->addColumn('actions', 'action', [
 
 ```
 
-**Important** - ``parameters_field_mapping``, ``url_attr`` and ``content`` alows \Closure function as value. It can be used to format
+**Important** - ``parameters_field_mapping``, ``url_attr`` and ``content`` allows \Closure function as value. It can be used to format
 option value depending on the field_mapping values. Closure function will be called with 2 arguments:
 
 ``function($fieldMappingValues, $rowIndex)``
