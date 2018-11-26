@@ -33,9 +33,9 @@ Option is useful when you need to implode few fields from object in one column.
 
 **value_glue** Useful only when you need to implode data from few source object fields into one column.
 
-**value_format** Useful when you need to format value before passing it to view. Value iformatteded with php ``sprintf`` function. There should be at least same count of ``mapping_fields`` option
+**value_format** Useful when you need to format value before passing it to view. Value formatted with php ``sprintf`` function. There should be at least same count of ``mapping_fields`` option
 values as placeholders count in format string. This option can be used with ``value_glue`` option.
-``format`` option also accept ``\Clousure`` function that should return valid formated string.
+``format`` option also accept ``\Closure`` function that should return valid formatted string.
 
 **display_order** Optional integer value specifying order of column in grid. Columns in grid are sorted according
   to ascending value of this option. Columns without this option will stay in their natural order (between columns with

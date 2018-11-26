@@ -537,7 +537,7 @@ class ValueFormatColumnOptionsExtensionTest extends TestCase
         $extension->buildCellView($column, $view);
     }
 
-    public function test_build_cell_view_with_format_that_is_clousure()
+    public function test_build_cell_view_with_format_that_is_closure()
     {
         $extension = new ValueFormatColumnOptionsExtension();
         $view = $this->createMock(CellViewInterface::class);
@@ -613,7 +613,7 @@ class ValueFormatColumnOptionsExtensionTest extends TestCase
         $extension->buildCellView($column, $view);
     }
 
-    public function test_set_value_format_that_is_clousure()
+    public function test_set_value_format_that_is_closure()
     {
         $column = new Text();
         $extension = new ValueFormatColumnOptionsExtension();
