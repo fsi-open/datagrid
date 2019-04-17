@@ -45,7 +45,7 @@ class Number extends ColumnAbstractType
             }
 
             if ($format) {
-                $val = number_format($val, $format_decimals, $format_dec_point, $format_thousands_sep);
+                $val = number_format((float) $val, $format_decimals, $format_dec_point, $format_thousands_sep);
             }
         }
 
