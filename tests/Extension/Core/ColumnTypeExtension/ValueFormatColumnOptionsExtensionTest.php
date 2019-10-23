@@ -151,6 +151,7 @@ class ValueFormatColumnOptionsExtensionTest extends TestCase
             ->will($this->returnValue(['foo', 'bar']));
 
         $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('At least one of "value_format" or "value_glue" option is missing in column: "".');
         $extension->buildCellView($column, $view);
     }
 
@@ -492,6 +493,7 @@ class ValueFormatColumnOptionsExtensionTest extends TestCase
             }));
 
         $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('Mapping field "fo" doesn\'t exist in column: "".');
         $extension->buildCellView($column, $view);
     }
 

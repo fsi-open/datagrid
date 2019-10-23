@@ -34,6 +34,7 @@ class ReflectionMapperTest extends TestCase
         $entity->setSurname('foosurname');
 
         $this->expectException(DataMappingException::class);
+        $this->expectExceptionMessage(sprintf('Method "getSurname()" is not public in class "%s"', EntityMapper::class));
         $mapper->getData('surname', $entity);
     }
 
@@ -53,6 +54,7 @@ class ReflectionMapperTest extends TestCase
         $entity->setPrivateCollection('collection');
 
         $this->expectException(DataMappingException::class);
+        $this->expectExceptionMessage(sprintf('Method "hasPrivateCollection()" is not public in class "%s"', EntityMapper::class));
         $mapper->getData('private_collection', $entity);
     }
 
@@ -72,6 +74,7 @@ class ReflectionMapperTest extends TestCase
         $entity->setProtectedReady(true);
 
         $this->expectException(DataMappingException::class);
+        $this->expectExceptionMessage(sprintf('Method "isProtectedReady()" is not public in class "%s"', EntityMapper::class));
         $mapper->getData('protected_ready', $entity);
     }
 
@@ -91,6 +94,7 @@ class ReflectionMapperTest extends TestCase
         $entity->setPrivateId('bar');
 
         $this->expectException(DataMappingException::class);
+        $this->expectExceptionMessage(sprintf('Property "private_id" is not public in class "%s"', EntityMapper::class));
         $mapper->getData('private_id', $entity);
     }
 
@@ -109,6 +113,7 @@ class ReflectionMapperTest extends TestCase
         $entity = new EntityMapper();
 
         $this->expectException(DataMappingException::class);
+        $this->expectExceptionMessage(sprintf('Method "setProtectedName()" is not public in class "%s"', EntityMapper::class));
         $mapper->setData('protected_name', $entity, 'fooname');
     }
 
@@ -127,6 +132,7 @@ class ReflectionMapperTest extends TestCase
         $entity = new EntityMapper();
 
         $this->expectException(DataMappingException::class);
+        $this->expectExceptionMessage(sprintf('Method "addProtectedTag()" is not public in class "%s"', EntityMapper::class));
         $mapper->setData('protected_tag', $entity, 'bar');
     }
 }

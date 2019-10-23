@@ -22,7 +22,7 @@ class MoneyTest extends TestCase
      */
     private $column;
 
-    public function setUp()
+    protected function setUp()
     {
         $column = new Money();
         $column->setName('money');

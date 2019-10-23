@@ -22,6 +22,7 @@ class ChainMapperTest extends TestCase
     public function testMappersInChainWithInvalidMappers()
     {
         $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage(sprintf('Mapper needs to implement "%s"', DataMapperInterface::class));
         new ChainMapper([
             'foo',
             'bar'
@@ -31,6 +32,7 @@ class ChainMapperTest extends TestCase
     public function testMappersInChainWithEmptyMappersArray()
     {
         $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage(sprintf('Mapper needs to implement "%s"', DataMapperInterface::class));
         new ChainMapper([
             'foo',
             'bar'

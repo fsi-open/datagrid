@@ -113,6 +113,7 @@ class DataGridTest extends TestCase
         $this->assertCount(0, $this->datagrid->getColumns());
 
         $this->expectException(InvalidArgumentException::class);
+        $this->expectExceptionMessage('Column "bar" does not exist in data grid.');
         $this->datagrid->getColumn('bar');
     }
 
