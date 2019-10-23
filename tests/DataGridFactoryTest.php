@@ -17,6 +17,7 @@ use FSi\Component\DataGrid\Tests\Fixtures\FooExtension;
 use FSi\Component\DataGrid\DataMapper\DataMapperInterface;
 use FSi\Component\DataGrid\Exception\UnexpectedTypeException;
 use FSi\Component\DataGrid\Exception\DataGridColumnException;
+use FSi\Component\DataGrid\Tests\Fixtures\ColumnType\FooType;
 use PHPUnit\Framework\TestCase;
 
 class DataGridFactoryTest extends TestCase
@@ -54,7 +55,7 @@ class DataGridFactoryTest extends TestCase
 
     public function testGetColumnType()
     {
-        $this->assertInstanceOf(Fixtures\ColumnType\FooType::class, $this->factory->getColumnType('foo'));
+        $this->assertInstanceOf(FooType::class, $this->factory->getColumnType('foo'));
 
         $this->expectException(UnexpectedTypeException::class);
         $this->factory->getColumnType('bar');
