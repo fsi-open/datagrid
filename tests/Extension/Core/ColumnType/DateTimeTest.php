@@ -23,7 +23,7 @@ class DateTimeTest extends TestCase
      */
     private $column;
 
-    public function setUp()
+    protected function setUp()
     {
         $column = new DateTime();
         $column->setName('datetime');
@@ -180,6 +180,7 @@ class DateTimeTest extends TestCase
         );
 
         $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Value in column "datetime" should be timestamp but "object" type was detected. Maybe you should consider using different "input" opition value?');
         $this->column->filterValue($brokenValue);
     }
 
@@ -193,6 +194,7 @@ class DateTimeTest extends TestCase
         $this->column->setOption('input_type', 'string');
 
         $this->expectException(DataGridColumnException::class);
+        $this->expectExceptionMessage('"mapping_fields_format" option is missing. Example: "mapping_fields_format" => "Y-m-d H:i:s"');
         $this->column->filterValue($value);
     }
 
@@ -221,6 +223,7 @@ class DateTimeTest extends TestCase
         );
 
         $this->expectException(DataGridColumnException::class);
+        $this->expectExceptionMessage('Value in field "datetime" is not a valid string.');
         $this->column->filterValue($brokenValue);
     }
 
@@ -236,6 +239,7 @@ class DateTimeTest extends TestCase
 
         $this->column->setOption('input_type', 'array');
         $this->expectException(DataGridColumnException::class);
+        $this->expectExceptionMessage('"input_field_format" option is missing. Example: "input_field_format" => array("mapping_field_name" => array("input" => "datetime"))');
         $this->column->filterValue($value);
     }
 
@@ -256,6 +260,7 @@ class DateTimeTest extends TestCase
         $this->column->setOption('input_type', 'array');
 
         $this->expectException(DataGridColumnException::class);
+        $this->expectExceptionMessage('"input_field_format" option is missing. Example: "input_field_format" => array("mapping_field_name" => array("input" => "datetime"))');
         $this->column->filterValue($value);
     }
 
@@ -277,6 +282,7 @@ class DateTimeTest extends TestCase
         ]);
 
         $this->expectException(DataGridColumnException::class);
+        $this->expectExceptionMessage('When using input type "string", "mapping_fields_format" option must be an string that contains valid data format');
         $this->column->filterValue($value);
     }
 

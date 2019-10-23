@@ -44,6 +44,7 @@ class DataGridFactoryTest extends TestCase
         $this->assertSame('grid',$grid->getName());
 
         $this->expectException(DataGridColumnException::class);
+        $this->expectExceptionMessage('Datagrid name "grid" is not uniqe, it was used before to create datagrid');
         $this->factory->createDataGrid('grid');
     }
 
@@ -58,6 +59,7 @@ class DataGridFactoryTest extends TestCase
         $this->assertInstanceOf(FooType::class, $this->factory->getColumnType('foo'));
 
         $this->expectException(UnexpectedTypeException::class);
+        $this->expectExceptionMessage('There is no column with type "bar" registered in factory.');
         $this->factory->getColumnType('bar');
     }
 

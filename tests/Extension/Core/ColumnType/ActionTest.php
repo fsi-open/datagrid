@@ -24,7 +24,7 @@ class ActionTest extends TestCase
      */
     private $column;
 
-    public function setUp()
+    protected function setUp()
     {
         $column = new Action();
         $column->setName('action');
@@ -39,6 +39,7 @@ class ActionTest extends TestCase
     public function testFilterValueEmptyActionsOptionType()
     {
         $this->expectException(InvalidOptionsException::class);
+        $this->expectExceptionMessage('The option "actions" with value "boo" is expected to be of type "array", but is of type "string".');
         $this->column->setOption('actions', 'boo');
         $this->column->filterValue([]);
     }

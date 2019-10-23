@@ -235,6 +235,7 @@ class ValueFormatColumnOptionsExtensionTest extends TestCase
             ->will($this->returnValue(['id2' => 'no','name' => 'no']));
 
         $this->expectException(DataGridException::class);
+        $this->expectExceptionMessage('Not found key "id" in empty_value array');
         $extension->buildCellView($column, $view);
     }
 

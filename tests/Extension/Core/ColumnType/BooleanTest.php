@@ -21,7 +21,7 @@ class BooleanTest extends TestCase
      */
     private $column;
 
-    public function setUp()
+    protected function setUp()
     {
         $column = new Boolean();
         $column->setName('available');

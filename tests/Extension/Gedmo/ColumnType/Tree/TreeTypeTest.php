@@ -40,7 +40,8 @@ class TreeTypeTest extends TestCase
 
         $object = 'This is string, not object';
 
-        $this->expectException('InvalidArgumentException');
+        $this->expectException(\InvalidArgumentException::class);
+        $this->expectExceptionMessage('Column "gedmo_tree" must read value from object.');
         $column->getValue($object);
     }
 
