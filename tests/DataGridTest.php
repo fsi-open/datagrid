@@ -107,10 +107,10 @@ class DataGridTest extends TestCase
         $this->datagrid->addColumn($column);
         $this->assertEquals($column, $this->datagrid->getColumn('foo1'));
 
-        $this->assertEquals(1, count($this->datagrid->getColumns()));
+        $this->assertCount(1, $this->datagrid->getColumns());
 
         $this->datagrid->clearColumns();
-        $this->assertEquals(0, count($this->datagrid->getColumns()));
+        $this->assertCount(0, $this->datagrid->getColumns());
 
         $this->expectException(InvalidArgumentException::class);
         $this->datagrid->getColumn('bar');
