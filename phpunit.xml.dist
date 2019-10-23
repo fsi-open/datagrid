@@ -13,7 +13,7 @@
 
     <testsuites>
         <testsuite name="FSi DataGrid Component">
-            <directory>tests</directory>
+            <directory suffix="Test.php">tests</directory>
         </testsuite>
     </testsuites>
 </phpunit>
