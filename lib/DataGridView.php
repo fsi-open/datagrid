@@ -14,6 +14,7 @@ namespace FSi\Component\DataGrid;
 use FSi\Component\DataGrid\Data\DataRowsetInterface;
 use FSi\Component\DataGrid\Column\ColumnTypeInterface;
 use FSi\Component\DataGrid\Column\HeaderViewInterface;
+use InvalidArgumentException;
 use RuntimeException;
 
 class DataGridView implements DataGridViewInterface
@@ -42,15 +43,13 @@ class DataGridView implements DataGridViewInterface
      * @param string $name
      * @param ColumnTypeInterface[] $columns
      * @param DataRowsetInterface $rowset
-     * @throws \InvalidArgumentException
+     * @throws InvalidArgumentException
      */
     public function __construct(string $name, array $columns, DataRowsetInterface $rowset)
     {
         foreach ($columns as $column) {
             if (!$column instanceof ColumnTypeInterface) {
-                throw new \InvalidArgumentException(
-                    'Column must implement FSi\Component\DataGrid\Column\ColumnTypeInterface'
-                );
+                throw new InvalidArgumentException(sprintf('Column must implement %s', ColumnTypeInterface::class));
             }
 
             $this->columns[$column->getName()] = $column;
@@ -97,7 +96,7 @@ class DataGridView implements DataGridViewInterface
             return $this->columnsHeaders[$name];
         }
 
-        throw new \InvalidArgumentException(sprintf('Column "%s" does not exist in data grid.', $name));
+        throw new InvalidArgumentException(sprintf('Column "%s" does not exist in data grid.', $name));
     }
 
     public function getColumns(): array
@@ -113,7 +112,7 @@ class DataGridView implements DataGridViewInterface
     public function addColumn(HeaderViewInterface $column): void
     {
         if (!array_key_exists($column->getName(), $this->columns)) {
-            throw new \InvalidArgumentException(sprintf(
+            throw new InvalidArgumentException(sprintf(
                 'Column with name "%s" was never registred in datagrid "%s"',
                 $column->getName(),
                 $this->getName()
@@ -129,13 +128,11 @@ class DataGridView implements DataGridViewInterface
 
         foreach ($columns as $column) {
             if (!$column instanceof HeaderViewInterface) {
-                throw new \InvalidArgumentException(
-                    'Column must implement FSi\Component\DataGrid\Column\HeaderViewInterface'
-                );
+                throw new InvalidArgumentException(sprintf('Column must implement %s', HeaderViewInterface::class));
             }
 
             if (!array_key_exists($column->getName(), $this->columns)) {
-                throw new \InvalidArgumentException(sprintf(
+                throw new InvalidArgumentException(sprintf(
                     'Column with name "%s" was never registred in datagrid "%s"',
                     $column->getName(),
                     $this->getName()
@@ -202,7 +199,7 @@ class DataGridView implements DataGridViewInterface
             return new DataGridRowView($this, $this->getOriginColumns(), $this->rowset[$offset], $offset);
         }
 
-        throw new \InvalidArgumentException(sprintf('Row "%s" does not exist in rowset.', $offset));
+        throw new InvalidArgumentException(sprintf('Row "%s" does not exist in rowset.', $offset));
     }
 
     public function offsetSet($offset, $value): void
