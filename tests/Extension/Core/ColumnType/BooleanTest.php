@@ -11,41 +11,41 @@ declare(strict_types=1);
 
 namespace FSi\Component\DataGrid\Tests\Extension\Core\ColumnType;
 
-use FSi\Component\DataGrid\Extension\Core\ColumnType\Boolean;
+use FSi\Component\DataGrid\Extension\Core\ColumnType\Boolean as BooleanColumnType;
 use PHPUnit\Framework\TestCase;
 
 class BooleanTest extends TestCase
 {
     /**
-     * @var Boolean
+     * @var BooleanColumnType
      */
     private $column;
 
     protected function setUp(): void
     {
-        $column = new Boolean();
+        $column = new BooleanColumnType();
         $column->setName('available');
         $column->initOptions();
 
         $this->column = $column;
     }
 
-    public function testBasicFilterValue()
+    public function testBasicFilterValue(): void
     {
         $this->column->setOptions([
             'true_value' => 'true',
             'false_value'=> 'false'
         ]);
 
-        $this->assertSame($this->column->filterValue(true), 'true');
-        $this->assertNotSame($this->column->filterValue(true), 'false');
+        self::assertSame($this->column->filterValue(true), 'true');
+        self::assertNotSame($this->column->filterValue(true), 'false');
     }
 
-    public function testFilterValueWithTrueValuesInArray()
+    public function testFilterValueWithTrueValuesInArray(): void
     {
         $this->column->setOption('true_value', 'true');
 
-        $this->assertSame(
+        self::assertSame(
             $this->column->filterValue([
                 true,
                 true
@@ -54,14 +54,14 @@ class BooleanTest extends TestCase
         );
     }
 
-    public function testFilterValueWithMixedValuesInArray()
+    public function testFilterValueWithMixedValuesInArray(): void
     {
         $this->column->setOptions([
             'true_value' => 'true',
             'false_value'=> 'false'
         ]);
 
-        $this->assertSame(
+        self::assertSame(
             $this->column->filterValue([
                 true,
                 1,
@@ -72,14 +72,14 @@ class BooleanTest extends TestCase
     }
 
 
-    public function testFilterValueWithFalseValuesInArray()
+    public function testFilterValueWithFalseValuesInArray(): void
     {
         $this->column->setOptions([
             'true_value' => 'true',
             'false_value'=> 'false'
         ]);
 
-        $this->assertSame(
+        self::assertSame(
             $this->column->filterValue([
                 false,
                 false
@@ -88,14 +88,14 @@ class BooleanTest extends TestCase
         );
     }
 
-    public function testFilterValueWithMixedValuesAndFalseInArray()
+    public function testFilterValueWithMixedValuesAndFalseInArray(): void
     {
         $this->column->setOptions([
             'true_value' => 'true',
             'false_value'=> 'false'
         ]);
 
-        $this->assertSame(
+        self::assertSame(
             $this->column->filterValue([
                 true,
                 1,
@@ -106,14 +106,14 @@ class BooleanTest extends TestCase
         );
     }
 
-    public function testFilterValueWithMixedValuesAndNullInArray()
+    public function testFilterValueWithMixedValuesAndNullInArray(): void
     {
         $this->column->setOptions([
             'true_value' => 'true',
             'false_value'=> 'false'
         ]);
 
-        $this->assertSame(
+        self::assertSame(
             $this->column->filterValue([
                 true,
                 1,
@@ -124,14 +124,14 @@ class BooleanTest extends TestCase
         );
     }
 
-    public function testFilterValueWithAllNullsInArray()
+    public function testFilterValueWithAllNullsInArray(): void
     {
         $this->column->setOptions([
             'true_value' => 'true',
             'false_value'=> 'false'
         ]);
 
-        $this->assertSame(
+        self::assertSame(
             $this->column->filterValue([
                 null,
                 null

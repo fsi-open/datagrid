@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<ruleset name="Custom Standard">
+
+    <rule ref="PSR2"/>
+
+    <file>lib</file>
+    <file>tests</file>
+
+    <arg name="cache" value=".phpcs-cache"/>
+    <arg name="encoding" value="utf-8"/>
+    <arg name="report" value="full"/>
+    <arg name="report-width" value="120"/>
+    <arg name="colors"/>
+    <arg value="p"/>
+
+</ruleset>

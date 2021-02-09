@@ -24,12 +24,12 @@ class EntityManagerMock extends EntityManager
     {
     }
 
-    public function _setEventManager($eventManager)
+    public function setEventManager($eventManager)
     {
         $this->eventManager = $eventManager;
     }
 
-    public function _setMetadataFactory($metadataFactory)
+    public function setMetadataFactory($metadataFactory)
     {
         $this->metadataFactory = $metadataFactory;
     }

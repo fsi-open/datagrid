@@ -33,7 +33,9 @@ class ReflectionMapper implements DataMapperInterface
 
         if ($objectReflection->hasMethod($getter)) {
             if (!$objectReflection->getMethod($getter)->isPublic()) {
-                throw new DataMappingException(sprintf('Method "%s()" is not public in class "%s"', $getter, $objectReflection->name));
+                throw new DataMappingException(
+                    sprintf('Method "%s()" is not public in class "%s"', $getter, $objectReflection->name)
+                );
             }
 
             return $object->$getter();
@@ -41,7 +43,9 @@ class ReflectionMapper implements DataMapperInterface
 
         if ($objectReflection->hasMethod($isser)) {
             if (!$objectReflection->getMethod($isser)->isPublic()) {
-                throw new DataMappingException(sprintf('Method "%s()" is not public in class "%s"', $isser, $objectReflection->name));
+                throw new DataMappingException(
+                    sprintf('Method "%s()" is not public in class "%s"', $isser, $objectReflection->name)
+                );
             }
 
             return $object->$isser();
@@ -49,7 +53,9 @@ class ReflectionMapper implements DataMapperInterface
 
         if ($objectReflection->hasMethod($hasser)) {
             if (!$objectReflection->getMethod($hasser)->isPublic()) {
-                throw new DataMappingException(sprintf('Method "%s()" is not public in class "%s"', $hasser, $objectReflection->name));
+                throw new DataMappingException(
+                    sprintf('Method "%s()" is not public in class "%s"', $hasser, $objectReflection->name)
+                );
             }
 
             return $object->$hasser();
@@ -57,13 +63,25 @@ class ReflectionMapper implements DataMapperInterface
 
         if ($objectReflection->hasProperty($field)) {
             if (!$objectReflection->getProperty($field)->isPublic()) {
-                throw new DataMappingException(sprintf('Property "%s" is not public in class "%s". Maybe you should create the method "%s()" or "%s()"?', $field, $objectReflection->name, $getter, $isser));
+                throw new DataMappingException(sprintf(
+                    'Property "%s" is not public in class "%s". Maybe you should create the method "%s()" or "%s()"?',
+                    $field,
+                    $objectReflection->name,
+                    $getter,
+                    $isser
+                ));
             }
             $property = $objectReflection->getProperty($field);
             return $property->getValue($object);
         }
 
-        throw new DataMappingException(sprintf('Neither property "%s" nor method "%s()" nor method "%s()" exists in class "%s"', $field, $getter, $isser, $objectReflection->name));
+        throw new DataMappingException(sprintf(
+            'Neither property "%s" nor method "%s()" nor method "%s()" exists in class "%s"',
+            $field,
+            $getter,
+            $isser,
+            $objectReflection->name
+        ));
     }
 
     /**

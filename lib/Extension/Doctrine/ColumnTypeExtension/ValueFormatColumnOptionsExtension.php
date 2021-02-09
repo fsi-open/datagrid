@@ -56,12 +56,12 @@ class ValueFormatColumnOptionsExtension extends ColumnAbstractTypeExtension
         $view->setValue($value);
     }
 
-     public function getExtendedColumnTypes(): array
-     {
-         return [
-             'entity',
-         ];
-     }
+    public function getExtendedColumnTypes(): array
+    {
+        return [
+            'entity',
+        ];
+    }
 
     public function initOptions(ColumnTypeInterface $column): void
     {

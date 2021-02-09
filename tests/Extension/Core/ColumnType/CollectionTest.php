@@ -16,7 +16,7 @@ use PHPUnit\Framework\TestCase;
 
 class CollectionTest extends TestCase
 {
-    public function test_filter_value()
+    public function testFilterValue(): void
     {
         $column = new Collection();
         $column->initOptions();
@@ -26,7 +26,7 @@ class CollectionTest extends TestCase
             'test'
         ];
 
-        $this->assertSame(
+        self::assertSame(
             ['foo bar', 'test'],
             $column->filterValue($value)
         );

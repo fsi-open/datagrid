@@ -9,7 +9,7 @@
 
 declare(strict_types=1);
 
-namespace FSi\Component\DataGrid\Tests\Extension\Core;
+namespace FSi\Component\DataGrid\Tests\Extension\Core\ColumnType;
 
 use FSi\Component\DataGrid\Extension\Core\ColumnType\Action;
 use FSi\Component\DataGrid\Extension\Core\ColumnTypeExtension\DefaultColumnOptionsExtension;
@@ -36,22 +36,24 @@ class ActionTest extends TestCase
         $this->column = $column;
     }
 
-    public function testFilterValueEmptyActionsOptionType()
+    public function testFilterValueEmptyActionsOptionType(): void
     {
         $this->expectException(InvalidOptionsException::class);
-        $this->expectExceptionMessage('The option "actions" with value "boo" is expected to be of type "array", but is of type "string".');
+        $this->expectExceptionMessage(
+            'The option "actions" with value "boo" is expected to be of type "array", but is of type "string".'
+        );
         $this->column->setOption('actions', 'boo');
         $this->column->filterValue([]);
     }
 
-    public function testFilterValueInvalidActionInActionsOption()
+    public function testFilterValueInvalidActionInActionsOption(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->column->setOption('actions', ['edit' => 'asasdas']);
         $this->column->filterValue([]);
     }
 
-    public function testFilterValueRequiredActionInActionsOption()
+    public function testFilterValueRequiredActionInActionsOption(): void
     {
         $this->column->setOption('actions', [
             'edit' => [
@@ -59,7 +61,7 @@ class ActionTest extends TestCase
             ]
         ]);
 
-        $this->assertSame(
+        self::assertSame(
             [
                 'edit' => [
                     'url' => '/test/bar',
@@ -74,7 +76,7 @@ class ActionTest extends TestCase
         );
     }
 
-    public function testFilterValueAvailableActionInActionsOption()
+    public function testFilterValueAvailableActionInActionsOption(): void
     {
         $this->column->setOption('actions', [
             'edit' => [
@@ -85,7 +87,7 @@ class ActionTest extends TestCase
             ]
         ]);
 
-        $this->assertSame(
+        self::assertSame(
             [
                 'edit' => [
                     'url' => 'https://fsi.pl/test/bar?redirect_uri=' . urlencode('http://onet.pl/'),

@@ -16,11 +16,11 @@ use PHPUnit\Framework\TestCase;
 
 class DoctrineExtensionTest extends TestCase
 {
-    public function testLoadedTypes()
+    public function testLoadedTypes(): void
     {
         $extension = new DoctrineExtension();
 
-        $this->assertTrue($extension->hasColumnType('entity'));
-        $this->assertFalse($extension->hasColumnType('foo'));
+        self::assertTrue($extension->hasColumnType('entity'));
+        self::assertFalse($extension->hasColumnType('foo'));
     }
 }

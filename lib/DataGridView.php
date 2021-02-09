@@ -48,7 +48,9 @@ class DataGridView implements DataGridViewInterface
     {
         foreach ($columns as $column) {
             if (!$column instanceof ColumnTypeInterface) {
-                throw new \InvalidArgumentException('Column must implement FSi\Component\DataGrid\Column\ColumnTypeInterface');
+                throw new \InvalidArgumentException(
+                    'Column must implement FSi\Component\DataGrid\Column\ColumnTypeInterface'
+                );
             }
 
             $this->columns[$column->getName()] = $column;
@@ -127,7 +129,9 @@ class DataGridView implements DataGridViewInterface
 
         foreach ($columns as $column) {
             if (!$column instanceof HeaderViewInterface) {
-                throw new \InvalidArgumentException('Column must implement FSi\Component\DataGrid\Column\HeaderViewInterface');
+                throw new \InvalidArgumentException(
+                    'Column must implement FSi\Component\DataGrid\Column\HeaderViewInterface'
+                );
             }
 
             if (!array_key_exists($column->getName(), $this->columns)) {

@@ -35,7 +35,7 @@ class DateTimeTest extends TestCase
         $this->column = $column;
     }
 
-    public function testBasicFilterValue()
+    public function testBasicFilterValue(): void
     {
         $dateTimeObject = new \DateTime('2012-05-03 12:41:11');
 
@@ -45,7 +45,7 @@ class DateTimeTest extends TestCase
 
         $this->column->setOption('field_mapping', ['datetime']);
 
-        $this->assertSame(
+        self::assertSame(
             $this->column->filterValue($value),
             [
                 'datetime' => $dateTimeObject->format('Y-m-d H:i:s')
@@ -53,10 +53,10 @@ class DateTimeTest extends TestCase
         );
     }
 
-    public function testFilterValueFromDateTimeImmutable()
+    public function testFilterValueFromDateTimeImmutable(): void
     {
         if (!class_exists(\DateTimeImmutable::class)) {
-            $this->markTestSkipped();
+            self::markTestSkipped();
         }
 
         $dateTimeObject = new \DateTimeImmutable('2012-05-03 12:41:11');
@@ -67,7 +67,7 @@ class DateTimeTest extends TestCase
 
         $this->column->setOption('field_mapping', ['datetime']);
 
-        $this->assertSame(
+        self::assertSame(
             $this->column->filterValue($value),
             [
                 'datetime' => $dateTimeObject->format('Y-m-d H:i:s')
@@ -75,7 +75,7 @@ class DateTimeTest extends TestCase
         );
     }
 
-    public function testFilterValueWithNull()
+    public function testFilterValueWithNull(): void
     {
         $value = [
             'datetime' => null
@@ -84,7 +84,7 @@ class DateTimeTest extends TestCase
         $this->column->setOptions([
         ]);
 
-        $this->assertSame(
+        self::assertSame(
             $this->column->filterValue($value),
             [
                 'datetime' => null
@@ -97,12 +97,11 @@ class DateTimeTest extends TestCase
         }
 
         foreach ($inputTypes as $input_type) {
-
             $this->column->setOptions([
                 'input_type' => $input_type
             ]);
 
-            $this->assertSame(
+            self::assertSame(
                 $this->column->filterValue($value),
                 [
                     'datetime' => null
@@ -111,7 +110,7 @@ class DateTimeTest extends TestCase
         }
     }
 
-    public function testFormatOption()
+    public function testFormatOption(): void
     {
         $dateTimeObject = new \DateTime('2012-05-03 12:41:11');
 
@@ -124,7 +123,7 @@ class DateTimeTest extends TestCase
             'datetime_format' => 'Y.d.m'
         ]);
 
-        $this->assertSame(
+        self::assertSame(
             $this->column->filterValue($value),
             [
                 'datetime' => $dateTimeObject->format('Y.d.m')
@@ -132,10 +131,10 @@ class DateTimeTest extends TestCase
         );
     }
 
-    public function testFormatOptionWithDateTimeImmutable()
+    public function testFormatOptionWithDateTimeImmutable(): void
     {
         if (!class_exists(\DateTimeImmutable::class)) {
-            $this->markTestSkipped();
+            self::markTestSkipped();
         }
 
         $dateTimeObject = new \DateTimeImmutable('2012-05-03 12:41:11');
@@ -149,7 +148,7 @@ class DateTimeTest extends TestCase
             'datetime_format' => 'Y.d.m'
         ]);
 
-        $this->assertSame(
+        self::assertSame(
             $this->column->filterValue($value),
             [
                 'datetime' => $dateTimeObject->format('Y.d.m')
@@ -157,7 +156,7 @@ class DateTimeTest extends TestCase
         );
     }
 
-    public function testMappingFieldsOptionInputTimestamp()
+    public function testMappingFieldsOptionInputTimestamp(): void
     {
         $dateTimeObject = new \DateTime('2012-05-03 12:41:11');
         $brokenValue = [
@@ -172,7 +171,7 @@ class DateTimeTest extends TestCase
         ]);
 
         $this->column->filterValue($value);
-        $this->assertSame(
+        self::assertSame(
             $this->column->filterValue($value),
             [
                 'datetime' => $dateTimeObject->format('Y-m-d H:i:s')
@@ -180,11 +179,14 @@ class DateTimeTest extends TestCase
         );
 
         $this->expectException(\InvalidArgumentException::class);
-        $this->expectExceptionMessage('Value in column "datetime" should be timestamp but "object" type was detected. Maybe you should consider using different "input" opition value?');
+        $this->expectExceptionMessage(
+            'Value in column "datetime" should be timestamp but "object" type was detected.'
+                . ' Maybe you should consider using different "input" option value?'
+        );
         $this->column->filterValue($brokenValue);
     }
 
-    public function testMappingFieldsOptionInputStringMissingMappingFieldsFormat()
+    public function testMappingFieldsOptionInputStringMissingMappingFieldsFormat(): void
     {
         $dateTimeObject = new \DateTime('2012-05-03 12:41:11');
         $value = [
@@ -194,11 +196,13 @@ class DateTimeTest extends TestCase
         $this->column->setOption('input_type', 'string');
 
         $this->expectException(DataGridColumnException::class);
-        $this->expectExceptionMessage('"mapping_fields_format" option is missing. Example: "mapping_fields_format" => "Y-m-d H:i:s"');
+        $this->expectExceptionMessage(
+            '"mapping_fields_format" option is missing. Example: "mapping_fields_format" => "Y-m-d H:i:s"'
+        );
         $this->column->filterValue($value);
     }
 
-    public function testMappingFieldsOptionInputString()
+    public function testMappingFieldsOptionInputString(): void
     {
         $dateTimeObject = new \DateTime('2012-05-03 12:41:11');
 
@@ -215,7 +219,7 @@ class DateTimeTest extends TestCase
             'input_field_format' => 'Y-m-d H:i:s'
         ]);
 
-        $this->assertSame(
+        self::assertSame(
             $this->column->filterValue($value),
             [
                 'datetime' => $dateTimeObject->format('Y-m-d H:i:s')
@@ -227,7 +231,7 @@ class DateTimeTest extends TestCase
         $this->column->filterValue($brokenValue);
     }
 
-    public function testMappingFieldsOptionInputArrayMissingMappingFieldsFormat()
+    public function testMappingFieldsOptionInputArrayMissingMappingFieldsFormat(): void
     {
         $dateTimeObject = new \DateTime('2012-05-03 12:41:11');
         $dateObject = new \DateTime('2012-05-03');
@@ -239,14 +243,17 @@ class DateTimeTest extends TestCase
 
         $this->column->setOption('input_type', 'array');
         $this->expectException(DataGridColumnException::class);
-        $this->expectExceptionMessage('"input_field_format" option is missing. Example: "input_field_format" => array("mapping_field_name" => array("input" => "datetime"))');
+        $this->expectExceptionMessage(
+            '"input_field_format" option is missing. Example: '
+                .'"input_field_format" => array("mapping_field_name" => array("input" => "datetime"))'
+        );
         $this->column->filterValue($value);
     }
 
-    public function testMappingFieldsOptionInputArrayMissingMappingFieldsFormatForDateTimeImmutable()
+    public function testMappingFieldsOptionInputArrayMissingMappingFieldsFormatForDateTimeImmutable(): void
     {
         if (!class_exists(\DateTimeImmutable::class)) {
-            $this->markTestSkipped();
+            self::markTestSkipped();
         }
 
         $dateTimeObject = new \DateTimeImmutable('2012-05-03 12:41:11');
@@ -260,11 +267,14 @@ class DateTimeTest extends TestCase
         $this->column->setOption('input_type', 'array');
 
         $this->expectException(DataGridColumnException::class);
-        $this->expectExceptionMessage('"input_field_format" option is missing. Example: "input_field_format" => array("mapping_field_name" => array("input" => "datetime"))');
+        $this->expectExceptionMessage(
+            '"input_field_format" option is missing. Example: '
+                .'"input_field_format" => array("mapping_field_name" => array("input" => "datetime"))'
+        );
         $this->column->filterValue($value);
     }
 
-    public function testMappingFieldsOptionInputArrayWrongMappingFieldsFormat()
+    public function testMappingFieldsOptionInputArrayWrongMappingFieldsFormat(): void
     {
         $dateTimeObject = new \DateTime('2012-05-03 12:41:11');
         $dateObject = new \DateTime('2012-05-03');
@@ -282,13 +292,17 @@ class DateTimeTest extends TestCase
         ]);
 
         $this->expectException(DataGridColumnException::class);
-        $this->expectExceptionMessage('When using input type "string", "mapping_fields_format" option must be an string that contains valid data format');
+        $this->expectExceptionMessage(
+            'When using input type "string", "mapping_fields_format" option must be an string that contains '
+                . 'valid data format'
+        );
         $this->column->filterValue($value);
     }
 
-    public function testMappingFieldsOptionInputArray()
+    public function testMappingFieldsOptionInputArray(): void
     {
         $dateTimeObject = new \DateTime('2012-05-03 12:41:11');
+        $dateTimeImmutableObject = null;
         if (class_exists(\DateTimeImmutable::class)) {
             $dateTimeImmutableObject = new \DateTimeImmutable('2012-05-03 12:41:11');
         }
@@ -326,12 +340,13 @@ class DateTimeTest extends TestCase
         if (class_exists(\DateTimeImmutable::class)) {
             $expectedResult['datetime_immutable'] = $dateTimeImmutableObject->format('Y-m-d H:i:s');
         }
-        $this->assertSame($this->column->filterValue($value), $expectedResult);
+        self::assertSame($this->column->filterValue($value), $expectedResult);
     }
 
-    public function testMappingFieldsOptionInputArrayWithFormat()
+    public function testMappingFieldsOptionInputArrayWithFormat(): void
     {
         $dateTimeObject = new \DateTime('2012-05-03 12:41:11');
+        $dateTimeImmutableObject = null;
         if (class_exists(\DateTimeImmutable::class)) {
             $dateTimeImmutableObject = new \DateTimeImmutable('2012-05-03 12:41:11');
         }
@@ -371,6 +386,6 @@ class DateTimeTest extends TestCase
         if (class_exists(\DateTimeImmutable::class)) {
             $expectedResult['datetime_immutable'] = $dateTimeImmutableObject->format('Y.d.m');
         }
-        $this->assertSame($this->column->filterValue($value), $expectedResult);
+        self::assertSame($this->column->filterValue($value), $expectedResult);
     }
 }

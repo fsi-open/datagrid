@@ -34,7 +34,7 @@ class MoneyTest extends TestCase
         $this->column = $column;
     }
 
-    public function testCurrencyOption()
+    public function testCurrencyOption(): void
     {
         $value = [
             'value' => 10,
@@ -42,7 +42,7 @@ class MoneyTest extends TestCase
 
         $this->column->setOption('currency', 'PLN');
 
-        $this->assertSame(
+        self::assertSame(
             $this->column->filterValue($value),
             [
                 'value' => '10.00 PLN',
@@ -50,7 +50,7 @@ class MoneyTest extends TestCase
         );
     }
 
-    public function testCurrencySeparatorOption()
+    public function testCurrencySeparatorOption(): void
     {
         $value = [
             'value' => 10,
@@ -59,7 +59,7 @@ class MoneyTest extends TestCase
         $this->column->setOption('currency', 'PLN');
         $this->column->setOption('value_currency_separator', '$ ');
 
-        $this->assertSame(
+        self::assertSame(
             $this->column->filterValue($value),
             [
                 'value' => '10.00$ PLN',
@@ -67,7 +67,7 @@ class MoneyTest extends TestCase
         );
     }
 
-    public function testCurrencyDecPointOption()
+    public function testCurrencyDecPointOption(): void
     {
         $value = [
             'value' => 10,
@@ -76,7 +76,7 @@ class MoneyTest extends TestCase
         $this->column->setOption('currency', 'PLN');
         $this->column->setOption('dec_point', '-');
 
-        $this->assertSame(
+        self::assertSame(
             $this->column->filterValue($value),
             [
                 'value' => '10-00 PLN',
@@ -84,7 +84,7 @@ class MoneyTest extends TestCase
         );
     }
 
-    public function testCurrencyDecimalsOption()
+    public function testCurrencyDecimalsOption(): void
     {
         $value = [
             'value' => 10,
@@ -93,7 +93,7 @@ class MoneyTest extends TestCase
         $this->column->setOption('currency', 'PLN');
         $this->column->setOption('decimals', 0);
 
-        $this->assertSame(
+        self::assertSame(
             $this->column->filterValue($value),
             [
                 'value' => '10 PLN',
@@ -103,7 +103,7 @@ class MoneyTest extends TestCase
         $this->column->setOption('currency', 'PLN');
         $this->column->setOption('decimals', 5);
 
-        $this->assertSame(
+        self::assertSame(
             $this->column->filterValue($value),
             [
                 'value' => '10.00000 PLN',
@@ -111,7 +111,7 @@ class MoneyTest extends TestCase
         );
     }
 
-    public function testCurrencyPrecisionOption()
+    public function testCurrencyPrecisionOption(): void
     {
         $value = [
             'value' => 10.326
@@ -120,7 +120,7 @@ class MoneyTest extends TestCase
         $this->column->setOption('currency', 'PLN');
         $this->column->setOption('precision', 2);
 
-        $this->assertSame(
+        self::assertSame(
             $this->column->filterValue($value),
             [
                 'value' => '10.33 PLN',
@@ -130,7 +130,7 @@ class MoneyTest extends TestCase
         $value = [
             'value' => 10.324,
         ];
-        $this->assertSame(
+        self::assertSame(
             $this->column->filterValue($value),
             [
                 'value' => '10.32 PLN',
@@ -138,7 +138,7 @@ class MoneyTest extends TestCase
         );
     }
 
-    public function testCurrencyThousandsSepOption()
+    public function testCurrencyThousandsSepOption(): void
     {
         $value = [
             'value' => 10000,
@@ -147,7 +147,7 @@ class MoneyTest extends TestCase
         $this->column->setOption('currency', 'PLN');
         $this->column->setOption('thousands_sep', '.');
 
-        $this->assertSame(
+        self::assertSame(
             $this->column->filterValue($value),
             [
                 'value' => '10.000.00 PLN',

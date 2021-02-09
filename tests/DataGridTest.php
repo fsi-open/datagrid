@@ -42,87 +42,77 @@ class DataGridTest extends TestCase
     protected function setUp(): void
     {
         $this->dataMapper = $this->createMock(DataMapperInterface::class);
-        $this->dataMapper->expects($this->any())
-            ->method('getData')
-            ->will($this->returnCallback(function($field, $object){
-                switch($field) {
-                    case 'name':
+        $this->dataMapper->method('getData')
+            ->willReturnCallback(
+                function ($field, $object) {
+                    if ('name' === $field) {
                         return $object->getName();
-                }
-            }));
+                    }
 
-        $this->dataMapper->expects($this->any())
-            ->method('setData')
-            ->will($this->returnCallback(function($field, $object, $value){
-                switch($field) {
-                    case 'name':
-                        $object->setName($value);
-                        break;
+                    return null;
                 }
-            }));
+            );
+
+        $this->dataMapper
+            ->method('setData')
+            ->willReturnCallback(
+                function ($field, $object, $value) {
+                    if ('name' === $field) {
+                        $object->setName($value);
+                    }
+                }
+            );
 
         $this->factory = $this->createMock(DataGridFactoryInterface::class);
-        $this->factory->expects($this->any())
-            ->method('getExtensions')
-            ->will($this->returnValue([
-                new FooExtension(),
-            ]));
+        $this->factory->method('getExtensions')
+            ->willReturn([new FooExtension()]);
 
-        $this->factory->expects($this->any())
-            ->method('getColumnType')
-            ->with($this->equalTo('foo'))
-            ->will($this->returnValue(
-                new FooType()
-            ));
-
-        $this->factory->expects($this->any())
-            ->method('hasColumnType')
-            ->with($this->equalTo('foo'))
-            ->will($this->returnValue(true));
+        $this->factory->method('getColumnType')->with(self::equalTo('foo'))->willReturn(new FooType());
+        $this->factory->method('hasColumnType')->with(self::equalTo('foo'))->willReturn(true);
 
         $this->datagrid = new DataGrid('grid', $this->factory, $this->dataMapper);
     }
 
-    public function testGetName()
+    public function testGetName(): void
     {
-        $this->assertSame('grid', $this->datagrid->getName());
+        self::assertSame('grid', $this->datagrid->getName());
     }
 
-    public function testHasAddGetRemoveClearColumn()
+    public function testHasAddGetRemoveClearColumn(): void
     {
-        $this->assertFalse($this->datagrid->hasColumn('foo1'));
+        self::assertFalse($this->datagrid->hasColumn('foo1'));
         $this->datagrid->addColumn('foo1', 'foo');
-        $this->assertTrue($this->datagrid->hasColumn('foo1'));
-        $this->assertTrue($this->datagrid->hasColumnType('foo'));
-        $this->assertFalse($this->datagrid->hasColumnType('this_type_cant_exists'));
+        self::assertTrue($this->datagrid->hasColumn('foo1'));
+        self::assertTrue($this->datagrid->hasColumnType('foo'));
+        self::assertFalse($this->datagrid->hasColumnType('this_type_cant_exists'));
 
-        $this->assertInstanceOf(FooType::class, $this->datagrid->getColumn('foo1'));
+        self::assertInstanceOf(FooType::class, $this->datagrid->getColumn('foo1'));
 
-        $this->assertTrue($this->datagrid->hasColumn('foo1'));
+        self::assertTrue($this->datagrid->hasColumn('foo1'));
         $column = $this->datagrid->getColumn('foo1');
 
         $this->datagrid->removeColumn('foo1');
-        $this->assertFalse($this->datagrid->hasColumn('foo1'));
+        self::assertFalse($this->datagrid->hasColumn('foo1'));
 
         $this->datagrid->addColumn($column);
-        $this->assertEquals($column, $this->datagrid->getColumn('foo1'));
+        self::assertEquals($column, $this->datagrid->getColumn('foo1'));
 
-        $this->assertCount(1, $this->datagrid->getColumns());
+        self::assertCount(1, $this->datagrid->getColumns());
 
         $this->datagrid->clearColumns();
-        $this->assertCount(0, $this->datagrid->getColumns());
+        self::assertCount(0, $this->datagrid->getColumns());
 
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage('Column "bar" does not exist in data grid.');
         $this->datagrid->getColumn('bar');
     }
 
-    public function testGetDataMapper()
+    public function testGetDataMapper(): void
     {
-        $this->assertInstanceOf(DataMapperInterface::class, $this->datagrid->getDataMapper());
+        self::assertInstanceOf(DataMapperInterface::class, $this->datagrid->getDataMapper());
     }
 
-    public function testSetData()
+    public function testSetData(): void
     {
         $gridData = [
             new Entity('entity1'),
@@ -131,7 +121,7 @@ class DataGridTest extends TestCase
 
         $this->datagrid->setData($gridData);
 
-        $this->assertEquals(count($gridData), count($this->datagrid->createView()));
+        self::assertSameSize($gridData, $this->datagrid->createView());
 
         $gridData = [
             ['some', 'data'],
@@ -140,14 +130,14 @@ class DataGridTest extends TestCase
 
         $this->datagrid->setData($gridData);
 
-        $this->assertEquals(count($gridData), count($this->datagrid->createView()));
+        self::assertSameSize($gridData, $this->datagrid->createView());
 
         $gridBrokenData = false;
         $this->expectException(TypeError::class);
         $this->datagrid->setData($gridBrokenData);
     }
 
-    public function testCreateView()
+    public function testCreateView(): void
     {
         $this->datagrid->addColumn('foo1', 'foo');
         $gridData = [
@@ -156,10 +146,11 @@ class DataGridTest extends TestCase
         ];
 
         $this->datagrid->setData($gridData);
-        $this->assertInstanceOf(DataGridViewInterface::class,$this->datagrid->createView());
+        $view = $this->datagrid->createView();
+        self::assertCount(2, $view);
     }
 
-    public function testSetDataForArray()
+    public function testSetDataForArray(): void
     {
         $gridData = [
             ['one'],
@@ -178,6 +169,6 @@ class DataGridTest extends TestCase
             $keys[] = $row->getIndex();
         }
 
-        $this->assertEquals(array_keys($gridData), $keys);
+        self::assertEquals(array_keys($gridData), $keys);
     }
 }

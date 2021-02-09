@@ -17,12 +17,12 @@ use PHPUnit\Framework\TestCase;
 
 class GedmoDoctrineExtensionTest extends TestCase
 {
-    public function testLoadedTypes()
+    public function testLoadedTypes(): void
     {
         $registry = $this->createMock(ManagerRegistry::class);
         $extension = new GedmoDoctrineExtension($registry);
 
-        $this->assertTrue($extension->hasColumnType('gedmo_tree'));
-        $this->assertFalse($extension->hasColumnType('foo'));
+        self::assertTrue($extension->hasColumnType('gedmo_tree'));
+        self::assertFalse($extension->hasColumnType('foo'));
     }
 }

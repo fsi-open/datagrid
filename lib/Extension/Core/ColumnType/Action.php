@@ -42,7 +42,7 @@ class Action extends ColumnAbstractType
             $return[$name] = [];
 
             $url = (isset($options['protocol'], $options['domain'])) ? $options['protocol'] . $options['domain'] : '';
-            $url .= vsprintf ($options['uri_scheme'], $value);
+            $url .= vsprintf($options['uri_scheme'], $value);
 
             if (isset($options['redirect_uri']) && is_string($options['redirect_uri'])) {
                 if (strpos($url, '?') !== false) {

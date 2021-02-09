@@ -11,20 +11,20 @@ declare(strict_types=1);
 
 namespace FSi\Component\DataGrid\Tests\Extension\Core\ColumnType;
 
-use FSi\Component\DataGrid\Extension\Core\ColumnType\Number;
+use FSi\Component\DataGrid\Extension\Core\ColumnType\Number as NumberColumnType;
 use FSi\Component\DataGrid\Extension\Core\ColumnTypeExtension\DefaultColumnOptionsExtension;
 use PHPUnit\Framework\TestCase;
 
 class NumberTest extends TestCase
 {
     /**
-     * @var Number
+     * @var NumberColumnType
      */
     private $column;
 
     protected function setUp(): void
     {
-        $column = new Number();
+        $column = new NumberColumnType();
         $column->setName('number');
         $column->initOptions();
 
@@ -34,16 +34,16 @@ class NumberTest extends TestCase
         $this->column = $column;
     }
 
-    public function testPrecision()
+    public function testPrecision(): void
     {
         $value = [
             'number' => 10.123,
         ];
 
         $this->column->setOption('precision', 2);
-        $this->column->setOption('round_mode', Number::ROUND_HALF_UP);
+        $this->column->setOption('round_mode', NumberColumnType::ROUND_HALF_UP);
 
-        $this->assertSame(
+        self::assertSame(
             $this->column->filterValue($value),
             [
                 'number' => 10.12,
@@ -51,10 +51,10 @@ class NumberTest extends TestCase
         );
     }
 
-    public function testRoundMode()
+    public function testRoundMode(): void
     {
-        $this->column->setOption('round_mode', Number::ROUND_HALF_UP);
-        $this->assertSame(
+        $this->column->setOption('round_mode', NumberColumnType::ROUND_HALF_UP);
+        self::assertSame(
             $this->column->filterValue([
                 'number' => 10.123,
             ]),
@@ -63,7 +63,7 @@ class NumberTest extends TestCase
             ]
         );
 
-        $this->assertSame(
+        self::assertSame(
             $this->column->filterValue([
                 'number' => 10.126,
             ]),
@@ -73,9 +73,9 @@ class NumberTest extends TestCase
         );
     }
 
-    public function testNumberFormat()
+    public function testNumberFormat(): void
     {
-        $this->assertEquals(
+        self::assertEquals(
             [
                 'number' => 12345678.1,
             ],
@@ -86,7 +86,7 @@ class NumberTest extends TestCase
 
         $this->column->setOption('format', true);
 
-        $this->assertEquals(
+        self::assertEquals(
             [
                 'number' => '12,345,678.10',
             ],
@@ -97,7 +97,7 @@ class NumberTest extends TestCase
 
         $this->column->setOption('format_decimals', 0);
 
-        $this->assertEquals(
+        self::assertEquals(
             [
                 'number' => '12,345,678',
             ],
@@ -108,7 +108,7 @@ class NumberTest extends TestCase
 
         $this->column->setOption('format_decimals', 2);
 
-        $this->assertEquals(
+        self::assertEquals(
             [
                 'number' => '12,345,678.10',
             ],
@@ -120,7 +120,7 @@ class NumberTest extends TestCase
         $this->column->setOption('format_dec_point', ',');
         $this->column->setOption('format_thousands_sep', ' ');
 
-        $this->assertEquals(
+        self::assertEquals(
             [
                 'number' => '12 345 678,10',
             ],
@@ -129,7 +129,7 @@ class NumberTest extends TestCase
             ])
         );
 
-        $this->assertEquals(
+        self::assertEquals(
             [
                 'number' => '1 000,00',
             ],
@@ -140,7 +140,7 @@ class NumberTest extends TestCase
 
         $this->column->setOption('format_decimals', 0);
 
-        $this->assertEquals(
+        self::assertEquals(
             [
                 'number' => '1 000',
             ],
@@ -150,7 +150,7 @@ class NumberTest extends TestCase
         );
 
         $this->column->setOption('format', false);
-        $this->assertEquals(
+        self::assertEquals(
             [
                 'number' => '1000',
             ],
