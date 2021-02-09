@@ -9,8 +9,12 @@
 
 declare(strict_types=1);
 
-namespace FSi\Component\DataGrid\Tests\Extension\Gedmo\ColumnType;
+namespace FSi\Component\DataGrid\Tests\Extension\Gedmo\ColumnType\Tree;
 
+use Doctrine\ORM\Mapping\ClassMetadataInfo;
+use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Persistence\Mapping\ClassMetadataFactory;
+use Doctrine\Persistence\ObjectManager;
 use FSi\Component\DataGrid\Tests\Fixtures\EntityTree;
 use FSi\Component\DataGrid\Tests\Fixtures\EntityManagerMock;
 use FSi\Component\DataGrid\Tests\Fixtures\EventManagerMock;
@@ -18,19 +22,17 @@ use FSi\Component\DataGrid\Extension\Gedmo\ColumnType\Tree;
 use FSi\Component\DataGrid\Extension\Core\ColumnTypeExtension\DefaultColumnOptionsExtension;
 use FSi\Component\DataGrid\DataMapper\DataMapperInterface;
 use FSi\Component\DataGrid\DataGridInterface;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use Doctrine\Common\Persistence\ManagerRegistry;
-use Gedmo\Tree\TreeListener;
-use Doctrine\Common\Persistence\ObjectManager;
-use Doctrine\Common\Persistence\Mapping\ClassMetadataFactory;
-use Doctrine\ORM\Mapping\ClassMetadataInfo;
 use Gedmo\Tree\Strategy;
+use Gedmo\Tree\TreeListener;
 
 class TreeTypeTest extends TestCase
 {
-    public function testWrongValue()
+    public function testWrongValue(): void
     {
         $registry = $this->createMock(ManagerRegistry::class);
+
         $column = new Tree($registry);
         $column->setName('tree');
         $column->initOptions();
@@ -45,15 +47,13 @@ class TreeTypeTest extends TestCase
         $column->getValue($object);
     }
 
-    public function testGetValue()
+    public function testGetValue(): void
     {
         $dataGrid = $this->createMock(DataGridInterface::class);
         $registry = $this->getManagerRegistry();
         $dataMapper = $this->createMock(DataMapperInterface::class);
 
-        $dataMapper->expects($this->any())
-            ->method('getData')
-            ->will($this->returnValue(new EntityTree('foo')));
+        $dataMapper->method('getData')->willReturn(new EntityTree('foo'));
 
         $column = new Tree($registry);
         $column->setName('tree');
@@ -72,7 +72,7 @@ class TreeTypeTest extends TestCase
         $view = $column->createCellView($object, '0');
         $column->buildCellView($view);
 
-        $this->assertSame(
+        self::assertSame(
             [
                 "row" => "0",
                 "id" => "foo",
@@ -87,70 +87,69 @@ class TreeTypeTest extends TestCase
         );
     }
 
-    protected function getManagerRegistry()
+    protected function getManagerRegistry(): MockObject
     {
         $managerRegistry = $this->createMock(ManagerRegistry::class);
-        $managerRegistry->expects($this->any())
-            ->method('getManagerForClass')
-            ->will($this->returnCallback(function() {
-                $manager = $this->createMock(ObjectManager::class);
-                $manager->expects($this->any())
-                    ->method('getMetadataFactory')
-                    ->will($this->returnCallback(function() {
-                        $metadataFactory = $this->createMock(ClassMetadataFactory::class);
 
-                        $metadataFactory->expects($this->any())
-                            ->method('getMetadataFor')
-                            ->will($this->returnCallback(function($class) {
-                                switch ($class) {
-                                    case EntityTree::class:
-                                        $metadata = $this->createMock(ClassMetadataInfo::class);
-                                        $metadata->expects($this->any())
-                                            ->method('getIdentifierFieldNames')
-                                            ->will($this->returnValue([
-                                                'id'
-                                            ]));
-                                        break;
+        $managerRegistry
+            ->method('getManagerForClass')
+            ->willReturnCallback(
+                function () {
+                    $manager = $this->createMock(ObjectManager::class);
+                    $manager
+                        ->method('getMetadataFactory')
+                        ->willReturnCallback(
+                            function () {
+                                $metadataFactory = $this->createMock(ClassMetadataFactory::class);
+
+                                $metadataFactory
+                                    ->method('getMetadataFor')
+                                    ->willReturnCallback(
+                                        function ($class) {
+                                            if (EntityTree::class === $class) {
+                                                $metadata = $this->createMock(ClassMetadataInfo::class);
+                                                $metadata->method('getIdentifierFieldNames')->willReturn(['id']);
+
+                                                return $metadata;
+                                            }
+
+                                            return null;
+                                        }
+                                    );
+
+                                return $metadataFactory;
+                            }
+                        );
+
+                    $manager
+                        ->method('getClassMetadata')
+                        ->willReturnCallback(
+                            function ($class) {
+                                if (EntityTree::class === $class) {
+                                    /** @var ClassMetadataInfo&MockObject $metadata */
+                                    $metadata = $this->createMock(ClassMetadataInfo::class);
+                                    $metadata->method('getIdentifierFieldNames')->willReturn(['id']);
+                                    $metadata->isMappedSuperclass = false;
+                                    $metadata->rootEntityName = $class;
+
+                                    return $metadata;
                                 }
 
-                                return $metadata;
-                            }));
+                                return null;
+                            }
+                        );
 
-                        return $metadataFactory;
-                    }));
-
-                $manager->expects($this->any())
-                    ->method('getClassMetadata')
-                    ->will($this->returnCallback(function($class) {
-                        switch ($class) {
-                            case EntityTree::class:
-                                $metadata = $this->createMock(ClassMetadataInfo::class);
-                                $metadata->expects($this->any())
-                                    ->method('getIdentifierFieldNames')
-                                    ->will($this->returnValue([
-                                        'id'
-                                    ]));
-                                $metadata->isMappedSuperclass = false;
-                                $metadata->rootEntityName = $class;
-                                break;
-                        }
-
-                        return $metadata;
-                    }));
-
-                return $manager;
-            }));
+                    return $manager;
+                }
+            );
 
         $treeListener = $this->createMock(TreeListener::class);
         $strategy = $this->createMock(Strategy::class);
 
-        $treeListener->expects($this->once())
-            ->method('getStrategy')
-            ->will($this->returnValue($strategy));
+        $treeListener->expects(self::once())->method('getStrategy')->willReturn($strategy);
 
-        $treeListener->expects($this->any())
-            ->method('getConfiguration')
-            ->will($this->returnValue(
+        $treeListener->method('getConfiguration')
+            ->willReturn(
                 [
                     'left' => 'left',
                     'right' => 'right',
@@ -158,19 +157,15 @@ class TreeTypeTest extends TestCase
                     'level' => 'level',
                     'parent' => 'parent'
                 ]
-            ));
+            );
 
-        $strategy->expects($this->any())
-            ->method('getName')
-            ->will($this->returnValue('nested'));
+        $strategy->method('getName')->willReturn('nested');
 
         $evm = new EventManagerMock([$treeListener]);
         $em = new EntityManagerMock();
-        $em->_setEventManager($evm);
+        $em->setEventManager($evm);
 
-        $managerRegistry->expects($this->any())
-            ->method('getManager')
-            ->will($this->returnValue($em));
+        $managerRegistry->method('getManager')->willReturn($em);
 
         return $managerRegistry;
     }

@@ -11,7 +11,7 @@ declare(strict_types=1);
 
 namespace FSi\Component\DataGrid\Extension\Gedmo;
 
-use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ManagerRegistry;
 use FSi\Component\DataGrid\DataGridAbstractExtension;
 use FSi\Component\DataGrid\Extension\Gedmo\ColumnType;
 

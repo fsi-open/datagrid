@@ -11,6 +11,7 @@ declare(strict_types=1);
 
 namespace FSi\Component\DataGrid\Extension\Core\ColumnType;
 
+use DateTimeInterface;
 use FSi\Component\DataGrid\Column\ColumnAbstractType;
 use FSi\Component\DataGrid\Exception\DataGridColumnException;
 
@@ -91,7 +92,8 @@ class DateTime extends ColumnAbstractType
             case 'array':
                 if (!isset($mappingFormat)) {
                     throw new DataGridColumnException(
-                        '"input_field_format" option is missing. Example: "input_field_format" => array("mapping_field_name" => array("input" => "datetime"))'
+                        '"input_field_format" option is missing. Example: '
+                            . '"input_field_format" => array("mapping_field_name" => array("input" => "datetime"))'
                     );
                 }
                 if (!is_array($mappingFormat)) {
@@ -101,7 +103,8 @@ class DateTime extends ColumnAbstractType
                 }
                 if (count($mappingFormat) !== count($value)) {
                     throw new DataGridColumnException(
-                        '"input_field_format" option value array must have same count as "field_mapping" option value array.  '
+                        '"input_field_format" option value array must have same count as "field_mapping" option'
+                            . ' value array.  '
                     );
                 }
 
@@ -122,10 +125,15 @@ class DateTime extends ColumnAbstractType
 
                     switch (strtolower($fieldInputType)) {
                         case 'string':
-                            $mappingFormat = (array_key_exists('datetime_format', $inputType)) ? $inputType['datetime_format'] : null;
+                            $mappingFormat = array_key_exists('datetime_format', $inputType)
+                                ? $inputType['datetime_format']
+                                : null;
                             if (null === $mappingFormat) {
                                 throw new DataGridColumnException(
-                                    sprintf('"datetime_format" option is required in "input_field_format" for field "%s".', $field)
+                                    sprintf(
+                                        '"datetime_format" option is required in "input_field_format" for field "%s".',
+                                        $field
+                                    )
                                 );
                             }
                             if (empty($value[$field])) {
@@ -145,7 +153,11 @@ class DateTime extends ColumnAbstractType
                         case 'datetime':
                             if (!empty($value[$field]) && !($value[$field] instanceof \DateTime)) {
                                 throw new DataGridColumnException(
-                                    sprintf('Value in field "%s" is "%s" type instead of "\DateTime" instance.', $field, gettype($value[$field]))
+                                    sprintf(
+                                        'Value in field "%s" is "%s" type instead of "\DateTime" instance.',
+                                        $field,
+                                        gettype($value[$field])
+                                    )
                                 );
                             }
 
@@ -154,24 +166,33 @@ class DateTime extends ColumnAbstractType
                         case 'datetime_interface':
                             if (!interface_exists(\DateTimeInterface::class)) {
                                 throw new DataGridColumnException(
-                                    'Input type option has value "datetime_interface" but \DateTimeInterface is not defined'
+                                    sprintf(
+                                        'Input type option has value "datetime_interface" but %s is not defined',
+                                        DateTimeInterface::class
+                                    )
                                 );
                             }
 
                             if (!empty($value[$field]) && !($value[$field] instanceof \DateTimeInterface)) {
                                 throw new DataGridColumnException(
-                                    sprintf('Value in field "%s" is "%s" type instead of "\DateTimeInterface" instance.',
-                                        $field, gettype($value[$field]))
+                                    sprintf(
+                                        'Value in field "%s" is "%s" type instead of "\DateTimeInterface" instance.',
+                                        $field,
+                                        gettype($value[$field])
+                                    )
                                 );
                             }
 
                             $inputData[$field] = $value[$field];
                             break;
                         default:
-                            throw new DataGridColumnException(
-                                sprintf('"%s" is not valid input option value for field "%s". '.
-                                'You should consider using one of "array", "string", "datetime" or "timestamp" input option values. ', $fieldInputType, $field)
-                            );
+                            throw new DataGridColumnException(sprintf(
+                                '"%s" is not valid input option value for field "%s". '
+                                    . 'You should consider using one of "array", "string", "datetime" or "timestamp" '
+                                    . ' input option values. ',
+                                $fieldInputType,
+                                $field
+                            ));
                     }
                 }
                 break;
@@ -186,11 +207,12 @@ class DateTime extends ColumnAbstractType
                     );
                 }
 
-                    if (empty($value)) {
-                        $inputData[$field] = null;
-                    } else {
-                        $inputData[$field] = $this->transformStringToDateTime($value, $mappingFormat);
-                    }
+                if (empty($value)) {
+                    $inputData[$field] = null;
+                } else {
+                    $inputData[$field] = $this->transformStringToDateTime($value, $mappingFormat);
+                }
+
                 break;
 
             case 'datetime':
@@ -238,8 +260,12 @@ class DateTime extends ColumnAbstractType
 
             default:
                 throw new DataGridColumnException(
-                    sprintf('"%s" is not valid input option value. '.
-                    'You should consider using one of "array", "string", "datetime" or "timestamp" input option values. ', $inputType)
+                    sprintf(
+                        '"%s" is not valid input option value. '
+                            . 'You should consider using one of "array", "string", "datetime" or "timestamp" input '
+                            . 'option values. ',
+                        $inputType
+                    )
                 );
         }
 
@@ -251,7 +277,7 @@ class DateTime extends ColumnAbstractType
         if (is_array($value)) {
             if (count($value) > 1) {
                 throw new DataGridColumnException(
-                'If you want to use more that one mapping fields you need to set "input" option value "array".'
+                    'If you want to use more that one mapping fields you need to set "input" option value "array".'
                 );
             }
             $value = current($value);
@@ -286,7 +312,8 @@ class DateTime extends ColumnAbstractType
 
         if (!is_string($mappingFormat)) {
             throw new DataGridColumnException(
-                'When using input type "string", "mapping_fields_format" option must be an string that contains valid data format'
+                'When using input type "string", "mapping_fields_format" option must be an string that contains '
+                    . 'valid data format'
             );
         }
 
@@ -305,7 +332,12 @@ class DateTime extends ColumnAbstractType
     {
         if (!is_numeric($value)) {
             throw new \InvalidArgumentException(
-                sprintf('Value in column "%s" should be timestamp but "%s" type was detected. Maybe you should consider using different "input" opition value?', $this->getName(), gettype($value))
+                sprintf(
+                    'Value in column "%s" should be timestamp but "%s" type was detected.'
+                        . ' Maybe you should consider using different "input" option value?',
+                    $this->getName(),
+                    gettype($value)
+                )
             );
         }
 

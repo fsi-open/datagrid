@@ -20,33 +20,33 @@ use PHPUnit\Framework\TestCase;
 
 class CoreExtensionTest extends TestCase
 {
-    public function testLoadedTypes()
+    public function testLoadedTypes(): void
     {
         $extension = new CoreExtension();
-        $this->assertTrue($extension->hasColumnType('text'));
-        $this->assertTrue($extension->hasColumnType('number'));
-        $this->assertTrue($extension->hasColumnType('datetime'));
-        $this->assertTrue($extension->hasColumnType('action'));
-        $this->assertTrue($extension->hasColumnType('money'));
-        $this->assertTrue($extension->hasColumnType('action'));
+        self::assertTrue($extension->hasColumnType('text'));
+        self::assertTrue($extension->hasColumnType('number'));
+        self::assertTrue($extension->hasColumnType('datetime'));
+        self::assertTrue($extension->hasColumnType('action'));
+        self::assertTrue($extension->hasColumnType('money'));
+        self::assertTrue($extension->hasColumnType('action'));
 
-        $this->assertFalse($extension->hasColumnType('foo'));
+        self::assertFalse($extension->hasColumnType('foo'));
     }
 
-    public function testLoadedExtensions()
+    public function testLoadedExtensions(): void
     {
         $extension = new CoreExtension();
-        $this->assertTrue($extension->hasColumnTypeExtensions('text'));
-        $this->assertTrue($extension->hasColumnTypeExtensions('text'));
-        $this->assertTrue($extension->hasColumnTypeExtensions('number'));
-        $this->assertTrue($extension->hasColumnTypeExtensions('datetime'));
-        $this->assertTrue($extension->hasColumnTypeExtensions('action'));
-        $this->assertTrue($extension->hasColumnTypeExtensions('money'));
-        $this->assertTrue($extension->hasColumnTypeExtensions('gedmo_tree'));
-        $this->assertTrue($extension->hasColumnTypeExtensions('entity'));
+        self::assertTrue($extension->hasColumnTypeExtensions('text'));
+        self::assertTrue($extension->hasColumnTypeExtensions('text'));
+        self::assertTrue($extension->hasColumnTypeExtensions('number'));
+        self::assertTrue($extension->hasColumnTypeExtensions('datetime'));
+        self::assertTrue($extension->hasColumnTypeExtensions('action'));
+        self::assertTrue($extension->hasColumnTypeExtensions('money'));
+        self::assertTrue($extension->hasColumnTypeExtensions('gedmo_tree'));
+        self::assertTrue($extension->hasColumnTypeExtensions('entity'));
     }
 
-    public function testColumnOrder()
+    public function testColumnOrder(): void
     {
         $subscriber = new ColumnOrder();
 
@@ -94,60 +94,57 @@ class CoreExtensionTest extends TestCase
                 $columnHeader = $this->createMock(HeaderViewInterface::class);
 
                 $columnHeader
-                    ->expects($this->atLeastOnce())
+                    ->expects(self::atLeastOnce())
                     ->method('getName')
-                    ->will($this->returnValue($name));
+                    ->willReturn($name);
 
                 $columnHeader
-                    ->expects($this->atLeastOnce())
+                    ->expects(self::atLeastOnce())
                     ->method('hasAttribute')
-                    ->will($this->returnCallback(function ($attribute) use ($order) {
-                        if (($attribute == 'display_order') && isset($order)) {
-                            return true;
-                        } else {
+                    ->willReturnCallback(
+                        function ($attribute) use ($order) {
+                            if (('display_order' === $attribute) && isset($order)) {
+                                return true;
+                            }
+
                             return false;
                         }
-                    }));
+                    );
 
                 $columnHeader
-                    ->expects($this->any())
                     ->method('getAttribute')
-                    ->will($this->returnCallback(function ($attribute) use ($order) {
-                        if (($attribute == 'display_order') && isset($order)) {
-                            return $order;
-                        } else {
+                    ->willReturnCallback(
+                        function ($attribute) use ($order) {
+                            if (('display_order' === $attribute) && isset($order)) {
+                                return $order;
+                            }
+
                             return null;
                         }
-                    }));
+                    );
 
                 $columns[] = $columnHeader;
             }
 
             $view = $this->createMock(DataGridViewInterface::class);
 
-            $self = $this;
+            $view->expects(self::once())->method('getColumns')->willReturn($columns);
 
             $view
-                ->expects($this->once())
-                ->method('getColumns')
-                ->will($this->returnValue($columns));
-
-            $view
-                ->expects($this->once())
+                ->expects(self::once())
                 ->method('setColumns')
-                ->will($this->returnCallback(function (array $columns) use ($self, $case) {
-                    $sorted = [];
-                    foreach ($columns as $column) {
-                        $sorted[] = $column->getName();
+                ->willReturnCallback(
+                    function (array $columns) use ($case) {
+                        $sorted = [];
+                        foreach ($columns as $column) {
+                            $sorted[] = $column->getName();
+                        }
+                        self::assertSame($case['sorted'], $sorted);
                     }
-                    $self->assertSame($case['sorted'], $sorted);
-                }));
+                );
 
             $event = $this->createMock(DataGridEventInterface::class);
-            $event
-                ->expects($this->once())
-                ->method('getData')
-                ->will($this->returnValue($view));
+            $event->expects(self::once())->method('getData')->willReturn($view);
 
             $subscriber->postBuildView($event);
         }

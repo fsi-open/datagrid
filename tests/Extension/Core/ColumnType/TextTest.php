@@ -16,7 +16,7 @@ use PHPUnit\Framework\TestCase;
 
 class TextTest extends TestCase
 {
-    public function testTrimOption()
+    public function testTrimOption(): void
     {
         $column = new Text();
         $column->initOptions();
@@ -26,7 +26,7 @@ class TextTest extends TestCase
             ' VALUE ',
         ];
 
-        $this->assertSame(
+        self::assertSame(
             ['VALUE'],
             $column->filterValue($value)
         );

@@ -18,14 +18,14 @@ use TypeError;
 
 class DataRowsetTest extends TestCase
 {
-    public function testCreateWithInvalidData()
+    public function testCreateWithInvalidData(): void
     {
         $this->expectException(TypeError::class);
 
         new DataRowset('Invalid Data');
     }
 
-    public function testCreateRowset()
+    public function testCreateRowset(): void
     {
         $data = [
             'e1' => new Entity('entity1'),
@@ -35,9 +35,9 @@ class DataRowsetTest extends TestCase
         $rowset = new DataRowset($data);
 
         foreach ($rowset as $index => $row) {
-            $this->assertSame($data[$index], $row);
+            self::assertSame($data[$index], $row);
         }
 
-        $this->assertSame(2, $rowset->count());
+        self::assertSame(2, $rowset->count());
     }
 }

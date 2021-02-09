@@ -183,7 +183,9 @@ abstract class ColumnAbstractType implements ColumnTypeInterface
     public function getOption(string $name)
     {
         if (!array_key_exists($name, $this->options)) {
-            throw new UnknownOptionException(sprintf('Option "%s" is not available in column type "%s".', $name, $this->getId()));
+            throw new UnknownOptionException(
+                sprintf('Option "%s" is not available in column type "%s".', $name, $this->getId())
+            );
         }
 
         return $this->options[$name];

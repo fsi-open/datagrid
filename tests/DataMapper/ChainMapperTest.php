@@ -19,60 +19,40 @@ use PHPUnit\Framework\TestCase;
 
 class ChainMapperTest extends TestCase
 {
-    public function testMappersInChainWithInvalidMappers()
+    public function testMappersInChainWithInvalidMappers(): void
     {
         $this->expectException(InvalidArgumentException::class);
         $this->expectExceptionMessage(sprintf('Mapper needs to implement "%s"', DataMapperInterface::class));
-        new ChainMapper([
-            'foo',
-            'bar'
-        ]);
+        new ChainMapper(['foo', 'bar']);
     }
 
-    public function testMappersInChainWithEmptyMappersArray()
+    public function testMappersInChainWithEmptyMappersArray(): void
     {
         $this->expectException(InvalidArgumentException::class);
-        $this->expectExceptionMessage(sprintf('Mapper needs to implement "%s"', DataMapperInterface::class));
-        new ChainMapper([
-            'foo',
-            'bar'
-        ]);
+        $this->expectExceptionMessage('There must be at least one mapper in chain.');
+        new ChainMapper([]);
     }
 
-    public function testGetDataFromTwoMappers()
+    public function testGetDataFromTwoMappers(): void
     {
         $mapper = $this->createMock(DataMapperInterface::class);
         $mapper1 = $this->createMock(DataMapperInterface::class);
 
-        $mapper->expects($this->once())
-               ->method('getData')
-               ->will($this->throwException(new DataMappingException));
-
-        $mapper1->expects($this->once())
-               ->method('getData')
-               ->will($this->returnValue('foo'));
+        $mapper->expects(self::once())->method('getData')->willThrowException(new DataMappingException());
+        $mapper1->expects(self::once())->method('getData')->willReturn('foo');
 
         $chain = new ChainMapper([$mapper, $mapper1]);
 
-        $this->assertSame(
-            'foo',
-            $chain->getData('foo', 'bar')
-        );
+        self::assertSame('foo', $chain->getData('foo', 'bar'));
     }
 
-    public function testSetDataWithTwoMappers()
+    public function testSetDataWithTwoMappers(): void
     {
         $mapper = $this->createMock(DataMapperInterface::class);
         $mapper1 = $this->createMock(DataMapperInterface::class);
 
-        $mapper->expects($this->once())
-               ->method('setData')
-               ->will($this->throwException(new DataMappingException));
-
-        $mapper1->expects($this->once())
-               ->method('setData')
-               ->with('foo', 'bar', 'test')
-               ->will($this->returnValue(true));
+        $mapper->expects(self::once())->method('setData')->willThrowException(new DataMappingException());
+        $mapper1->expects(self::once())->method('setData')->with('foo', 'bar', 'test');
 
         $chain = new ChainMapper([$mapper, $mapper1]);
 

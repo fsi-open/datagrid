@@ -11,9 +11,9 @@ declare(strict_types=1);
 
 namespace FSi\Component\DataGrid\Extension\Gedmo\ColumnType;
 
-use Doctrine\Common\Persistence\ManagerRegistry;
-use Doctrine\Common\Persistence\ObjectManager;
 use Doctrine\ORM\EntityManager;
+use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ObjectManager;
 use FSi\Component\DataGrid\Column\CellViewInterface;
 use FSi\Component\DataGrid\Column\ColumnAbstractType;
 use FSi\Component\DataGrid\Exception\DataGridColumnException;
@@ -177,10 +177,10 @@ class Tree extends ColumnAbstractType
     }
 
     /**
-     * @param $class
-     * @param \Doctrine\Common\Persistence\ObjectManager $em
-     * @throws \RuntimeException
+     * @param string $class
+     * @param ObjectManager $em
      * @return TreeRepositoryInterface
+     * @throws \RuntimeException
      */
     private function getTreeRepository($class, ObjectManager $em)
     {
@@ -195,16 +195,17 @@ class Tree extends ColumnAbstractType
     }
 
     /**
-     * @param $object
-     * @param $strategy
+     * @param mixed $object
+     * @param mixed $strategy
      * @throws \FSi\Component\DataGrid\Exception\DataGridColumnException
      */
     private function validateStrategy($object, $strategy)
     {
-        if (!isset($strategy) && !$strategy instanceof Strategy) {
-            throw new DataGridColumnException(
-                sprintf('"%s" is not implementing gedmo tree strategy. Maybe you should consider using a different column type?', get_class($object))
-            );
+        if (!isset($strategy) || !$strategy instanceof Strategy) {
+            throw new DataGridColumnException(sprintf(
+                '"%s" is not implementing Gedmo tree strategy. Consider using a different column type?',
+                get_class($object)
+            ));
         }
 
         if (!in_array($strategy->getName(), $this->allowedStrategies)) {
