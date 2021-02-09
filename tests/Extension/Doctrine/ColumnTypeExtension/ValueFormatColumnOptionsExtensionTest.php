@@ -9,14 +9,16 @@
 
 declare(strict_types=1);
 
-namespace FSi\Component\DataGrid\Tests\Extension\Doctrine\ColumntypeExtension;
+namespace FSi\Component\DataGrid\Tests\Extension\Doctrine\ColumnTypeExtension;
 
+use ArgumentCountError;
 use FSi\Component\DataGrid\Exception\DataGridException;
 use FSi\Component\DataGrid\Extension\Doctrine\ColumnTypeExtension\ValueFormatColumnOptionsExtension;
 use FSi\Component\DataGrid\Column\ColumnTypeInterface;
 use FSi\Component\DataGrid\Column\CellViewInterface;
 use PHPUnit\Framework\Error\Error;
 use PHPUnit\Framework\TestCase;
+use const PHP_VERSION_ID;
 
 class ValueFormatColumnOptionsExtensionTest extends TestCase
 {
@@ -43,6 +45,11 @@ class ValueFormatColumnOptionsExtensionTest extends TestCase
         $column->expects($this->at(1))
             ->method('getOption')
             ->with('value_glue')
+            ->will($this->returnValue(' '));
+
+        $column->expects($this->at(3))
+            ->method('getOption')
+            ->with('glue_multiple')
             ->will($this->returnValue(' '));
 
         $column->expects($this->at(2))
@@ -87,6 +94,11 @@ class ValueFormatColumnOptionsExtensionTest extends TestCase
             ->with('value_format')
             ->will($this->returnValue(null));
 
+        $column->expects($this->at(3))
+            ->method('getOption')
+            ->with('glue_multiple')
+            ->will($this->returnValue(' '));
+
         $view->expects($this->at(1))
             ->method('setValue')
             ->with('no no');
@@ -124,6 +136,11 @@ class ValueFormatColumnOptionsExtensionTest extends TestCase
             ->with('value_format')
             ->will($this->returnValue(null));
 
+        $column->expects($this->at(3))
+            ->method('getOption')
+            ->with('glue_multiple')
+            ->will($this->returnValue(' '));
+
         $view->expects($this->at(1))
             ->method('setValue')
             ->with('1 no');
@@ -160,6 +177,11 @@ class ValueFormatColumnOptionsExtensionTest extends TestCase
             ->method('getOption')
             ->with('value_format')
             ->will($this->returnValue(null));
+
+        $column->expects($this->at(3))
+            ->method('getOption')
+            ->with('glue_multiple')
+            ->will($this->returnValue(' '));
 
         $view->expects($this->at(1))
             ->method('setValue')
@@ -264,6 +286,11 @@ class ValueFormatColumnOptionsExtensionTest extends TestCase
             ->with('value_format')
             ->will($this->returnValue(null));
 
+        $column->expects($this->at(3))
+            ->method('getOption')
+            ->with('glue_multiple')
+            ->will($this->returnValue(' '));
+
         $view->expects($this->at(1))
             ->method('setValue')
             ->with('');
@@ -295,6 +322,11 @@ class ValueFormatColumnOptionsExtensionTest extends TestCase
             ->method('getOption')
             ->with('value_format')
             ->will($this->returnValue('(%s)'));
+
+        $column->expects($this->at(3))
+            ->method('getOption')
+            ->with('glue_multiple')
+            ->will($this->returnValue(' '));
 
         $view->expects($this->at(1))
             ->method('setValue')
@@ -328,7 +360,11 @@ class ValueFormatColumnOptionsExtensionTest extends TestCase
             ->with('value_format')
             ->will($this->returnValue('(%s) (%s)'));
 
-        $this->expectException(Error::class);
+        if (PHP_VERSION_ID >= 80000) {
+            $this->expectException(ArgumentCountError::class);
+        } else {
+            $this->expectException(Error::class);
+        }
         $extension->buildCellView($column, $view);
     }
 

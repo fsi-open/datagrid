@@ -22,7 +22,7 @@ class NumberTest extends TestCase
      */
     private $column;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $column = new Number();
         $column->setName('number');

@@ -27,7 +27,7 @@ class DataGridFactoryTest extends TestCase
      */
     private $factory;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $extensions = [
             new FooExtension(),

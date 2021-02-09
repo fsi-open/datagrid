@@ -9,8 +9,12 @@
 
 declare(strict_types=1);
 
-namespace FSi\Component\DataGrid\Tests\Extension\Gedmo\ColumnType;
+namespace FSi\Component\DataGrid\Tests\Extension\Gedmo\ColumnType\Tree;
 
+use Doctrine\ORM\Mapping\ClassMetadataInfo;
+use Doctrine\Persistence\ManagerRegistry;
+use Doctrine\Persistence\Mapping\ClassMetadataFactory;
+use Doctrine\Persistence\ObjectManager;
 use FSi\Component\DataGrid\Tests\Fixtures\EntityTree;
 use FSi\Component\DataGrid\Tests\Fixtures\EntityManagerMock;
 use FSi\Component\DataGrid\Tests\Fixtures\EventManagerMock;
@@ -18,19 +22,17 @@ use FSi\Component\DataGrid\Extension\Gedmo\ColumnType\Tree;
 use FSi\Component\DataGrid\Extension\Core\ColumnTypeExtension\DefaultColumnOptionsExtension;
 use FSi\Component\DataGrid\DataMapper\DataMapperInterface;
 use FSi\Component\DataGrid\DataGridInterface;
+use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use Doctrine\Common\Persistence\ManagerRegistry;
-use Gedmo\Tree\TreeListener;
-use Doctrine\Common\Persistence\ObjectManager;
-use Doctrine\Common\Persistence\Mapping\ClassMetadataFactory;
-use Doctrine\ORM\Mapping\ClassMetadataInfo;
 use Gedmo\Tree\Strategy;
+use Gedmo\Tree\TreeListener;
 
 class TreeTypeTest extends TestCase
 {
     public function testWrongValue()
     {
         $registry = $this->createMock(ManagerRegistry::class);
+
         $column = new Tree($registry);
         $column->setName('tree');
         $column->initOptions();
@@ -90,6 +92,7 @@ class TreeTypeTest extends TestCase
     protected function getManagerRegistry()
     {
         $managerRegistry = $this->createMock(ManagerRegistry::class);
+
         $managerRegistry->expects($this->any())
             ->method('getManagerForClass')
             ->will($this->returnCallback(function() {

@@ -44,7 +44,7 @@ class DataGridView implements DataGridViewInterface
      * @param DataRowsetInterface $rowset
      * @throws \InvalidArgumentException
      */
-    public function __construct(string $name, array $columns = [], DataRowsetInterface $rowset)
+    public function __construct(string $name, array $columns, DataRowsetInterface $rowset)
     {
         foreach ($columns as $column) {
             if (!$column instanceof ColumnTypeInterface) {

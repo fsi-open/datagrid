@@ -9,10 +9,10 @@
 
 declare(strict_types=1);
 
-namespace FSi\Component\DataGrid\Tests\Extension\Doctrine;
+namespace FSi\Component\DataGrid\Tests\Extension\Gedmo;
 
 use FSi\Component\DataGrid\Extension\Gedmo\GedmoDoctrineExtension;
-use Doctrine\Common\Persistence\ManagerRegistry;
+use Doctrine\Persistence\ManagerRegistry;
 use PHPUnit\Framework\TestCase;
 
 class GedmoDoctrineExtensionTest extends TestCase

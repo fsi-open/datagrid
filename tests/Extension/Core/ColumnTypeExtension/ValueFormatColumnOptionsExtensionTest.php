@@ -18,6 +18,8 @@ use FSi\Component\DataGrid\Extension\Core\ColumnTypeExtension\ValueFormatColumnO
 use InvalidArgumentException;
 use PHPUnit\Framework\Error\Error;
 use PHPUnit\Framework\TestCase;
+use ValueError;
+use const PHP_VERSION_ID;
 
 class ValueFormatColumnOptionsExtensionTest extends TestCase
 {
@@ -251,7 +253,11 @@ class ValueFormatColumnOptionsExtensionTest extends TestCase
             ->method('getValue')
             ->will($this->returnValue(['foo']));
 
-        $this->expectException(Error::class);
+        if (PHP_VERSION_ID >= 80000) {
+            $this->expectException(ValueError::class);
+        } else {
+            $this->expectException(Error::class);
+        }
         $extension->buildCellView($column, $view);
     }
 

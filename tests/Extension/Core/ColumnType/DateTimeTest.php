@@ -23,7 +23,7 @@ class DateTimeTest extends TestCase
      */
     private $column;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $column = new DateTime();
         $column->setName('datetime');

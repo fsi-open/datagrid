@@ -39,7 +39,7 @@ class DataGridTest extends TestCase
      */
     private $datagrid;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         $this->dataMapper = $this->createMock(DataMapperInterface::class);
         $this->dataMapper->expects($this->any())
